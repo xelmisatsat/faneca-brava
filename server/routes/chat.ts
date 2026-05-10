@@ -200,19 +200,20 @@ router.post("/api/chat", async (req, res) => {
 
     const lastMessage = messages[messages.length - 1];
 
-    const chat = ai.getGenerativeModel({
+    const response = await ai.models.generateContent({
       model: "gemini-3-flash-preview",
       systemInstruction: systemPrompt,
-    }).startChat({
-      history,
+      contents: messages.map((m: { role: string; content: string }) => ({
+        role: m.role === "user" ? "user" : "model",
+        parts: [{ text: m.content }],
+      })),
       generationConfig: {
         maxOutputTokens: 300,
         temperature: 0.9,
       },
     });
 
-    const response = await chat.sendMessage(lastMessage.content);
-    const reply = response.response.text() || "...";
+    const reply = response.text || "...";
     return res.json({ reply });
 
   } catch (error: any) {

@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import path from "node:path";
 import type { Express } from "express";
 import { ENV } from "./env";
 
@@ -9,8 +11,15 @@ export function registerStorageProxy(app: Express) {
       return;
     }
 
+    // First try to serve locally from the assets we downloaded
+    const localPath = path.join(process.cwd(), "client", "public", "manus-storage", key);
+    if (fs.existsSync(localPath)) {
+      res.sendFile(localPath);
+      return;
+    }
+
     if (!ENV.forgeApiUrl || !ENV.forgeApiKey) {
-      res.status(500).send("Storage proxy not configured");
+      res.status(404).send("File not found locally and proxy not configured");
       return;
     }
 
