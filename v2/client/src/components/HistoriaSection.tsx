@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const caps = [
   { n: "01", sub: "Santiago de Compostela, presente", title: "O Insomnio de Fernando",
@@ -32,13 +33,14 @@ const G = { background: 'linear-gradient(135deg, rgba(255,255,255,0.09) 0%, rgba
 
 export default function HistoriaSection() {
   const [v, setV] = useState(false);
+  const m = useIsMobile();
   useEffect(() => { const t = setTimeout(() => setV(true), 80); return () => clearTimeout(t); }, []);
 
   return (
-    <section style={{ position: 'relative', padding: '8rem 0 6rem', overflow: 'hidden' }}>
+    <section style={{ position: 'relative', padding: m ? '4rem 0 3rem' : '8rem 0 6rem', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 80% 20%, rgba(26,39,68,0.2) 0%, transparent 50%)' }} />
 
-      <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 5rem', position: 'relative', zIndex: 10 }}>
+      <div style={{ maxWidth: '1440px', margin: '0 auto', padding: m ? '0 1.25rem' : '0 5rem', position: 'relative', zIndex: 10 }}>
 
         {/* Cabeceira */}
         <motion.div initial={{ opacity: 0, y: 50, filter: 'blur(4px)' }} animate={v ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}} transition={{ duration: 0.9 }} style={{ marginBottom: '5rem' }}>
@@ -62,7 +64,7 @@ export default function HistoriaSection() {
               initial={{ opacity: 0, y: 60 }}
               animate={v ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.9, delay: 0.08 + i * 0.06, ease: [0.16, 1, 0.3, 1] }}
-              style={{ display: 'grid', gridTemplateColumns: i % 2 === 0 ? '1fr 1.2fr' : '1.2fr 1fr', gap: '4rem', alignItems: 'center' }}
+              style={{ display: m ? 'flex' : 'grid', flexDirection: m ? 'column' : undefined, gridTemplateColumns: m ? '1fr' : (i % 2 === 0 ? '1fr 1.2fr' : '1.2fr 1fr'), gap: m ? '1.5rem' : '4rem', alignItems: 'center' }}
             >
               {/* Imaxe */}
               <div style={{ order: i % 2 === 0 ? 1 : 2 }}>

@@ -147,16 +147,18 @@ export default function NavPill({ sections, activeIdx, onSelect }: NavPillProps)
         {open && (
           <motion.div
             className="fixed inset-0 z-[999] flex flex-col items-center justify-center md:hidden"
-            style={{ backgroundColor: 'rgba(8,8,13,0.97)', backdropFilter: 'blur(20px)' }}
+            style={{ backgroundColor: 'rgba(8,8,13,0.97)', backdropFilter: 'blur(20px)', overflowY: 'auto', padding: '80px 1rem 2rem' }}
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
           >
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', width: '100%' }}>
             {sections.map((s, i) => (
               <motion.button key={s.id} onClick={() => { onSelect(i); setOpen(false); }}
-                style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '2.5rem', fontWeight: 300, padding: '12px 0', color: activeIdx === i ? '#C8A96E' : '#EAE2D2', cursor: 'none', background: 'none', border: 'none' }}
-                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}>
+                style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.8rem', fontWeight: 300, padding: '8px 0', color: activeIdx === i ? '#C8A96E' : '#EAE2D2', cursor: 'none', background: 'none', border: 'none', width: '100%', textAlign: 'center' }}
+                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.03 }}>
                 {s.label}
               </motion.button>
             ))}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

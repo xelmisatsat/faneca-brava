@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const G = {
   background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%)',
@@ -12,13 +13,14 @@ const G = {
 
 export default function AutorSection() {
   const [v, setV] = useState(false);
+  const m = useIsMobile();
   useEffect(() => { const t = setTimeout(() => setV(true), 80); return () => clearTimeout(t); }, []);
 
   return (
-    <section style={{ position: 'relative', padding: '7rem 0 5rem', overflow: 'hidden' }}>
+    <section style={{ position: 'relative', padding: m ? '4rem 0 3rem' : '7rem 0 5rem', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 70% 40%, rgba(26,39,68,0.2) 0%, transparent 55%)' }} />
 
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 4rem', position: 'relative', zIndex: 10 }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: m ? '0 1.25rem' : '0 4rem', position: 'relative', zIndex: 10 }}>
 
         {/* Cabeceira */}
         <motion.div initial={{ opacity: 0, y: 40 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.9 }} style={{ marginBottom: '4rem' }}>
@@ -32,7 +34,7 @@ export default function AutorSection() {
         </motion.div>
 
         {/* Layout: imaxe + texto principal */}
-        <div style={{ display: 'grid', gridTemplateColumns: '320px 1fr', gap: '4rem', alignItems: 'start', marginBottom: '3.5rem' }}>
+        <div style={{ display: m ? 'flex' : 'grid', flexDirection: m ? 'column' : undefined, gridTemplateColumns: m ? '1fr' : '320px 1fr', gap: m ? '2rem' : '4rem', alignItems: 'start', marginBottom: '3.5rem' }}>
 
           {/* Imaxe */}
           <motion.div initial={{ opacity: 0, x: -50 }} animate={v ? { opacity: 1, x: 0 } : {}} transition={{ duration: 1, ease: [0.16,1,0.3,1] }}>
@@ -65,7 +67,7 @@ export default function AutorSection() {
             <div style={{ height: '1px', background: 'linear-gradient(90deg, transparent, rgba(200,169,110,0.25), transparent)', marginBottom: '2.5rem' }} />
 
             {/* 4 cards de características */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: m ? '1fr' : '1fr 1fr', gap: '14px' }}>
               {[
                 { label: "Estilo Literario", text: "Linguaxe emocional e detallada. Narración en primeira persoa que crea intimidade co lector e constrúe a atmosfera galega con precisión cinematográfica." },
                 { label: "Temática Central", text: "A memoria familiar como mecanismo de resistencia. A culpa xeracional como forza narrativa. A identidade rota e a necesidade de reconstrución." },

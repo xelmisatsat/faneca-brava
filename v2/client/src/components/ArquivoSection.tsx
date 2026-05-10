@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const temas = [
   { id: "familia", num: "01", title: "A Familia Tóxica",
@@ -28,15 +29,16 @@ const G = {
 
 export default function ArquivoSection() {
   const [v, setV] = useState(false);
+  const m = useIsMobile();
   const [active, setActive] = useState("familia");
   useEffect(() => { const t = setTimeout(() => setV(true), 80); return () => clearTimeout(t); }, []);
   const cur = temas.find(t => t.id === active)!;
 
   return (
-    <section style={{ position: 'relative', padding: '8rem 0 6rem', overflow: 'hidden' }}>
+    <section style={{ position: 'relative', padding: m ? '4rem 0 3rem' : '8rem 0 6rem', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 30% 50%, rgba(13,27,42,0.3) 0%, transparent 55%)' }} />
 
-      <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 5rem', position: 'relative', zIndex: 10 }}>
+      <div style={{ maxWidth: '1440px', margin: '0 auto', padding: m ? '0 1.25rem' : '0 5rem', position: 'relative', zIndex: 10 }}>
 
         {/* Cabeceira */}
         <motion.div initial={{ opacity: 0, y: 50, filter: 'blur(4px)' }} animate={v ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}} transition={{ duration: 0.9 }} style={{ marginBottom: '5rem' }}>
@@ -52,7 +54,7 @@ export default function ArquivoSection() {
           </p>
         </motion.div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '3rem' }}>
+        <div style={{ display: m ? 'flex' : 'grid', flexDirection: m ? 'column' : undefined, gridTemplateColumns: m ? '1fr' : '1fr 2fr', gap: m ? '1.5rem' : '3rem' }}>
 
           {/* Selector */}
           <motion.div initial={{ opacity: 0, x: -40 }} animate={v ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.9, delay: 0.2 }}>
@@ -100,7 +102,7 @@ export default function ArquivoSection() {
             </AnimatePresence>
 
             {/* Lugares */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginTop: '2rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: m ? '1fr' : 'repeat(3, 1fr)', gap: '16px', marginTop: '2rem' }}>
               {[
                 { title: "Vila de Foz", desc: "A vila mariñeira onde crece Concha.", img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-village-night-JkiwiqgEL6ZDLZTtniYVuQ.webp" },
                 { title: "Santiago", desc: "Onde Fernando vive o presente.", img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-fernando-portrait-EQpQqF6VEH5zWNhiMpjMkL.webp" },

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const stages = [
   {
@@ -48,13 +49,14 @@ const stages = [
 
 export default function TimelineSection() {
   const [v, setV] = useState(false);
+  const m = useIsMobile();
   useEffect(() => { const t = setTimeout(() => setV(true), 80); return () => clearTimeout(t); }, []);
 
   return (
-    <section style={{ position: 'relative', padding: '8rem 0 6rem', overflow: 'hidden' }}>
+    <section style={{ position: 'relative', padding: m ? '4rem 0 3rem' : '8rem 0 6rem', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(8,8,13,1) 0%, rgba(13,27,42,0.15) 50%, rgba(8,8,13,1) 100%)' }} />
 
-      <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 5rem', position: 'relative', zIndex: 10 }}>
+      <div style={{ maxWidth: '1440px', margin: '0 auto', padding: m ? '0 1.25rem' : '0 5rem', position: 'relative', zIndex: 10 }}>
 
         {/* Cabeceira */}
         <motion.div
@@ -79,7 +81,7 @@ export default function TimelineSection() {
         {/* Timeline */}
         <div style={{ position: 'relative' }}>
           {/* Liña vertical */}
-          <div style={{ position: 'absolute', left: '50%', top: 0, bottom: 0, width: '1px', background: 'rgba(200,169,110,0.12)', transform: 'translateX(-50%)' }}>
+          <div style={{ position: 'absolute', left: m ? '16px' : '50%', top: 0, bottom: 0, width: '1px', background: 'rgba(200,169,110,0.12)', transform: m ? 'none' : 'translateX(-50%)' }}>
             <motion.div
               initial={{ scaleY: 0 }}
               animate={v ? { scaleY: 1 } : {}}
@@ -88,76 +90,94 @@ export default function TimelineSection() {
             />
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '4rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: m ? '1.5rem' : '4rem' }}>
             {stages.map((ev, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 40 }}
                 animate={v ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.7, delay: 0.1 + i * 0.12, ease: [0.16, 1, 0.3, 1] }}
-                style={{ display: 'flex', alignItems: 'flex-start', gap: 0, position: 'relative' }}
+                style={m ? { display: 'flex', alignItems: 'flex-start', position: 'relative', paddingLeft: '40px' } : { display: 'flex', alignItems: 'flex-start', gap: 0, position: 'relative' }}
               >
-                {/* Lado esquerdo */}
-                <div style={{ width: '50%', paddingRight: '3.5rem', textAlign: 'right', display: i % 2 === 0 ? 'block' : 'none' }}>
+                {/* Punto */}
+                <div style={{ position: 'absolute', left: m ? '10px' : '50%', top: '20px', transform: m ? 'none' : 'translateX(-50%)', zIndex: 10 }}>
                   <motion.div
-                    whileHover={{ x: -6 }}
+                    initial={{ scale: 0 }}
+                    animate={v ? { scale: 1 } : {}}
+                    transition={{ delay: 0.2 + i * 0.12, type: 'spring', stiffness: 300 }}
+                    style={{ width: '14px', height: '14px', borderRadius: '50%', backgroundColor: ev.color, boxShadow: `0 0 24px ${ev.color}70`, border: '2px solid rgba(255,255,255,0.15)' }}
+                  />
+                </div>
+
+                {m ? (
+                  /* Móbil: tarxeta simple á dereita */
+                  <motion.div
                     style={{
-                      display: 'inline-block',
                       background: `linear-gradient(135deg, ${ev.bg}, rgba(255,255,255,0.04))`,
                       backdropFilter: 'blur(40px)',
                       border: '1px solid rgba(255,255,255,0.12)',
                       borderTop: '1px solid rgba(255,255,255,0.22)',
                       borderRadius: '16px',
-                      padding: '24px 28px',
+                      padding: '18px 20px',
                       boxShadow: `0 4px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06)`,
-                      maxWidth: '420px',
+                      width: '100%',
                     }}
                   >
-                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', letterSpacing: '0.4em', fontWeight: 500, color: ev.color, lineHeight: 1 }}>{ev.label}</div>
-                    <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.25rem', fontWeight: 300, fontStyle: 'italic', color: '#EAE2D2', marginTop: '8px', opacity: 0.85 }}>{ev.subtitle}</div>
-                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', fontWeight: 300, color: '#8B9BB4', marginTop: '12px', lineHeight: 1.75 }}>{ev.desc}</div>
+                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.4em', fontWeight: 500, color: ev.color, lineHeight: 1 }}>{ev.label}</div>
+                    <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.1rem', fontWeight: 300, fontStyle: 'italic', color: '#EAE2D2', marginTop: '6px', opacity: 0.85 }}>{ev.subtitle}</div>
+                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '12px', fontWeight: 300, color: '#8B9BB4', marginTop: '10px', lineHeight: 1.75 }}>{ev.desc}</div>
                   </motion.div>
-                </div>
-                {i % 2 !== 0 && <div style={{ width: '50%' }} />}
+                ) : (
+                  /* Desktop: layout alternante */
+                  <>
+                    {/* Lado esquerdo */}
+                    <div style={{ width: '50%', paddingRight: '3.5rem', textAlign: 'right', display: i % 2 === 0 ? 'block' : 'none' }}>
+                      <motion.div
+                        whileHover={{ x: -6 }}
+                        style={{
+                          display: 'inline-block',
+                          background: `linear-gradient(135deg, ${ev.bg}, rgba(255,255,255,0.04))`,
+                          backdropFilter: 'blur(40px)',
+                          border: '1px solid rgba(255,255,255,0.12)',
+                          borderTop: '1px solid rgba(255,255,255,0.22)',
+                          borderRadius: '16px',
+                          padding: '24px 28px',
+                          boxShadow: `0 4px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06)`,
+                          maxWidth: '420px',
+                        }}
+                      >
+                        <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', letterSpacing: '0.4em', fontWeight: 500, color: ev.color, lineHeight: 1 }}>{ev.label}</div>
+                        <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.25rem', fontWeight: 300, fontStyle: 'italic', color: '#EAE2D2', marginTop: '8px', opacity: 0.85 }}>{ev.subtitle}</div>
+                        <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', fontWeight: 300, color: '#8B9BB4', marginTop: '12px', lineHeight: 1.75 }}>{ev.desc}</div>
+                      </motion.div>
+                    </div>
+                    {i % 2 !== 0 && <div style={{ width: '50%' }} />}
 
-                {/* Punto central */}
-                <div style={{ position: 'absolute', left: '50%', top: '20px', transform: 'translateX(-50%)', zIndex: 10 }}>
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={v ? { scale: 1 } : {}}
-                    transition={{ delay: 0.2 + i * 0.12, type: 'spring', stiffness: 300 }}
-                    style={{
-                      width: '14px', height: '14px', borderRadius: '50%',
-                      backgroundColor: ev.color,
-                      boxShadow: `0 0 24px ${ev.color}70`,
-                      border: '2px solid rgba(255,255,255,0.15)',
-                    }}
-                  />
-                </div>
-
-                {/* Lado dereito */}
-                {i % 2 !== 0 && (
-                  <div style={{ width: '50%', paddingLeft: '3.5rem' }}>
-                    <motion.div
-                      whileHover={{ x: 6 }}
-                      style={{
-                        background: `linear-gradient(135deg, ${ev.bg}, rgba(255,255,255,0.04))`,
-                        backdropFilter: 'blur(40px)',
-                        border: '1px solid rgba(255,255,255,0.12)',
-                        borderTop: '1px solid rgba(255,255,255,0.22)',
-                        borderRadius: '16px',
-                        padding: '24px 28px',
-                        boxShadow: `0 4px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06)`,
-                        maxWidth: '420px',
-                      }}
-                    >
-                      <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', letterSpacing: '0.4em', fontWeight: 500, color: ev.color, lineHeight: 1 }}>{ev.label}</div>
-                      <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.25rem', fontWeight: 300, fontStyle: 'italic', color: '#EAE2D2', marginTop: '8px', opacity: 0.85 }}>{ev.subtitle}</div>
-                      <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', fontWeight: 300, color: '#8B9BB4', marginTop: '12px', lineHeight: 1.75 }}>{ev.desc}</div>
-                    </motion.div>
-                  </div>
+                    {/* Lado dereito */}
+                    {i % 2 !== 0 && (
+                      <div style={{ width: '50%', paddingLeft: '3.5rem' }}>
+                        <motion.div
+                          whileHover={{ x: 6 }}
+                          style={{
+                            background: `linear-gradient(135deg, ${ev.bg}, rgba(255,255,255,0.04))`,
+                            backdropFilter: 'blur(40px)',
+                            border: '1px solid rgba(255,255,255,0.12)',
+                            borderTop: '1px solid rgba(255,255,255,0.22)',
+                            borderRadius: '16px',
+                            padding: '24px 28px',
+                            boxShadow: `0 4px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06)`,
+                            maxWidth: '420px',
+                          }}
+                        >
+                          <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', letterSpacing: '0.4em', fontWeight: 500, color: ev.color, lineHeight: 1 }}>{ev.label}</div>
+                          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.25rem', fontWeight: 300, fontStyle: 'italic', color: '#EAE2D2', marginTop: '8px', opacity: 0.85 }}>{ev.subtitle}</div>
+                          <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', fontWeight: 300, color: '#8B9BB4', marginTop: '12px', lineHeight: 1.75 }}>{ev.desc}</div>
+                        </motion.div>
+                      </div>
+                    )}
+                    {i % 2 === 0 && <div style={{ width: '50%' }} />}
+                  </>
                 )}
-                {i % 2 === 0 && <div style={{ width: '50%' }} />}
               </motion.div>
             ))}
           </div>

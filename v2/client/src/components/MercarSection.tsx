@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 // Logos SVG inline das plataformas
 const LogoGalaxia = () => (
@@ -110,6 +111,7 @@ const tiendas = [
 
 export default function MercarSection() {
   const [v, setV] = useState(false);
+  const m = useIsMobile();
   useEffect(() => { const t = setTimeout(() => setV(true), 80); return () => clearTimeout(t); }, []);
 
   const G = {
@@ -122,10 +124,10 @@ export default function MercarSection() {
   };
 
   return (
-    <section style={{ position: 'relative', padding: '7rem 0 5rem', overflow: 'hidden' }}>
+    <section style={{ position: 'relative', padding: m ? '4rem 0 3rem' : '7rem 0 5rem', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 50% 30%, rgba(13,27,42,0.3) 0%, transparent 55%)' }} />
 
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 4rem', position: 'relative', zIndex: 10 }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: m ? '0 1.25rem' : '0 4rem', position: 'relative', zIndex: 10 }}>
 
         {/* Cabeceira */}
         <motion.div initial={{ opacity: 0, y: 40 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.9 }} style={{ marginBottom: '4rem', textAlign: 'center' }}>
@@ -177,7 +179,7 @@ export default function MercarSection() {
         </motion.div>
 
         {/* Grid de tendas */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: m ? '1fr' : 'repeat(3, 1fr)', gap: '16px' }}>
           {tiendas.map((t, i) => (
             <motion.a
               key={i}

@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const CHARACTERS = [
   {
@@ -72,6 +73,7 @@ interface Msg { role: "user" | "assistant"; content: string; }
 
 export default function ConversaSection() {
   const [v, setV] = useState(false);
+  const m = useIsMobile();
   const [charIdx, setCharIdx] = useState(0);
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
@@ -182,10 +184,10 @@ export default function ConversaSection() {
   };
 
   return (
-    <section style={{ position: 'relative', padding: '6rem 0 5rem', overflow: 'hidden' }}>
+    <section style={{ position: 'relative', padding: m ? '3rem 0 2rem' : '6rem 0 5rem', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 60% 30%, rgba(26,39,68,0.2) 0%, transparent 50%)' }} />
 
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 4rem', position: 'relative', zIndex: 10 }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: m ? '0 1.25rem' : '0 4rem', position: 'relative', zIndex: 10 }}>
 
         {/* Cabeceira */}
         <motion.div initial={{ opacity: 0, y: 40 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.9 }} style={{ marginBottom: '3rem' }}>
@@ -203,7 +205,7 @@ export default function ConversaSection() {
 
         {/* Layout */}
         <motion.div initial={{ opacity: 0, y: 30 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.9, delay: 0.2 }}
-          style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: '20px' }}>
+          style={{ display: 'grid', gridTemplateColumns: m ? '1fr' : '260px 1fr', gap: '20px' }}>
 
           {/* Sidebar */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -262,20 +264,20 @@ export default function ConversaSection() {
                 </div>
               )}
 
-              {msgs.map((m, i) => (
+              {msgs.map((msg, i) => (
                 <motion.div key={i} initial={{ opacity: 0, y: 10, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.3 }}
-                  style={{ display: 'flex', justifyContent: m.role === 'user' ? 'flex-end' : 'flex-start', gap: '10px', alignItems: 'flex-end' }}>
-                  {m.role === 'assistant' && <img src={char.sticker} alt="" style={{ width: '36px', height: '36px', objectFit: 'contain', flexShrink: 0, marginBottom: '2px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))' }} />}
+                  style={{ display: 'flex', justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start', gap: '10px', alignItems: 'flex-end' }}>
+                  {msg.role === 'assistant' && <img src={char.sticker} alt="" style={{ width: '36px', height: '36px', objectFit: 'contain', flexShrink: 0, marginBottom: '2px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))' }} />}
                   <div style={{
                     maxWidth: '72%', padding: '11px 16px',
-                    borderRadius: m.role === 'user' ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
-                    background: m.role === 'user' ? `linear-gradient(135deg, ${char.color}22, ${char.color}10)` : 'rgba(255,255,255,0.08)',
-                    border: m.role === 'user' ? `1px solid ${char.color}30` : '1px solid rgba(255,255,255,0.1)',
+                    borderRadius: msg.role === 'user' ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
+                    background: msg.role === 'user' ? `linear-gradient(135deg, ${char.color}22, ${char.color}10)` : 'rgba(255,255,255,0.08)',
+                    border: msg.role === 'user' ? `1px solid ${char.color}30` : '1px solid rgba(255,255,255,0.1)',
                     boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
                   }}>
-                    <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, fontSize: '0.93rem', lineHeight: 1.75, color: '#EAE2D2', margin: 0 }}>{m.content}</p>
-                    {m.role === 'assistant' && (
-                      <button onClick={() => speakText(m.content)} style={{ marginTop: '8px', background: 'none', border: 'none', cursor: 'none', display: 'flex', alignItems: 'center', gap: '4px', color: speaking ? char.color : '#8B9BB4', fontSize: '11px', fontFamily: "'DM Sans', sans-serif", transition: 'color 0.2s' }}>
+                    <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, fontSize: '0.93rem', lineHeight: 1.75, color: '#EAE2D2', margin: 0 }}>{msg.content}</p>
+                    {msg.role === 'assistant' && (
+                      <button onClick={() => speakText(msg.content)} style={{ marginTop: '8px', background: 'none', border: 'none', cursor: 'none', display: 'flex', alignItems: 'center', gap: '4px', color: speaking ? char.color : '#8B9BB4', fontSize: '11px', fontFamily: "'DM Sans', sans-serif", transition: 'color 0.2s' }}>
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.08"/></svg>
                         {speaking ? 'Pausar' : 'Escoitar'}
                       </button>

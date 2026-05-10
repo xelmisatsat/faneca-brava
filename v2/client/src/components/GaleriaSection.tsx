@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const items = [
   {
@@ -42,6 +43,7 @@ const items = [
 
 export default function GaleriaSection() {
   const [v, setV] = useState(false);
+  const m = useIsMobile();
   const [hovered, setHovered] = useState<number | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -51,13 +53,13 @@ export default function GaleriaSection() {
   }, []);
 
   return (
-    <section style={{ position: 'relative', padding: '8rem 0 6rem', overflow: 'hidden' }}>
+    <section style={{ position: 'relative', padding: m ? '4rem 0 3rem' : '8rem 0 6rem', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 50% 80%, rgba(26,39,68,0.2) 0%, transparent 50%)' }} />
 
       <div style={{ maxWidth: '1440px', margin: '0 auto', position: 'relative', zIndex: 10 }}>
 
         {/* Cabeceira */}
-        <div style={{ padding: '0 5rem', marginBottom: '4rem' }}>
+        <div style={{ padding: m ? '0 1.25rem' : '0 5rem', marginBottom: '4rem' }}>
           <motion.div
             initial={{ opacity: 0, y: 50, filter: 'blur(4px)' }}
             animate={v ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
@@ -202,7 +204,7 @@ export default function GaleriaSection() {
           initial={{ opacity: 0 }}
           animate={v ? { opacity: 1 } : {}}
           transition={{ delay: 0.8 }}
-          style={{ padding: '0 5rem', marginTop: '1.5rem', display: 'flex', alignItems: 'center', gap: '12px' }}
+          style={{ padding: m ? '0 1.25rem' : '0 5rem', marginTop: '1.5rem', display: 'flex', alignItems: 'center', gap: '12px' }}
         >
           <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(139,155,180,0.4)' }}>
             Arrastra para explorar →

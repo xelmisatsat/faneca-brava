@@ -1,11 +1,13 @@
 import { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const LETTERS = "FANECA BRAVA".split("");
 
 export default function HeroSection() {
   const ref = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
+  const m = useIsMobile();
 
   useEffect(() => {
     const t = setTimeout(() => setMounted(true), 100);
@@ -28,7 +30,7 @@ export default function HeroSection() {
       </div>
 
       {/* Contido */}
-      <div style={{ position: 'relative', zIndex: 10, padding: '0 5rem', maxWidth: '1440px', margin: '0 auto', width: '100%' }}>
+      <div style={{ position: 'relative', zIndex: 10, padding: m ? '0 1.25rem' : '0 5rem', maxWidth: '1440px', margin: '0 auto', width: '100%' }}>
 
         {/* Etiqueta superior */}
         <motion.div

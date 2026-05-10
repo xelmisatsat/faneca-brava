@@ -1,4 +1,5 @@
 import { motion, useInView } from "framer-motion";
+import { useIsMobile } from "@/hooks/useIsMobile";
 import { useRef } from "react";
 
 export default function Footer() {

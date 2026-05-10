@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const chars = [
   { id: "concha", name: "Concha Pereira", alias: "A Faneca Brava", role: "Protagonista",
@@ -49,14 +50,15 @@ const G = {
 export default function PersonaxesSection() {
   const [v, setV] = useState(false);
   const [sel, setSel] = useState<string|null>(null);
+  const m = useIsMobile();
   useEffect(() => { const t = setTimeout(() => setV(true), 80); return () => clearTimeout(t); }, []);
   const selChar = chars.find(c => c.id === sel);
 
   return (
-    <section style={{ position: 'relative', padding: '8rem 0 6rem', overflow: 'hidden' }}>
+    <section style={{ position: 'relative', padding: m ? '4rem 0 3rem' : '8rem 0 6rem', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 80% 30%, rgba(26,39,68,0.2) 0%, transparent 50%)' }} />
 
-      <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 5rem', position: 'relative', zIndex: 10 }}>
+      <div style={{ maxWidth: '1440px', margin: '0 auto', padding: m ? '0 1.25rem' : '0 5rem', position: 'relative', zIndex: 10 }}>
 
         {/* Cabeceira */}
         <motion.div initial={{ opacity: 0, y: 50, filter: 'blur(4px)' }} animate={v ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}} transition={{ duration: 0.9, ease: [0.16,1,0.3,1] }} style={{ marginBottom: '4rem' }}>
@@ -73,7 +75,7 @@ export default function PersonaxesSection() {
         </motion.div>
 
         {/* Grid 4 cards */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '20px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: m ? 'repeat(2, 1fr)' : 'repeat(5, 1fr)', gap: m ? '12px' : '20px' }}>
           {chars.map((c, i) => (
             <motion.div
               key={c.id}
@@ -119,21 +121,21 @@ export default function PersonaxesSection() {
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             onClick={() => setSel(null)}
-            style={{ position: 'fixed', inset: 0, zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}
+            style={{ position: 'fixed', inset: 0, zIndex: 2000, display: 'flex', alignItems: m ? 'flex-end' : 'center', justifyContent: 'center', padding: m ? '0' : '2rem' }}
           >
             <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(8,8,13,0.92)', backdropFilter: 'blur(24px)' }} />
             <motion.div
               initial={{ scale: 0.9, y: 30, opacity: 0 }} animate={{ scale: 1, y: 0, opacity: 1 }} exit={{ scale: 0.9, y: 20, opacity: 0 }}
               transition={{ type: 'spring', stiffness: 280, damping: 28 }}
               onClick={e => e.stopPropagation()}
-              style={{ position: 'relative', maxWidth: '900px', width: '100%', background: 'linear-gradient(135deg, rgba(12,18,32,0.92) 0%, rgba(8,8,13,0.85) 100%)', backdropFilter: 'blur(60px)', border: '1px solid rgba(255,255,255,0.1)', borderTop: '1px solid rgba(255,255,255,0.2)', borderRadius: '28px', overflow: 'hidden', boxShadow: '0 40px 100px rgba(0,0,0,0.7)' }}
+              style={{ position: 'relative', maxWidth: '900px', width: '100%', maxHeight: m ? '90vh' : undefined, overflowY: m ? 'auto' : undefined, background: 'linear-gradient(135deg, rgba(12,18,32,0.92) 0%, rgba(8,8,13,0.85) 100%)', backdropFilter: 'blur(60px)', border: '1px solid rgba(255,255,255,0.1)', borderTop: '1px solid rgba(255,255,255,0.2)', borderRadius: m ? '24px 24px 0 0' : '28px', overflow: 'hidden', boxShadow: '0 40px 100px rgba(0,0,0,0.7)' }}
             >
-              <div style={{ display: 'grid', gridTemplateColumns: '2fr 3fr' }}>
-                <div style={{ position: 'relative', minHeight: '500px' }}>
-                  <img src={selChar.img} alt={selChar.name} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.8)', display: 'block', minHeight: '500px' }} />
+              <div style={{ display: m ? 'flex' : 'grid', flexDirection: m ? 'column' : undefined, gridTemplateColumns: m ? '1fr' : '2fr 3fr' }}>
+                <div style={{ position: 'relative', minHeight: m ? '220px' : '500px' }}>
+                  <img src={selChar.img} alt={selChar.name} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.8)', display: 'block', minHeight: m ? '220px' : '500px' }} />
                   <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, transparent 60%, rgba(8,8,13,0.95) 100%)' }} />
                 </div>
-                <div style={{ padding: '3rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <div style={{ padding: m ? '1.5rem' : '3rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                   <button onClick={() => setSel(null)} style={{ position: 'absolute', top: '20px', right: '20px', width: '36px', height: '36px', borderRadius: '50%', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)', color: '#8B9BB4', cursor: 'none', fontSize: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>✕</button>
                   <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.3em', textTransform: 'uppercase', color: selChar.color, marginBottom: '8px' }}>{selChar.role}</div>
                   <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontSize: '2.5rem', color: '#EAE2D2', letterSpacing: '-0.01em', lineHeight: 1, marginBottom: '6px' }}>{selChar.name}</h3>
