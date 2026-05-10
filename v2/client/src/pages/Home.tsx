@@ -16,6 +16,7 @@ const LibroSection      = lazy(() => import("@/components/LibroSection"));
 const AutorSection      = lazy(() => import("@/components/AutorSection"));
 const ConversaSection   = lazy(() => import("@/components/ConversaSection"));
 const MercarSection     = lazy(() => import("@/components/MercarSection"));
+const OpinionSection    = lazy(() => import("@/components/OpinionSection"));
 const ParticleBackground = lazy(() => import("@/components/ParticleBackground"));
 
 const SECTIONS = [
@@ -29,7 +30,8 @@ const SECTIONS = [
   { id: "libro",      label: "O Libro",    short: "08" },
   { id: "autor",      label: "O Autor",    short: "09" },
   { id: "conversa",   label: "IA",         short: "10" },
-  { id: "mercar",     label: "Mercar",     short: "11" },
+  { id: "opinion",    label: "Opinión",    short: "11" },
+  { id: "mercar",     label: "Mercar",     short: "12" },
 ];
 
 const COMPONENTS: Record<string, React.ComponentType> = {
@@ -37,6 +39,7 @@ const COMPONENTS: Record<string, React.ComponentType> = {
   personaxes: PersonaxesSection, galeria: GaleriaSection, timeline: TimelineSection,
   arquivo: ArquivoSection, libro: LibroSection, autor: AutorSection,
   conversa: ConversaSection,
+  opinion: OpinionSection,
   mercar: MercarSection,
 };
 
