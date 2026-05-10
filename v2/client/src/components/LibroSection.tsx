@@ -14,6 +14,7 @@ const fichaItems = [
   { label: "Título",       value: "Faneca Brava" },
   { label: "Autor",        value: "Manuel Portas" },
   { label: "Editorial",    value: "Editorial Galaxia" },
+  { label: "Publicación",  value: "11 de abril de 2013" },
   { label: "Lingua",       value: "Galego" },
   { label: "Xénero",       value: "Novela de memoria" },
   { label: "Partes",       value: "III" },
