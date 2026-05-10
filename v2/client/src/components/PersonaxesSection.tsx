@@ -128,11 +128,11 @@ export default function PersonaxesSection() {
               initial={{ scale: 0.9, y: 30, opacity: 0 }} animate={{ scale: 1, y: 0, opacity: 1 }} exit={{ scale: 0.9, y: 20, opacity: 0 }}
               transition={{ type: 'spring', stiffness: 280, damping: 28 }}
               onClick={e => e.stopPropagation()}
-              style={{ position: 'relative', maxWidth: '900px', width: '100%', maxHeight: m ? '92vh' : undefined, overflowY: m ? 'auto' : undefined, background: 'linear-gradient(135deg, rgba(12,18,32,0.92) 0%, rgba(8,8,13,0.85) 100%)', backdropFilter: 'blur(60px)', border: '1px solid rgba(255,255,255,0.1)', borderTop: '1px solid rgba(255,255,255,0.2)', borderRadius: m ? '24px 24px 0 0' : '28px', overflow: m ? undefined : 'hidden', boxShadow: '0 40px 100px rgba(0,0,0,0.7)' }}
+              style={{ position: 'relative', maxWidth: '900px', width: '100%', maxHeight: m ? '95vh' : undefined, overflowY: m ? 'auto' : undefined, background: 'linear-gradient(135deg, rgba(12,18,32,0.92) 0%, rgba(8,8,13,0.85) 100%)', backdropFilter: 'blur(60px)', border: '1px solid rgba(255,255,255,0.1)', borderTop: '1px solid rgba(255,255,255,0.2)', borderRadius: m ? '24px 24px 0 0' : '28px', overflow: m ? undefined : 'hidden', boxShadow: '0 40px 100px rgba(0,0,0,0.7)' }}
             >
               <div style={{ display: m ? 'flex' : 'grid', flexDirection: m ? 'column' : undefined, gridTemplateColumns: m ? '1fr' : '2fr 3fr' }}>
-                <div style={{ position: 'relative', minHeight: m ? '180px' : '500px', maxHeight: m ? '35vh' : undefined, overflow: 'hidden', flexShrink: 0, borderRadius: m ? '24px 24px 0 0' : undefined }}>
-                  <img src={selChar.img} alt={selChar.name} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.8)', display: 'block', minHeight: m ? '180px' : '500px' }} />
+                <div style={{ position: 'relative', minHeight: m ? '55vh' : '500px', overflow: 'hidden', flexShrink: 0, borderRadius: m ? '24px 24px 0 0' : undefined }}>
+                  <img src={selChar.img} alt={selChar.name} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.8)', display: 'block', minHeight: m ? '55vh' : '500px' }} />
                   <div style={{ position: 'absolute', inset: 0, background: m ? 'linear-gradient(to bottom, transparent 50%, rgba(8,8,13,0.8) 100%)' : 'linear-gradient(to right, transparent 60%, rgba(8,8,13,0.95) 100%)' }} />
                 </div>
                 <div style={{ padding: m ? '1.25rem' : '3rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
