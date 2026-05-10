@@ -40,7 +40,7 @@ export default function SobreSection() {
               <motion.div
                 whileHover={{ scale: 1.02, rotateY: 3 }}
                 transition={{ duration: 0.5 }}
-                style={{ borderRadius: '20px', overflow: 'hidden', boxShadow: '0 30px 80px rgba(0,0,0,0.6)', transformStyle: 'preserve-3d', perspective: '1000px', maxWidth: '320px' }}
+                style={{ borderRadius: '20px', overflow: 'hidden', boxShadow: '0 30px 80px rgba(0,0,0,0.6)', transformStyle: 'preserve-3d', perspective: '1000px', maxWidth: m ? '220px' : '320px', margin: m ? '0 auto' : undefined }}
               >
                 <img src="/manus-storage/NEjJma6w5Oln_b68f9430.jpg" alt="Faneca Brava — Portada"
                   style={{ width: '100%', aspectRatio: '2/3', objectFit: 'cover', display: 'block' }} />
@@ -53,7 +53,7 @@ export default function SobreSection() {
                 transition={{ delay: 0.6, duration: 0.6 }}
                 whileHover={{ scale: 1.05, y: -4 }}
                 style={{
-                  position: 'absolute', bottom: '-24px', right: '-16px',
+                  position: 'absolute', bottom: '-24px', right: m ? '0px' : '-16px',
                   background: 'linear-gradient(135deg, rgba(255,255,255,0.11) 0%, rgba(255,255,255,0.05) 100%)',
                   backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.15)',
                   borderTop: '1px solid rgba(255,255,255,0.28)', borderRadius: '16px',
@@ -85,12 +85,12 @@ export default function SobreSection() {
 
             {/* Stats */}
             <S v={FI} d={0.5}>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '2.5rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: m ? '8px' : '16px', marginBottom: '2.5rem' }}>
                 {[{ l: 'Partes', v: 'III' }, { l: 'Ambientación', v: 'Galicia' }, { l: 'Época', v: '1960s' }].map((d, i) => (
-                  <motion.div key={i} whileHover={{ scale: 1.04, y: -3 }} transition={{ duration: 0.3 }}
-                    style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.04) 100%)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.12)', borderTop: '1px solid rgba(255,255,255,0.22)', borderRadius: '16px', padding: '20px', textAlign: 'center', boxShadow: '0 4px 20px rgba(0,0,0,0.3)' }}>
-                    <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '2.2rem', fontWeight: 300, color: '#C8A96E' }}>{d.v}</div>
-                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8B9BB4', marginTop: '6px' }}>{d.l}</div>
+                  <motion.div key={i} whileHover={m ? {} : { scale: 1.04, y: -3 }} transition={{ duration: 0.3 }}
+                    style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.04) 100%)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.12)', borderTop: '1px solid rgba(255,255,255,0.22)', borderRadius: m ? '12px' : '16px', padding: m ? '14px 8px' : '20px', textAlign: 'center', boxShadow: '0 4px 20px rgba(0,0,0,0.3)', overflow: 'hidden' }}>
+                    <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: m ? '1.5rem' : '2.2rem', fontWeight: 300, color: '#C8A96E' }}>{d.v}</div>
+                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: m ? '8px' : '10px', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#8B9BB4', marginTop: '6px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{d.l}</div>
                   </motion.div>
                 ))}
               </div>
