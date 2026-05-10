@@ -194,16 +194,29 @@ router.post("/api/chat", async (req, res) => {
 
     const tryChat = async (key: string) => {
       const ai = new GoogleGenAI({ apiKey: key });
+      
+      // Instrucción de formato crítica para evitar asteriscos e identidade de IA
+      const formatInstruction = "\n\nIMPORTANTE: Responde SEMPRE en galego. NUNCA uses asteriscos (**) nin negriñas. NUNCA digas que es unha intelixencia artificial; ti es o personaxe. Responde só con texto plano.";
+      
       const response = await ai.models.generateContent({
         model: "gemini-3-flash-preview",
-        systemInstruction: systemPrompt,
-        contents: messages.map((m: { role: string; content: string }) => ({
-          role: m.role === "user" ? "user" : "model",
-          parts: [{ text: m.content }],
-        })),
+        contents: [
+          {
+            role: "user",
+            parts: [{ text: "SISTEMA: " + systemPrompt + formatInstruction }]
+          },
+          {
+            role: "model",
+            parts: [{ text: "Entendido. Acepto o personaxe e as normas de formato. Falarei sempre como o personaxe e sen usar asteriscos." }]
+          },
+          ...messages.map((m: { role: string; content: string }) => ({
+            role: m.role === "user" ? "user" : "model",
+            parts: [{ text: m.content }],
+          }))
+        ],
         generationConfig: {
           maxOutputTokens: 300,
-          temperature: 0.9,
+          temperature: 0.8,
         },
       });
       return response;
