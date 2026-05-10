@@ -146,36 +146,46 @@ export default function MercarSection() {
 
         {/* Info do libro */}
         <motion.div initial={{ opacity: 0, y: 30 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.9, delay: 0.1 }}
-          style={{ ...G, padding: '2.5rem 3rem', marginBottom: '3rem', display: 'flex', gap: '3rem', alignItems: 'center' }}>
-          <motion.img
-            src="/manus-storage/NEjJma6w5Oln_b68f9430.jpg"
-            alt="Faneca Brava"
-            whileHover={{ scale: 1.04, rotateY: 3 }}
-            transition={{ duration: 0.4 }}
-            style={{ width: '100px', aspectRatio: '2/3', objectFit: 'cover', borderRadius: '10px', boxShadow: '0 12px 40px rgba(0,0,0,0.5)', flexShrink: 0, transformStyle: 'preserve-3d', perspective: '800px' }}
-          />
-          <div style={{ flex: 1 }}>
-            <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.6rem', fontWeight: 300, color: '#EAE2D2', marginBottom: '4px' }}>Faneca Brava</div>
-            <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: '#C8A96E', marginBottom: '14px' }}>Manuel Portas · Editorial Galaxia</div>
-            <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
-              {[
-                { l: 'ISBN', v: '978-84-11763-33-2' },
-                { l: 'Páxinas', v: '244' },
-                { l: 'Lingua', v: 'Galego' },
-                { l: 'Formato', v: 'Tapa branda' },
-              ].map((d, i) => (
-                <div key={i}>
-                  <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8B9BB4', marginBottom: '2px' }}>{d.l}</div>
-                  <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: '#EAE2D2' }}>{d.v}</div>
+          style={{ ...G, padding: m ? '1.5rem' : '2.5rem 3rem', marginBottom: '3rem', display: 'flex', flexDirection: m ? 'column' : 'row', gap: m ? '1.5rem' : '3rem', alignItems: m ? 'flex-start' : 'center' }}>
+          <div style={{ display: 'flex', gap: m ? '1rem' : '3rem', alignItems: 'center', width: m ? '100%' : undefined }}>
+            <motion.img
+              src="/manus-storage/NEjJma6w5Oln_b68f9430.jpg"
+              alt="Faneca Brava"
+              whileHover={{ scale: 1.04, rotateY: 3 }}
+              transition={{ duration: 0.4 }}
+              style={{ width: m ? '80px' : '100px', aspectRatio: '2/3', objectFit: 'cover', borderRadius: '10px', boxShadow: '0 12px 40px rgba(0,0,0,0.5)', flexShrink: 0, transformStyle: 'preserve-3d', perspective: '800px' }}
+            />
+            <div style={{ flex: 1 }}>
+              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: m ? '1.3rem' : '1.6rem', fontWeight: 300, color: '#EAE2D2', marginBottom: '4px' }}>Faneca Brava</div>
+              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: '#C8A96E', marginBottom: m ? '8px' : '14px' }}>Manuel Portas · Editorial Galaxia</div>
+              {m && (
+                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '2rem', fontWeight: 300, color: '#C8A96E', lineHeight: 1 }}>
+                  22,10 €
+                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', color: '#8B9BB4', marginLeft: '8px' }}>PVP recomendado</span>
                 </div>
-              ))}
+              )}
             </div>
           </div>
-          <div style={{ textAlign: 'right', flexShrink: 0 }}>
-            <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8B9BB4', marginBottom: '4px' }}>PVP recomendado</div>
-            <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '2.8rem', fontWeight: 300, color: '#C8A96E', lineHeight: 1 }}>22,10 €</div>
-            <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', color: '#8B9BB4', marginTop: '4px' }}>IVE incluído</div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: m ? '10px' : '24px', width: m ? '100%' : undefined }}>
+            {[
+              { l: 'ISBN', v: '978-84-11763-33-2' },
+              { l: 'Páxinas', v: '244' },
+              { l: 'Lingua', v: 'Galego' },
+              { l: 'Formato', v: 'Tapa branda' },
+            ].map((d, i) => (
+              <div key={i}>
+                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8B9BB4', marginBottom: '2px' }}>{d.l}</div>
+                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: '#EAE2D2' }}>{d.v}</div>
+              </div>
+            ))}
           </div>
+          {!m && (
+            <div style={{ textAlign: 'right', flexShrink: 0 }}>
+              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8B9BB4', marginBottom: '4px' }}>PVP recomendado</div>
+              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '2.8rem', fontWeight: 300, color: '#C8A96E', lineHeight: 1 }}>22,10 €</div>
+              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', color: '#8B9BB4', marginTop: '4px' }}>IVE incluído</div>
+            </div>
+          )}
         </motion.div>
 
         {/* Grid de tendas */}

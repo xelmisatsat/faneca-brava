@@ -128,29 +128,30 @@ export default function PersonaxesSection() {
               initial={{ scale: 0.9, y: 30, opacity: 0 }} animate={{ scale: 1, y: 0, opacity: 1 }} exit={{ scale: 0.9, y: 20, opacity: 0 }}
               transition={{ type: 'spring', stiffness: 280, damping: 28 }}
               onClick={e => e.stopPropagation()}
-              style={{ position: 'relative', maxWidth: '900px', width: '100%', maxHeight: m ? '90vh' : undefined, overflowY: m ? 'auto' : undefined, background: 'linear-gradient(135deg, rgba(12,18,32,0.92) 0%, rgba(8,8,13,0.85) 100%)', backdropFilter: 'blur(60px)', border: '1px solid rgba(255,255,255,0.1)', borderTop: '1px solid rgba(255,255,255,0.2)', borderRadius: m ? '24px 24px 0 0' : '28px', overflow: 'hidden', boxShadow: '0 40px 100px rgba(0,0,0,0.7)' }}
+              style={{ position: 'relative', maxWidth: '900px', width: '100%', maxHeight: m ? '92vh' : undefined, overflowY: m ? 'auto' : undefined, background: 'linear-gradient(135deg, rgba(12,18,32,0.92) 0%, rgba(8,8,13,0.85) 100%)', backdropFilter: 'blur(60px)', border: '1px solid rgba(255,255,255,0.1)', borderTop: '1px solid rgba(255,255,255,0.2)', borderRadius: m ? '24px 24px 0 0' : '28px', overflow: m ? undefined : 'hidden', boxShadow: '0 40px 100px rgba(0,0,0,0.7)' }}
             >
               <div style={{ display: m ? 'flex' : 'grid', flexDirection: m ? 'column' : undefined, gridTemplateColumns: m ? '1fr' : '2fr 3fr' }}>
-                <div style={{ position: 'relative', minHeight: m ? '220px' : '500px' }}>
-                  <img src={selChar.img} alt={selChar.name} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.8)', display: 'block', minHeight: m ? '220px' : '500px' }} />
-                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, transparent 60%, rgba(8,8,13,0.95) 100%)' }} />
+                <div style={{ position: 'relative', minHeight: m ? '180px' : '500px', maxHeight: m ? '35vh' : undefined, overflow: 'hidden', flexShrink: 0 }}>
+                  <img src={selChar.img} alt={selChar.name} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.8)', display: 'block', minHeight: m ? '180px' : '500px' }} />
+                  <div style={{ position: 'absolute', inset: 0, background: m ? 'linear-gradient(to bottom, transparent 50%, rgba(8,8,13,0.8) 100%)' : 'linear-gradient(to right, transparent 60%, rgba(8,8,13,0.95) 100%)' }} />
                 </div>
-                <div style={{ padding: m ? '1.5rem' : '3rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                  <button onClick={() => setSel(null)} style={{ position: 'absolute', top: '20px', right: '20px', width: '36px', height: '36px', borderRadius: '50%', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)', color: '#8B9BB4', cursor: 'none', fontSize: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>✕</button>
+                <div style={{ padding: m ? '1.25rem' : '3rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                  <button onClick={() => setSel(null)} style={{ position: 'absolute', top: '12px', right: '12px', width: '36px', height: '36px', borderRadius: '50%', background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.15)', color: '#EAE2D2', cursor: 'none', fontSize: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10 }}>✕</button>
                   <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.3em', textTransform: 'uppercase', color: selChar.color, marginBottom: '8px' }}>{selChar.role}</div>
-                  <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontSize: '2.5rem', color: '#EAE2D2', letterSpacing: '-0.01em', lineHeight: 1, marginBottom: '6px' }}>{selChar.name}</h3>
-                  <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: '1.1rem', color: selChar.color, marginBottom: '1.5rem' }}>{selChar.alias}</p>
-                  <div style={{ height: '1px', background: 'linear-gradient(90deg, transparent, rgba(200,169,110,0.3), transparent)', margin: '0 0 1.5rem' }} />
-                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, fontSize: '0.95rem', lineHeight: 1.9, color: 'rgba(234,226,210,0.85)', marginBottom: '1.5rem' }}>{selChar.desc}</p>
-                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', color: '#8B9BB4', letterSpacing: '0.08em', marginBottom: '1rem' }}>{selChar.arc}</p>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '1.5rem' }}>
+                  <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontSize: m ? '1.8rem' : '2.5rem', color: '#EAE2D2', letterSpacing: '-0.01em', lineHeight: 1, marginBottom: '6px' }}>{selChar.name}</h3>
+                  <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: m ? '0.95rem' : '1.1rem', color: selChar.color, marginBottom: '1rem' }}>{selChar.alias}</p>
+                  <div style={{ height: '1px', background: 'linear-gradient(90deg, transparent, rgba(200,169,110,0.3), transparent)', margin: '0 0 1rem' }} />
+                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, fontSize: m ? '0.85rem' : '0.95rem', lineHeight: 1.85, color: 'rgba(234,226,210,0.85)', marginBottom: '1rem' }}>{selChar.desc}</p>
+                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', color: '#8B9BB4', letterSpacing: '0.08em', marginBottom: '0.75rem' }}>{selChar.arc}</p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '1rem' }}>
                     {selChar.traits.map((t,j) => (
-                      <span key={j} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', padding: '5px 12px', borderRadius: '9999px', backgroundColor: `${selChar.color}15`, color: selChar.color, border: `1px solid ${selChar.color}30` }}>{t}</span>
+                      <span key={j} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', padding: '4px 10px', borderRadius: '9999px', backgroundColor: `${selChar.color}15`, color: selChar.color, border: `1px solid ${selChar.color}30` }}>{t}</span>
                     ))}
                   </div>
-                  <div style={{ padding: '16px 20px', borderRadius: '14px', backgroundColor: 'rgba(200,169,110,0.06)', borderLeft: '2px solid rgba(200,169,110,0.4)' }}>
-                    <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: '1rem', color: '#EAE2D2', lineHeight: 1.7 }}>"{selChar.quote}"</p>
+                  <div style={{ padding: '12px 16px', borderRadius: '14px', backgroundColor: 'rgba(200,169,110,0.06)', borderLeft: '2px solid rgba(200,169,110,0.4)' }}>
+                    <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: m ? '0.9rem' : '1rem', color: '#EAE2D2', lineHeight: 1.7 }}>"{selChar.quote}"</p>
                   </div>
+                  {m && <div style={{ height: '1.5rem' }} />}
                 </div>
               </div>
             </motion.div>
