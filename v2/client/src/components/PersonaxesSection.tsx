@@ -30,6 +30,13 @@ const chars = [
     traits: ["Observador", "Sabio", "Melancólico", "Leal"],
     quote: "Concha non fotografaba para vivir. Fotografaba para vingarse.",
     arc: "O testemuño que conecta pasado e presente" },
+  { id: "encarna", name: "Encarna Pereira", alias: "A Supervivente", role: "O Contrapunto",
+    img: "/manus-storage/encarna-portrait.jpg",
+    color: "#7A6F8A",
+    desc: "Irmá pequena de Concha, tamén orfa e criada por Mamá Carme. Mentres Concha é a rebeldía e a fuxida, Encarna é o reflexo doutro tipo de supervivencia feminina: a submisión calculada. Acata as normas da matriarca, cala, obedece e resiste dende dentro. Dúas irmás, dous camiños opostos fronte á mesma opresión.",
+    traits: ["Calada", "Resignada", "Resiliente", "Sombra"],
+    quote: "Eu quedei. Alguén tiña que quedar para que a casa non se derrubara.",
+    arc: "A indómita vs. a supervivente: dúas respostas á mesma ferida" },
 ];
 
 const G = {
@@ -66,7 +73,7 @@ export default function PersonaxesSection() {
         </motion.div>
 
         {/* Grid 4 cards */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '20px' }}>
           {chars.map((c, i) => (
             <motion.div
               key={c.id}
