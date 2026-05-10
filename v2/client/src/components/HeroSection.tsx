@@ -140,6 +140,18 @@ export default function HeroSection() {
         </motion.div>
       </div>
 
+      {/* Créditos esquerda */}
+      <motion.div
+        initial={{ opacity: 0, x: -20 }}
+        animate={mounted ? { opacity: 1, x: 0 } : {}}
+        transition={{ delay: 2, duration: 0.8 }}
+        style={{ position: 'absolute', bottom: '3.5rem', left: '2.5rem', zIndex: 10, textAlign: 'left' }}
+      >
+        <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(234,226,210,0.45)', marginBottom: '2px' }}>Jun Sieira Gerpe</div>
+        <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(234,226,210,0.45)', marginBottom: '6px' }}>Álvaro Villar Gómez</div>
+        <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '9px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(200,169,110,0.5)' }}>4ESO A · XELMÍREZ I</div>
+      </motion.div>
+
       {/* Info lateral dereita */}
       <motion.div
         initial={{ opacity: 0, x: 20 }}
