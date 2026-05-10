@@ -186,32 +186,41 @@ router.post("/api/chat", async (req, res) => {
     }
 
     const apiKey = process.env.GEMINI_API_KEY;
+    const backupKey = process.env.GEMINI_API_KEY_BACKUP;
+
     if (!apiKey) {
       return res.status(500).json({ error: "Gemini API key not configured" });
     }
 
-    const ai = new GoogleGenAI({ apiKey });
+    const tryChat = async (key: string) => {
+      const ai = new GoogleGenAI({ apiKey: key });
+      const response = await ai.models.generateContent({
+        model: "gemini-3-flash-preview",
+        systemInstruction: systemPrompt,
+        contents: messages.map((m: { role: string; content: string }) => ({
+          role: m.role === "user" ? "user" : "model",
+          parts: [{ text: m.content }],
+        })),
+        generationConfig: {
+          maxOutputTokens: 300,
+          temperature: 0.9,
+        },
+      });
+      return response;
+    };
 
-    // Construír o historial de conversa para Gemini
-    const history = messages.slice(0, -1).map((m: { role: string; content: string }) => ({
-      role: m.role === "user" ? "user" : "model",
-      parts: [{ text: m.content }],
-    }));
-
-    const lastMessage = messages[messages.length - 1];
-
-    const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
-      systemInstruction: systemPrompt,
-      contents: messages.map((m: { role: string; content: string }) => ({
-        role: m.role === "user" ? "user" : "model",
-        parts: [{ text: m.content }],
-      })),
-      generationConfig: {
-        maxOutputTokens: 300,
-        temperature: 0.9,
-      },
-    });
+    let response;
+    try {
+      response = await tryChat(apiKey);
+    } catch (error: any) {
+      // If primary key fails with quota error (429) and we have a backup, try the backup
+      if (error?.message?.includes("429") && backupKey) {
+        console.log("Primary Gemini API key quota exceeded, trying backup...");
+        response = await tryChat(backupKey);
+      } else {
+        throw error;
+      }
+    }
 
     const reply = response.text || "...";
     return res.json({ reply });
