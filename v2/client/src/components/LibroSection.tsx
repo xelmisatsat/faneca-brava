@@ -13,8 +13,7 @@ const G = {
 const fichaItems = [
   { label: "Título",       value: "Faneca Brava" },
   { label: "Autor",        value: "Manuel Portas" },
-  { label: "Editorial",    value: "Galaxia Gutenberg" },
-  { label: "Ano",          value: "2024" },
+  { label: "Editorial",    value: "Editorial Galaxia" },
   { label: "Lingua",       value: "Galego" },
   { label: "Xénero",       value: "Novela de memoria" },
   { label: "Partes",       value: "III" },

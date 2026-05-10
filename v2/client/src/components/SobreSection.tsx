@@ -58,9 +58,9 @@ export default function SobreSection() {
                   padding: '16px 20px', boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
                 }}
               >
-                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8B9BB4' }}>Publicación</div>
-                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '2.2rem', fontWeight: 300, color: '#C8A96E', lineHeight: 1.1, marginTop: '4px' }}>2024</div>
-                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', color: '#8B9BB4', marginTop: '2px' }}>Galaxia Gutenberg</div>
+                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8B9BB4' }}>Editorial</div>
+                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.8rem', fontWeight: 300, color: '#C8A96E', lineHeight: 1.1, marginTop: '4px' }}>Galaxia</div>
+                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', color: '#8B9BB4', marginTop: '2px' }}>Manuel Portas</div>
               </motion.div>
             </div>
           </S>

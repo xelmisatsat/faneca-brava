@@ -44,7 +44,7 @@ export default function HeroSection() {
             style={{ width: '48px', height: '1px', background: 'linear-gradient(90deg, #C8A96E, transparent)', transformOrigin: 'left' }}
           />
           <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', letterSpacing: '0.35em', textTransform: 'uppercase', color: '#C8A96E' }}>
-            Manuel Portas — Galaxia Gutenberg — 2024
+            Manuel Portas — Editorial Galaxia
           </span>
         </motion.div>
 
@@ -138,7 +138,7 @@ export default function HeroSection() {
         transition={{ delay: 2, duration: 0.8 }}
         style={{ position: 'absolute', bottom: '3.5rem', right: '2.5rem', zIndex: 10, textAlign: 'right' }}
       >
-        <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(139,155,180,0.4)', marginBottom: '4px' }}>GALICIA — 2024</div>
+        <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(139,155,180,0.4)', marginBottom: '4px' }}>GALICIA</div>
         <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(200,169,110,0.5)' }}>GALAXIA GUTENBERG</div>
       </motion.div>
     </section>

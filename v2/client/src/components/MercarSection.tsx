@@ -154,7 +154,7 @@ export default function MercarSection() {
           />
           <div style={{ flex: 1 }}>
             <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.6rem', fontWeight: 300, color: '#EAE2D2', marginBottom: '4px' }}>Faneca Brava</div>
-            <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: '#C8A96E', marginBottom: '14px' }}>Manuel Portas · Editorial Galaxia · 2024</div>
+            <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: '#C8A96E', marginBottom: '14px' }}>Manuel Portas · Editorial Galaxia</div>
             <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
               {[
                 { l: 'ISBN', v: '978-84-11763-33-2' },

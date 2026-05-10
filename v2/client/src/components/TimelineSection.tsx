@@ -26,7 +26,7 @@ const stages = [
   {
     label: "A LENTE CORSARIA",
     subtitle: "A metamorfose en Barcelona.",
-    desc: "Concha foxe a Cataluña e transforma o trauma en poder. Convértese nunha temida paparazzi. Usa a cámara como arma para destapar as miserias de banqueiros e políticos. Xa non é a vítima; é a executora.",
+    desc: "Concha foxe e reencontrase co seu pai emigrado. Desde alí, chega a Cataluña e transforma o trauma en poder. Convértese nunha temida paparazzi. Usa a cámara como arma para destapar as miserias de banqueiros e políticos. Xa non é a vítima; é a executora.",
     color: "#C8A96E",
     bg: "rgba(15,15,25,0.9)",
   },
