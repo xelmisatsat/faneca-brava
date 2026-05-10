@@ -53,27 +53,34 @@ export default function HeroSection() {
         {/* Título letra a letra */}
         <div style={{ marginBottom: '2rem', overflow: 'hidden' }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0' }}>
-            {LETTERS.map((l, i) => (
-              <motion.span
-                key={i}
-                initial={{ opacity: 0, y: 80, rotateX: -45 }}
-                animate={mounted ? { opacity: 1, y: 0, rotateX: 0 } : {}}
-                transition={{ duration: 0.8, delay: 0.4 + i * 0.04, ease: [0.16, 1, 0.3, 1] }}
-                style={{
-                  fontFamily: "'Cormorant Garamond', Georgia, serif",
-                  fontWeight: 300,
-                  fontSize: 'clamp(4rem, 10vw, 9.5rem)',
-                  lineHeight: 0.85,
-                  letterSpacing: '-0.03em',
-                  color: l === ' ' ? 'transparent' : (i >= 7 ? '#C8A96E' : '#EAE2D2'),
-                  display: 'inline-block',
-                  minWidth: l === ' ' ? '0.4em' : 'auto',
-                  transformStyle: 'preserve-3d',
-                  perspective: '800px',
-                }}
-              >
-                {l === ' ' ? '\u00A0' : l}
-              </motion.span>
+            {['FANECA', ' ', 'BRAVA'].map((word, wi) => (
+              <span key={wi} style={{ display: 'inline-flex', whiteSpace: 'nowrap' }}>
+                {word.split('').map((l, i) => {
+                  const globalIdx = wi === 0 ? i : (wi === 1 ? 7 : 7 + i);
+                  return (
+                    <motion.span
+                      key={`${wi}-${i}`}
+                      initial={{ opacity: 0, y: 80, rotateX: -45 }}
+                      animate={mounted ? { opacity: 1, y: 0, rotateX: 0 } : {}}
+                      transition={{ duration: 0.8, delay: 0.4 + globalIdx * 0.04, ease: [0.16, 1, 0.3, 1] }}
+                      style={{
+                        fontFamily: "'Cormorant Garamond', Georgia, serif",
+                        fontWeight: 300,
+                        fontSize: 'clamp(3rem, 10vw, 9.5rem)',
+                        lineHeight: 0.85,
+                        letterSpacing: '-0.03em',
+                        color: l === ' ' ? 'transparent' : (wi === 2 ? '#C8A96E' : '#EAE2D2'),
+                        display: 'inline-block',
+                        minWidth: l === ' ' ? '0.4em' : 'auto',
+                        transformStyle: 'preserve-3d',
+                        perspective: '800px',
+                      }}
+                    >
+                      {l === ' ' ? '\u00A0' : l}
+                    </motion.span>
+                  );
+                })}
+              </span>
             ))}
           </div>
         </div>
