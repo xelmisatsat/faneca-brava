@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useIsMobile } from "@/hooks/useIsMobile";
 
@@ -195,7 +196,6 @@ export default function PersonaxesSection() {
         <div style={{ display: 'grid', gridTemplateColumns: m ? 'repeat(2, 1fr)' : 'repeat(5, 1fr)', gap: m ? '12px' : '20px' }}>
           {chars.map((c, i) => (
             <motion.div key={c.id}
-              layoutId={`char-modal-${c.id}`}
               initial={{ opacity: 0, y: 60, scale: 0.94 }}
               animate={v ? { opacity: 1, y: 0, scale: 1 } : {}}
               transition={{ duration: 0.8, delay: 0.15 + i * 0.1, ease: [0.16, 1, 0.3, 1] }}
@@ -237,76 +237,95 @@ export default function PersonaxesSection() {
       </div>
 
       {/* Modal */}
-      <AnimatePresence>
-        {sel && selChar && (
-          <motion.div
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            onClick={() => setSel(null)}
-            style={{ position: 'fixed', inset: 0, zIndex: 2000, display: 'flex', alignItems: m ? 'flex-end' : 'center', justifyContent: 'center', padding: m ? '0' : '2rem' }}
-          >
-            <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(8,8,13,0.92)', backdropFilter: 'blur(24px)' }} />
+      {typeof document !== 'undefined' && createPortal(
+        <AnimatePresence>
+          {sel && selChar && (
             <motion.div
-              layoutId={`char-modal-${selChar.id}`}
-              drag={m ? "y" : false}
-              dragConstraints={{ top: 0, bottom: 0 }}
-              dragElastic={0.4}
-              onDragEnd={(e, info) => {
-                if (info.offset.y > 100) setSel(null);
-              }}
-              initial={{ scale: m ? 1 : 0.9, y: m ? 80 : 30, opacity: 0 }}
-              animate={{ scale: 1, y: 0, opacity: 1 }}
-              exit={{ scale: m ? 1 : 0.9, y: m ? 80 : 20, opacity: 0 }}
-              transition={{ type: 'spring', stiffness: 350, damping: 30 }}
-              onClick={e => e.stopPropagation()}
-              style={{
-                position: 'relative', maxWidth: '900px', width: '100%',
-                maxHeight: m ? '95vh' : '85vh', overflowY: 'auto',
-                marginTop: m ? 0 : '80px',
-                background: 'linear-gradient(135deg, rgba(12,18,32,0.92) 0%, rgba(8,8,13,0.85) 100%)',
-                backdropFilter: 'blur(60px)', border: '1px solid rgba(255,255,255,0.1)',
-                borderTop: '1px solid rgba(255,255,255,0.2)',
-                borderRadius: m ? '24px 24px 0 0' : '28px',
-                boxShadow: '0 40px 100px rgba(0,0,0,0.7)',
-              }}
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              transition={{ duration: 0.4 }}
+              onClick={() => setSel(null)}
+              style={{ position: 'fixed', inset: 0, zIndex: 99999, display: 'flex', alignItems: m ? 'flex-end' : 'center', justifyContent: 'center', padding: m ? '0' : '2rem' }}
             >
-              <div style={{ display: m ? 'flex' : 'grid', flexDirection: m ? 'column' : undefined, gridTemplateColumns: m ? '1fr' : '2fr 3fr' }}>
-                {/* Imaxe */}
-                <div style={{ position: 'relative', minHeight: m ? '55vh' : '500px', overflow: 'hidden', flexShrink: 0, borderRadius: m ? '24px 24px 0 0' : undefined }}>
-                  <img src={selChar.img} alt={selChar.name}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.8)', display: 'block', minHeight: m ? '55vh' : '500px' }} />
-                  <div style={{ position: 'absolute', inset: 0, background: m ? 'linear-gradient(to bottom, transparent 40%, rgba(8,8,13,0.85) 100%)' : 'linear-gradient(to right, transparent 55%, rgba(8,8,13,0.95) 100%)' }} />
-                </div>
-
-                {/* Contido */}
-                <div style={{ padding: m ? '1.5rem 1.25rem' : '3rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                  <button onClick={() => setSel(null)}
-                    style={{ position: 'absolute', top: '14px', right: '14px', width: '36px', height: '36px', borderRadius: '50%', background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.18)', color: '#EAE2D2', cursor: 'pointer', fontSize: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10 }}>✕</button>
-
-                  <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.3em', textTransform: 'uppercase', color: selChar.color, marginBottom: '8px' }}>{selChar.role}</div>
-                  <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontSize: m ? '1.9rem' : '2.5rem', color: '#EAE2D2', letterSpacing: '-0.01em', lineHeight: 1, marginBottom: '6px' }}>{selChar.name}</h3>
-                  <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: m ? '0.95rem' : '1.05rem', color: selChar.color, marginBottom: '1.25rem' }}>{selChar.alias}</p>
-
-                  {/* AUDIO PLAYER */}
-                  <AudioPlayer src={selChar.audio} color={selChar.color} name={selChar.name.split(' ')[0]} />
-
-                  <div style={{ height: '1px', background: 'linear-gradient(90deg, transparent, rgba(200,169,110,0.3), transparent)', margin: '1.25rem 0 1rem' }} />
-                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, fontSize: m ? '0.85rem' : '0.95rem', lineHeight: 1.85, color: 'rgba(234,226,210,0.85)', marginBottom: '1rem' }}>{selChar.desc}</p>
-                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', color: '#8B9BB4', letterSpacing: '0.08em', marginBottom: '0.75rem' }}>{selChar.arc}</p>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '1rem' }}>
-                    {selChar.traits.map((t, j) => (
-                      <span key={j} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', padding: '4px 10px', borderRadius: '9999px', backgroundColor: `${selChar.color}15`, color: selChar.color, border: `1px solid ${selChar.color}30` }}>{t}</span>
-                    ))}
+              <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(8,8,13,0.85)', backdropFilter: 'blur(16px)' }} />
+              <motion.div
+                drag={m ? "y" : false}
+                dragConstraints={{ top: 0, bottom: 0 }}
+                dragElastic={0.2}
+                onDragEnd={(e, info) => {
+                  if (info.offset.y > 100) setSel(null);
+                }}
+                initial={m ? { y: '100%' } : { scale: 0.95, y: 40, opacity: 0 }}
+                animate={m ? { y: 0 } : { scale: 1, y: 0, opacity: 1 }}
+                exit={m ? { y: '100%' } : { scale: 0.95, y: 40, opacity: 0 }}
+                transition={{ type: 'spring', damping: 26, stiffness: 260 }}
+                onClick={e => e.stopPropagation()}
+                style={{
+                  position: 'relative', maxWidth: '900px', width: '100%',
+                  maxHeight: m ? '95vh' : '85vh',
+                  background: 'linear-gradient(135deg, rgba(12,18,32,0.92) 0%, rgba(8,8,13,0.85) 100%)',
+                  backdropFilter: 'blur(60px)', border: '1px solid rgba(255,255,255,0.1)',
+                  borderTop: '1px solid rgba(255,255,255,0.2)',
+                  borderRadius: m ? '32px 32px 0 0' : '28px',
+                  boxShadow: '0 40px 100px rgba(0,0,0,0.7)',
+                  display: 'flex', flexDirection: 'column',
+                }}
+              >
+                {/* Arrastro visual no móbil (drag handle) */}
+                {m && (
+                  <div style={{ width: '100%', height: '24px', position: 'absolute', top: 0, zIndex: 10, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <div style={{ width: '40px', height: '4px', borderRadius: '4px', background: 'rgba(255,255,255,0.3)' }} />
                   </div>
-                  <div style={{ padding: '12px 16px', borderRadius: '14px', backgroundColor: 'rgba(200,169,110,0.06)', borderLeft: `2px solid ${selChar.color}60` }}>
-                    <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: m ? '0.9rem' : '1rem', color: '#EAE2D2', lineHeight: 1.7 }}>"{selChar.quote}"</p>
+                )}
+                
+                {/* Contido scrollable separado para non bloquear o drag da cabeceira no móbil se fose necesario */}
+                <div 
+                  style={{ overflowY: 'auto', flex: 1, borderRadius: m ? '32px 32px 0 0' : '28px', WebkitOverflowScrolling: 'touch' }}
+                  onPointerDown={e => {
+                    // Evitar que o scroll interfira co drag en dispositivos táctiles se non estamos arriba do todo
+                    if (e.currentTarget.scrollTop > 0) e.stopPropagation();
+                  }}
+                >
+                  <div style={{ display: m ? 'flex' : 'grid', flexDirection: m ? 'column' : undefined, gridTemplateColumns: m ? '1fr' : '2fr 3fr' }}>
+                    {/* Imaxe */}
+                    <div style={{ position: 'relative', minHeight: m ? '55vh' : '500px', overflow: 'hidden', flexShrink: 0, borderRadius: m ? '32px 32px 0 0' : undefined }}>
+                      <img src={selChar.img} alt={selChar.name}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.8)', display: 'block', minHeight: m ? '55vh' : '500px' }} />
+                      <div style={{ position: 'absolute', inset: 0, background: m ? 'linear-gradient(to bottom, transparent 40%, rgba(8,8,13,0.85) 100%)' : 'linear-gradient(to right, transparent 55%, rgba(8,8,13,0.95) 100%)' }} />
+                    </div>
+
+                    {/* Contido */}
+                    <div style={{ padding: m ? '1.5rem 1.5rem' : '3rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                      <button onClick={() => setSel(null)}
+                        style={{ position: 'absolute', top: m ? '24px' : '14px', right: m ? '16px' : '14px', width: '36px', height: '36px', borderRadius: '50%', background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.18)', color: '#EAE2D2', cursor: 'pointer', fontSize: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10 }}>✕</button>
+
+                      <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.3em', textTransform: 'uppercase', color: selChar.color, marginBottom: '8px' }}>{selChar.role}</div>
+                      <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontSize: m ? '1.9rem' : '2.5rem', color: '#EAE2D2', letterSpacing: '-0.01em', lineHeight: 1, marginBottom: '6px' }}>{selChar.name}</h3>
+                      <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: m ? '0.95rem' : '1.05rem', color: selChar.color, marginBottom: '1.25rem' }}>{selChar.alias}</p>
+
+                      {/* AUDIO PLAYER */}
+                      <AudioPlayer src={selChar.audio} color={selChar.color} name={selChar.name.split(' ')[0]} />
+
+                      <div style={{ height: '1px', background: 'linear-gradient(90deg, transparent, rgba(200,169,110,0.3), transparent)', margin: '1.25rem 0 1rem' }} />
+                      <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, fontSize: m ? '0.85rem' : '0.95rem', lineHeight: 1.85, color: 'rgba(234,226,210,0.85)', marginBottom: '1rem' }}>{selChar.desc}</p>
+                      <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', color: '#8B9BB4', letterSpacing: '0.08em', marginBottom: '0.75rem' }}>{selChar.arc}</p>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '1rem' }}>
+                        {selChar.traits.map((t, j) => (
+                          <span key={j} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', padding: '4px 10px', borderRadius: '9999px', backgroundColor: `${selChar.color}15`, color: selChar.color, border: `1px solid ${selChar.color}30` }}>{t}</span>
+                        ))}
+                      </div>
+                      <div style={{ padding: '12px 16px', borderRadius: '14px', backgroundColor: 'rgba(200,169,110,0.06)', borderLeft: `2px solid ${selChar.color}60` }}>
+                        <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: m ? '0.9rem' : '1rem', color: '#EAE2D2', lineHeight: 1.7 }}>"{selChar.quote}"</p>
+                      </div>
+                      {m && <div style={{ height: '3rem' }} />}
+                    </div>
                   </div>
-                  {m && <div style={{ height: '2rem' }} />}
                 </div>
-              </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </section>
   );
 }
