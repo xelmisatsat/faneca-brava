@@ -170,6 +170,18 @@ export default function PersonaxesSection() {
   const [sel, setSel] = useState<string | null>(null);
   const m = useIsMobile();
   useEffect(() => { const t = setTimeout(() => setV(true), 80); return () => clearTimeout(t); }, []);
+  
+  // Bloquear NavPill cando o modal está aberto
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      if (sel) document.body.setAttribute('data-modal-open', 'true');
+      else document.body.removeAttribute('data-modal-open');
+    }
+    return () => {
+      if (typeof document !== 'undefined') document.body.removeAttribute('data-modal-open');
+    };
+  }, [sel]);
+
   const selChar = chars.find(c => c.id === sel);
 
   return (
@@ -252,8 +264,8 @@ export default function PersonaxesSection() {
                 layoutId={`char-modal-${selChar.id}`}
                 initial={{ scale: 0.95, y: 40, opacity: 0 }}
                 animate={{ scale: 1, y: 0, opacity: 1 }}
-                exit={{ scale: 0.95, y: 40, opacity: 0 }}
-                transition={{ type: 'spring', damping: 26, stiffness: 260 }}
+                exit={{ scale: 0.95, y: 40, opacity: 0, transition: { type: 'tween', duration: 0.25, ease: 'easeOut' } }}
+                transition={{ type: 'spring', damping: 24, stiffness: 220 }}
                 onClick={e => e.stopPropagation()}
                 style={{
                   position: 'relative', maxWidth: '900px', width: '100%',
