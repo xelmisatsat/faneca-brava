@@ -208,31 +208,7 @@ export default function Home() {
           </AnimatePresence>
 
 
-          {/* Dots de navegación */}
-          <motion.div
-            style={{
-              position: 'fixed', bottom: '28px', left: '50%', transform: 'translateX(-50%)',
-              zIndex: 900, display: 'flex', alignItems: 'center', gap: '6px',
-            }}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1, duration: 0.6 }}
-          >
-            {SECTIONS.map((s, i) => (
-              <motion.button
-                key={i}
-                onClick={() => goTo(i)}
-                title={s.label}
-                animate={{
-                  width: i === activeIdx ? 22 : 5,
-                  backgroundColor: i === activeIdx ? '#C8A96E' : 'rgba(139,155,180,0.3)',
-                  scale: transitioning && i === activeIdx ? 1.2 : 1,
-                }}
-                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                style={{ height: 5, borderRadius: 9999, border: 'none', cursor: 'none', padding: 0 }}
-              />
-            ))}
-          </motion.div>
+          {/* Dots de navegación eliminados por agora */}
 
           {/* Contador de sección */}
           <AnimatePresence mode="wait">

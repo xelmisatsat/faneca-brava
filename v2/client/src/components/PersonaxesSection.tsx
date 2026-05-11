@@ -195,6 +195,7 @@ export default function PersonaxesSection() {
         <div style={{ display: 'grid', gridTemplateColumns: m ? 'repeat(2, 1fr)' : 'repeat(5, 1fr)', gap: m ? '12px' : '20px' }}>
           {chars.map((c, i) => (
             <motion.div key={c.id}
+              layoutId={`char-modal-${c.id}`}
               initial={{ opacity: 0, y: 60, scale: 0.94 }}
               animate={v ? { opacity: 1, y: 0, scale: 1 } : {}}
               transition={{ duration: 0.8, delay: 0.15 + i * 0.1, ease: [0.16, 1, 0.3, 1] }}
@@ -245,19 +246,26 @@ export default function PersonaxesSection() {
           >
             <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(8,8,13,0.92)', backdropFilter: 'blur(24px)' }} />
             <motion.div
+              layoutId={`char-modal-${selChar.id}`}
+              drag={m ? "y" : false}
+              dragConstraints={{ top: 0, bottom: 0 }}
+              dragElastic={0.4}
+              onDragEnd={(e, info) => {
+                if (info.offset.y > 100) setSel(null);
+              }}
               initial={{ scale: m ? 1 : 0.9, y: m ? 80 : 30, opacity: 0 }}
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: m ? 1 : 0.9, y: m ? 80 : 20, opacity: 0 }}
-              transition={{ type: 'spring', stiffness: 280, damping: 28 }}
+              transition={{ type: 'spring', stiffness: 350, damping: 30 }}
               onClick={e => e.stopPropagation()}
               style={{
                 position: 'relative', maxWidth: '900px', width: '100%',
-                maxHeight: m ? '95vh' : undefined, overflowY: m ? 'auto' : undefined,
+                maxHeight: m ? '95vh' : '85vh', overflowY: 'auto',
+                marginTop: m ? 0 : '80px',
                 background: 'linear-gradient(135deg, rgba(12,18,32,0.92) 0%, rgba(8,8,13,0.85) 100%)',
                 backdropFilter: 'blur(60px)', border: '1px solid rgba(255,255,255,0.1)',
                 borderTop: '1px solid rgba(255,255,255,0.2)',
                 borderRadius: m ? '24px 24px 0 0' : '28px',
-                overflow: m ? undefined : 'hidden',
                 boxShadow: '0 40px 100px rgba(0,0,0,0.7)',
               }}
             >
