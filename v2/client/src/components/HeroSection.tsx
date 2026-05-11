@@ -127,7 +127,7 @@ export default function HeroSection() {
           initial={{ opacity: 0 }}
           animate={mounted ? { opacity: 1 } : {}}
           transition={{ delay: 1.8, duration: 0.8 }}
-          style={{ display: 'flex', alignItems: 'center', gap: '12px' }}
+          style={{ position: 'absolute', bottom: '3.5rem', left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center', gap: '12px' }}
         >
           <motion.div
             animate={{ scaleY: [1, 0.4, 1] }}

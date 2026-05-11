@@ -196,6 +196,7 @@ export default function PersonaxesSection() {
         <div style={{ display: 'grid', gridTemplateColumns: m ? 'repeat(2, 1fr)' : 'repeat(5, 1fr)', gap: m ? '12px' : '20px' }}>
           {chars.map((c, i) => (
             <motion.div key={c.id}
+              layoutId={`char-modal-${c.id}`}
               initial={{ opacity: 0, y: 60, scale: 0.94 }}
               animate={v ? { opacity: 1, y: 0, scale: 1 } : {}}
               transition={{ duration: 0.8, delay: 0.15 + i * 0.1, ease: [0.16, 1, 0.3, 1] }}
@@ -248,15 +249,10 @@ export default function PersonaxesSection() {
             >
               <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(8,8,13,0.85)', backdropFilter: 'blur(16px)' }} />
               <motion.div
-                drag={m ? "y" : false}
-                dragConstraints={{ top: 0, bottom: 0 }}
-                dragElastic={0.2}
-                onDragEnd={(e, info) => {
-                  if (info.offset.y > 100) setSel(null);
-                }}
-                initial={m ? { y: '100%' } : { scale: 0.95, y: 40, opacity: 0 }}
-                animate={m ? { y: 0 } : { scale: 1, y: 0, opacity: 1 }}
-                exit={m ? { y: '100%' } : { scale: 0.95, y: 40, opacity: 0 }}
+                layoutId={`char-modal-${selChar.id}`}
+                initial={{ scale: 0.95, y: 40, opacity: 0 }}
+                animate={{ scale: 1, y: 0, opacity: 1 }}
+                exit={{ scale: 0.95, y: 40, opacity: 0 }}
                 transition={{ type: 'spring', damping: 26, stiffness: 260 }}
                 onClick={e => e.stopPropagation()}
                 style={{
@@ -287,11 +283,18 @@ export default function PersonaxesSection() {
                 >
                   <div style={{ display: m ? 'flex' : 'grid', flexDirection: m ? 'column' : undefined, gridTemplateColumns: m ? '1fr' : '2fr 3fr' }}>
                     {/* Imaxe */}
-                    <div style={{ position: 'relative', minHeight: m ? '55vh' : '500px', overflow: 'hidden', flexShrink: 0, borderRadius: m ? '32px 32px 0 0' : undefined }}>
+                    <motion.div 
+                      drag={m ? "y" : false}
+                      dragConstraints={{ top: 0, bottom: 0 }}
+                      dragElastic={0.4}
+                      onDragEnd={(e, info) => {
+                        if (info.offset.y > 60) setSel(null);
+                      }}
+                      style={{ position: 'relative', minHeight: m ? '55vh' : '500px', overflow: 'hidden', flexShrink: 0, borderRadius: m ? '32px 32px 0 0' : undefined, cursor: m ? 'grab' : 'default' }}>
                       <img src={selChar.img} alt={selChar.name}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.8)', display: 'block', minHeight: m ? '55vh' : '500px' }} />
-                      <div style={{ position: 'absolute', inset: 0, background: m ? 'linear-gradient(to bottom, transparent 40%, rgba(8,8,13,0.85) 100%)' : 'linear-gradient(to right, transparent 55%, rgba(8,8,13,0.95) 100%)' }} />
-                    </div>
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.8)', display: 'block', minHeight: m ? '55vh' : '500px', pointerEvents: 'none' }} />
+                      <div style={{ position: 'absolute', inset: 0, background: m ? 'linear-gradient(to bottom, transparent 40%, rgba(8,8,13,0.85) 100%)' : 'linear-gradient(to right, transparent 55%, rgba(8,8,13,0.95) 100%)', pointerEvents: 'none' }} />
+                    </motion.div>
 
                     {/* Contido */}
                     <div style={{ padding: m ? '1.5rem 1.5rem' : '3rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>

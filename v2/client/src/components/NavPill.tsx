@@ -41,7 +41,13 @@ export default function NavPill({ sections, activeIdx, onSelect }: NavPillProps)
 
           {/* Logo FB */}
           <button
-            onClick={() => onSelect(0)}
+            onClick={() => {
+              if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => console.log(err));
+              } else if (document.exitFullscreen) {
+                document.exitFullscreen();
+              }
+            }}
             style={{
               fontFamily: "'Cormorant Garamond', Georgia, serif",
               fontSize: '13px',
