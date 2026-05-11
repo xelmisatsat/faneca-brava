@@ -1,11 +1,13 @@
 import { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const LETTERS = "FANECA BRAVA".split("");
 
 export default function HeroSection() {
   const ref = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
+  const m = useIsMobile();
 
   useEffect(() => {
     const t = setTimeout(() => setMounted(true), 100);
@@ -28,7 +30,7 @@ export default function HeroSection() {
       </div>
 
       {/* Contido */}
-      <div style={{ position: 'relative', zIndex: 10, padding: '0 5rem', maxWidth: '1440px', margin: '0 auto', width: '100%' }}>
+      <div style={{ position: 'relative', zIndex: 10, padding: m ? '0 1.25rem' : '0 5rem', maxWidth: '1440px', margin: '0 auto', width: '100%' }}>
 
         {/* Etiqueta superior */}
         <motion.div
@@ -44,34 +46,41 @@ export default function HeroSection() {
             style={{ width: '48px', height: '1px', background: 'linear-gradient(90deg, #C8A96E, transparent)', transformOrigin: 'left' }}
           />
           <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', letterSpacing: '0.35em', textTransform: 'uppercase', color: '#C8A96E' }}>
-            Manuel Portas — Galaxia Gutenberg — 2024
+            Manuel Portas — Editorial Galaxia
           </span>
         </motion.div>
 
         {/* Título letra a letra */}
         <div style={{ marginBottom: '2rem', overflow: 'hidden' }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0' }}>
-            {LETTERS.map((l, i) => (
-              <motion.span
-                key={i}
-                initial={{ opacity: 0, y: 80, rotateX: -45 }}
-                animate={mounted ? { opacity: 1, y: 0, rotateX: 0 } : {}}
-                transition={{ duration: 0.8, delay: 0.4 + i * 0.04, ease: [0.16, 1, 0.3, 1] }}
-                style={{
-                  fontFamily: "'Cormorant Garamond', Georgia, serif",
-                  fontWeight: 300,
-                  fontSize: 'clamp(4rem, 10vw, 9.5rem)',
-                  lineHeight: 0.85,
-                  letterSpacing: '-0.03em',
-                  color: l === ' ' ? 'transparent' : (i >= 7 ? '#C8A96E' : '#EAE2D2'),
-                  display: 'inline-block',
-                  minWidth: l === ' ' ? '0.4em' : 'auto',
-                  transformStyle: 'preserve-3d',
-                  perspective: '800px',
-                }}
-              >
-                {l === ' ' ? '\u00A0' : l}
-              </motion.span>
+            {['FANECA', ' ', 'BRAVA'].map((word, wi) => (
+              <span key={wi} style={{ display: 'inline-flex', whiteSpace: 'nowrap' }}>
+                {word.split('').map((l, i) => {
+                  const globalIdx = wi === 0 ? i : (wi === 1 ? 7 : 7 + i);
+                  return (
+                    <motion.span
+                      key={`${wi}-${i}`}
+                      initial={{ opacity: 0, y: 80, rotateX: -45 }}
+                      animate={mounted ? { opacity: 1, y: 0, rotateX: 0 } : {}}
+                      transition={{ duration: 0.8, delay: 0.4 + globalIdx * 0.04, ease: [0.16, 1, 0.3, 1] }}
+                      style={{
+                        fontFamily: "'Cormorant Garamond', Georgia, serif",
+                        fontWeight: 300,
+                        fontSize: 'clamp(3rem, 10vw, 9.5rem)',
+                        lineHeight: 0.85,
+                        letterSpacing: '-0.03em',
+                        color: l === ' ' ? 'transparent' : (wi === 2 ? '#C8A96E' : '#EAE2D2'),
+                        display: 'inline-block',
+                        minWidth: l === ' ' ? '0.4em' : 'auto',
+                        transformStyle: 'preserve-3d',
+                        perspective: '800px',
+                      }}
+                    >
+                      {l === ' ' ? '\u00A0' : l}
+                    </motion.span>
+                  );
+                })}
+              </span>
             ))}
           </div>
         </div>
@@ -118,7 +127,7 @@ export default function HeroSection() {
           initial={{ opacity: 0 }}
           animate={mounted ? { opacity: 1 } : {}}
           transition={{ delay: 1.8, duration: 0.8 }}
-          style={{ display: 'flex', alignItems: 'center', gap: '12px' }}
+          style={{ position: 'absolute', bottom: '3.5rem', left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center', gap: '12px' }}
         >
           <motion.div
             animate={{ scaleY: [1, 0.4, 1] }}
@@ -131,6 +140,18 @@ export default function HeroSection() {
         </motion.div>
       </div>
 
+      {/* Créditos esquerda */}
+      <motion.div
+        initial={{ opacity: 0, x: -20 }}
+        animate={mounted ? { opacity: 1, x: 0 } : {}}
+        transition={{ delay: 2, duration: 0.8 }}
+        style={{ position: 'absolute', bottom: '3.5rem', left: '2.5rem', zIndex: 10, textAlign: 'left' }}
+      >
+        <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(234,226,210,0.45)', marginBottom: '2px' }}>Jun Sieira Gerpe</div>
+        <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(234,226,210,0.45)', marginBottom: '6px' }}>Álvaro Villar Gómez</div>
+        <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '9px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(200,169,110,0.5)' }}>4ESO A · XELMÍREZ I</div>
+      </motion.div>
+
       {/* Info lateral dereita */}
       <motion.div
         initial={{ opacity: 0, x: 20 }}
@@ -138,7 +159,7 @@ export default function HeroSection() {
         transition={{ delay: 2, duration: 0.8 }}
         style={{ position: 'absolute', bottom: '3.5rem', right: '2.5rem', zIndex: 10, textAlign: 'right' }}
       >
-        <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(139,155,180,0.4)', marginBottom: '4px' }}>GALICIA — 2024</div>
+        <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(139,155,180,0.4)', marginBottom: '4px' }}>GALICIA</div>
         <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(200,169,110,0.5)' }}>GALAXIA GUTENBERG</div>
       </motion.div>
     </section>

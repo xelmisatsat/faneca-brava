@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const FI = { hidden: { opacity: 0, y: 60, filter: 'blur(4px)' }, show: (d=0) => ({ opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.9, delay: d, ease: [0.16,1,0.3,1] } }) };
 const FL = { hidden: { opacity: 0, x: -70, filter: 'blur(6px)' }, show: (d=0) => ({ opacity: 1, x: 0, filter: 'blur(0px)', transition: { duration: 1.0, delay: d, ease: [0.16,1,0.3,1] } }) };
@@ -8,15 +9,16 @@ const SI = { hidden: { opacity: 0, scale: 0.85, filter: 'blur(8px)' }, show: (d=
 
 export default function SobreSection() {
   const [v, setV] = useState(false);
+  const m = useIsMobile();
   useEffect(() => { const t = setTimeout(() => setV(true), 80); return () => clearTimeout(t); }, []);
 
   const S = (props: any) => <motion.div variants={props.v} custom={props.d||0} initial="hidden" animate={v ? "show" : "hidden"} {...props} />;
 
   return (
-    <section style={{ position: 'relative', padding: '8rem 0 6rem', overflow: 'hidden' }}>
+    <section style={{ position: 'relative', padding: m ? '4rem 0 3rem' : '8rem 0 6rem', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 15% 50%, rgba(15,30,53,0.35) 0%, transparent 55%)' }} />
 
-      <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 5rem', position: 'relative', zIndex: 10 }}>
+      <div style={{ maxWidth: '1440px', margin: '0 auto', padding: m ? '0 1.25rem' : '0 5rem', position: 'relative', zIndex: 10 }}>
 
         {/* Cabeceira */}
         <S v={FI} d={0.1} style={{ marginBottom: '5rem' }}>
@@ -30,7 +32,7 @@ export default function SobreSection() {
         </S>
 
         {/* Grid principal */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr', gap: '6rem', alignItems: 'start', marginBottom: '6rem' }}>
+        <div style={{ display: m ? 'flex' : 'grid', flexDirection: m ? 'column' : undefined, gridTemplateColumns: m ? '1fr' : '1fr 1.4fr', gap: m ? '2rem' : '6rem', alignItems: 'start', marginBottom: m ? '3rem' : '6rem' }}>
 
           {/* Portada real */}
           <S v={FL} d={0.2}>
@@ -38,7 +40,7 @@ export default function SobreSection() {
               <motion.div
                 whileHover={{ scale: 1.02, rotateY: 3 }}
                 transition={{ duration: 0.5 }}
-                style={{ borderRadius: '20px', overflow: 'hidden', boxShadow: '0 30px 80px rgba(0,0,0,0.6)', transformStyle: 'preserve-3d', perspective: '1000px', maxWidth: '320px' }}
+                style={{ borderRadius: '20px', overflow: 'hidden', boxShadow: '0 30px 80px rgba(0,0,0,0.6)', transformStyle: 'preserve-3d', perspective: '1000px', maxWidth: m ? '220px' : '320px', margin: m ? '0 auto' : undefined }}
               >
                 <img src="/manus-storage/NEjJma6w5Oln_b68f9430.jpg" alt="Faneca Brava — Portada"
                   style={{ width: '100%', aspectRatio: '2/3', objectFit: 'cover', display: 'block' }} />
@@ -51,16 +53,16 @@ export default function SobreSection() {
                 transition={{ delay: 0.6, duration: 0.6 }}
                 whileHover={{ scale: 1.05, y: -4 }}
                 style={{
-                  position: 'absolute', bottom: '-24px', right: '-16px',
+                  position: 'absolute', bottom: '-24px', right: m ? '0px' : '-16px',
                   background: 'linear-gradient(135deg, rgba(255,255,255,0.11) 0%, rgba(255,255,255,0.05) 100%)',
                   backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.15)',
                   borderTop: '1px solid rgba(255,255,255,0.28)', borderRadius: '16px',
                   padding: '16px 20px', boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
                 }}
               >
-                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8B9BB4' }}>Publicación</div>
-                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '2.2rem', fontWeight: 300, color: '#C8A96E', lineHeight: 1.1, marginTop: '4px' }}>2024</div>
-                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', color: '#8B9BB4', marginTop: '2px' }}>Galaxia Gutenberg</div>
+                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8B9BB4' }}>Editorial</div>
+                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.8rem', fontWeight: 300, color: '#C8A96E', lineHeight: 1.1, marginTop: '4px' }}>Galaxia</div>
+                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', color: '#8B9BB4', marginTop: '2px' }}>Manuel Portas</div>
               </motion.div>
             </div>
           </S>
@@ -83,12 +85,12 @@ export default function SobreSection() {
 
             {/* Stats */}
             <S v={FI} d={0.5}>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '2.5rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: m ? '8px' : '16px', marginBottom: '2.5rem' }}>
                 {[{ l: 'Partes', v: 'III' }, { l: 'Ambientación', v: 'Galicia' }, { l: 'Época', v: '1960s' }].map((d, i) => (
-                  <motion.div key={i} whileHover={{ scale: 1.04, y: -3 }} transition={{ duration: 0.3 }}
-                    style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.04) 100%)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.12)', borderTop: '1px solid rgba(255,255,255,0.22)', borderRadius: '16px', padding: '20px', textAlign: 'center', boxShadow: '0 4px 20px rgba(0,0,0,0.3)' }}>
-                    <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '2.2rem', fontWeight: 300, color: '#C8A96E' }}>{d.v}</div>
-                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8B9BB4', marginTop: '6px' }}>{d.l}</div>
+                  <motion.div key={i} whileHover={m ? {} : { scale: 1.04, y: -3 }} transition={{ duration: 0.3 }}
+                    style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.04) 100%)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.12)', borderTop: '1px solid rgba(255,255,255,0.22)', borderRadius: m ? '12px' : '16px', padding: m ? '14px 8px' : '20px', textAlign: 'center', boxShadow: '0 4px 20px rgba(0,0,0,0.3)', overflow: 'hidden' }}>
+                    <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: m ? '1.5rem' : '2.2rem', fontWeight: 300, color: '#C8A96E' }}>{d.v}</div>
+                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: m ? '8px' : '10px', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#8B9BB4', marginTop: '6px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{d.l}</div>
                   </motion.div>
                 ))}
               </div>
@@ -120,9 +122,9 @@ export default function SobreSection() {
         <S v={FI} d={0.7}>
           <motion.div
             whileHover={{ scale: 1.005 }}
-            style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.04) 100%)', backdropFilter: 'blur(48px)', border: '1px solid rgba(255,255,255,0.12)', borderTop: '1px solid rgba(255,255,255,0.24)', borderRadius: '24px', padding: '4rem 5rem', boxShadow: '0 20px 60px rgba(0,0,0,0.4)' }}
+            style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.04) 100%)', backdropFilter: 'blur(48px)', border: '1px solid rgba(255,255,255,0.12)', borderTop: '1px solid rgba(255,255,255,0.24)', borderRadius: '24px', padding: m ? '2rem 1.5rem' : '4rem 5rem', boxShadow: '0 20px 60px rgba(0,0,0,0.4)' }}
           >
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5rem', alignItems: 'center' }}>
+            <div style={{ display: m ? 'flex' : 'grid', flexDirection: m ? 'column' : undefined, gridTemplateColumns: m ? '1fr' : '1fr 1fr', gap: m ? '2rem' : '5rem', alignItems: 'center' }}>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '1.5rem' }}>
                   <div style={{ width: '48px', height: '1px', background: 'linear-gradient(90deg, #C8A96E, transparent)' }} />

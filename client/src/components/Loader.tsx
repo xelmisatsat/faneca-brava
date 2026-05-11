@@ -95,11 +95,11 @@ export default function Loader({ onComplete }: LoaderProps) {
             </motion.p>
 
             {/* Título letra a letra */}
-            <div className="flex items-center justify-center gap-0 overflow-hidden">
+            <div className="flex items-center justify-center flex-wrap overflow-hidden" style={{ padding: '0 1rem' }}>
               {letters.map((letter, i) => (
                 <motion.span
                   key={i}
-                  className="font-display text-6xl md:text-8xl lg:text-9xl font-light"
+                  className="font-display text-[clamp(2.5rem,10vw,7rem)] font-light"
                   style={{
                     color: letter === ' ' ? 'transparent' : '#E8E0D0',
                     letterSpacing: letter === ' ' ? '0.3em' : '-0.02em',

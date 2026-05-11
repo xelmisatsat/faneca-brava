@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const G = {
   background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%)',
@@ -13,8 +14,8 @@ const G = {
 const fichaItems = [
   { label: "Título",       value: "Faneca Brava" },
   { label: "Autor",        value: "Manuel Portas" },
-  { label: "Editorial",    value: "Galaxia Gutenberg" },
-  { label: "Ano",          value: "2024" },
+  { label: "Editorial",    value: "Editorial Galaxia" },
+  { label: "Publicación",  value: "11 de abril de 2013" },
   { label: "Lingua",       value: "Galego" },
   { label: "Xénero",       value: "Novela de memoria" },
   { label: "Partes",       value: "III" },
@@ -29,13 +30,14 @@ const temas = [
 
 export default function LibroSection() {
   const [v, setV] = useState(false);
+  const m = useIsMobile();
   useEffect(() => { const t = setTimeout(() => setV(true), 80); return () => clearTimeout(t); }, []);
 
   return (
-    <section style={{ position: 'relative', padding: '7rem 0 5rem', overflow: 'hidden' }}>
+    <section style={{ position: 'relative', padding: m ? '4rem 0 3rem' : '7rem 0 5rem', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 20% 50%, rgba(13,27,42,0.3) 0%, transparent 55%)' }} />
 
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 4rem', position: 'relative', zIndex: 10 }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: m ? '0 1.25rem' : '0 4rem', position: 'relative', zIndex: 10 }}>
 
         {/* Cabeceira */}
         <motion.div initial={{ opacity: 0, y: 40 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.9 }} style={{ marginBottom: '4rem' }}>
@@ -49,7 +51,7 @@ export default function LibroSection() {
         </motion.div>
 
         {/* Grid: portada + info */}
-        <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: '4rem', alignItems: 'start', marginBottom: '3rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: m ? '1fr' : '260px 1fr', gap: '4rem', alignItems: 'start', marginBottom: '3rem' }}>
 
           {/* Portada real */}
           <motion.div initial={{ opacity: 0, x: -50 }} animate={v ? { opacity: 1, x: 0 } : {}} transition={{ duration: 1, ease: [0.16,1,0.3,1] }}>
@@ -72,7 +74,7 @@ export default function LibroSection() {
             {/* Ficha técnica */}
             <div style={{ ...G, padding: '28px 32px', marginBottom: '2rem' }}>
               <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.4rem', fontWeight: 300, color: '#EAE2D2', marginBottom: '20px' }}>Ficha Técnica</div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: m ? '1fr' : '1fr 1fr', gap: '0' }}>
                 {fichaItems.map((item, i) => (
                   <div key={i} style={{ padding: '12px 0', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                     <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8B9BB4', marginBottom: '4px' }}>{item.label}</div>
@@ -111,7 +113,7 @@ export default function LibroSection() {
         {/* Estrutura da novela */}
         <motion.div initial={{ opacity: 0, y: 30 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.9, delay: 0.5 }}>
           <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.4rem', fontWeight: 300, color: '#EAE2D2', marginBottom: '20px' }}>Estrutura da Novela</div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: m ? '1fr' : 'repeat(3, 1fr)', gap: '16px' }}>
             {[
               { num: "Parte I",   title: "Estirpe",            desc: "A familia Pereira, os seus segredos e o pasado silenciado. A infancia de Concha na vila mariñeira galega." },
               { num: "Parte II",  title: "A Obsesión",         desc: "Fernando investiga. A verdade sobre Concha emerxe fragmento a fragmento a través de Andreu Picart e a tía Lela." },

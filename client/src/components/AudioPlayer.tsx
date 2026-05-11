@@ -22,8 +22,8 @@ interface AudioPlayerProps {
 }
 
 export default function AudioPlayer({ sectionId, inline }: AudioPlayerProps) {
-  const [muted, setMuted] = useState(true);
-  const [playing, setPlaying] = useState(false);
+  const [muted, setMuted] = useState(false);
+  const [playing, setPlaying] = useState(true);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const currentTrackRef = useRef<string>("");
   const fadeIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -36,6 +36,49 @@ export default function AudioPlayer({ sectionId, inline }: AudioPlayerProps) {
       audio.volume = 0;
       audioRef.current = audio;
       currentTrackRef.current = SECTION_MUSIC[sectionId] || SECTION_MUSIC.hero;
+
+      // Intentar autoplay
+      audio.play().then(() => {
+        // Fade in se funciona o autoplay
+        if (fadeIntervalRef.current) clearInterval(fadeIntervalRef.current);
+        fadeIntervalRef.current = setInterval(() => {
+          if (audio.volume < 0.28) {
+            audio.volume = Math.min(0.3, audio.volume + 0.02);
+          } else {
+            if (fadeIntervalRef.current) clearInterval(fadeIntervalRef.current);
+          }
+        }, 40);
+      }).catch((err) => {
+        // Autoplay bloqueado polo navegador
+        console.warn("Autoplay blocked. Waiting for user interaction.", err);
+        setMuted(true);
+        setPlaying(false);
+
+        // Escoitar o primeiro click/toque para iniciar inmersión
+        const startAudioOnInteraction = () => {
+          setMuted(false);
+          setPlaying(true);
+          audio.play().then(() => {
+            if (fadeIntervalRef.current) clearInterval(fadeIntervalRef.current);
+            fadeIntervalRef.current = setInterval(() => {
+              if (audio.volume < 0.28) {
+                audio.volume = Math.min(0.3, audio.volume + 0.02);
+              } else {
+                if (fadeIntervalRef.current) clearInterval(fadeIntervalRef.current);
+              }
+            }, 40);
+          }).catch(() => {});
+        };
+
+        // Usa 'capture: true' para que intercepte calquera evento antes de que se propague
+        document.addEventListener('click', startAudioOnInteraction, { once: true, capture: true });
+        document.addEventListener('touchstart', startAudioOnInteraction, { once: true, capture: true });
+        
+        return () => {
+          document.removeEventListener('click', startAudioOnInteraction, { capture: true });
+          document.removeEventListener('touchstart', startAudioOnInteraction, { capture: true });
+        };
+      });
     }
   }, []);
 

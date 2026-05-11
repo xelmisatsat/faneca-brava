@@ -1,4 +1,5 @@
 import { motion, useInView } from "framer-motion";
+import { useIsMobile } from "@/hooks/useIsMobile";
 import { useRef } from "react";
 
 export default function Footer() {
@@ -38,7 +39,7 @@ export default function Footer() {
                   <p className="font-body text-sm leading-relaxed" style={{ color: '#8B9BB4' }}>
                     <strong style={{ color: '#C8A96E' }}>Faneca Brava</strong><br />
                     Manuel Portas<br />
-                    Galaxia Gutenberg, 2024<br />
+                    Editorial Galaxia<br />
                     Novela en galego
                   </p>
                 </>
@@ -75,7 +76,7 @@ export default function Footer() {
             FANECA BRAVA
           </p>
           <p className="font-body text-xs" style={{ color: 'rgba(139,155,180,0.45)' }}>
-            Experiencia inmersiva baseada na novela de Manuel Portas — 2024
+            Experiencia inmersiva baseada na novela de Manuel Portas
           </p>
         </div>
       </div>

@@ -1,11 +1,11 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
 /* ============================================================
-   FANECA BRAVA — SISTEMA DE DESEÑO v2
-   Neo-Noir Atlántico + Liquid Glass Apple visionOS
+   FANECA BRAVA â€” SISTEMA DE DESEÃ‘O v2
+   Neo-Noir AtlÃ¡ntico + Liquid Glass Apple visionOS
    ============================================================ */
 
 @theme inline {
@@ -83,14 +83,14 @@ body {
 }
 
 /* ============================================================
-   TIPOGRAFÍA
+   TIPOGRAFÃA
    ============================================================ */
 .font-display { font-family: 'Cormorant Garamond', Georgia, serif; }
 .font-accent  { font-family: 'Playfair Display', Georgia, serif; }
 .font-body    { font-family: 'DM Sans', system-ui, sans-serif; }
 
 /* ============================================================
-   LIQUID GLASS — APPLE visionOS STYLE
+   LIQUID GLASS â€” APPLE visionOS STYLE
    ============================================================ */
 
 /* Base glass */
@@ -165,7 +165,7 @@ body {
 }
 
 /* ============================================================
-   BARRA DE NAVEGACIÓN PÍLDORA — PREMIUM GLASSMORPHISM
+   BARRA DE NAVEGACIÃ“N PÃLDORA â€” PREMIUM GLASSMORPHISM
    ============================================================ */
 .nav-pill {
   background: linear-gradient(135deg,
@@ -205,7 +205,7 @@ body {
 }
 
 /* ============================================================
-   GRAIN CINEMATOGRÁFICO
+   GRAIN CINEMATOGRÃFICO
    ============================================================ */
 .grain-overlay {
   position: fixed;
@@ -324,7 +324,7 @@ body {
   box-shadow: 0 20px 60px rgba(0,0,0,0.5);
 }
 
-/* Animacións de entrada */
+/* AnimaciÃ³ns de entrada */
 .fade-up { opacity: 0; transform: translateY(40px); }
 .fade-in  { opacity: 0; }
 
@@ -356,3 +356,4 @@ body {
     }
   }
 }
+body[data-modal-open="true"] #nav-pill-wrapper { opacity: 0 !important; pointer-events: none !important; }
