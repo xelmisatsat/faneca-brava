@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useIsMobile } from "@/hooks/useIsMobile";
 
 const FI = { hidden: { opacity: 0, y: 60, filter: 'blur(4px)' }, show: (d=0) => ({ opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.9, delay: d, ease: [0.16,1,0.3,1] } }) };
@@ -9,6 +9,7 @@ const SI = { hidden: { opacity: 0, scale: 0.85, filter: 'blur(8px)' }, show: (d=
 
 export default function SobreSection() {
   const [v, setV] = useState(false);
+  const [eggOpen, setEggOpen] = useState(false);
   const m = useIsMobile();
   useEffect(() => { const t = setTimeout(() => setV(true), 80); return () => clearTimeout(t); }, []);
 
@@ -142,14 +143,56 @@ export default function SobreSection() {
                   </p>
                 </div>
               </div>
-              <motion.div whileHover={{ scale: 1.04, rotate: 1 }} transition={{ duration: 0.5 }} style={{ display: 'flex', justifyContent: 'center' }}>
+              <motion.div whileHover={{ scale: 1.04, rotate: 1 }} transition={{ duration: 0.5 }} style={{ display: 'flex', justifyContent: 'center', position: 'relative' }}>
                 <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-fish-symbol-E7vMKvYwMdCi78mpRShCVc.webp"
                   alt="A Faneca Brava" style={{ width: '280px', height: '280px', objectFit: 'cover', borderRadius: '20px', filter: 'brightness(0.85) saturate(0.8)', boxShadow: '0 20px 50px rgba(0,0,0,0.5)' }} />
+                {/* O Easter Egg */}
+                <motion.div
+                  onClick={() => setEggOpen(true)}
+                  style={{ position: 'absolute', top: '40%', right: '25%', width: '12px', height: '12px', cursor: 'pointer', zIndex: 20 }}
+                  animate={{ opacity: [0, 0.4, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                >
+                  <div style={{ width: '2px', height: '2px', background: '#C8A96E', borderRadius: '50%', margin: '5px auto' }} />
+                </motion.div>
               </motion.div>
             </div>
           </motion.div>
         </S>
       </div>
+
+      {/* Modal do Easter Egg */}
+      <AnimatePresence>
+        {eggOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(8,8,13,0.95)', backdropFilter: 'blur(10px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}
+            onClick={() => setEggOpen(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+              onClick={(e) => e.stopPropagation()}
+              style={{ background: '#0C1220', border: '1px solid rgba(200,169,110,0.3)', borderRadius: '16px', padding: m ? '2rem' : '4rem', maxWidth: '600px', boxShadow: '0 30px 100px rgba(0,0,0,0.8)' }}
+            >
+              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'rgba(200,169,110,0.6)', marginBottom: '1rem' }}>Arquivo Oculto</div>
+              <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '2rem', color: '#EAE2D2', marginBottom: '1.5rem', lineHeight: 1.1 }}>A Culpa de Mamá Carme</h3>
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '1.05rem', color: 'rgba(234,226,210,0.8)', lineHeight: 1.8, marginBottom: '2rem' }}>
+                "As malleiras da mestra non foron o peor. O peor foi que ela o sabía. Sabíao todo e miraba cara outro lado para salvar as aparencias. Mamá Carme foi a verdadeira arquitecta do meu desterro."
+              </p>
+              <button
+                onClick={() => setEggOpen(false)}
+                style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '12px', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#08080D', background: '#C8A96E', border: 'none', padding: '10px 24px', borderRadius: '4px', cursor: 'pointer' }}
+              >
+                Esquecer
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
