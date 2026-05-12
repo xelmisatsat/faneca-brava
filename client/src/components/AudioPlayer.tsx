@@ -100,6 +100,7 @@ export default function AudioPlayer({ sectionId, inline }: AudioPlayerProps) {
           if (fadeIntervalRef.current) clearInterval(fadeIntervalRef.current);
           // Cambiar pista
           audio.src = newTrack;
+          audio.loop = true; // Forza o bucle sempre
           audio.load();
           currentTrackRef.current = newTrack;
           audio.play().then(() => {
@@ -117,9 +118,16 @@ export default function AudioPlayer({ sectionId, inline }: AudioPlayerProps) {
     } else {
       // Se non está tocando, só cambiar a pista
       audio.src = newTrack;
+      audio.loop = true; // Forza o bucle sempre
       audio.load();
       currentTrackRef.current = newTrack;
     }
+    
+    // Fallback de seguridade por se falla o atributo loop nalgún navegador
+    audio.onended = () => {
+      audio.currentTime = 0;
+      audio.play().catch(() => {});
+    };
   }, [sectionId, playing, muted]);
 
   const toggleMute = () => {
