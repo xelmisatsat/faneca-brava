@@ -1,4 +1,4 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
@@ -357,19 +357,3 @@ body {
   }
 }
 body[data-modal-open="true"] #nav-pill-wrapper { opacity: 0 !important; pointer-events: none !important; }
-
-/* ============================================================
-   OPTIMIZACIÓN PARA REALIDADE VIRTUAL (META QUEST / WEBXR)
-   Asegura que os controladores espaciais funcionen nativamente sen conflito co cursor customizado.
-   ============================================================ */
-@media (pointer: coarse), (any-pointer: coarse) {
-  /* Desactivar o cursor customizado nas gafas VR ou móbiles, permitindo o punteiro láser nativo */
-  body, button, a, [role="button"], .custom-cursor { cursor: auto !important; }
-  .custom-cursor { display: none !important; }
-  
-  /* Ampliar sutilmente a área de interacción dos botóns da NavPill para o láser */
-  .nav-pill button {
-    padding-top: 12px !important;
-    padding-bottom: 12px !important;
-  }
-}
