@@ -16,7 +16,7 @@ export default function SobreSection() {
   const S = (props: any) => <motion.div variants={props.v} custom={props.d||0} initial="hidden" animate={v ? "show" : "hidden"} {...props} />;
 
   return (
-    <section style={{ position: 'relative', padding: m ? '4rem 0 3rem' : '8rem 0 6rem', overflow: 'hidden' }}>
+    <section style={{ position: 'relative', padding: m ? '4rem 0 3rem' : '8rem 0 6rem' }}>
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 15% 50%, rgba(15,30,53,0.35) 0%, transparent 55%)' }} />
 
       <div style={{ maxWidth: '1440px', margin: '0 auto', padding: m ? '0 1.25rem' : '0 5rem', position: 'relative', zIndex: 10 }}>
@@ -54,11 +54,12 @@ export default function SobreSection() {
                 transition={{ delay: 0.6, duration: 0.6 }}
                 whileHover={{ scale: 1.05, y: -4 }}
                 style={{
-                  position: 'absolute', 
-                  bottom: m ? '-15px' : '-24px', 
+                  position: m ? 'relative' : 'absolute', 
+                  bottom: m ? 'auto' : '-24px', 
                   right: m ? 'auto' : '-16px',
-                  left: m ? '50%' : 'auto',
-                  transform: m ? 'translateX(-50%)' : 'none',
+                  left: 'auto',
+                  transform: 'none',
+                  marginTop: m ? '1rem' : 0,
                   background: 'linear-gradient(135deg, rgba(255,255,255,0.11) 0%, rgba(255,255,255,0.05) 100%)',
                   backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.15)',
                   borderTop: '1px solid rgba(255,255,255,0.28)', borderRadius: '16px',
@@ -151,15 +152,12 @@ export default function SobreSection() {
               <motion.div whileHover={{ scale: 1.04, rotate: 1 }} transition={{ duration: 0.5 }} style={{ display: 'flex', justifyContent: 'center', position: 'relative' }}>
                 <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-fish-symbol-E7vMKvYwMdCi78mpRShCVc.webp"
                   alt="A Faneca Brava" style={{ width: '280px', height: '280px', objectFit: 'cover', borderRadius: '20px', filter: 'brightness(0.85) saturate(0.8)', boxShadow: '0 20px 50px rgba(0,0,0,0.5)' }} />
-                {/* O Easter Egg */}
-                <motion.div
+                {/* O Easter Egg - Ollo da Faneca */}
+                <div
                   onClick={() => setEggOpen(true)}
-                  style={{ position: 'absolute', top: '40%', right: '15%', width: '40px', height: '40px', cursor: 'pointer', zIndex: 20, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                  animate={{ opacity: [0.6, 1, 0.6], scale: [1, 1.15, 1] }}
-                  transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
-                >
-                  <div style={{ width: '14px', height: '14px', background: '#C8A96E', borderRadius: '50%', boxShadow: '0 0 25px #C8A96E, 0 0 50px #C8A96E' }} />
-                </motion.div>
+                  style={{ position: 'absolute', top: '55%', left: '15%', width: '80px', height: '60px', cursor: 'pointer', zIndex: 20 }}
+                  title="O Segredo"
+                />
               </motion.div>
             </div>
           </motion.div>
