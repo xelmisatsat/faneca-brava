@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { MapContainer, TileLayer, Marker, Polyline } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import { useIsMobile } from "@/hooks/useIsMobile";
 
 const stages = [
@@ -46,6 +49,32 @@ const stages = [
     bg: "rgba(18,22,28,0.85)",
   },
 ];
+
+const galiciaPos: [number, number] = [42.8806, -8.5446]; // Santiago de Compostela
+const barcelonaPos: [number, number] = [41.3851, 2.1734]; // Barcelona
+
+const getCurvePoints = (start: [number, number], end: [number, number], offset: number = 3.5) => {
+  const points: [number, number][] = [];
+  const midLat = (start[0] + end[0]) / 2 + offset;
+  const midLng = (start[1] + end[1]) / 2;
+
+  for (let t = 0; t <= 1; t += 0.05) {
+    const lat = (1 - t) * (1 - t) * start[0] + 2 * (1 - t) * t * midLat + t * t * end[0];
+    const lng = (1 - t) * (1 - t) * start[1] + 2 * (1 - t) * t * midLng + t * t * end[1];
+    points.push([lat, lng]);
+  }
+  return points;
+};
+
+const createGoldenIcon = (active: boolean, label: string) => L.divIcon({
+  className: 'custom-div-icon',
+  html: `<div style="position: relative;">
+           <div style="width: 16px; height: 16px; background: ${active ? '#C8A96E' : 'rgba(200,169,110,0.3)'}; border-radius: 50%; box-shadow: ${active ? '0 0 20px #C8A96E' : 'none'}; border: 2px solid ${active ? '#fff' : 'rgba(255,255,255,0.2)'}; position: absolute; top: -8px; left: -8px; transition: all 0.3s ease;"></div>
+           <div style="position: absolute; top: 12px; left: -50%; transform: translateX(-20%); font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: bold; letter-spacing: 0.15em; color: ${active ? '#C8A96E' : '#8B9BB4'}; white-space: nowrap; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">${label}</div>
+         </div>`,
+  iconSize: [0, 0],
+  iconAnchor: [0, 0],
+});
 
 export default function TimelineSection() {
   const [v, setV] = useState(false);
@@ -229,34 +258,46 @@ export default function TimelineSection() {
                   alignItems: 'center',
                   boxShadow: '0 20px 60px rgba(0,0,0,0.5)'
                 }}>
-                  {/* Mapa visual sinxelo */}
-                  <div style={{ flex: 1, position: 'relative', width: '100%', height: m ? '180px' : '280px', border: '1px solid rgba(200,169,110,0.2)', borderRadius: '16px', background: 'radial-gradient(circle at center, rgba(200,169,110,0.05), transparent)' }}>
-                    {/* Liña de conexión */}
-                    <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
-                      <motion.path
-                        initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.5, delay: 0.5 }}
-                        d={m ? "M 50 40 Q 150 90 250 140" : "M 100 140 Q 300 80 500 140"}
-                        stroke="rgba(200,169,110,0.3)" strokeWidth="2" strokeDasharray="5,5" fill="none"
+                  {/* Mapa interactivo OpenStreetMap */}
+                  <div style={{ flex: 1, width: '100%', height: m ? '300px' : '380px', borderRadius: '16px', overflow: 'hidden', border: '1px solid rgba(200,169,110,0.2)', position: 'relative', zIndex: 1 }}>
+                    <MapContainer
+                      center={[42.0, -3.0]}
+                      zoom={m ? 5 : 6}
+                      zoomControl={false}
+                      scrollWheelZoom={false}
+                      style={{ width: '100%', height: '100%', background: '#0a0a0a' }}
+                      attributionControl={false}
+                    >
+                      <TileLayer
+                        url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
                       />
-                    </svg>
-                    
-                    {/* Punto Galicia */}
-                    <motion.div
-                      whileHover={{ scale: 1.2 }} onClick={() => setActiveCity('galicia')}
-                      style={{ position: 'absolute', left: m ? '40px' : '90px', top: m ? '30px' : '130px', cursor: 'pointer' }}
-                    >
-                      <div style={{ width: '20px', height: '20px', background: activeCity === 'galicia' ? '#C8A96E' : 'rgba(255,255,255,0.2)', borderRadius: '50%', boxShadow: activeCity === 'galicia' ? '0 0 20px #C8A96E' : 'none', transition: 'all 0.3s ease' }} />
-                      <div style={{ position: 'absolute', top: '25px', left: '-15px', fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.2em', color: activeCity === 'galicia' ? '#C8A96E' : '#8B9BB4' }}>GALICIA</div>
-                    </motion.div>
+                      
+                      {/* Curva de conexión */}
+                      <Polyline
+                        positions={getCurvePoints(galiciaPos, barcelonaPos, m ? 4.5 : 3.5)}
+                        color="rgba(200,169,110,0.5)"
+                        weight={2}
+                        dashArray="6, 6"
+                      />
 
-                    {/* Punto Barcelona */}
-                    <motion.div
-                      whileHover={{ scale: 1.2 }} onClick={() => setActiveCity('barcelona')}
-                      style={{ position: 'absolute', right: m ? '40px' : '90px', bottom: m ? '30px' : '130px', cursor: 'pointer' }}
-                    >
-                      <div style={{ width: '20px', height: '20px', background: activeCity === 'barcelona' ? '#C8A96E' : 'rgba(255,255,255,0.2)', borderRadius: '50%', boxShadow: activeCity === 'barcelona' ? '0 0 20px #C8A96E' : 'none', transition: 'all 0.3s ease' }} />
-                      <div style={{ position: 'absolute', top: '25px', left: '-25px', fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.2em', color: activeCity === 'barcelona' ? '#C8A96E' : '#8B9BB4' }}>BARCELONA</div>
-                    </motion.div>
+                      {/* Marcador Galicia */}
+                      <Marker
+                        position={galiciaPos}
+                        icon={createGoldenIcon(activeCity === 'galicia', 'GALICIA')}
+                        eventHandlers={{
+                          click: () => setActiveCity('galicia'),
+                        }}
+                      />
+
+                      {/* Marcador Barcelona */}
+                      <Marker
+                        position={barcelonaPos}
+                        icon={createGoldenIcon(activeCity === 'barcelona', 'BARCELONA')}
+                        eventHandlers={{
+                          click: () => setActiveCity('barcelona'),
+                        }}
+                      />
+                    </MapContainer>
                   </div>
 
                   {/* Texto dinámico */}
