@@ -1,19 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
-// Música por sección — galega tradicional nas máis importantes
+// Música por sección — cancións seleccionadas polo autor
 const SECTION_MUSIC: Record<string, string> = {
-  hero:       "/manus-storage/music-hero_8cb331ab.mp3",
-  sobre:      "/manus-storage/music-galega-trad_8407bfe4.mp3",
-  historia:   "/manus-storage/music-galega-trad_8407bfe4.mp3",
-  personaxes: "/manus-storage/music-personaxes_cc141ca2.mp3",
-  galeria:    "/manus-storage/music-galeria_9feedf8a.mp3",
-  timeline:   "/manus-storage/music-historia_428d5e7d.mp3",
-  arquivo:    "/manus-storage/music-personaxes_cc141ca2.mp3",
-  libro:      "/manus-storage/music-galega-trad_8407bfe4.mp3",
-  autor:      "/manus-storage/music-historia_428d5e7d.mp3",
-  conversa:   "/manus-storage/music-hero_8cb331ab.mp3",
-  mercar:     "/manus-storage/music-galeria_9feedf8a.mp3",
+  hero:       "/audios/kamin-inicio.mp3",    // KAMIN INICIO — primeira sección
+  sobre:      "/audios/arcade.mp3",           // Duncan Laurence — Arcade
+  historia:   "/audios/middleofthenight.mp3", // Middle Of The Night
+  personaxes: "/audios/focus.mp3",            // FOCUS Slowed & Reverb
+  galeria:    "/audios/tiki.mp3",             // TIKI TIKI SLOWED
+  timeline:   "/audios/headlights.mp3",       // Alan Walker — Headlights
+  arquivo:    "/audios/revenge.mp3",          // REVENGE Super Slowed
+  libro:      "/audios/nevada.mp3",           // Vicetone — Nevada
+  autor:      "/audios/voce.mp3",             // VOCE NA MIRA
+  conversa:   "/audios/montagem.mp3",         // MONTAGEM PEGADORA
+  mercar:     "/audios/kamin-final.mp3",      // KAMIN FINAL — última sección
 };
 
 interface AudioPlayerProps {
