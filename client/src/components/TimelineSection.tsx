@@ -259,13 +259,13 @@ export default function TimelineSection() {
                   boxShadow: '0 20px 60px rgba(0,0,0,0.5)'
                 }}>
                   {/* Mapa interactivo OpenStreetMap */}
-                  <div style={{ flex: m ? 'none' : 1, width: '100%', height: m ? '300px' : '380px', minHeight: m ? '300px' : '380px', borderRadius: '16px', overflow: 'hidden', border: '1px solid rgba(200,169,110,0.2)', position: 'relative', zIndex: 1 }}>
+                  <div style={{ flex: m ? 'none' : 1, width: '100%', height: m ? '320px' : '380px', minHeight: m ? '320px' : '380px', display: 'block', borderRadius: '16px', overflow: 'hidden', border: '1px solid rgba(200,169,110,0.2)', position: 'relative', zIndex: 1 }}>
                     <MapContainer
                       center={[42.0, -3.0]}
                       zoom={m ? 5 : 6}
                       zoomControl={false}
                       scrollWheelZoom={false}
-                      style={{ width: '100%', height: '100%', background: '#0a0a0a' }}
+                      style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: '#0a0a0a' }}
                       attributionControl={false}
                     >
                       <TileLayer

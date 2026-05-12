@@ -54,7 +54,11 @@ export default function SobreSection() {
                 transition={{ delay: 0.6, duration: 0.6 }}
                 whileHover={{ scale: 1.05, y: -4 }}
                 style={{
-                  position: 'absolute', bottom: m ? '-30px' : '-24px', right: m ? '-10px' : '-16px',
+                  position: 'absolute', 
+                  bottom: m ? '-15px' : '-24px', 
+                  right: m ? 'auto' : '-16px',
+                  left: m ? '50%' : 'auto',
+                  transform: m ? 'translateX(-50%)' : 'none',
                   background: 'linear-gradient(135deg, rgba(255,255,255,0.11) 0%, rgba(255,255,255,0.05) 100%)',
                   backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.15)',
                   borderTop: '1px solid rgba(255,255,255,0.28)', borderRadius: '16px',
@@ -150,11 +154,11 @@ export default function SobreSection() {
                 {/* O Easter Egg */}
                 <motion.div
                   onClick={() => setEggOpen(true)}
-                  style={{ position: 'absolute', top: '40%', right: '25%', width: '30px', height: '30px', cursor: 'pointer', zIndex: 20 }}
-                  animate={{ opacity: [0.4, 0.9, 0.4], scale: [1, 1.2, 1] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                  style={{ position: 'absolute', top: '40%', right: '15%', width: '40px', height: '40px', cursor: 'pointer', zIndex: 20, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                  animate={{ opacity: [0.6, 1, 0.6], scale: [1, 1.15, 1] }}
+                  transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
                 >
-                  <div style={{ width: '8px', height: '8px', background: '#C8A96E', borderRadius: '50%', margin: '11px auto', boxShadow: '0 0 12px #C8A96E' }} />
+                  <div style={{ width: '14px', height: '14px', background: '#C8A96E', borderRadius: '50%', boxShadow: '0 0 25px #C8A96E, 0 0 50px #C8A96E' }} />
                 </motion.div>
               </motion.div>
             </div>
