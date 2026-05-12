@@ -1,0 +1,23 @@
+# Project TODO — Faneca Brava
+
+- [x] Sistema de cores e tipografía (Neo-Noir Atlántico)
+- [x] CSS Liquid Glass de Apple (glassmorphism avanzado)
+- [x] Loader cinematográfico con animación de revelado
+- [x] Hero Section con vídeo de fondo e texto xigante
+- [x] Navegación flotante con Liquid Glass e indicador lateral
+- [x] Sección "A Novela" con información do libro
+- [x] Sección Personaxes con cards Liquid Glass e modal
+- [x] Galería Corsaria con scroll horizontal
+- [x] Timeline cronolóxica vertical animada
+- [x] Arquivo Emocional con tabs interactivos
+- [x] Chat IA con personaxes via OpenRouter minimax
+- [x] Partículas 3D con Three.js (fondo reactivo)
+- [x] Cursor personalizado
+- [x] Grain cinematográfico overlay
+- [x] Footer con frase final
+- [x] Smooth scroll con Lenis
+- [x] Framer Motion animacións en todas as seccións
+- [x] Responsive design
+- [x] Imaxes xeradas con IA (nano-banana-2)
+- [x] Vídeo atmosférico xerado con Veo
+- [x] Configurar API key de OpenRouter para chat IA

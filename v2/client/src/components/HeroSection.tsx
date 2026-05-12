@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useIsMobile } from "@/hooks/useIsMobile";
-
+import { Share2 } from "lucide-react";
 const LETTERS = "FANECA BRAVA".split("");
 
 export default function HeroSection() {
@@ -13,6 +13,24 @@ export default function HeroSection() {
     const t = setTimeout(() => setMounted(true), 100);
     return () => clearTimeout(t);
   }, []);
+
+  const handleShare = async () => {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: 'Faneca Brava — Manuel Portas',
+          text: 'Todas as familias agochan cadáveres na memoria. Descobre a historia en Faneca Brava.',
+          url: window.location.href,
+        });
+      } else {
+        // Fallback para escritorio sen share api
+        await navigator.clipboard.writeText(window.location.href);
+        alert('Enlace copiado ao portapapeis!');
+      }
+    } catch (err) {
+      console.log('Error sharing', err);
+    }
+  };
 
   return (
     <section ref={ref} style={{
@@ -162,6 +180,43 @@ export default function HeroSection() {
         <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(139,155,180,0.4)', marginBottom: '4px' }}>GALICIA</div>
         <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(200,169,110,0.5)' }}>GALAXIA GUTENBERG</div>
       </motion.div>
+
+      {/* Botón de Compartir (Top Right) */}
+      <motion.button
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={mounted ? { opacity: 1, scale: 1 } : {}}
+        transition={{ delay: 2.2, duration: 0.8 }}
+        onClick={handleShare}
+        style={{
+          position: 'absolute',
+          top: m ? '1.5rem' : '2.5rem',
+          right: m ? '1.5rem' : '2.5rem',
+          zIndex: 50,
+          background: 'rgba(255,255,255,0.03)',
+          border: '1px solid rgba(200,169,110,0.2)',
+          borderRadius: '50%',
+          width: '44px',
+          height: '44px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backdropFilter: 'blur(10px)',
+          cursor: 'none',
+          color: 'rgba(200,169,110,0.8)',
+          transition: 'all 0.3s ease',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = 'rgba(200,169,110,0.1)';
+          e.currentTarget.style.border = '1px solid rgba(200,169,110,0.5)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = 'rgba(255,255,255,0.03)';
+          e.currentTarget.style.border = '1px solid rgba(200,169,110,0.2)';
+        }}
+        aria-label="Compartir"
+      >
+        <Share2 size={18} strokeWidth={1.5} />
+      </motion.button>
     </section>
   );
 }

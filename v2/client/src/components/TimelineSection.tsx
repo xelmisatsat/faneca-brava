@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { MapContainer, TileLayer, Marker, Polyline } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import { useIsMobile } from "@/hooks/useIsMobile";
 
 const stages = [
@@ -47,8 +50,36 @@ const stages = [
   },
 ];
 
+const galiciaPos: [number, number] = [42.8806, -8.5446]; // Santiago de Compostela
+const barcelonaPos: [number, number] = [41.3851, 2.1734]; // Barcelona
+
+const getCurvePoints = (start: [number, number], end: [number, number], offset: number = 3.5) => {
+  const points: [number, number][] = [];
+  const midLat = (start[0] + end[0]) / 2 + offset;
+  const midLng = (start[1] + end[1]) / 2;
+
+  for (let t = 0; t <= 1; t += 0.05) {
+    const lat = (1 - t) * (1 - t) * start[0] + 2 * (1 - t) * t * midLat + t * t * end[0];
+    const lng = (1 - t) * (1 - t) * start[1] + 2 * (1 - t) * t * midLng + t * t * end[1];
+    points.push([lat, lng]);
+  }
+  return points;
+};
+
+const createGoldenIcon = (active: boolean, label: string) => L.divIcon({
+  className: 'custom-div-icon',
+  html: `<div style="position: relative;">
+           <div style="width: 16px; height: 16px; background: ${active ? '#C8A96E' : 'rgba(200,169,110,0.3)'}; border-radius: 50%; box-shadow: ${active ? '0 0 20px #C8A96E' : 'none'}; border: 2px solid ${active ? '#fff' : 'rgba(255,255,255,0.2)'}; position: absolute; top: -8px; left: -8px; transition: all 0.3s ease;"></div>
+           <div style="position: absolute; top: 12px; left: -50%; transform: translateX(-20%); font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: bold; letter-spacing: 0.15em; color: ${active ? '#C8A96E' : '#8B9BB4'}; white-space: nowrap; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">${label}</div>
+         </div>`,
+  iconSize: [0, 0],
+  iconAnchor: [0, 0],
+});
+
 export default function TimelineSection() {
   const [v, setV] = useState(false);
+  const [mapOpen, setMapOpen] = useState(false);
+  const [activeCity, setActiveCity] = useState<'galicia' | 'barcelona' | null>(null);
   const m = useIsMobile();
   useEffect(() => { const t = setTimeout(() => setV(true), 80); return () => clearTimeout(t); }, []);
 
@@ -181,6 +212,128 @@ export default function TimelineSection() {
               </motion.div>
             ))}
           </div>
+        </div>
+
+        {/* Botón e Contedor do Mapa Narrativo */}
+        <div style={{ marginTop: '5rem', textAlign: 'center' }}>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setMapOpen(!mapOpen)}
+            style={{
+              background: mapOpen ? 'rgba(200,169,110,0.1)' : 'rgba(255,255,255,0.03)',
+              border: mapOpen ? '1px solid rgba(200,169,110,0.5)' : '1px solid rgba(255,255,255,0.15)',
+              borderRadius: '30px',
+              padding: '12px 32px',
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: '11px',
+              letterSpacing: '0.2em',
+              textTransform: 'uppercase',
+              color: mapOpen ? '#C8A96E' : '#EAE2D2',
+              cursor: 'pointer',
+              backdropFilter: 'blur(10px)',
+              transition: 'all 0.3s ease'
+            }}
+          >
+            {mapOpen ? "Pechar Mapa" : "Ver Mapa Narrativo"}
+          </motion.button>
+
+          <AnimatePresence>
+            {mapOpen && (
+              <motion.div
+                initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                animate={{ opacity: 1, height: 'auto', marginTop: '3rem' }}
+                exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                style={{ overflow: 'hidden' }}
+              >
+                <div style={{
+                  background: 'linear-gradient(135deg, rgba(12,18,32,0.88) 0%, rgba(8,8,13,0.78) 100%)',
+                  backdropFilter: 'blur(40px)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  borderRadius: '24px',
+                  padding: m ? '2rem 1.5rem' : '4rem',
+                  display: 'flex',
+                  flexDirection: m ? 'column' : 'row',
+                  gap: '3rem',
+                  alignItems: 'center',
+                  boxShadow: '0 20px 60px rgba(0,0,0,0.5)'
+                }}>
+                  {/* Mapa interactivo OpenStreetMap */}
+                  <div style={{ flex: m ? 'none' : 1, width: '100%', height: m ? '320px' : '380px', minHeight: m ? '320px' : '380px', display: 'block', borderRadius: '16px', overflow: 'hidden', border: '1px solid rgba(200,169,110,0.2)', position: 'relative', zIndex: 1 }}>
+                    <MapContainer
+                      center={[42.0, -3.0]}
+                      zoom={m ? 5 : 6}
+                      zoomControl={false}
+                      scrollWheelZoom={false}
+                      style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: '#0a0a0a' }}
+                      attributionControl={false}
+                    >
+                      <TileLayer
+                        url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+                      />
+                      
+                      {/* Curva de conexión */}
+                      <Polyline
+                        positions={getCurvePoints(galiciaPos, barcelonaPos, m ? 4.5 : 3.5)}
+                        color="rgba(200,169,110,0.5)"
+                        weight={2}
+                        dashArray="6, 6"
+                      />
+
+                      {/* Marcador Galicia */}
+                      <Marker
+                        position={galiciaPos}
+                        icon={createGoldenIcon(activeCity === 'galicia', 'GALICIA')}
+                        eventHandlers={{
+                          click: () => setActiveCity('galicia'),
+                        }}
+                      />
+
+                      {/* Marcador Barcelona */}
+                      <Marker
+                        position={barcelonaPos}
+                        icon={createGoldenIcon(activeCity === 'barcelona', 'BARCELONA')}
+                        eventHandlers={{
+                          click: () => setActiveCity('barcelona'),
+                        }}
+                      />
+                    </MapContainer>
+                  </div>
+
+                  {/* Texto dinámico */}
+                  <div style={{ flex: 1, textAlign: 'left', minHeight: '180px' }}>
+                    <AnimatePresence mode="wait">
+                      {activeCity === 'galicia' && (
+                        <motion.div key="g" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
+                          <h4 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '2.5rem', color: '#EAE2D2', lineHeight: 1 }}>Galicia</h4>
+                          <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.2em', color: '#C8A96E', marginBottom: '1rem', marginTop: '0.5rem' }}>A Orixe e a Culpa</div>
+                          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '1.05rem', color: '#8B9BB4', lineHeight: 1.8 }}>
+                            A vila mariñeira e Santiago de Compostela. Aquí nace o trauma baixo a man de ferro de Mamá Carme e aquí xorde a somatización de Fernando décadas despois. É a terra da fuxida e do regreso inevitable.
+                          </p>
+                        </motion.div>
+                      )}
+                      {activeCity === 'barcelona' && (
+                        <motion.div key="b" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
+                          <h4 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '2.5rem', color: '#EAE2D2', lineHeight: 1 }}>Barcelona</h4>
+                          <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.2em', color: '#C8A96E', marginBottom: '1rem', marginTop: '0.5rem' }}>O Rexurdimento</div>
+                          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '1.05rem', color: '#8B9BB4', lineHeight: 1.8 }}>
+                            O refuxio onde Concha Pereira se reinventa. Lonxe da opresión, a Faneca Brava afía os seus dentes e utiliza a súa cámara para desposuír do seu poder ás altas esferas que a rodean. A vítima faise verdugo.
+                          </p>
+                        </motion.div>
+                      )}
+                      {!activeCity && (
+                        <motion.div key="e" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} style={{ display: 'flex', alignItems: 'center', height: '100%', opacity: 0.5 }}>
+                          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '1rem', color: '#8B9BB4', fontStyle: 'italic' }}>
+                            Preme nunha localización no mapa para descubrir os seus segredos...
+                          </p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </section>
