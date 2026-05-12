@@ -259,7 +259,7 @@ export default function TimelineSection() {
                   boxShadow: '0 20px 60px rgba(0,0,0,0.5)'
                 }}>
                   {/* Mapa interactivo OpenStreetMap */}
-                  <div style={{ flex: 1, width: '100%', height: m ? '300px' : '380px', borderRadius: '16px', overflow: 'hidden', border: '1px solid rgba(200,169,110,0.2)', position: 'relative', zIndex: 1 }}>
+                  <div style={{ flex: m ? 'none' : 1, width: '100%', height: m ? '300px' : '380px', minHeight: m ? '300px' : '380px', borderRadius: '16px', overflow: 'hidden', border: '1px solid rgba(200,169,110,0.2)', position: 'relative', zIndex: 1 }}>
                     <MapContainer
                       center={[42.0, -3.0]}
                       zoom={m ? 5 : 6}

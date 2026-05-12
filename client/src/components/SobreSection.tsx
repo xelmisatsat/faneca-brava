@@ -54,11 +54,12 @@ export default function SobreSection() {
                 transition={{ delay: 0.6, duration: 0.6 }}
                 whileHover={{ scale: 1.05, y: -4 }}
                 style={{
-                  position: 'absolute', bottom: '-24px', right: m ? '0px' : '-16px',
+                  position: 'absolute', bottom: m ? '-30px' : '-24px', right: m ? '-10px' : '-16px',
                   background: 'linear-gradient(135deg, rgba(255,255,255,0.11) 0%, rgba(255,255,255,0.05) 100%)',
                   backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.15)',
                   borderTop: '1px solid rgba(255,255,255,0.28)', borderRadius: '16px',
-                  padding: '16px 20px', boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+                  padding: m ? '12px 16px' : '16px 20px', boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+                  zIndex: 2
                 }}
               >
                 <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8B9BB4' }}>Editorial</div>
@@ -149,11 +150,11 @@ export default function SobreSection() {
                 {/* O Easter Egg */}
                 <motion.div
                   onClick={() => setEggOpen(true)}
-                  style={{ position: 'absolute', top: '40%', right: '25%', width: '12px', height: '12px', cursor: 'pointer', zIndex: 20 }}
-                  animate={{ opacity: [0, 0.4, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                  style={{ position: 'absolute', top: '40%', right: '25%', width: '30px', height: '30px', cursor: 'pointer', zIndex: 20 }}
+                  animate={{ opacity: [0.4, 0.9, 0.4], scale: [1, 1.2, 1] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
                 >
-                  <div style={{ width: '2px', height: '2px', background: '#C8A96E', borderRadius: '50%', margin: '5px auto' }} />
+                  <div style={{ width: '8px', height: '8px', background: '#C8A96E', borderRadius: '50%', margin: '11px auto', boxShadow: '0 0 12px #C8A96E' }} />
                 </motion.div>
               </motion.div>
             </div>
