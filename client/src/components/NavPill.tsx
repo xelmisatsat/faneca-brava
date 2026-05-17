@@ -42,10 +42,19 @@ export default function NavPill({ sections, activeIdx, onSelect }: NavPillProps)
           {/* Logo FB con imaxe circular */}
           <button
             onClick={() => {
-              if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(err => console.log(err));
-              } else if (document.exitFullscreen) {
-                document.exitFullscreen();
+              const el = document.documentElement as any;
+              const doc = document as any;
+              const isFS = !!(doc.fullscreenElement || doc.webkitFullscreenElement || doc.mozFullScreenElement || doc.msFullscreenElement);
+              if (!isFS) {
+                if (el.requestFullscreen) el.requestFullscreen().catch(() => {});
+                else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+                else if (el.mozRequestFullScreen) el.mozRequestFullScreen();
+                else if (el.msRequestFullscreen) el.msRequestFullscreen();
+              } else {
+                if (doc.exitFullscreen) doc.exitFullscreen().catch(() => {});
+                else if (doc.webkitExitFullscreen) doc.webkitExitFullscreen();
+                else if (doc.mozCancelFullScreen) doc.mozCancelFullScreen();
+                else if (doc.msExitFullscreen) doc.msExitFullscreen();
               }
             }}
             style={{
@@ -55,7 +64,7 @@ export default function NavPill({ sections, activeIdx, onSelect }: NavPillProps)
               padding: '0',
               background: 'transparent',
               border: 'none',
-              cursor: 'none',
+              cursor: 'pointer',
               flexShrink: 0,
             }}
           >
