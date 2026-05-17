@@ -39,7 +39,7 @@ export default function NavPill({ sections, activeIdx, onSelect }: NavPillProps)
             pointerEvents: 'none',
           }} />
 
-          {/* Logo FB con imaxe */}
+          {/* Logo FB con imaxe circular */}
           <button
             onClick={() => {
               if (!document.fullscreenElement) {
@@ -52,14 +52,25 @@ export default function NavPill({ sections, activeIdx, onSelect }: NavPillProps)
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              padding: '4px',
+              padding: '0',
               background: 'transparent',
               border: 'none',
               cursor: 'none',
-              transition: 'transform 0.3s',
+              flexShrink: 0,
             }}
           >
-            <img src="/manus-storage/logo-fb.webp" alt="Faneca Brava Logo" style={{ width: '38px', height: '38px', objectFit: 'contain' }} />
+            <div style={{
+              width: '38px', height: '38px', borderRadius: '50%',
+              overflow: 'hidden',
+              border: '1.5px solid rgba(200,169,110,0.55)',
+              boxShadow: '0 0 10px rgba(200,169,110,0.25)',
+              transition: 'transform 0.3s, box-shadow 0.3s',
+            }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1.09)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 0 18px rgba(200,169,110,0.5)'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 0 10px rgba(200,169,110,0.25)'; }}
+            >
+              <img src="/manus-storage/logo-fb.webp" alt="Faneca Brava Logo" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+            </div>
           </button>
 
           {/* Separador */}
