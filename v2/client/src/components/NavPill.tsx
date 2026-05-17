@@ -39,7 +39,7 @@ export default function NavPill({ sections, activeIdx, onSelect }: NavPillProps)
             pointerEvents: 'none',
           }} />
 
-          {/* Logo FB */}
+          {/* Logo FB con imaxe */}
           <button
             onClick={() => {
               if (!document.fullscreenElement) {
@@ -49,21 +49,17 @@ export default function NavPill({ sections, activeIdx, onSelect }: NavPillProps)
               }
             }}
             style={{
-              fontFamily: "'Cormorant Garamond', Georgia, serif",
-              fontSize: '13px',
-              fontWeight: 300,
-              letterSpacing: '0.22em',
-              color: '#C8A96E',
-              cursor: 'none',
-              padding: '6px 12px',
-              borderRadius: '9999px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '4px',
               background: 'transparent',
               border: 'none',
-              whiteSpace: 'nowrap',
-              transition: 'background 0.3s',
+              cursor: 'none',
+              transition: 'transform 0.3s',
             }}
           >
-            FB
+            <img src="/manus-storage/logo-fb.webp" alt="Faneca Brava Logo" style={{ width: '38px', height: '38px', objectFit: 'contain' }} />
           </button>
 
           {/* Separador */}
