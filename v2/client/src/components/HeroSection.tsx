@@ -20,11 +20,11 @@ export default function HeroSection() {
         await navigator.share({
           title: 'Faneca Brava — Manuel Portas',
           text: 'Todas as familias agochan cadáveres na memoria. Descobre a historia en Faneca Brava.',
-          url: window.location.href,
+          url: 'https://faneca-brava.onrender.com',
         });
       } else {
         // Fallback para escritorio sen share api
-        await navigator.clipboard.writeText(window.location.href);
+        await navigator.clipboard.writeText('https://faneca-brava.onrender.com');
         alert('Enlace copiado ao portapapeis!');
       }
     } catch (err) {
@@ -220,3 +220,4 @@ export default function HeroSection() {
     </section>
   );
 }
+
