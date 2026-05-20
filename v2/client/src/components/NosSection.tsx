@@ -18,48 +18,48 @@ const PHOTOS = [
   {
     id: "jun",
     title: "Jun Sieira",
-    subtitle: "DeseÒo & DirecciÛn",
+    subtitle: "Dese√±o & Direcci√≥n",
     img: (window as any).Capacitor ? "assets/images/opinion-jun.jpg" : "/manus-storage/opinion-jun.jpg"
   },
   {
     id: "alvaro",
-    title: "¡lvaro Villar",
-    subtitle: "ProgramaciÛn & CÛdigo",
+    title: "√Ålvaro Villar",
+    subtitle: "Programaci√≥n & C√≥digo",
     img: (window as any).Capacitor ? "assets/images/opinion-alvaro.jpg" : "/manus-storage/opinion-alvaro.jpg"
   },
   {
     id: "santiago",
     title: "Santiago de Compostela",
-    subtitle: "R˙as de pedra e choiva",
+    subtitle: "R√∫as de pedra e choiva",
     img: "https://images.unsplash.com/photo-1543872084-c7bd3822856f?q=80&w=600&auto=format&fit=crop"
   },
   {
     id: "cies",
-    title: "Illas CÌes",
+    title: "Illas C√≠es",
     subtitle: "Praia de Rodas, area e mar",
     img: "https://images.unsplash.com/photo-1544913716-6081a1fd0411?q=80&w=600&auto=format&fit=crop"
   },
   {
     id: "fragas",
     title: "Fragas do Eume",
-    subtitle: "Bosque m·xico e nÈboa",
+    subtitle: "Bosque m√°xico e n√©boa",
     img: "https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=600&auto=format&fit=crop"
   },
   {
     id: "sil",
-    title: "CanÛn do Sil",
+    title: "Can√≥n do Sil",
     subtitle: "Ribeira Sacra",
     img: "https://images.unsplash.com/photo-1620121692029-d088224ddc74?q=80&w=600&auto=format&fit=crop"
   },
   {
     id: "combarro",
     title: "Combarro",
-    subtitle: "HÛrreos ao pÈ da rÌa",
+    subtitle: "H√≥rreos ao p√© da r√≠a",
     img: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?q=80&w=600&auto=format&fit=crop"
   },
   {
     id: "barona",
-    title: "Castro de BaroÒa",
+    title: "Castro de Baro√±a",
     subtitle: "Historia celta sobre o mar",
     img: "https://images.unsplash.com/photo-1579712267787-0431e1e39ff7?q=80&w=600&auto=format&fit=crop"
   },
@@ -97,9 +97,11 @@ export default function NosSection() {
   const [muted, setMuted] = useState(true);
   const [progress, setProgress] = useState(0);
 
+  // Camera & Shutter states
   const [isTakingPhoto, setIsTakingPhoto] = useState(false);
   const [shutterFlash, setShutterFlash] = useState(false);
   const [reelVisible, setReelVisible] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedPhoto, setSelectedPhoto] = useState<typeof PHOTOS[0] | null>(null);
 
   useEffect(() => {
@@ -143,7 +145,9 @@ export default function NosSection() {
     
     try {
       await Haptics.impact({ style: ImpactStyle.Heavy });
-    } catch (e) {}
+    } catch (e) {
+      // safe fallback in browser
+    }
 
     setTimeout(() => {
       setShutterFlash(false);
@@ -152,8 +156,16 @@ export default function NosSection() {
     }, 280);
   };
 
+  const handleDragEnd = (event: any, info: any) => {
+    const threshold = 40;
+    if (info.offset.x > threshold) {
+      setCurrentIndex(prev => Math.max(0, prev - 1));
+    } else if (info.offset.x < -threshold) {
+      setCurrentIndex(prev => Math.min(PHOTOS.length - 1, prev + 1));
+    }
+  };
+
   const videoSrc = (window as any).Capacitor ? "assets/images/nos-video.mp4" : "/manus-storage/nos-video.mp4";
-  const cameraSrc = (window as any).Capacitor ? "assets/images/camera_sticker.png" : "/manus-storage/camera_sticker.png";
 
   return (
     <>
@@ -166,7 +178,11 @@ export default function NosSection() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.12 }}
             style={{
-              position: 'fixed', inset: 0, backgroundColor: '#FFF', zIndex: 99999, pointerEvents: 'none'
+              position: 'fixed',
+              inset: 0,
+              backgroundColor: '#FFF',
+              zIndex: 99999,
+              pointerEvents: 'none'
             }}
           />
         )}
@@ -181,105 +197,85 @@ export default function NosSection() {
             exit={{ opacity: 0 }}
             onClick={() => setSelectedPhoto(null)}
             style={{
-              position: 'fixed', inset: 0, backgroundColor: 'rgba(5,5,8,0.95)', backdropFilter: 'blur(15px)',
-              zIndex: 999999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: m ? '1rem' : '3rem'
+              position: 'fixed',
+              inset: 0,
+              backgroundColor: 'rgba(5,5,8,0.94)',
+              backdropFilter: 'blur(15px)',
+              zIndex: 9999,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '1.5rem'
             }}
           >
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
+              initial={{ scale: 0.88, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              exit={{ scale: 0.92, opacity: 0 }}
+              transition={{ type: "spring", damping: 22, stiffness: 200 }}
               onClick={e => e.stopPropagation()}
               style={{
-                position: 'relative', width: '100%', maxWidth: '1200px', height: '100%', maxHeight: '90vh',
-                display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
+                position: 'relative',
+                width: 'min(480px, 92vw)',
+                background: '#FDFBF7',
+                padding: m ? '12px 12px 36px' : '18px 18px 48px',
+                borderRadius: '8px',
+                boxShadow: '0 30px 70px rgba(0,0,0,0.85)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                border: '1px solid rgba(255,255,255,0.1)'
               }}
             >
               <button
                 onClick={() => setSelectedPhoto(null)}
                 style={{
-                  position: 'absolute', top: m ? '-30px' : '-40px', right: '0', background: 'none', border: 'none',
-                  color: '#FFF', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px',
-                  fontFamily: "'DM Sans', sans-serif", fontSize: '1rem', zIndex: 10
+                  position: 'absolute',
+                  top: '-44px',
+                  right: '0',
+                  background: 'none',
+                  border: 'none',
+                  color: '#EAE2D2',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: '0.85rem'
                 }}
               >
-                <X size={24} /> Pechar
+                <X size={18} /> Pechar
               </button>
 
-              <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ width: '100%', aspectRatio: '1/1', overflow: 'hidden', background: '#222', borderRadius: '4px', boxShadow: '0 5px 15px rgba(0,0,0,0.2)' }}>
                 <img
                   src={selectedPhoto.img}
                   alt={selectedPhoto.title}
-                  style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain', borderRadius: '4px', boxShadow: '0 10px 40px rgba(0,0,0,0.5)' }}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
               </div>
               
-              <div style={{ marginTop: '20px', textAlign: 'center' }}>
-                <h4 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: m ? '1.5rem' : '2rem', fontWeight: 500, color: '#FFF', margin: 0 }}>
+              <div style={{ marginTop: '16px', textAlign: 'center' }}>
+                <h4 style={{ 
+                  fontFamily: "'Cormorant Garamond', Georgia, serif", 
+                  fontSize: m ? '1.3rem' : '1.6rem', 
+                  fontWeight: 500, 
+                  color: '#1C1C24',
+                  margin: 0
+                }}>
                   {selectedPhoto.title}
                 </h4>
-                <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: m ? '0.9rem' : '1rem', color: '#AAA', marginTop: '8px', marginBottom: 0 }}>
+                <p style={{ 
+                  fontFamily: "'DM Sans', sans-serif", 
+                  fontSize: m ? '0.75rem' : '0.85rem', 
+                  color: '#8B8B9B',
+                  marginTop: '4px',
+                  marginBottom: 0
+                }}>
                   {selectedPhoto.subtitle}
                 </p>
               </div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Film Reel Overlay */}
-      <AnimatePresence>
-        {reelVisible && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            style={{
-              position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(8px)',
-              zIndex: 99990, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'
-            }}
-          >
-            <button
-              onClick={() => setReelVisible(false)}
-              style={{
-                position: 'absolute', top: '20px', right: '20px', background: 'none', border: 'none',
-                color: '#FFF', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px',
-                fontFamily: "'DM Sans', sans-serif", fontSize: '1rem', zIndex: 100
-              }}
-            >
-              <X size={24} /> Pechar Carrete
-            </button>
-
-            {/* Film Strip */}
-            <div style={{ width: '100%', overflowX: 'auto', padding: '2rem 0', WebkitOverflowScrolling: 'touch' }}>
-              <div style={{ 
-                display: 'inline-flex', background: '#0a0a0a', padding: '16px 20px', 
-                borderTop: '2px solid #222', borderBottom: '2px solid #222', position: 'relative'
-              }}>
-                {/* Perforations Top/Bottom */}
-                <div style={{ position: 'absolute', top: '4px', left: 0, right: 0, height: '6px', background: 'repeating-linear-gradient(90deg, transparent, transparent 12px, #222 12px, #222 18px)' }} />
-                <div style={{ position: 'absolute', bottom: '4px', left: 0, right: 0, height: '6px', background: 'repeating-linear-gradient(90deg, transparent, transparent 12px, #222 12px, #222 18px)' }} />
-                
-                {PHOTOS.map((photo, i) => (
-                  <motion.div 
-                    key={photo.id}
-                    whileHover={{ scale: 1.02 }}
-                    onClick={() => setSelectedPhoto(photo)}
-                    style={{
-                      width: m ? '240px' : '320px', height: m ? '160px' : '220px', flexShrink: 0,
-                      margin: '0 8px', border: '1px solid #333', background: '#000', cursor: 'pointer', overflow: 'hidden'
-                    }}
-                  >
-                    <img src={photo.img} alt={photo.title} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'sepia(0.2) contrast(1.1) brightness(0.9)' }} />
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-            
-            <p style={{ color: '#888', marginTop: '20px', fontFamily: "'DM Sans', sans-serif" }}>
-              Desliza para ver m·is. Preme unha foto para ampliala.
-            </p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -290,6 +286,7 @@ export default function NosSection() {
 
         <div style={{ maxWidth: '1440px', margin: '0 auto', padding: m ? '0 1.25rem' : '0 5rem', position: 'relative', zIndex: 10, width: '100%' }}>
           
+          {/* Cabeceira */}
           <motion.div
             initial={{ opacity: 0, y: 50, filter: 'blur(4px)' }}
             animate={mounted ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
@@ -304,14 +301,22 @@ export default function NosSection() {
                 style={{ width: '48px', height: '1px', background: 'linear-gradient(90deg, #C8A96E, transparent)', transformOrigin: 'left' }} />
             </div>
             <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontSize: 'clamp(2.5rem, 6vw, 6rem)', lineHeight: 0.9, letterSpacing: '-0.02em', color: '#EAE2D2' }}>
-              NÛs, os <span style={{ color: '#C8A96E' }}>Creadores</span>
+              N√≥s, os <span style={{ color: '#C8A96E' }}>Creadores</span>
             </h2>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, fontSize: m ? '0.9rem' : '1.05rem', lineHeight: 1.8, color: '#8B9BB4', maxWidth: '600px', margin: '1.5rem auto 0' }}>
-              Unha viaxe dixital a travÈs da memoria, do insomnio e da revelaciÛn fotogr·fica de Faneca Brava.
+              Unha viaxe dixital a trav√©s da memoria, do insomnio e da revelaci√≥n fotogr√°fica de Faneca Brava.
             </p>
           </motion.div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: m ? '1fr' : '1fr 1fr', gap: m ? '2rem' : '3.5rem', alignItems: 'center' }}>
+          {/* Layout en Reixa (Video √° esquerda, C√°mara √° dereita) */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: m ? '1fr' : '1fr 1fr',
+            gap: m ? '2rem' : '3.5rem',
+            alignItems: 'center',
+            marginBottom: reelVisible ? '2rem' : '0'
+          }}>
+            {/* Columna Video */}
             <motion.div
               initial={{ opacity: 0, x: m ? 0 : -50 }}
               animate={mounted ? { opacity: 1, x: 0 } : {}}
@@ -330,22 +335,48 @@ export default function NosSection() {
                   style={{ width: '100%', height: '100%', objectFit: 'cover', cursor: 'pointer', display: 'block' }}
                 />
 
+                {/* Bot√≥n central Play */}
                 {!playing && (
                   <div 
                     onClick={togglePlay}
-                    style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.3)', cursor: 'pointer', transition: 'background 0.3s' }}
+                    style={{
+                      position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      background: 'rgba(0,0,0,0.3)', cursor: 'pointer', transition: 'background 0.3s'
+                    }}
                   >
                     <motion.div 
                       whileHover={{ scale: 1.15 }}
-                      style={{ width: '60px', height: '60px', borderRadius: '50%', background: 'rgba(200,169,110,0.9)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 25px rgba(200,169,110,0.4)', paddingLeft: '3px' }}
+                      style={{
+                        width: '60px', height: '60px', borderRadius: '50%', background: 'rgba(200,169,110,0.9)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 25px rgba(200,169,110,0.4)',
+                        paddingLeft: '3px'
+                      }}
                     >
                       <Play size={24} color="#08080D" fill="#08080D" />
                     </motion.div>
                   </div>
                 )}
 
-                <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'linear-gradient(to top, rgba(8,8,13,0.95) 0%, rgba(8,8,13,0.4) 60%, transparent 100%)', padding: '10px 14px', display: 'flex', flexDirection: 'column', gap: '6px', zIndex: 20 }}>
-                  <input type="range" min="0" max="100" value={progress} onChange={handleProgressChange} style={{ width: '100%', accentColor: '#C8A96E', background: 'rgba(255,255,255,0.2)', height: '4px', borderRadius: '2px', cursor: 'pointer', outline: 'none' }} />
+                {/* Barra de controis */}
+                <div 
+                  style={{
+                    position: 'absolute', bottom: 0, left: 0, right: 0,
+                    background: 'linear-gradient(to top, rgba(8,8,13,0.95) 0%, rgba(8,8,13,0.4) 60%, transparent 100%)',
+                    padding: '10px 14px', display: 'flex', flexDirection: 'column', gap: '6px', zIndex: 20
+                  }}
+                >
+                  <input 
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={progress}
+                    onChange={handleProgressChange}
+                    style={{
+                      width: '100%', accentColor: '#C8A96E', background: 'rgba(255,255,255,0.2)',
+                      height: '4px', borderRadius: '2px', cursor: 'pointer', outline: 'none'
+                    }}
+                  />
+
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                       <button onClick={togglePlay} style={{ background: 'none', border: 'none', color: '#EAE2D2', cursor: 'pointer', padding: 0 }}>
@@ -355,8 +386,11 @@ export default function NosSection() {
                         {muted ? <VolumeX size={16} /> : <Volume2 size={16} />}
                       </button>
                     </div>
+
                     <button style={{ background: 'none', border: 'none', color: '#EAE2D2', cursor: 'pointer', padding: 0, display: 'flex', marginLeft: 'auto' }}
-                      onClick={() => { if (videoRef.current?.requestFullscreen) videoRef.current.requestFullscreen(); }}
+                      onClick={() => {
+                        if (videoRef.current?.requestFullscreen) videoRef.current.requestFullscreen();
+                      }}
                     >
                       <Maximize2 size={16} />
                     </button>
@@ -366,45 +400,297 @@ export default function NosSection() {
               
               <div style={{ padding: '1.25rem' }}>
                 <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.4rem', fontWeight: 300, color: '#C8A96E', marginBottom: '6px' }}>
-                  A Nosa CompaÒeira
+                  Atmosfera Nocturna
                 </h3>
                 <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.83rem', lineHeight: 1.6, color: '#8B9BB4', margin: 0 }}>
-                  Emma Tabuyo RodrÌguez, a travÈs deste pequeno documental ou reportaxe.
+                  Un reflexo do insomnio e a busca constante de respostas que atravesan toda a obra de Manuel Portas.
                 </p>
               </div>
             </motion.div>
 
+            {/* Columna C√°mara SVG */}
             <motion.div
               initial={{ opacity: 0, x: m ? 0 : 50 }}
               animate={mounted ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.9, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              style={{ ...G, padding: '3.5rem 2rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', minHeight: '300px' }}
+              style={{ 
+                ...G, 
+                padding: '2.5rem 1.5rem', 
+                display: 'flex', 
+                flexDirection: 'column', 
+                alignItems: 'center', 
+                justifyContent: 'center',
+                textAlign: 'center',
+                minHeight: '260px'
+              }}
             >
-              <div style={{ position: 'relative', marginBottom: '2rem' }}>
+              {/* Realistic Camera SVG */}
+              <div style={{ position: 'relative', marginBottom: '1.5rem' }}>
+                {/* Glowing pulse behind camera */}
                 <motion.div
-                  animate={{ scale: [1, 1.05, 1], opacity: [0.2, 0.4, 0.2] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                  style={{ position: 'absolute', top: '50%', left: '50%', width: '180px', height: '180px', borderRadius: '50%', background: 'radial-gradient(circle, #C8A96E 0%, transparent 70%)', transform: 'translate(-50%, -50%)', zIndex: 0, pointerEvents: 'none' }}
+                  animate={{ scale: [1, 1.15, 1], opacity: [0.15, 0.3, 0.15] }}
+                  transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                  style={{
+                    position: 'absolute',
+                    top: '50%', left: '50%',
+                    width: '180px', height: '100px',
+                    borderRadius: '50%',
+                    background: 'radial-gradient(circle, #C8A96E 0%, transparent 70%)',
+                    transform: 'translate(-50%, -50%)',
+                    zIndex: 0,
+                    pointerEvents: 'none'
+                  }}
                 />
 
-                <motion.div 
-                  whileHover={{ scale: 1.05, rotate: 2 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={handleCameraClick}
-                  style={{ position: 'relative', zIndex: 10, cursor: 'pointer', padding: '10px', background: '#fff', borderRadius: '12px', boxShadow: '0 15px 35px rgba(0,0,0,0.5)' }}
-                >
-                  <img src={cameraSrc} alt="C·mara analÛxica" style={{ width: '180px', height: 'auto', display: 'block', borderRadius: '8px' }} />
-                </motion.div>
+                <div style={{ position: 'relative', zIndex: 10 }}>
+                  <div style={{ position: 'relative', width: '220px', height: '140px', cursor: 'pointer' }} onClick={handleCameraClick}>
+                    <svg viewBox="0 0 220 140" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%', filter: 'drop-shadow(0 15px 25px rgba(0,0,0,0.6))' }}>
+                      <path d="M20 30C20 24.4772 24.4772 20 30 20H190C195.523 20 200 24.4772 200 30V45H20V30Z" fill="url(#metalGrad)" />
+                      <rect x="10" y="45" width="200" height="85" rx="8" fill="#1C1C24" stroke="#2D2D3A" strokeWidth="1" />
+                      <rect x="15" y="50" width="190" height="75" rx="6" fill="#121216" />
+                      
+                      <rect x="35" y="10" width="20" height="10" rx="2" fill="url(#metalGrad)" />
+                      <motion.rect 
+                        x="38" 
+                        y={isTakingPhoto ? 10 : 6} 
+                        width="14" 
+                        height="5" 
+                        rx="1" 
+                        fill="#D4AF37" 
+                        animate={{ y: isTakingPhoto ? 10 : 6 }}
+                        transition={{ duration: 0.1 }}
+                      />
+                      
+                      <rect x="160" y="12" width="25" height="8" rx="1" fill="url(#metalGrad)" />
+                      <line x1="165" y1="12" x2="165" y2="20" stroke="#333" />
+                      <line x1="170" y1="12" x2="170" y2="20" stroke="#333" />
+                      <line x1="175" y1="12" x2="175" y2="20" stroke="#333" />
+                      <line x1="180" y1="12" x2="180" y2="20" stroke="#333" />
+                      
+                      <rect x="95" y="12" width="30" height="18" rx="2" fill="#222" stroke="url(#metalGrad)" strokeWidth="2" />
+                      <rect x="100" y="16" width="20" height="10" rx="1" fill="#3D5A80" />
+                      
+                      <circle cx="55" cy="65" r="7" fill="#D83A3A" />
+                      <circle cx="110" cy="85" r="42" fill="url(#metalGrad)" stroke="#1A1A22" strokeWidth="1" />
+                      <circle cx="110" cy="85" r="37" fill="#0C0C10" stroke="#333" strokeWidth="2" />
+                      <circle cx="110" cy="85" r="33" fill="none" stroke="#C8A96E" strokeWidth="1.5" />
+                      <circle cx="110" cy="85" r="28" fill="url(#lensGlass)" stroke="#222" />
+                      
+                      <motion.g 
+                        animate={{ rotate: isTakingPhoto ? 90 : 0, scale: isTakingPhoto ? 0.35 : 1 }}
+                        transition={{ duration: 0.2 }}
+                        style={{ originX: '110px', originY: '85px' }}
+                      >
+                        <path d="M110 57L128 75H110V57Z" fill="#15151A" opacity="0.85" />
+                        <path d="M138 85L120 103V85H138Z" fill="#181820" opacity="0.85" />
+                        <path d="M110 113L92 95H110V113Z" fill="#15151A" opacity="0.85" />
+                        <path d="M82 85L100 67V85H82Z" fill="#181820" opacity="0.85" />
+                      </motion.g>
+                      
+                      <circle cx="102" cy="77" r="18" fill="url(#lensReflection)" opacity="0.4" />
+                      
+                      <defs>
+                        <linearGradient id="metalGrad" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="#E2E2E9" />
+                          <stop offset="50%" stopColor="#A8A8B5" />
+                          <stop offset="100%" stopColor="#7D7D8A" />
+                        </linearGradient>
+                        <radialGradient id="lensGlass" cx="50%" cy="50%" r="50%">
+                          <stop offset="0%" stopColor="#1A2D42" />
+                          <stop offset="70%" stopColor="#0B131C" />
+                          <stop offset="100%" stopColor="#020406" />
+                        </radialGradient>
+                        <linearGradient id="lensReflection" x1="0" y1="0" x2="1" y2="1">
+                          <stop offset="0%" stopColor="#FFF" stopOpacity="0.8" />
+                          <stop offset="50%" stopColor="#3A86C8" stopOpacity="0.3" />
+                          <stop offset="100%" stopColor="#FFF" stopOpacity="0" />
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                  </div>
+                </div>
               </div>
 
-              <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.6rem', fontWeight: 300, color: '#C8A96E', marginBottom: '8px' }}>
-                O Noso Carrete
+              <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.5rem', fontWeight: 300, color: '#C8A96E', marginBottom: '8px' }}>
+                {reelVisible ? "Carrete Revelado" : "C√°mara de Concha"}
               </h3>
-              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.9rem', lineHeight: 1.6, color: '#EAE2D2', opacity: 0.8, maxWidth: '280px', margin: 0 }}>
-                Preme na c·mara para disparar e revelar o carrete de fotografÌas do equipo.
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.85rem', lineHeight: 1.6, color: '#EAE2D2', opacity: 0.8, maxWidth: '280px', margin: 0 }}>
+                {reelVisible 
+                  ? "Arrastra ou usa as frechas para ollar as nosas fotos hist√≥ricas."
+                  : "Preme a c√°mara anal√≥xica para disparar o flash e revelar o noso carrete."}
               </p>
             </motion.div>
           </div>
+
+          {/* Curved Photo Reel */}
+          <AnimatePresence>
+            {reelVisible && (
+              <motion.div
+                initial={{ opacity: 0, y: 60, height: 0 }}
+                animate={{ opacity: 1, y: 0, height: 'auto' }}
+                exit={{ opacity: 0, y: 40 }}
+                transition={{ type: "spring", damping: 20, stiffness: 100 }}
+                style={{ overflow: 'visible', width: '100%' }}
+              >
+                <div style={{ width: '100%', height: '360px', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'visible', marginTop: m ? '1.5rem' : '3rem' }}>
+                  
+                  <motion.div 
+                    drag="x"
+                    dragConstraints={{ left: 0, right: 0 }}
+                    onDragEnd={handleDragEnd}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      position: 'relative',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'grab'
+                    }}
+                    whileTap={{ cursor: 'grabbing' }}
+                  >
+                    {PHOTOS.map((photo, index) => {
+                      const diff = index - currentIndex;
+                      const isActive = index === currentIndex;
+                      
+                      const offsetMultiplier = m ? 125 : 200;
+                      const curveFactor = m ? 6 : 10;
+                      const rotateFactor = m ? 5 : 8;
+                      const scaleFactor = 0.08;
+                      
+                      const tx = diff * offsetMultiplier;
+                      const ty = Math.abs(diff) * Math.abs(diff) * curveFactor;
+                      const rot = diff * rotateFactor;
+                      const sc = 1 - Math.abs(diff) * scaleFactor;
+                      const opacity = Math.abs(diff) > 3 ? 0 : 1 - Math.abs(diff) * 0.28;
+                      const z = 100 - Math.abs(diff);
+
+                      return (
+                        <motion.div
+                          key={photo.id}
+                          animate={{
+                            x: tx,
+                            y: ty,
+                            rotate: rot,
+                            scale: sc,
+                            opacity: opacity,
+                            zIndex: z
+                          }}
+                          transition={{ type: "spring", damping: 25, stiffness: 180 }}
+                          onClick={() => {
+                            if (isActive) {
+                              setSelectedPhoto(photo);
+                            } else {
+                              setCurrentIndex(index);
+                            }
+                          }}
+                          style={{
+                            position: 'absolute',
+                            width: m ? '150px' : '210px',
+                            height: m ? '200px' : '280px',
+                            background: '#FDFBF7',
+                            padding: m ? '8px 8px 24px' : '10px 10px 38px',
+                            borderRadius: '4px',
+                            boxShadow: isActive 
+                              ? '0 25px 50px rgba(0,0,0,0.65), 0 0 15px rgba(200,169,110,0.25)' 
+                              : '0 10px 25px rgba(0,0,0,0.4)',
+                            cursor: 'pointer',
+                            transformOrigin: 'center bottom',
+                            border: '1px solid rgba(0,0,0,0.1)'
+                          }}
+                          whileHover={isActive ? { y: ty - 10, scale: sc + 0.02, boxShadow: '0 30px 60px rgba(0,0,0,0.75)' } : {}}
+                        >
+                          <div style={{ width: '100%', height: '80%', overflow: 'hidden', background: '#111', borderRadius: '2px', position: 'relative' }}>
+                            <img 
+                              src={photo.img} 
+                              alt={photo.title} 
+                              style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'sepia(0.08) contrast(1.03)' }} 
+                            />
+                            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 60%)', pointerEvents: 'none' }} />
+                          </div>
+                          
+                          <div style={{ height: '20%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: '4px' }}>
+                            <div style={{ 
+                              fontFamily: "'Cormorant Garamond', Georgia, serif", 
+                              fontSize: m ? '0.8rem' : '1.05rem', 
+                              fontWeight: 500, 
+                              color: '#1C1C24', 
+                              textAlign: 'center',
+                              lineHeight: 1.1,
+                              whiteSpace: 'nowrap',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              width: '100%'
+                            }}>
+                              {photo.title}
+                            </div>
+                            <div style={{ 
+                              fontFamily: "'DM Sans', sans-serif", 
+                              fontSize: m ? '5.5px' : '7.5px', 
+                              letterSpacing: '0.04em', 
+                              textTransform: 'uppercase', 
+                              color: '#8B8B9B', 
+                              marginTop: '1px'
+                            }}>
+                              {photo.subtitle}
+                            </div>
+                          </div>
+                        </motion.div>
+                      );
+                    })}
+                  </motion.div>
+
+                  <button 
+                    onClick={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
+                    disabled={currentIndex === 0}
+                    style={{
+                      position: 'absolute',
+                      left: m ? '0px' : '20px',
+                      background: 'rgba(255,255,255,0.06)',
+                      border: '1px solid rgba(255,255,255,0.1)',
+                      color: '#EAE2D2',
+                      borderRadius: '50%',
+                      width: '38px',
+                      height: '38px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer',
+                      opacity: currentIndex === 0 ? 0.25 : 0.85,
+                      zIndex: 110,
+                      backdropFilter: 'blur(10px)'
+                    }}
+                  >
+                    <ChevronLeft size={18} />
+                  </button>
+                  
+                  <button 
+                    onClick={() => setCurrentIndex(prev => Math.min(PHOTOS.length - 1, prev + 1))}
+                    disabled={currentIndex === PHOTOS.length - 1}
+                    style={{
+                      position: 'absolute',
+                      right: m ? '0px' : '20px',
+                      background: 'rgba(255,255,255,0.06)',
+                      border: '1px solid rgba(255,255,255,0.1)',
+                      color: '#EAE2D2',
+                      borderRadius: '50%',
+                      width: '38px',
+                      height: '38px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer',
+                      opacity: currentIndex === PHOTOS.length - 1 ? 0.25 : 0.85,
+                      zIndex: 110,
+                      backdropFilter: 'blur(10px)'
+                    }}
+                  >
+                    <ChevronRight size={18} />
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
         </div>
       </section>
