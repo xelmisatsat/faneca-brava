@@ -91,63 +91,7 @@ const PHOTOS = [
   },
 ];
 
-function CameraIcon({ active }: { active: boolean }) {
-  return (
-    <svg viewBox="0 0 220 150" fill="none" xmlns="http://www.w3.org/2000/svg"
-      style={{ width: "100%", height: "100%", filter: "drop-shadow(0 14px 28px rgba(0,0,0,0.7))" }}>
-      <defs>
-        <linearGradient id="cBodyGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#2C2C3A" />
-          <stop offset="100%" stopColor="#16161E" />
-        </linearGradient>
-        <linearGradient id="cMetalGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#D4D4E0" />
-          <stop offset="50%" stopColor="#ABABBA" />
-          <stop offset="100%" stopColor="#7A7A8A" />
-        </linearGradient>
-        <radialGradient id="cLensGrad" cx="45%" cy="42%" r="55%">
-          <stop offset="0%" stopColor="#1C3552" />
-          <stop offset="65%" stopColor="#060C14" />
-          <stop offset="100%" stopColor="#010204" />
-        </radialGradient>
-        <radialGradient id="cShineGrad" cx="32%" cy="30%" r="45%">
-          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.55" />
-          <stop offset="60%" stopColor="#55AADD" stopOpacity="0.2" />
-          <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
-        </radialGradient>
-      </defs>
-      <rect x="10" y="40" width="200" height="100" rx="8" fill="url(#cBodyGrad)" stroke="#2E2E3E" strokeWidth="1" />
-      <path d="M30 24C30 19.58 33.58 16 38 16H182C186.42 16 190 19.58 190 24V40H30V24Z" fill="url(#cMetalGrad)" />
-      <motion.ellipse cx="62" cy="18" rx="11" ry="5.5"
-        fill="url(#cMetalGrad)"
-        animate={{ ry: active ? 3 : 5.5 }}
-        transition={{ duration: 0.08 }} />
-      <circle cx="164" cy="22" r="9" fill="#1E1E28" stroke="url(#cMetalGrad)" strokeWidth="1.5" />
-      <line x1="164" y1="14" x2="164" y2="30" stroke="#555" strokeWidth="1.2" />
-      <line x1="156" y1="22" x2="172" y2="22" stroke="#555" strokeWidth="1.2" />
-      <circle cx="110" cy="88" r="46" fill="#0E0E14" stroke="#252530" strokeWidth="1.5" />
-      <circle cx="110" cy="88" r="40" fill="url(#cMetalGrad)" stroke="#18181F" strokeWidth="1" />
-      <circle cx="110" cy="88" r="35" fill="#080A0E" stroke="#2E2E3E" strokeWidth="1.5" />
-      <circle cx="110" cy="88" r="30" fill="none" stroke="#C8A96E" strokeWidth="1" opacity="0.7" />
-      <circle cx="110" cy="88" r="25" fill="url(#cLensGrad)" />
-      <motion.g
-        animate={{ rotate: active ? 72 : 0, scale: active ? 0.28 : 1 }}
-        transition={{ duration: 0.18 }}
-        style={{ originX: "110px", originY: "88px" }}>
-        {[0, 60, 120, 180, 240, 300].map((a) => (
-          <path key={a}
-            d={`M110 88 L${110 + 22 * Math.cos((a * Math.PI) / 180)} ${88 + 22 * Math.sin((a * Math.PI) / 180)} L${110 + 22 * Math.cos(((a + 60) * Math.PI) / 180)} ${88 + 22 * Math.sin(((a + 60) * Math.PI) / 180)} Z`}
-            fill="#0E101A" opacity="0.92" />
-        ))}
-      </motion.g>
-      <ellipse cx="102" cy="80" rx="13" ry="8" fill="url(#cShineGrad)" />
-      <circle cx="186" cy="50" r="5" fill="#CC2222" />
-      {[0, 3, 6, 9].map((dx) => (
-        <line key={dx} x1={18 + dx} y1="50" x2={18 + dx} y2="128" stroke="#2A2A36" strokeWidth="1" />
-      ))}
-    </svg>
-  );
-}
+
 
 export default function NosSection() {
   const [mounted, setMounted] = useState(false);
@@ -367,7 +311,11 @@ export default function NosSection() {
                   onClick={handleCameraClick}
                   style={{ position: "relative", zIndex: 10, width: m ? "200px" : "240px",
                     height: m ? "136px" : "162px", cursor: "pointer" }}>
-                  <CameraIcon active={isTakingPhoto} />
+                  <img src={isCapacitor() ? "assets/images/camera-sticker.png" : "/manus-storage/camera-sticker.png"} alt="Camera Sticker"
+                    style={{ width: "100%", height: "100%", objectFit: "contain",
+                      filter: "drop-shadow(0 14px 28px rgba(0,0,0,0.5))",
+                      transform: isTakingPhoto ? "scale(0.96)" : "scale(1)",
+                      transition: "transform 0.1s" }} />
                 </motion.div>
               </div>
               <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.5rem",
