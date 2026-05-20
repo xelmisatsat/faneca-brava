@@ -20,43 +20,43 @@ const PHOTOS = [
   {
     id: "jun",
     title: "Jun Sieira",
-    subtitle: "Deseno e Direccion",
+    subtitle: "Dese\u00f1o e Direcci\u00f3n",
     img: isCapacitor() ? "assets/images/opinion-jun.jpg" : "/manus-storage/opinion-jun.jpg",
   },
   {
     id: "alvaro",
     title: "Alvaro Villar",
-    subtitle: "Programacion e Codigo",
+    subtitle: "Programaci\u00f3n e C\u00f3digo",
     img: isCapacitor() ? "assets/images/opinion-alvaro.jpg" : "/manus-storage/opinion-alvaro.jpg",
   },
   {
     id: "santiago",
     title: "Santiago de Compostela",
-    subtitle: "Ruas de pedra e choiva",
+    subtitle: "R\u00faas de pedra e choiva",
     img: "https://images.unsplash.com/photo-1543872084-c7bd3822856f?q=80&w=600&auto=format&fit=crop",
   },
   {
     id: "cies",
-    title: "Illas Cies",
+    title: "Illas C\u00edes",
     subtitle: "Praia de Rodas, area e mar",
     img: "https://images.unsplash.com/photo-1544913716-6081a1fd0411?q=80&w=600&auto=format&fit=crop",
   },
   {
     id: "fragas",
     title: "Fragas do Eume",
-    subtitle: "Bosque maxuco e neboa",
+    subtitle: "Bosque m\u00e1xico e n\u00e9boa",
     img: "https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=600&auto=format&fit=crop",
   },
   {
     id: "sil",
-    title: "Canon do Sil",
+    title: "Can\u00f3n do Sil",
     subtitle: "Ribeira Sacra",
     img: "https://images.unsplash.com/photo-1620121692029-d088224ddc74?q=80&w=600&auto=format&fit=crop",
   },
   {
     id: "combarro",
     title: "Combarro",
-    subtitle: "Horreos ao pe da ria",
+    subtitle: "H\u00f3rreos ao p\u00e9 da r\u00eda",
     img: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?q=80&w=600&auto=format&fit=crop",
   },
   {
@@ -68,7 +68,7 @@ const PHOTOS = [
   {
     id: "lugo",
     title: "Muralla de Lugo",
-    subtitle: "Pedra romana milenaria",
+    subtitle: "Pedra romana milen\u00e1ria",
     img: "https://images.unsplash.com/photo-1599839575945-a9e5af0c3fa5?q=80&w=600&auto=format&fit=crop",
   },
   {
@@ -101,7 +101,6 @@ export default function NosSection() {
   const [muted, setMuted] = useState(true);
   const [progress, setProgress] = useState(0);
   const [isTakingPhoto, setIsTakingPhoto] = useState(false);
-  const [shutterFlash, setShutterFlash] = useState(false);
   const [reelVisible, setReelVisible] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedPhoto, setSelectedPhoto] = useState<(typeof PHOTOS)[0] | null>(null);
@@ -135,16 +134,14 @@ export default function NosSection() {
   const handleCameraClick = async () => {
     if (isTakingPhoto) return;
     setIsTakingPhoto(true);
-    setShutterFlash(true);
     try {
       const { Haptics, ImpactStyle } = await import("@capacitor/haptics");
       await Haptics.impact({ style: ImpactStyle.Heavy });
     } catch (_) {}
     setTimeout(() => {
-      setShutterFlash(false);
       setIsTakingPhoto(false);
       setReelVisible(true);
-    }, 280);
+    }, 350);
   };
 
   const handleDragEnd = (_: any, info: any) => {
@@ -156,43 +153,38 @@ export default function NosSection() {
 
   return (
     <>
-      {/* Shutter flash */}
-      <AnimatePresence>
-        {shutterFlash && (
-          <motion.div key="flash"
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            transition={{ duration: 0.1 }}
-            style={{ position: "fixed", inset: 0, background: "#fff", zIndex: 999998, pointerEvents: "none" }} />
-        )}
-      </AnimatePresence>
 
-      {/* Lightbox */}
+      {/* Lightbox - centrado correctamente en m\u00f3bil */}
       <AnimatePresence>
         {selectedPhoto && (
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             onClick={() => setSelectedPhoto(null)}
             style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.96)", zIndex: 999999,
-              display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "1.5rem" }}>
+              display: "flex", alignItems: "center", justifyContent: "center",
+              padding: m ? "1rem" : "2rem", overflow: "auto", WebkitOverflowScrolling: "touch" }}>
             <motion.div
-              initial={{ scale: 0.88, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.94, opacity: 0 }}
+              initial={{ scale: 0.85, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
               transition={{ type: "spring", damping: 24, stiffness: 200 }}
               onClick={(e) => e.stopPropagation()}
-              style={{ position: "relative", width: "min(900px, 94vw)", display: "flex", flexDirection: "column", alignItems: "center" }}>
+              style={{ position: "relative", width: m ? "92vw" : "min(900px, 90vw)",
+                maxHeight: m ? "90vh" : "85vh",
+                display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
               <button onClick={() => setSelectedPhoto(null)}
-                style={{ position: "absolute", top: "-44px", right: 0, background: "none", border: "none",
-                  color: "#fff", cursor: "pointer", display: "flex", alignItems: "center", gap: "6px",
-                  fontFamily: "'DM Sans', sans-serif", fontSize: "0.9rem" }}>
-                <X size={20} /> Pechar
+                style={{ position: "absolute", top: m ? "-36px" : "-44px", right: 0, background: "rgba(0,0,0,0.5)",
+                  border: "1px solid rgba(255,255,255,0.2)", borderRadius: "50%",
+                  width: "32px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center",
+                  color: "#fff", cursor: "pointer", padding: 0, zIndex: 10 }}>
+                <X size={18} />
               </button>
               <img src={selectedPhoto.img} alt={selectedPhoto.title}
-                style={{ width: "100%", maxHeight: "80vh", objectFit: "contain", display: "block",
-                  border: "6px solid #111", boxShadow: "0 0 0 1px #333, 0 20px 60px rgba(0,0,0,0.8)" }} />
-              <div style={{ textAlign: "center", marginTop: "20px" }}>
-                <h4 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.8rem",
+                style={{ width: "100%", maxHeight: m ? "75vh" : "78vh", objectFit: "contain", display: "block",
+                  borderRadius: "4px", boxShadow: "0 20px 60px rgba(0,0,0,0.8)" }} />
+              <div style={{ textAlign: "center", marginTop: m ? "12px" : "20px", flexShrink: 0 }}>
+                <h4 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: m ? "1.3rem" : "1.8rem",
                   fontWeight: 400, color: "#EAE2D2", margin: 0 }}>{selectedPhoto.title}</h4>
-                <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.85rem", color: "#777", marginTop: "8px" }}>
+                <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: m ? "0.75rem" : "0.85rem", color: "#777", marginTop: "6px" }}>
                   {selectedPhoto.subtitle}
                 </p>
               </div>
@@ -227,12 +219,12 @@ export default function NosSection() {
             </div>
             <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300,
               fontSize: "clamp(2.5rem, 6vw, 6rem)", lineHeight: 0.9, letterSpacing: "-0.02em", color: "#EAE2D2" }}>
-              Nos, os <span style={{ color: "#C8A96E" }}>Creadores</span>
+              N\u00f3s, os <span style={{ color: "#C8A96E" }}>Creadores</span>
             </h2>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300,
               fontSize: m ? "0.9rem" : "1.05rem", lineHeight: 1.8, color: "#8B9BB4",
               maxWidth: "600px", margin: "1.5rem auto 0" }}>
-              Unha viaxe dixital a traves da memoria, do insomnio e da revelacion fotografica de Faneca Brava.
+              Unha viaxe dixital a trav\u00e9s da memoria, do insomnio e da revelaci\u00f3n fotogr\u00e1fica de Faneca Brava.
             </p>
           </motion.div>
 
@@ -285,10 +277,10 @@ export default function NosSection() {
               </div>
               <div style={{ padding: "1.25rem" }}>
                 <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.4rem",
-                  fontWeight: 300, color: "#C8A96E", marginBottom: "6px" }}>A Nosa Companeira</h3>
+                  fontWeight: 300, color: "#C8A96E", marginBottom: "6px" }}>A Nosa Compa\u00f1eira</h3>
                 <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.83rem",
                   lineHeight: 1.6, color: "#8B9BB4", margin: 0 }}>
-                  Emma Tabuyo Rodriguez, a traves deste pequeno documental do libro Faneca Brava.
+                  Emma Tabuyo Rodr\u00edguez, a trav\u00e9s deste pequeno documental do libro Faneca Brava.
                 </p>
               </div>
             </motion.div>
@@ -320,13 +312,13 @@ export default function NosSection() {
               </div>
               <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.5rem",
                 fontWeight: 300, color: "#C8A96E", marginBottom: "8px" }}>
-                {reelVisible ? "Carrete Revelado" : "Camara de Concha"}
+                {reelVisible ? "Carrete Revelado" : "C\u00e1mara de Concha"}
               </h3>
               <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.85rem",
                 lineHeight: 1.6, color: "#EAE2D2", opacity: 0.78, maxWidth: "280px", margin: 0 }}>
                 {reelVisible
                   ? "Arrastra ou usa as frechas para ollar as nosas fotos."
-                  : "Preme a camara analoxico para disparar o flash e revelar o noso carrete."}
+                  : "Preme a c\u00e1mara anal\u00f3xica para revelar o noso carrete."}
               </p>
             </motion.div>
           </div>
@@ -493,7 +485,7 @@ export default function NosSection() {
 
                 <p style={{ textAlign: "center", fontFamily: "'DM Sans', sans-serif",
                   fontSize: "0.75rem", color: "#444", marginTop: "12px" }}>
-                  Arrastra ou usa as frechas · Preme a foto activa para ampliala
+                  Arrastra ou usa as frechas \u00b7 Preme a foto activa para ampliala
                 </p>
               </motion.div>
             )}
