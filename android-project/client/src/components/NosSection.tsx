@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+﻿import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { Play, Pause, Volume2, VolumeX, Maximize2, ChevronLeft, ChevronRight, X } from "lucide-react";
@@ -20,43 +20,43 @@ const PHOTOS = [
   {
     id: "jun",
     title: "Jun Sieira",
-    subtitle: "Dese\u00f1o e Direcci\u00f3n",
+    subtitle: "Deseño e Dirección",
     img: isCapacitor() ? "assets/images/opinion-jun.jpg" : "/manus-storage/opinion-jun.jpg",
   },
   {
     id: "alvaro",
     title: "Alvaro Villar",
-    subtitle: "Programaci\u00f3n e C\u00f3digo",
+    subtitle: "Programación e Código",
     img: isCapacitor() ? "assets/images/opinion-alvaro.jpg" : "/manus-storage/opinion-alvaro.jpg",
   },
   {
     id: "santiago",
     title: "Santiago de Compostela",
-    subtitle: "R\u00faas de pedra e choiva",
+    subtitle: "Rúas de pedra e choiva",
     img: "https://images.unsplash.com/photo-1543872084-c7bd3822856f?q=80&w=600&auto=format&fit=crop",
   },
   {
     id: "cies",
-    title: "Illas C\u00edes",
+    title: "Illas Cíes",
     subtitle: "Praia de Rodas, area e mar",
     img: "https://images.unsplash.com/photo-1544913716-6081a1fd0411?q=80&w=600&auto=format&fit=crop",
   },
   {
     id: "fragas",
     title: "Fragas do Eume",
-    subtitle: "Bosque m\u00e1xico e n\u00e9boa",
+    subtitle: "Bosque máxico e néboa",
     img: "https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=600&auto=format&fit=crop",
   },
   {
     id: "sil",
-    title: "Can\u00f3n do Sil",
+    title: "Canón do Sil",
     subtitle: "Ribeira Sacra",
     img: "https://images.unsplash.com/photo-1620121692029-d088224ddc74?q=80&w=600&auto=format&fit=crop",
   },
   {
     id: "combarro",
     title: "Combarro",
-    subtitle: "H\u00f3rreos ao p\u00e9 da r\u00eda",
+    subtitle: "Hórreos ao pé da ría",
     img: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?q=80&w=600&auto=format&fit=crop",
   },
   {
@@ -68,7 +68,7 @@ const PHOTOS = [
   {
     id: "lugo",
     title: "Muralla de Lugo",
-    subtitle: "Pedra romana milen\u00e1ria",
+    subtitle: "Pedra romana milenária",
     img: "https://images.unsplash.com/photo-1599839575945-a9e5af0c3fa5?q=80&w=600&auto=format&fit=crop",
   },
   {
@@ -90,8 +90,6 @@ const PHOTOS = [
     img: "https://images.unsplash.com/photo-1518495973542-4542c06a5843?q=80&w=600&auto=format&fit=crop",
   },
 ];
-
-
 
 export default function NosSection() {
   const [mounted, setMounted] = useState(false);
@@ -150,11 +148,11 @@ export default function NosSection() {
   };
 
   const videoSrc = isCapacitor() ? "assets/images/nos-video.mp4" : "/manus-storage/nos-video.mp4";
+  const stickerSrc = isCapacitor() ? "assets/images/camera-sticker.png" : "/manus-storage/camera-sticker.png";
 
   return (
     <>
-
-      {/* Lightbox - centrado correctamente en m\u00f3bil */}
+      {/* Lightbox - centrado correctamente en móbil */}
       <AnimatePresence>
         {selectedPhoto && (
           <motion.div
@@ -162,7 +160,7 @@ export default function NosSection() {
             onClick={() => setSelectedPhoto(null)}
             style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.96)", zIndex: 999999,
               display: "flex", alignItems: "center", justifyContent: "center",
-              padding: m ? "1rem" : "2rem", overflow: "auto", WebkitOverflowScrolling: "touch" }}>
+              padding: m ? "1rem" : "2rem", overflow: "auto" }}>
             <motion.div
               initial={{ scale: 0.85, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
@@ -219,12 +217,12 @@ export default function NosSection() {
             </div>
             <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300,
               fontSize: "clamp(2.5rem, 6vw, 6rem)", lineHeight: 0.9, letterSpacing: "-0.02em", color: "#EAE2D2" }}>
-              N\u00f3s, os <span style={{ color: "#C8A96E" }}>Creadores</span>
+              {"Nós, os "}<span style={{ color: "#C8A96E" }}>Creadores</span>
             </h2>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300,
               fontSize: m ? "0.9rem" : "1.05rem", lineHeight: 1.8, color: "#8B9BB4",
               maxWidth: "600px", margin: "1.5rem auto 0" }}>
-              Unha viaxe dixital a trav\u00e9s da memoria, do insomnio e da revelaci\u00f3n fotogr\u00e1fica de Faneca Brava.
+              {"Unha viaxe dixital a través da memoria, do insomnio e da revelación fotográfica de Faneca Brava."}
             </p>
           </motion.div>
 
@@ -277,10 +275,10 @@ export default function NosSection() {
               </div>
               <div style={{ padding: "1.25rem" }}>
                 <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.4rem",
-                  fontWeight: 300, color: "#C8A96E", marginBottom: "6px" }}>A Nosa Compa\u00f1eira</h3>
+                  fontWeight: 300, color: "#C8A96E", marginBottom: "6px" }}>{"Videoanálise do Libro"}</h3>
                 <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.83rem",
                   lineHeight: 1.6, color: "#8B9BB4", margin: 0 }}>
-                  Emma Tabuyo Rodr\u00edguez, a trav\u00e9s deste pequeno documental do libro Faneca Brava.
+                  {"Martina Gontá Martínez, a través desta videocrítica do libro Faneca Brava."}
                 </p>
               </div>
             </motion.div>
@@ -302,23 +300,24 @@ export default function NosSection() {
                 <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
                   onClick={handleCameraClick}
                   style={{ position: "relative", zIndex: 10, width: m ? "200px" : "240px",
-                    height: m ? "136px" : "162px", cursor: "pointer" }}>
-                  <img src={isCapacitor() ? "assets/images/camera-sticker.png" : "/manus-storage/camera-sticker.png"} alt="Camera Sticker"
+                    height: m ? "160px" : "190px", cursor: "pointer" }}>
+                  <img src={stickerSrc} alt="Camera Sticker"
                     style={{ width: "100%", height: "100%", objectFit: "contain",
-                      filter: "drop-shadow(0 14px 28px rgba(0,0,0,0.5))",
-                      transform: isTakingPhoto ? "scale(0.96)" : "scale(1)",
-                      transition: "transform 0.1s" }} />
+                      filter: "drop-shadow(0 10px 25px rgba(0,0,0,0.6))",
+                      mixBlendMode: "multiply",
+                      transform: isTakingPhoto ? "scale(0.93) rotate(-2deg)" : "scale(1) rotate(0deg)",
+                      transition: "transform 0.15s ease-out" }} />
                 </motion.div>
               </div>
               <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.5rem",
                 fontWeight: 300, color: "#C8A96E", marginBottom: "8px" }}>
-                {reelVisible ? "Carrete Revelado" : "C\u00e1mara de Concha"}
+                {reelVisible ? "Carrete Revelado" : "Cámara de Concha"}
               </h3>
               <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.85rem",
                 lineHeight: 1.6, color: "#EAE2D2", opacity: 0.78, maxWidth: "280px", margin: 0 }}>
                 {reelVisible
                   ? "Arrastra ou usa as frechas para ollar as nosas fotos."
-                  : "Preme a c\u00e1mara anal\u00f3xica para revelar o noso carrete."}
+                  : "Preme a cámara analóxica para revelar o noso carrete."}
               </p>
             </motion.div>
           </div>
@@ -377,7 +376,6 @@ export default function NosSection() {
                             position: "absolute",
                             width: `${cardW}px`,
                             height: `${cardH}px`,
-                            /* Film frame: dark background with film borders */
                             background: "#0A0A0A",
                             border: "4px solid #1A1A1A",
                             outline: "1px solid #2E2E2E",
@@ -408,7 +406,6 @@ export default function NosSection() {
                             <img src={photo.img} alt={photo.title}
                               style={{ width: "100%", height: "100%", objectFit: "cover",
                                 filter: "sepia(0.1) contrast(1.08) brightness(0.9)", display: "block" }} />
-                            {/* Frame number */}
                             <span style={{ position: "absolute", top: "4px", left: "5px",
                               fontFamily: "monospace", fontSize: "9px", color: "#C8A96E",
                               opacity: 0.7, pointerEvents: "none", letterSpacing: "0.05em" }}>
@@ -485,7 +482,7 @@ export default function NosSection() {
 
                 <p style={{ textAlign: "center", fontFamily: "'DM Sans', sans-serif",
                   fontSize: "0.75rem", color: "#444", marginTop: "12px" }}>
-                  Arrastra ou usa as frechas \u00b7 Preme a foto activa para ampliala
+                  Arrastra ou usa as frechas Â· Preme a foto activa para ampliala
                 </p>
               </motion.div>
             )}
