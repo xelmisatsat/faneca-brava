@@ -1,4 +1,4 @@
-﻿import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { Play, Pause, Volume2, VolumeX, Maximize2, ChevronLeft, ChevronRight, X } from "lucide-react";
@@ -68,7 +68,7 @@ const PHOTOS = [
   {
     id: "lugo",
     title: "Muralla de Lugo",
-    subtitle: "Pedra romana milenária",
+    subtitle: "Pedra romana milenaria",
     img: "https://images.unsplash.com/photo-1599839575945-a9e5af0c3fa5?q=80&w=600&auto=format&fit=crop",
   },
   {
@@ -91,13 +91,87 @@ const PHOTOS = [
   },
 ];
 
-export default function NosSection() {
-  const [mounted, setMounted] = useState(false);
-  const m = useIsMobile();
-  const videoRef = useRef<HTMLVideoElement>(null);
+/* ── Reusable Video Player ───────────────────────────────────── */
+function VideoPlayer({ src, title, subtitle, isMobile }: {
+  src: string; title: string; subtitle: string; isMobile: boolean;
+}) {
+  const ref = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(true);
   const [progress, setProgress] = useState(0);
+
+  const toggle = () => {
+    if (!ref.current) return;
+    if (playing) { ref.current.pause(); setPlaying(false); }
+    else { ref.current.play().catch(() => {}); setPlaying(true); }
+  };
+  const toggleMute = () => {
+    if (!ref.current) return;
+    ref.current.muted = !muted;
+    setMuted(!muted);
+  };
+  const onTime = () => {
+    if (!ref.current) return;
+    setProgress((ref.current.currentTime / (ref.current.duration || 1)) * 100);
+  };
+  const onSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!ref.current) return;
+    const v = parseFloat(e.target.value);
+    ref.current.currentTime = (v / 100) * (ref.current.duration || 0);
+    setProgress(v);
+  };
+
+  return (
+    <div style={{ ...G, overflow: "hidden" }}>
+      <div style={{ position: "relative", width: "100%", aspectRatio: "16/9", background: "#000" }}>
+        <video ref={ref} src={src} loop muted={muted} playsInline
+          onTimeUpdate={onTime} onClick={toggle}
+          style={{ width: "100%", height: "100%", objectFit: "cover", cursor: "pointer", display: "block" }} />
+        {!playing && (
+          <div onClick={toggle} style={{ position: "absolute", inset: 0, display: "flex",
+            alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.3)", cursor: "pointer" }}>
+            <motion.div whileHover={{ scale: 1.14 }}
+              style={{ width: "60px", height: "60px", borderRadius: "50%",
+                background: "rgba(200,169,110,0.9)", display: "flex", alignItems: "center",
+                justifyContent: "center", boxShadow: "0 0 25px rgba(200,169,110,0.4)", paddingLeft: "3px" }}>
+              <Play size={24} color="#08080D" fill="#08080D" />
+            </motion.div>
+          </div>
+        )}
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0,
+          background: "linear-gradient(to top, rgba(8,8,13,0.95) 0%, rgba(8,8,13,0.4) 60%, transparent 100%)",
+          padding: "10px 14px", display: "flex", flexDirection: "column", gap: "6px", zIndex: 20 }}>
+          <input type="range" min="0" max="100" value={progress} onChange={onSeek}
+            style={{ width: "100%", accentColor: "#C8A96E", height: "4px", borderRadius: "2px", cursor: "pointer", outline: "none" }} />
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <div style={{ display: "flex", gap: "12px" }}>
+              <button onClick={toggle} style={{ background: "none", border: "none", color: "#EAE2D2", cursor: "pointer", padding: 0 }}>
+                {playing ? <Pause size={16} /> : <Play size={16} fill="#EAE2D2" />}
+              </button>
+              <button onClick={toggleMute} style={{ background: "none", border: "none", color: "#EAE2D2", cursor: "pointer", padding: 0 }}>
+                {muted ? <VolumeX size={16} /> : <Volume2 size={16} />}
+              </button>
+            </div>
+            <button onClick={() => ref.current?.requestFullscreen?.()}
+              style={{ background: "none", border: "none", color: "#EAE2D2", cursor: "pointer", padding: 0 }}>
+              <Maximize2 size={16} />
+            </button>
+          </div>
+        </div>
+      </div>
+      <div style={{ padding: "1.25rem" }}>
+        <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: isMobile ? "1.2rem" : "1.4rem",
+          fontWeight: 300, color: "#C8A96E", marginBottom: "6px" }}>{title}</h3>
+        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.83rem",
+          lineHeight: 1.6, color: "#8B9BB4", margin: 0 }}>{subtitle}</p>
+      </div>
+    </div>
+  );
+}
+
+export default function NosSection() {
+  const [mounted, setMounted] = useState(false);
+  const m = useIsMobile();
   const [isTakingPhoto, setIsTakingPhoto] = useState(false);
   const [reelVisible, setReelVisible] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -107,27 +181,6 @@ export default function NosSection() {
     const t = setTimeout(() => setMounted(true), 80);
     return () => clearTimeout(t);
   }, []);
-
-  const togglePlay = () => {
-    if (!videoRef.current) return;
-    if (playing) { videoRef.current.pause(); setPlaying(false); }
-    else { videoRef.current.play().catch(() => {}); setPlaying(true); }
-  };
-  const toggleMute = () => {
-    if (!videoRef.current) return;
-    videoRef.current.muted = !muted;
-    setMuted(!muted);
-  };
-  const handleTimeUpdate = () => {
-    if (!videoRef.current) return;
-    setProgress((videoRef.current.currentTime / (videoRef.current.duration || 1)) * 100);
-  };
-  const handleProgressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!videoRef.current) return;
-    const v = parseFloat(e.target.value);
-    videoRef.current.currentTime = (v / 100) * (videoRef.current.duration || 0);
-    setProgress(v);
-  };
 
   const handleCameraClick = async () => {
     if (isTakingPhoto) return;
@@ -147,12 +200,13 @@ export default function NosSection() {
     else if (info.offset.x < -40) setCurrentIndex(prev => Math.min(PHOTOS.length - 1, prev + 1));
   };
 
-  const videoSrc = isCapacitor() ? "assets/images/nos-video.mp4" : "/manus-storage/nos-video.mp4";
+  const video1Src = isCapacitor() ? "assets/images/nos-video.mp4" : "/manus-storage/nos-video.mp4";
+  const video2Src = isCapacitor() ? "assets/images/nos-video-2.mp4" : "/manus-storage/nos-video-2.mp4";
   const stickerSrc = isCapacitor() ? "assets/images/camera-sticker.png" : "/manus-storage/camera-sticker.png";
 
   return (
     <>
-      {/* Lightbox - centrado correctamente en móbil */}
+      {/* Lightbox */}
       <AnimatePresence>
         {selectedPhoto && (
           <motion.div
@@ -217,110 +271,75 @@ export default function NosSection() {
             </div>
             <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300,
               fontSize: "clamp(2.5rem, 6vw, 6rem)", lineHeight: 0.9, letterSpacing: "-0.02em", color: "#EAE2D2" }}>
-              {"Nós, os "}<span style={{ color: "#C8A96E" }}>Creadores</span>
+              Nós, os <span style={{ color: "#C8A96E" }}>Creadores</span>
             </h2>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300,
               fontSize: m ? "0.9rem" : "1.05rem", lineHeight: 1.8, color: "#8B9BB4",
               maxWidth: "600px", margin: "1.5rem auto 0" }}>
-              {"Unha viaxe dixital a través da memoria, do insomnio e da revelación fotográfica de Faneca Brava."}
+              Unha viaxe dixital a través da memoria, do insomnio e da revelación fotográfica de Faneca Brava.
             </p>
           </motion.div>
 
-          {/* Two-column grid */}
+          {/* Two videos side by side */}
           <div style={{ display: "grid", gridTemplateColumns: m ? "1fr" : "1fr 1fr",
-            gap: m ? "2rem" : "3.5rem", alignItems: "center",
-            marginBottom: reelVisible ? (m ? "2rem" : "3rem") : 0 }}>
-
-            {/* Video column */}
+            gap: m ? "1.5rem" : "2.5rem", marginBottom: m ? "2rem" : "3rem" }}>
             <motion.div
               initial={{ opacity: 0, x: m ? 0 : -50 }}
               animate={mounted ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              style={{ ...G, overflow: "hidden" }}>
-              <div style={{ position: "relative", width: "100%", aspectRatio: "16/9", background: "#000" }}>
-                <video ref={videoRef} src={videoSrc} loop muted={muted} playsInline
-                  onTimeUpdate={handleTimeUpdate} onClick={togglePlay}
-                  style={{ width: "100%", height: "100%", objectFit: "cover", cursor: "pointer", display: "block" }} />
-                {!playing && (
-                  <div onClick={togglePlay} style={{ position: "absolute", inset: 0, display: "flex",
-                    alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.3)", cursor: "pointer" }}>
-                    <motion.div whileHover={{ scale: 1.14 }}
-                      style={{ width: "60px", height: "60px", borderRadius: "50%",
-                        background: "rgba(200,169,110,0.9)", display: "flex", alignItems: "center",
-                        justifyContent: "center", boxShadow: "0 0 25px rgba(200,169,110,0.4)", paddingLeft: "3px" }}>
-                      <Play size={24} color="#08080D" fill="#08080D" />
-                    </motion.div>
-                  </div>
-                )}
-                <div style={{ position: "absolute", bottom: 0, left: 0, right: 0,
-                  background: "linear-gradient(to top, rgba(8,8,13,0.95) 0%, rgba(8,8,13,0.4) 60%, transparent 100%)",
-                  padding: "10px 14px", display: "flex", flexDirection: "column", gap: "6px", zIndex: 20 }}>
-                  <input type="range" min="0" max="100" value={progress} onChange={handleProgressChange}
-                    style={{ width: "100%", accentColor: "#C8A96E", height: "4px", borderRadius: "2px", cursor: "pointer", outline: "none" }} />
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                    <div style={{ display: "flex", gap: "12px" }}>
-                      <button onClick={togglePlay} style={{ background: "none", border: "none", color: "#EAE2D2", cursor: "pointer", padding: 0 }}>
-                        {playing ? <Pause size={16} /> : <Play size={16} fill="#EAE2D2" />}
-                      </button>
-                      <button onClick={toggleMute} style={{ background: "none", border: "none", color: "#EAE2D2", cursor: "pointer", padding: 0 }}>
-                        {muted ? <VolumeX size={16} /> : <Volume2 size={16} />}
-                      </button>
-                    </div>
-                    <button onClick={() => videoRef.current?.requestFullscreen?.()}
-                      style={{ background: "none", border: "none", color: "#EAE2D2", cursor: "pointer", padding: 0 }}>
-                      <Maximize2 size={16} />
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div style={{ padding: "1.25rem" }}>
-                <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.4rem",
-                  fontWeight: 300, color: "#C8A96E", marginBottom: "6px" }}>{"Videoanálise do Libro"}</h3>
-                <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.83rem",
-                  lineHeight: 1.6, color: "#8B9BB4", margin: 0 }}>
-                  {"Martina Gontá Martínez, a través desta videocrítica do libro Faneca Brava."}
-                </p>
-              </div>
+              transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}>
+              <VideoPlayer src={video1Src} isMobile={m}
+                title="A Nosa Compañeira"
+                subtitle="Emma Tabuyo Rodríguez, a través deste pequeno documental do libro Faneca Brava." />
             </motion.div>
-
-            {/* Camera column */}
             <motion.div
               initial={{ opacity: 0, x: m ? 0 : 50 }}
               animate={mounted ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.9, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              style={{ ...G, padding: "2.5rem 1.5rem", display: "flex", flexDirection: "column",
-                alignItems: "center", justifyContent: "center", textAlign: "center", minHeight: "260px" }}>
-              <div style={{ position: "relative", marginBottom: "1.5rem" }}>
-                <motion.div
-                  animate={{ scale: [1, 1.14, 1], opacity: [0.14, 0.3, 0.14] }}
-                  transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
-                  style={{ position: "absolute", top: "50%", left: "50%", width: "190px", height: "110px",
-                    borderRadius: "50%", background: "radial-gradient(circle, #C8A96E 0%, transparent 70%)",
-                    transform: "translate(-50%, -50%)", pointerEvents: "none" }} />
-                <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
-                  onClick={handleCameraClick}
-                  style={{ position: "relative", zIndex: 10, width: m ? "200px" : "240px",
-                    height: m ? "160px" : "190px", cursor: "pointer" }}>
-                  <img src={stickerSrc} alt="Camera Sticker"
-                    style={{ width: "100%", height: "100%", objectFit: "contain",
-                      filter: "drop-shadow(0 10px 25px rgba(0,0,0,0.6))",
-                      mixBlendMode: "multiply",
-                      transform: isTakingPhoto ? "scale(0.93) rotate(-2deg)" : "scale(1) rotate(0deg)",
-                      transition: "transform 0.15s ease-out" }} />
-                </motion.div>
-              </div>
-              <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.5rem",
-                fontWeight: 300, color: "#C8A96E", marginBottom: "8px" }}>
-                {reelVisible ? "Carrete Revelado" : "Cámara de Concha"}
-              </h3>
-              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.85rem",
-                lineHeight: 1.6, color: "#EAE2D2", opacity: 0.78, maxWidth: "280px", margin: 0 }}>
-                {reelVisible
-                  ? "Arrastra ou usa as frechas para ollar as nosas fotos."
-                  : "Preme a cámara analóxica para revelar o noso carrete."}
-              </p>
+              transition={{ duration: 0.9, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}>
+              <VideoPlayer src={video2Src} isMobile={m}
+                title="Videoanálise do Libro"
+                subtitle="Martina Gontá Martínez, a través desta videocrítica do libro Faneca Brava." />
             </motion.div>
           </div>
+
+          {/* Camera section - centered */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={mounted ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.9, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            style={{ ...G, padding: "2.5rem 1.5rem", display: "flex", flexDirection: "column",
+              alignItems: "center", justifyContent: "center", textAlign: "center", minHeight: "220px",
+              maxWidth: m ? "100%" : "480px", margin: "0 auto",
+              marginBottom: reelVisible ? (m ? "2rem" : "3rem") : 0 }}>
+            <div style={{ position: "relative", marginBottom: "1.5rem" }}>
+              <motion.div
+                animate={{ scale: [1, 1.14, 1], opacity: [0.14, 0.3, 0.14] }}
+                transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
+                style={{ position: "absolute", top: "50%", left: "50%", width: "190px", height: "110px",
+                  borderRadius: "50%", background: "radial-gradient(circle, #C8A96E 0%, transparent 70%)",
+                  transform: "translate(-50%, -50%)", pointerEvents: "none" }} />
+              <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
+                onClick={handleCameraClick}
+                style={{ position: "relative", zIndex: 10, width: m ? "180px" : "220px",
+                  height: m ? "140px" : "170px", cursor: "pointer" }}>
+                <img src={stickerSrc} alt="Camera Sticker"
+                  style={{ width: "100%", height: "100%", objectFit: "contain",
+                    filter: "drop-shadow(0 10px 25px rgba(0,0,0,0.6))",
+                    mixBlendMode: "multiply",
+                    transform: isTakingPhoto ? "scale(0.93) rotate(-2deg)" : "scale(1) rotate(0deg)",
+                    transition: "transform 0.15s ease-out" }} />
+              </motion.div>
+            </div>
+            <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.5rem",
+              fontWeight: 300, color: "#C8A96E", marginBottom: "8px" }}>
+              {reelVisible ? "Carrete Revelado" : "Cámara de Concha"}
+            </h3>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.85rem",
+              lineHeight: 1.6, color: "#EAE2D2", opacity: 0.78, maxWidth: "280px", margin: 0 }}>
+              {reelVisible
+                ? "Arrastra ou usa as frechas para ollar as nosas fotos."
+                : "Preme a cámara analóxica para revelar o noso carrete."}
+            </p>
+          </motion.div>
 
           {/* Curved Film Reel Carousel */}
           <AnimatePresence>
@@ -482,7 +501,7 @@ export default function NosSection() {
 
                 <p style={{ textAlign: "center", fontFamily: "'DM Sans', sans-serif",
                   fontSize: "0.75rem", color: "#444", marginTop: "12px" }}>
-                  Arrastra ou usa as frechas Â· Preme a foto activa para ampliala
+                  Arrastra ou usa as frechas · Preme a foto activa para ampliala
                 </p>
               </motion.div>
             )}
