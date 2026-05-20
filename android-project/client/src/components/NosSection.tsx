@@ -280,26 +280,27 @@ export default function NosSection() {
             </p>
           </motion.div>
 
-          {/* Two videos side by side */}
-          <div style={{ display: "grid", gridTemplateColumns: m ? "1fr" : "1fr 1fr",
-            gap: m ? "1.5rem" : "2.5rem", marginBottom: m ? "2rem" : "3rem" }}>
-            <motion.div
-              initial={{ opacity: 0, x: m ? 0 : -50 }}
-              animate={mounted ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}>
-              <VideoPlayer src={video1Src} isMobile={m}
-                title="A Nosa Compañeira"
-                subtitle="Emma Tabuyo Rodríguez, a través deste pequeno documental do libro Faneca Brava." />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: m ? 0 : 50 }}
-              animate={mounted ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.9, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}>
-              <VideoPlayer src={video2Src} isMobile={m}
-                title="Videoanálise do Libro"
-                subtitle="Martina Gontá Martínez, a través desta videocrítica do libro Faneca Brava." />
-            </motion.div>
-          </div>
+          {/* Video de Martina - principal, máis grande */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={mounted ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            style={{ maxWidth: m ? "100%" : "900px", margin: "0 auto", marginBottom: m ? "1.5rem" : "2.5rem" }}>
+            <VideoPlayer src={video2Src} isMobile={m}
+              title="Videoanálise do Libro"
+              subtitle="Martina Gontá Martínez, a través desta videocrítica do libro Faneca Brava." />
+          </motion.div>
+
+          {/* Video de Emma - secundario, máis pequeno */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={mounted ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.9, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            style={{ maxWidth: m ? "100%" : "640px", margin: "0 auto", marginBottom: m ? "2rem" : "3rem" }}>
+            <VideoPlayer src={video1Src} isMobile={m}
+              title="A Nosa Compañeira"
+              subtitle="Emma Tabuyo Rodríguez, a través deste pequeno documental do libro Faneca Brava." />
+          </motion.div>
 
           {/* Camera section - centered */}
           <motion.div
