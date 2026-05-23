@@ -92,7 +92,7 @@ export default function SobreSection() {
             {/* Stats */}
             <S v={FI} d={0.5}>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: m ? '8px' : '16px', marginBottom: '2.5rem' }}>
-                {[{ l: 'Partes', v: 'III + Coda' }, { l: 'Lugar', v: 'Galicia' }, { l: 'Época', v: '1960?' }].map((d, i) => (
+                {[{ l: 'Partes', v: 'III + Coda' }, { l: 'Lugar', v: 'Galicia' }, { l: 'Época', v: '1960' }].map((d, i) => (
                   <motion.div key={i} whileHover={m ? {} : { scale: 1.04, y: -3 }} transition={{ duration: 0.3 }}
                     style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.04) 100%)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.12)', borderTop: '1px solid rgba(255,255,255,0.22)', borderRadius: m ? '12px' : '16px', padding: m ? '14px 8px' : '20px', textAlign: 'center', boxShadow: '0 4px 20px rgba(0,0,0,0.3)', overflow: 'hidden' }}>
                     <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: m ? '1.5rem' : '2.2rem', fontWeight: 300, color: '#C8A96E' }}>{d.v}</div>

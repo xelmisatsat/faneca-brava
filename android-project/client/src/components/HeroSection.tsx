@@ -130,7 +130,7 @@ export default function HeroSection() {
         >
           {[
             { label: 'Partes', val: 'III' },
-            { label: 'Época', val: '1960?' },
+            { label: 'Época', val: '1960' },
             { label: 'Lugar', val: 'Galicia' },
           ].map((s, i) => (
             <div key={i} style={{ textAlign: 'center' }}>

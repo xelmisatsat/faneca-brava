@@ -5,18 +5,18 @@ import { useIsMobile } from "@/hooks/useIsMobile";
 const opinions = [
   {
     name: "Jun Sieira Gerpe",
-    role: "Dirección de Arte e Análise Literario",
+    role: "Alumno de 4º ESO · IES Arcebispo Xelmírez I",
     img: "/manus-storage/opinion-jun.jpg",
     color: "#C8A96E",
-    quote: "Ler Faneca Brava foi descubrir que os monstros máis aterradores non están nos contos, senón no silencio e na hipocrisía das familias. A evolución de Concha fascíname: non é unha vítima perfecta, é unha supervivente indómita que usa a súa cámara como arma para desposuír de poder á mesma sociedade que a desterrou. A novela de Manuel Portas racha co mito da familia como refuxio seguro e fainos ver como a culpa herdada, somatizada no insomnio de Fernando, pode envelenar xeracións enteiras. O contraste coa súa irmá Encarna demostra, ademais, as distintas facianas da opresión feminina nunha ditadura. Unha autopsia familiar brillante e claustrofóbica.",
+    quote: "O libro gustoume máis do que esperaba. Cando o comecei pensaba que ía ser outra historia máis da posguerra, pero o tema da familia Pereira engancha bastante. O que máis me chamou a atención é o mala e hipócrita que chega a ser a avoa Carme só para salvar as aparencias. O personaxe de Concha está moi ben construído: no canto de afundirse cando a botan da casa, marcha a Barcelona e búscase a vida usando os segredos dos ricos ao seu favor. Tamén me pareceu clave o contraste coa súa irmá Encarna, que queda na vila aguantando todo en silencio. En xeral, é unha novela que che fai ver como antes as familias tapaban calquera cousa polo que dirán.",
     rating: 5,
   },
   {
     name: "Álvaro Villar Gómez",
-    role: "Desenvolvemento e Narrativa",
+    role: "Alumno de 4º ESO · IES Arcebispo Xelmírez I",
     img: "/manus-storage/opinion-alvaro.jpg",
     color: "#8B9BB4",
-    quote: "O que máis me enganchou de Faneca Brava foi como o autor mestura a intriga coa historia do noso pasado. Ao principio parece a vida dun médico estresado, pero o crebacabezas da súa familia mantente en tensión todo o tempo. Impactoume ler a crueldade que se vivía nas escolas con figuras como Dona Remedios e a inxustiza da avoa Mamá Carme. O xiro final, descubrindo que a rapaza marxinada acabou sendo unha paparazzi de éxito que chantaxeaba aos ricos en Barcelona, é un final redondo que lle dá moito ritmo á novela. É un libro que se le rápido e que te fai pensar sobre o que agochan as aparencias.",
+    quote: "A min o que máis me gustou do libro foi o fácil que se le. A historia empeza co problema do médico que non dá durmido, e ao principio non sabes moi ben por que, pero en canto empezan a investigar o pasado, a trama avanza soa. Dá moita rabia ler o que pasaba na escola con dona Remedios e o inxustos que foron con Concha na súa propia casa. Pero por iso mesmo o final é tan bo, cando descobres que a nena á que botaron da vila rematou convertida nunha fotógrafa de éxito en Barcelona. É un libro moi entretido e a intriga manténse ata a última páxina.",
     rating: 5,
   },
 ];
