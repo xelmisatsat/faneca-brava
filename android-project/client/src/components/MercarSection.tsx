@@ -10,41 +10,20 @@ const LogoGalaxia = () => (
   </svg>
 );
 
-const LogoAmazon = () => (
+const LogoLibraria = (color = "#8B9BB4") => () => (
   <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-    <rect width="32" height="32" rx="8" fill="rgba(255,153,0,0.15)" />
-    <text x="16" y="21" textAnchor="middle" fill="#FF9900" fontSize="10" fontFamily="Arial, sans-serif" fontWeight="bold">amzn</text>
+    <rect width="32" height="32" rx="8" fill={`${color}25`} />
+    <text x="16" y="21" textAnchor="middle" fill={color} fontSize="10" fontFamily="Georgia, serif" fontWeight="bold">L</text>
   </svg>
 );
 
-const LogoFnac = () => (
-  <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-    <rect width="32" height="32" rx="8" fill="rgba(226,0,26,0.15)" />
-    <text x="16" y="21" textAnchor="middle" fill="#E2001A" fontSize="10" fontFamily="Arial, sans-serif" fontWeight="bold">fnac</text>
-  </svg>
-);
-
-const LogoCasaLibro = () => (
-  <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-    <rect width="32" height="32" rx="8" fill="rgba(0,102,204,0.15)" />
-    <text x="16" y="15" textAnchor="middle" fill="#0066CC" fontSize="7" fontFamily="Arial, sans-serif" fontWeight="bold">CASA</text>
-    <text x="16" y="24" textAnchor="middle" fill="#0066CC" fontSize="7" fontFamily="Arial, sans-serif" fontWeight="bold">LIBRO</text>
-  </svg>
-);
-
-const LogoLorca = () => (
-  <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-    <rect width="32" height="32" rx="8" fill="rgba(74,124,89,0.15)" />
-    <text x="16" y="21" textAnchor="middle" fill="#4A7C59" fontSize="9" fontFamily="Georgia, serif" fontWeight="bold">Lorca</text>
-  </svg>
-);
-
-const LogoClarion = () => (
-  <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-    <rect width="32" height="32" rx="8" fill="rgba(107,140,174,0.15)" />
-    <text x="16" y="21" textAnchor="middle" fill="#6B8CAE" fontSize="8" fontFamily="Georgia, serif" fontWeight="bold">Clarión</text>
-  </svg>
-);
+const LogoCouceiro = LogoLibraria("#9A8A7A");
+const LogoClarion = LogoLibraria("#6B8CAE");
+const LogoPedreira = LogoLibraria("#7A6F8A");
+const LogoFollas = LogoLibraria("#4A7C59");
+const LogoLila = LogoLibraria("#C8A96E");
+const LogoCronopios = LogoLibraria("#8B7355");
+const LogoNumax = LogoLibraria("#C8A96E");
 
 const tiendas = [
   {
@@ -58,53 +37,73 @@ const tiendas = [
     highlight: true,
   },
   {
-    name: "Amazon España",
-    desc: "Envío rápido, Prime dispoñible",
-    price: "21,00 €",
-    badge: "Prime",
-    badgeColor: "#FF9900",
-    url: "https://www.amazon.es/Faneca-brava-Literaria-Manuel-Portas/dp/8411763331",
-    Logo: LogoAmazon,
-    highlight: false,
-  },
-  {
-    name: "Fnac",
-    desc: "5% de desconto en libros",
-    price: "20,99 €",
-    badge: "−5%",
-    badgeColor: "#E2001A",
-    url: "https://www.fnac.es/a11349070/Manuel-Portas-Faneca-brava",
-    Logo: LogoFnac,
-    highlight: false,
-  },
-  {
-    name: "Casa del Libro",
-    desc: "Envío gratis desde 19 €",
-    price: "22,10 €",
-    badge: "Envío gratis",
-    badgeColor: "#0066CC",
-    url: "https://www.casadellibro.com/libro-faneca-brava/9788411763332/16423955",
-    Logo: LogoCasaLibro,
-    highlight: false,
-  },
-  {
-    name: "Librería Lorca",
-    desc: "Librería especializada en galego",
-    price: "22,00 €",
-    badge: "Galego",
-    badgeColor: "#4A7C59",
-    url: "https://www.librerialorca.com/es/libro/faneca-brava_D730780545",
-    Logo: LogoLorca,
-    highlight: false,
-  },
-  {
-    name: "Clarión Libraría",
-    desc: "Libraría galega de referencia",
+    name: "Libraría Couceiro",
+    desc: "Libraría galega de referencia en Santiago",
     price: "22,10 €",
     badge: "Galicia",
+    badgeColor: "#9A8A7A",
+    url: "https://www.librariacouceiro.com/",
+    Logo: LogoCouceiro,
+    highlight: false,
+  },
+  {
+    name: "Clarión libraría",
+    desc: "Libraría especializada en literatura galega",
+    price: "22,10 €",
+    badge: "Galego",
     badgeColor: "#6B8CAE",
-    url: "https://www.clarionlibraria.gal/es/libro/faneca-brava_D730780545",
+    url: "https://www.clarionlibraria.com/",
     Logo: LogoClarion,
+    highlight: false,
+  },
+  {
+    name: "Libraría Pedreira",
+    desc: "Libraría con amplo fondo galego",
+    price: "22,10 €",
+    badge: "Galicia",
+    badgeColor: "#7A6F8A",
+    url: "https://www.librariapedreira.com/",
+    Logo: LogoPedreira,
+    highlight: false,
+  },
+  {
+    name: "Follas Novas",
+    desc: "A libraría galega de Madrid",
+    price: "22,10 €",
+    badge: "Madrid",
+    badgeColor: "#4A7C59",
+    url: "https://www.follasnovas.com/",
+    Logo: LogoFollas,
+    highlight: false,
+  },
+  {
+    name: "Librería Lila de Lilith",
+    desc: "Libraría feminista e de pensamento crítico",
+    price: "22,10 €",
+    badge: "Feminista",
+    badgeColor: "#C8A96E",
+    url: "https://www.liladelilith.com/",
+    Logo: LogoLila,
+    highlight: false,
+  },
+  {
+    name: "Cronopios Libros",
+    desc: "Libraría independente de calidade",
+    price: "22,10 €",
+    badge: "Independente",
+    badgeColor: "#8B7355",
+    url: "https://www.cronopios.es/",
+    Logo: LogoCronopios,
+    highlight: false,
+  },
+  {
+    name: "Númax",
+    desc: "Centro cultural e libraría alternativa",
+    price: "22,10 €",
+    badge: "Cultural",
+    badgeColor: "#C8A96E",
+    url: "https://numax.org/",
+    Logo: LogoNumax,
     highlight: false,
   },
 ];
@@ -265,4 +264,3 @@ export default function MercarSection() {
     </section>
   );
 }
-

@@ -14,12 +14,11 @@ const G = {
 const fichaItems = [
   { label: "Título",       value: "Faneca Brava" },
   { label: "Autor",        value: "Manuel Portas" },
-  { label: "Editorial",    value: "Editorial Galaxia" },
-  { label: "Publicación",  value: "11 de abril de 2013" },
+  { label: "Editorial",    value: "Editorial Xerais (2013) · Editorial Galaxia (2024)" },
   { label: "Lingua",       value: "Galego" },
   { label: "Xénero",       value: "Novela de memoria" },
-  { label: "Partes",       value: "III" },
-  { label: "Ambientación", value: "Galicia / Barcelona" },
+  { label: "Partes",       value: "III + Coda" },
+  { label: "Nº páxinas",   value: "244" },
 ];
 
 const temas = [
@@ -113,11 +112,12 @@ export default function LibroSection() {
         {/* Estrutura da novela */}
         <motion.div initial={{ opacity: 0, y: 30 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.9, delay: 0.5 }}>
           <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.4rem', fontWeight: 300, color: '#EAE2D2', marginBottom: '20px' }}>Estrutura da Novela</div>
-          <div style={{ display: 'grid', gridTemplateColumns: m ? '1fr' : 'repeat(3, 1fr)', gap: '16px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: m ? '1fr' : 'repeat(4, 1fr)', gap: '16px' }}>
             {[
               { num: "Parte I",   title: "Estirpe",            desc: "A familia Pereira, os seus segredos e o pasado silenciado. A infancia de Concha na vila mariñeira galega." },
-              { num: "Parte II",  title: "A Obsesión",         desc: "Fernando investiga. A verdade sobre Concha emerxe fragmento a fragmento a través de Andreu Picart e a tía Lela." },
-              { num: "Parte III", title: "A Xustiza pola Man", desc: "A revelación final. A faneca brava sempre clava as súas espiñas. A memoria devolve a dignidade." },
+              { num: "Parte II",  title: "A obsesión",         desc: "Fernando investiga. A verdade sobre Concha emerxe fragmento a fragmento a través de Andreu Picart e a tía Lela." },
+              { num: "Parte III", title: "A xustiza pola man", desc: "A revelación final. A faneca brava sempre crava as súas espiñas. A memoria devolve a dignidade." },
+              { num: "Coda",      title: "Epílogo",            desc: "As últimas 10 páxinas. O remate emocional da historia. A resolución do destino de Concha." },
             ].map((p, i) => (
               <motion.div key={i} whileHover={{ y: -4, scale: 1.01 }} style={{ ...G, padding: '24px 26px' }}>
                 <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C8A96E', marginBottom: '8px' }}>{p.num}</div>

@@ -5,13 +5,13 @@ import { useIsMobile } from "@/hooks/useIsMobile";
 const items = [
   {
     img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-village-night-JkiwiqgEL6ZDLZTtniYVuQ.webp",
-    title: "A Vila Mariñeira",
+    title: "A vila mariñeira",
     year: "1950s",
     desc: "Rúas de pedra, néboa e silencio. O microcosmos onde todo comezou.",
   },
   {
     img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-school-1960s-nAvQsmurgnEG3CJKH9fM67.webp",
-    title: "A Escola Franquista",
+    title: "A escola franquista",
     year: "1952",
     desc: "Crucifixo, retrato de Franco e a regra de Dona Remedios. O terror cotián.",
   },

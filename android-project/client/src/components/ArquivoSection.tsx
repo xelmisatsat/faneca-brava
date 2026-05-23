@@ -3,19 +3,19 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useIsMobile } from "@/hooks/useIsMobile";
 
 const temas = [
-  { id: "familia", num: "01", title: "A Familia Tóxica",
-    content: "A novela denuncia que o clan dos Pereira é unha estrutura tóxica e enferma. Mamá Carme prefire ocultar monstros reais — como o tío Daniel, un alcohólico, ou o cura abusador — e castigar á vítima (Concha) só para manter a imaxe de familia respectable e católica. A familia non é un refuxio: é a primeira prisión.",
+  { id: "familia", num: "1", title: "A familia tóxica",
+    content: "A novela denuncia que o clan dos Pereira é unha estrutura tóxica e enferma. Mamá Carme prefire ocultar monstros reais — como o tío Daniel, un alcohólico, ou o cura abusador — e castigar a vítima (Concha) só para manter a imaxe de familia respectable e católica. A familia non é un refuxio: é a primeira prisión.",
     quote: "Todas as familias agochan cadáveres na memoria." },
-  { id: "camara", num: "02", title: "A Cámara como Arma",
+  { id: "camara", num: "2", title: "A cámara como arma",
     content: "Concha non é unha fotógrafa artista que busca a beleza; é unha xusticeira social. Ao facerse paparazzi, usa os obxectivos das cámaras para destapar a realidade oculta das clases altas. É a súa forma de dicir: a min botástesme por mala, pero os que mandan son moito peores e eu teño as probas.",
     quote: "Eu teño as probas. E elas valen máis ca calquera apelido." },
-  { id: "culpa", num: "03", title: "A Culpa Somatizada",
+  { id: "culpa", num: "3", title: "A culpa somatizada",
     content: "Fernando é o espello do lector. O seu insomnio e esgotamento representan a culpa das xeracións actuais por permitir ou ignorar os abusos do pasado. Non pode descansar ata que non desenterra a verdade de Concha e lle devolve a súa dignidade. O corpo non mente cando a mente cala.",
     quote: "Os ollos de Concha perséguenme cando pecho os meus." },
-  { id: "franquismo", num: "04", title: "O Franquismo Doméstico",
+  { id: "franquismo", num: "4", title: "O franquismo doméstico",
     content: "A novela retrata o franquismo non como algo político e distante, senón como unha forza que se infiltra nos fogares, nas escolas, nas igrexas. A represión non vén só do Estado: vén da veciña, da mestra, do cura, da avoa. O réxime vivía nos corpos e nas conciencias das persoas.",
     quote: "O silencio foi a arma máis eficaz do réxime." },
-  { id: "memoria", num: "05", title: "Memoria e Identidade",
+  { id: "memoria", num: "5", title: "Memoria e identidade",
     content: "A reconstrución do pasado a través de fragmentos: cartas, fotografías, conversas. Fernando monta un puzzle emocional para entender quen foi Concha e, ao facelo, descobre quen é el mesmo e que herdou da súa familia. A identidade non é o que somos: é o que lembramos e o que decidimos non esquecer.",
     quote: "A memoria nunca arde completamente." },
 ];
@@ -104,9 +104,9 @@ export default function ArquivoSection() {
             {/* Lugares */}
             <div style={{ display: 'grid', gridTemplateColumns: m ? '1fr' : 'repeat(3, 1fr)', gap: '16px', marginTop: '2rem' }}>
               {[
-                { title: "Vila de Foz", desc: "A vila mariñeira onde crece Concha.", img: "/assets/images/village-night.webp" },
-                { title: "Santiago", desc: "Onde Fernando vive o presente.", img: "/assets/images/fernando-portrait.webp" },
-                { title: "Barcelona", desc: "A cidade da liberdade e a vinganza.", img: "/assets/images/barcelona-escape.webp" },
+                { title: "Vila de Foz", desc: "A vila mariñeira onde crece Concha.", img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-village-night-JkiwiqgEL6ZDLZTtniYVuQ.webp" },
+                { title: "Santiago", desc: "Onde Fernando vive o presente.", img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-fernando-portrait-EQpQqF6VEH5zWNhiMpjMkL.webp" },
+                { title: "Barcelona", desc: "A cidade da liberdade e a vinganza.", img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-barcelona-escape-LUvRJ4CSgpchvTjESJRApB.webp" },
               ].map((l, i) => (
                 <motion.div key={i} whileHover={{ scale: 1.04, y: -4 }} style={{ ...G, overflow: 'hidden', borderRadius: '14px' }}>
                   <div style={{ position: 'relative', aspectRatio: '16/9', overflow: 'hidden' }}>
@@ -126,4 +126,3 @@ export default function ArquivoSection() {
     </section>
   );
 }
-

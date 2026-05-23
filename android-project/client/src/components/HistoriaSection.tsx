@@ -3,30 +3,30 @@ import { motion } from "framer-motion";
 import { useIsMobile } from "@/hooks/useIsMobile";
 
 const caps = [
-  { n: "01", sub: "Santiago de Compostela, presente", title: "O Insomnio de Fernando",
+  { n: "1", sub: "Santiago de Compostela, presente", title: "O insomnio de Fernando",
     text: "Fernando Pereira, médico de Santiago, non pode durmir. As olleiras fórmanlle un medio arco azul escuro baixo os ollos. Os seus síntomas físicos son a somatización dunha culpa herdada polo comportamento da súa familia no pasado. Cada noite, os ollos de Concha perségueno. No Hostal dos Reis Católicos, un encontro inesperado con Andreu Picart cambiará todo.",
     cita: "Non podo durmir porque os ollos de Concha perséguenme cando pecho os meus.",
-    img: "/assets/images/fernando-portrait.webp" },
-  { n: "02", sub: "Vila mariñeira galega, anos 1940–50", title: "A Infancia na Foz",
+    img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-fernando-portrait-EQpQqF6VEH5zWNhiMpjMkL.webp" },
+  { n: "2", sub: "Vila mariñeira galega, anos 1940–50", title: "A infancia na foz",
     text: "A primeira infancia de Concha pasouna nos escasos límites da foz que conformaba o peirao natural da vila, entre a casa da avoa —pegada ao comezo do areal— e a escola de dona Remedios. As tardes diluíanse entre as barrigas estomballadas das dornas con cheiro a brea e sabor a sal, capitaneando unha manchea de rillotes. Nas pelexas a tumbos, non había rapaz que conseguise domeala.",
     cita: "A mestura daquel incipiente liderado primixenio e a dureza do salitre forxaron o carácter rexo da súa infancia.",
-    img: "/assets/images/village-night.webp" },
-  { n: "03", sub: "A escola franquista", title: "Dona Remedios e os Regrazos",
+    img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-village-night-JkiwiqgEL6ZDLZTtniYVuQ.webp" },
+  { n: "3", sub: "A escola franquista", title: "Dona Remedios e os regrazos",
     text: "Dona Remedios, mestra de carácter espartano, martelaba obsesivamente nas cabezas da rapazada coas catro operacións aritméticas. Coa prima Concha asañábase aínda máis que co resto, vareándoa con saña nas xemas dos dedos. Os dedos de máis dun, arrubiados polos impactos, aquel día sangraron pola xunta das uñas. Concha soportou as batidas sen un queixume, cos ollos cravados no rostro arredondado da mestra.",
     cita: "Nin un laio, nin un lamento, cos ollos cravados no rostro arredondado, groso e mol de dona Remedios.",
-    img: "/assets/images/school-1960s.webp" },
-  { n: "04", sub: "O punto de non retorno", title: "O Incendio e a Expulsión",
+    img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-school-1960s-nAvQsmurgnEG3CJKH9fM67.webp" },
+  { n: "4", sub: "O punto de non retorno", title: "O incendio e a expulsión",
     text: "A escola arde nun incendio. A familia Pereira, instigada por Mamá Carme, acusa a Concha sen probas e expúlsana do seu seo para non manchar o apelido. A matriarca —que berraba botando sapos pola boca e batendo coas palmas das mans nas coxas— non estaba disposta a consentir que se luxase o nome dunha Pereira. Concha, de dezaseis anos, queda soa no mundo.",
-    cita: "A vella negaba, botando sapos pola boca... non estaba disposta a consentir que se luxase o nome dunha Pereira así daquela maneira.",
-    img: "/assets/images/carme-portrait.webp" },
-  { n: "05", sub: "Barcelona, anos 1960–70", title: "As Fotos Corsarias",
-    text: "En Barcelona, Concha coñece a Andreu Picart e descobre que a cámara é poder. Convértese nunha das paparazzi máis temidas: retrata a políticos, banqueiros e membros da alta sociedade en situacións comprometidas, cobrando fortunas polas súas 'fotos corsarias'. Monta un pequeno emporio baixo as iniciais F.B. —Faneca Brava— como franquía de tendas de material fotográfico.",
+    cita: "A vella negaba, botando sapos pola boca... non estaba disposta a consentir que se luxase o nome dunha Pereira así daquelá maneira.",
+    img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-mama-carme-f7k2dQYFH5zPEkXNWFnfCL.webp" },
+  { n: "5", sub: "Barcelona, anos 1960–70", title: "As fotos corsarias",
+    text: "En Barcelona, Concha coñece a Andreu Picart e descobre que a cámara é poder. Convértese nunha das paparazzi máis temidas: retrata a políticos, banqueiros e membros da alta sociedade en situacións comprometidas, cobrando fortunas polas súas ‘fotos corsarias’. Monta un pequeno emporio baixo as iniciais F.B. —Faneca Brava— como franquicia de tendas de material fotográfico.",
     cita: "Non é fácil imaxinar a de cartos que amasou por aquel entón. Tanto diñeiro como riscos seguía correndo cando saía para facer as súas fotos corsarias.",
-    img: "/assets/images/barcelona-escape.webp" },
-  { n: "06", sub: "O desenlace", title: "A Memoria que Non Arde",
+    img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-barcelona-escape-LUvRJ4CSgpchvTjESJRApB.webp" },
+  { n: "6", sub: "O desenlace", title: "A memoria que non arde",
     text: "Fernando, extenuado física e mentalmente, monta o puzzle emocional a través das cartas da tía Lela e do relato de Andreu Picart. Descobre que Concha non foi unha marxinal derrotada, senón unha supervivente feroz que transformou o seu trauma en poder. A investigación devolve a dignidade a Concha e libera a Fernando da culpa que o tiña encadeado.",
     cita: "A memoria nunca arde completamente.",
-    img: "/assets/images/camera-archive.webp" },
+    img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-camera-archive-nL293BkWpqtR2ugZhHoA9a.webp" },
 ];
 
 const G = { background: 'linear-gradient(135deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.04) 100%)', backdropFilter: 'blur(48px)', border: '1px solid rgba(255,255,255,0.12)', borderTop: '1px solid rgba(255,255,255,0.24)', borderRadius: '20px', boxShadow: '0 8px 32px rgba(0,0,0,0.4)' };
@@ -101,4 +101,3 @@ export default function HistoriaSection() {
     </section>
   );
 }
-

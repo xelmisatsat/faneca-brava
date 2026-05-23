@@ -130,7 +130,7 @@ export default function HeroSection() {
         >
           {[
             { label: 'Partes', val: 'III' },
-            { label: 'Época', val: '1960s' },
+            { label: 'Época', val: '1960?' },
             { label: 'Lugar', val: 'Galicia' },
           ].map((s, i) => (
             <div key={i} style={{ textAlign: 'center' }}>
@@ -165,9 +165,9 @@ export default function HeroSection() {
         transition={{ delay: 2, duration: 0.8 }}
         style={{ position: 'absolute', bottom: '3.5rem', left: '2.5rem', zIndex: 10, textAlign: 'left' }}
       >
-        <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(234,226,210,0.45)', marginBottom: '2px' }}>Jun Sieira Gerpe</div>
-        <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(234,226,210,0.45)', marginBottom: '6px' }}>Álvaro Villar Gómez</div>
-        <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '9px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(200,169,110,0.5)' }}>4ESO A · XELMÍREZ I</div>
+        <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(234,226,210,0.65)', marginBottom: '3px' }}>Jun Sieira Gerpe</div>
+        <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(234,226,210,0.65)', marginBottom: '8px' }}>Álvaro Villar Gómez</div>
+        <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(200,169,110,0.65)' }}>IES Arcebispo Xelmírez I · 4º ESO</div>
       </motion.div>
 
       {/* Info lateral dereita */}
@@ -177,8 +177,7 @@ export default function HeroSection() {
         transition={{ delay: 2, duration: 0.8 }}
         style={{ position: 'absolute', bottom: '3.5rem', right: '2.5rem', zIndex: 10, textAlign: 'right' }}
       >
-        <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(139,155,180,0.4)', marginBottom: '4px' }}>GALICIA</div>
-        <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(200,169,110,0.5)' }}>GALAXIA GUTENBERG</div>
+        <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(139,155,180,0.5)' }}>GALICIA</div>
       </motion.div>
 
       {/* Botón de Compartir (Top Right) */}

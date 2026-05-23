@@ -30,7 +30,7 @@ const stages = [
   {
     label: "A LENTE CORSARIA",
     subtitle: "A metamorfose en Barcelona.",
-    desc: "Concha foxe e reencontrase co seu pai emigrado. Desde alí, chega a Cataluña e transforma o trauma en poder. Convértese nunha temida paparazzi. Usa a cámara como arma para destapar as miserias de banqueiros e políticos. Xa non é a vítima; é a executora.",
+    desc: "Concha foxe e reencontra co seu pai emigrado. Desde alí, chega a Cataluña e transforma o trauma en poder. Convértese nunha temida paparazzi. Usa a cámara como arma para destapar as miserias de banqueiros e políticos. Xa non é a vítima; é a executora.",
     color: "#C8A96E",
     bg: "rgba(15,15,25,0.9)",
   },
@@ -44,7 +44,7 @@ const stages = [
   {
     label: "A REVELACIÓN",
     subtitle: "O arquivo da memoria.",
-    desc: "Incapaz de durmir, Fernando investiga o pasado. Grazas a un cartafol da tía Lela e ao fotógrafo Andreu Picart, descobre a verdadeira dimensión da Faneca Brava: unha muller libre que venceu á moralidade que a tentou destruír.",
+    desc: "Incapaz de durmir, Fernando investiga o pasado. Grazas a un cartafol da tía Lela e ao fotógrafo Andreu Picart, descobre a verdadeira dimensión da Faneca Brava: unha muller libre que venceu a moralidade que a tentou destruír.",
     color: "#C8A96E",
     bg: "rgba(18,22,28,0.85)",
   },
@@ -102,7 +102,7 @@ export default function TimelineSection() {
             <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', letterSpacing: '0.35em', textTransform: 'uppercase', color: '#C8A96E' }}>Percorrido Emocional</span>
           </div>
           <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontSize: 'clamp(3rem, 7vw, 6.5rem)', lineHeight: 0.88, letterSpacing: '-0.025em', color: '#EAE2D2' }}>
-            Timeline <span style={{ color: '#C8A96E' }}>Emocional</span>
+            Liña do tempo <span style={{ color: '#C8A96E' }}>Emocional</span>
           </h2>
           <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, fontSize: '1.05rem', lineHeight: 1.8, color: '#8B9BB4', maxWidth: '560px', marginTop: '1.5rem' }}>
             Desde a opresión ata a revelación. Seis etapas dunha muller que se negou a ser vítima.

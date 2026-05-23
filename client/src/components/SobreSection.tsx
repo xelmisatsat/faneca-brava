@@ -92,7 +92,7 @@ export default function SobreSection() {
             {/* Stats */}
             <S v={FI} d={0.5}>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: m ? '8px' : '16px', marginBottom: '2.5rem' }}>
-                {[{ l: 'Partes', v: 'III' }, { l: 'Ambientación', v: 'Galicia' }, { l: 'Época', v: '1960s' }].map((d, i) => (
+                {[{ l: 'Partes', v: 'III + Coda' }, { l: 'Lugar', v: 'Galicia' }, { l: 'Época', v: '1960?' }].map((d, i) => (
                   <motion.div key={i} whileHover={m ? {} : { scale: 1.04, y: -3 }} transition={{ duration: 0.3 }}
                     style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.04) 100%)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.12)', borderTop: '1px solid rgba(255,255,255,0.22)', borderRadius: m ? '12px' : '16px', padding: m ? '14px 8px' : '20px', textAlign: 'center', boxShadow: '0 4px 20px rgba(0,0,0,0.3)', overflow: 'hidden' }}>
                     <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: m ? '1.5rem' : '2.2rem', fontWeight: 300, color: '#C8A96E' }}>{d.v}</div>
@@ -107,8 +107,8 @@ export default function SobreSection() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {[
                   { n: 'I',   t: 'Estirpe',            d: 'A familia Pereira, os seus segredos e o pasado silenciado' },
-                  { n: 'II',  t: 'A Obsesión',         d: 'Fernando investiga. A verdade sobre Concha emerxe fragmento a fragmento' },
-                  { n: 'III', t: 'A Xustiza pola Man', d: 'A revelación final. A faneca brava sempre clava as súas espiñas' },
+                  { n: 'II',  t: 'A obsesión',         d: 'Fernando investiga. A verdade sobre Concha emerxe fragmento a fragmento' },
+                  { n: 'III', t: 'A xustiza pola man', d: 'A revelación final. A faneca brava sempre crava as súas espiñas' },
                 ].map((p, i) => (
                   <motion.div key={i} whileHover={{ x: 6, backgroundColor: 'rgba(255,255,255,0.03)' }} transition={{ duration: 0.25 }}
                     style={{ display: 'flex', gap: '20px', alignItems: 'flex-start', padding: '16px', borderRadius: '12px' }}>
@@ -140,7 +140,7 @@ export default function SobreSection() {
                   O Alcume<br /><span style={{ color: '#C8A96E' }}>Faneca Brava</span>
                 </h3>
                 <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, fontSize: '1rem', lineHeight: 1.9, color: 'rgba(234,226,210,0.82)', marginBottom: '1.5rem' }}>
-                  A <strong style={{ color: '#C8A96E', fontWeight: 400 }}>faneca brava</strong> é un peixe que se camufla na area e, se o pisan, clava unhas espiñas velenosas que causan moita dor. Concha é exactamente iso: alguén a quen a sociedade e a familia "pisaron", pero que en lugar de chorar, defendeuse e atacou de volta para sobrevivir.
+                  A <strong style={{ color: '#C8A96E', fontWeight: 400 }}>faneca brava</strong> é un peixe que se camufla na area e, se o pisan, crava unhas espiñas velenosas que causan moita dor. Concha é exactamente iso: alguén a quen a sociedade e a familia "pisaron", pero que en lugar de chorar, defendeuse e atacou de volta para sobrevivir.
                 </p>
                 <div style={{ paddingLeft: '20px', borderLeft: '2px solid rgba(200,169,110,0.4)' }}>
                   <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: '1rem', color: '#C8A96E', lineHeight: 1.7 }}>
@@ -149,8 +149,8 @@ export default function SobreSection() {
                 </div>
               </div>
               <motion.div whileHover={{ scale: 1.04, rotate: 1 }} transition={{ duration: 0.5 }} style={{ display: 'flex', justifyContent: 'center', position: 'relative' }}>
-                <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-fish-symbol-E7vMKvYwMdCi78mpRShCVc.webp"
-                  alt="A Faneca Brava" style={{ width: '280px', height: '280px', objectFit: 'cover', borderRadius: '20px', filter: 'brightness(0.85) saturate(0.8)', boxShadow: '0 20px 50px rgba(0,0,0,0.5)' }} />
+                <img src="/manus-storage/faneca-peixe.jpg"
+                  alt="A Faneca Brava" style={{ width: '280px', height: '280px', objectFit: 'cover', borderRadius: '20px', filter: 'brightness(0.9) saturate(0.85)', boxShadow: '0 20px 50px rgba(0,0,0,0.5)' }} />
               </motion.div>
             </div>
           </motion.div>

@@ -4,37 +4,37 @@ import { useIsMobile } from "@/hooks/useIsMobile";
 
 const items = [
   {
-    img: "/assets/images/village-night.webp",
-    title: "A Vila Mariñeira",
+    img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-village-night-JkiwiqgEL6ZDLZTtniYVuQ.webp",
+    title: "A vila mariñeira",
     year: "1950s",
     desc: "Rúas de pedra, néboa e silencio. O microcosmos onde todo comezou.",
   },
   {
-    img: "/assets/images/school-1960s.webp",
-    title: "A Escola Franquista",
+    img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-school-1960s-nAvQsmurgnEG3CJKH9fM67.webp",
+    title: "A escola franquista",
     year: "1952",
     desc: "Crucifixo, retrato de Franco e a regra de Dona Remedios. O terror cotián.",
   },
   {
-    img: "/assets/images/carme-portrait.webp",
+    img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-mama-carme-f7k2dQYFH5zPEkXNWFnfCL.webp",
     title: "Mamá Carme",
     year: "1960",
     desc: "A matriarca que preferiu ocultar monstros antes que perder a reputación.",
   },
   {
-    img: "/assets/images/barcelona-escape.webp",
+    img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-barcelona-escape-LUvRJ4CSgpchvTjESJRApB.webp",
     title: "Barcelona — A Fuga",
     year: "1965",
     desc: "A cidade que lle deu anonimato, liberdade e unha cámara como arma.",
   },
   {
-    img: "/assets/images/concha-portrait.webp",
+    img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-concha-portrait-ZyBRp5FRRbMYRNpmNDvaVU.webp",
     title: "Concha — A Paparazzi",
     year: "1970s",
     desc: "Detrás da lente, a nena maltratada converteuse na cazadora dos poderosos.",
   },
   {
-    img: "/assets/images/camera-archive.webp",
+    img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-camera-archive-nL293BkWpqtR2ugZhHoA9a.webp",
     title: "O Arquivo",
     year: "Sempre",
     desc: "Cartas, fotografías, cintas. Os fragmentos dunha memoria que non arde.",
@@ -214,4 +214,3 @@ export default function GaleriaSection() {
     </section>
   );
 }
-
