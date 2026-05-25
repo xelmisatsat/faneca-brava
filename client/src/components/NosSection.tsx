@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { Play, Pause, Volume2, VolumeX, Maximize2, ChevronLeft, ChevronRight, X } from "lucide-react";
@@ -18,6 +19,18 @@ const isCapacitor = () => !!(window as any).Capacitor;
 
 const PHOTOS = [
   {
+    id: "jun",
+    title: "Jun Sieira Gerpe",
+    subtitle: "Deseñador gráfico, Dev web e Arquitecto técnico",
+    img: "/manus-storage/collaborator-jun.jpg",
+  },
+  {
+    id: "alvaro",
+    title: "Álvaro Villar Gómez",
+    subtitle: "Desenvolvemento web, Voces e Arquitectura técnica",
+    img: "/manus-storage/collaborator-alvaro.jpg",
+  },
+  {
     id: "martina",
     title: "Martina Gontá Martínez",
     subtitle: "Colaboradora e Promotora (Videocrítica)",
@@ -30,16 +43,10 @@ const PHOTOS = [
     img: "/manus-storage/collaborator-emma.png",
   },
   {
-    id: "jun",
-    title: "Jun Sieira Gerpe",
-    subtitle: "Deseñador gráfico, Dev web e Arquitecto técnico",
-    img: "/manus-storage/collaborator-jun.jpg",
-  },
-  {
-    id: "alvaro",
-    title: "Álvaro Villar Gómez",
-    subtitle: "Desenvolvemento web, Voces e Arquitectura técnica",
-    img: "/manus-storage/collaborator-alvaro.jpg",
+    id: "olga",
+    title: "María Olga Rosario Iglesias de la Fuente",
+    subtitle: "Titora do Proxecto e Mestra de Galego",
+    img: "/manus-storage/collaborator-olga.png",
   },
 ];
 
@@ -129,6 +136,30 @@ export default function NosSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedPhoto, setSelectedPhoto] = useState<(typeof PHOTOS)[0] | null>(null);
 
+  const startCoords = useRef({ x: 0, y: 0 });
+  const startTimestamp = useRef(0);
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    startCoords.current = { x: e.clientX, y: e.clientY };
+    startTimestamp.current = Date.now();
+  };
+
+  const handlePointerUp = (e: React.PointerEvent, photo: (typeof PHOTOS)[0], isActive: boolean, index: number) => {
+    const dx = e.clientX - startCoords.current.x;
+    const dy = e.clientY - startCoords.current.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    const duration = Date.now() - startTimestamp.current;
+
+    // Treat as tap if moved less than 8px and released within 300ms
+    if (distance < 8 && duration < 300) {
+      if (isActive) {
+        setSelectedPhoto(photo);
+      } else {
+        setCurrentIndex(index);
+      }
+    }
+  };
+
   useEffect(() => {
     const t = setTimeout(() => setMounted(true), 80);
     return () => clearTimeout(t);
@@ -159,86 +190,89 @@ export default function NosSection() {
   return (
     <>
       {/* Lightbox */}
-      <AnimatePresence>
-        {selectedPhoto && (
-          <motion.div
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            onClick={() => setSelectedPhoto(null)}
-            style={{ 
-              position: "fixed", 
-              top: 0, 
-              left: 0, 
-              width: "100vw", 
-              height: "100vh", 
-              background: "rgba(5,5,8,0.98)", 
-              zIndex: 999999,
-              display: "flex", 
-              flexDirection: "column",
-              alignItems: "center", 
-              justifyContent: "center",
-              padding: m ? "1.5rem" : "3rem",
-              backdropFilter: "blur(20px)",
-              WebkitBackdropFilter: "blur(20px)",
-              boxSizing: "border-box"
-            }}
-          >
+      {mounted && typeof document !== "undefined" && createPortal(
+        <AnimatePresence>
+          {selectedPhoto && (
             <motion.div
-              initial={{ scale: 0.85, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: "spring", damping: 24, stiffness: 200 }}
-              onClick={(e) => e.stopPropagation()}
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              onClick={() => setSelectedPhoto(null)}
               style={{ 
-                position: "relative", 
-                width: m ? "90vw" : "auto",
-                maxWidth: "600px",
+                position: "fixed", 
+                top: 0, 
+                left: 0, 
+                width: "100vw", 
+                height: "100vh", 
+                background: "rgba(5,5,8,0.98)", 
+                zIndex: 999999,
                 display: "flex", 
-                flexDirection: "column", 
+                flexDirection: "column",
                 alignItems: "center", 
-                justifyContent: "center" 
+                justifyContent: "center",
+                padding: m ? "1.5rem" : "3rem",
+                backdropFilter: "blur(20px)",
+                WebkitBackdropFilter: "blur(20px)",
+                boxSizing: "border-box"
               }}
             >
-              <button onClick={() => setSelectedPhoto(null)}
+              <motion.div
+                initial={{ scale: 0.85, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                transition={{ type: "spring", damping: 24, stiffness: 200 }}
+                onClick={(e) => e.stopPropagation()}
                 style={{ 
-                  position: "absolute", 
-                  top: m ? "-42px" : "-48px", 
-                  right: 0, 
-                  background: "rgba(0,0,0,0.5)",
-                  border: "1px solid rgba(255,255,255,0.2)", 
-                  borderRadius: "50%",
-                  width: "32px", 
-                  height: "32px", 
+                  position: "relative", 
+                  width: m ? "90vw" : "auto",
+                  maxWidth: "600px",
                   display: "flex", 
+                  flexDirection: "column", 
                   alignItems: "center", 
-                  justifyContent: "center",
-                  color: "#fff", 
-                  cursor: "pointer", 
-                  padding: 0, 
-                  zIndex: 10 
+                  justifyContent: "center" 
                 }}
               >
-                <X size={18} />
-              </button>
-              <img src={selectedPhoto.img} alt={selectedPhoto.title}
-                style={{ 
-                  maxWidth: "100%", 
-                  maxHeight: m ? "65vh" : "75vh", 
-                  objectFit: "contain", 
-                  display: "block",
-                  borderRadius: "8px", 
-                  boxShadow: "0 20px 60px rgba(0,0,0,0.8)" 
-                }} 
-              />
-              <div style={{ textAlign: "center", marginTop: m ? "14px" : "20px", flexShrink: 0 }}>
-                <h4 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: m ? "1.3rem" : "1.8rem",
-                  fontWeight: 400, color: "#EAE2D2", margin: 0 }}>{selectedPhoto.title}</h4>
-                <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: m ? "0.78rem" : "0.88rem", color: "#8B9BB4", marginTop: "8px", lineHeight: 1.4 }}>
-                  {selectedPhoto.subtitle}
-                </p>
-              </div>
+                <button onClick={() => setSelectedPhoto(null)}
+                  style={{ 
+                    position: "absolute", 
+                    top: m ? "-42px" : "-48px", 
+                    right: 0, 
+                    background: "rgba(0,0,0,0.5)",
+                    border: "1px solid rgba(255,255,255,0.2)", 
+                    borderRadius: "50%",
+                    width: "32px", 
+                    height: "32px", 
+                    display: "flex", 
+                    alignItems: "center", 
+                    justifyContent: "center",
+                    color: "#fff", 
+                    cursor: "pointer", 
+                    padding: 0, 
+                    zIndex: 10 
+                  }}
+                >
+                  <X size={18} />
+                </button>
+                <img src={selectedPhoto.img} alt={selectedPhoto.title}
+                  style={{ 
+                    maxWidth: "100%", 
+                    maxHeight: m ? "65vh" : "75vh", 
+                    objectFit: "contain", 
+                    display: "block",
+                    borderRadius: "8px", 
+                    boxShadow: "0 20px 60px rgba(0,0,0,0.8)" 
+                  }} 
+                />
+                <div style={{ textAlign: "center", marginTop: m ? "14px" : "20px", flexShrink: 0 }}>
+                  <h4 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: m ? "1.3rem" : "1.8rem",
+                    fontWeight: 400, color: "#EAE2D2", margin: 0 }}>{selectedPhoto.title}</h4>
+                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: m ? "0.78rem" : "0.88rem", color: "#8B9BB4", marginTop: "8px", lineHeight: 1.4 }}>
+                    {selectedPhoto.subtitle}
+                  </p>
+                </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
 
       <section id="nos" style={{ position: "relative", padding: m ? "4rem 0 3rem" : "8rem 0 6rem",
         overflow: "hidden", minHeight: "100vh", display: "flex", alignItems: "center" }}>
@@ -383,10 +417,8 @@ export default function NosSection() {
                         <motion.div key={photo.id}
                           animate={{ x: tx, y: ty, rotate: rot, scale: sc, opacity, zIndex: z }}
                           transition={{ type: "spring", damping: 26, stiffness: 185 }}
-                          onClick={() => {
-                            if (isActive) setSelectedPhoto(photo);
-                            else setCurrentIndex(index);
-                          }}
+                          onPointerDown={handlePointerDown}
+                          onPointerUp={(e) => handlePointerUp(e, photo, isActive, index)}
                           style={{
                             position: "absolute",
                             width: `${cardW}px`,
@@ -417,9 +449,9 @@ export default function NosSection() {
 
                           {/* Photo */}
                           <div style={{ flex: 1, overflow: "hidden", position: "relative",
-                            borderTop: "2px solid #111", borderBottom: "2px solid #111" }}>
+                            borderTop: "2px solid #111", borderBottom: "2px solid #111", background: "#060606" }}>
                             <img src={photo.img} alt={photo.title}
-                              style={{ width: "100%", height: "100%", objectFit: "cover",
+                              style={{ width: "100%", height: "100%", objectFit: "contain",
                                 filter: "sepia(0.1) contrast(1.08) brightness(0.9)", display: "block" }} />
                             <span style={{ position: "absolute", top: "4px", left: "5px",
                               fontFamily: "monospace", fontSize: "9px", color: "#C8A96E",
@@ -430,6 +462,37 @@ export default function NosSection() {
                               <div style={{ position: "absolute", inset: 0,
                                 background: "linear-gradient(135deg, rgba(200,169,110,0.08) 0%, transparent 60%)",
                                 pointerEvents: "none" }} />
+                            )}
+                            {isActive && (
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setSelectedPhoto(photo);
+                                }}
+                                style={{
+                                  position: "absolute",
+                                  bottom: "8px",
+                                  right: "8px",
+                                  background: "rgba(10,10,15,0.85)",
+                                  border: "1px solid rgba(200,169,110,0.6)",
+                                  borderRadius: "50%",
+                                  width: "30px",
+                                  height: "30px",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  color: "#C8A96E",
+                                  cursor: "pointer",
+                                  boxShadow: "0 4px 10px rgba(0,0,0,0.5)",
+                                  zIndex: 20,
+                                  transition: "transform 0.15s ease",
+                                  padding: 0
+                                }}
+                                onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.1)"}
+                                onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
+                              >
+                                <Maximize2 size={13} />
+                              </button>
                             )}
                           </div>
 
