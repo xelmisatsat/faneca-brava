@@ -18,76 +18,28 @@ const isCapacitor = () => !!(window as any).Capacitor;
 
 const PHOTOS = [
   {
+    id: "martina",
+    title: "Martina Gontá Martínez",
+    subtitle: "Colaboradora e Promotora (Videocrítica)",
+    img: "/manus-storage/collaborator-martina.png",
+  },
+  {
+    id: "emma",
+    title: "Emma Tabuyo Rodríguez",
+    subtitle: "Colaboradora e Promotora (Documental)",
+    img: "/manus-storage/collaborator-emma.png",
+  },
+  {
     id: "jun",
-    title: "Jun Sieira",
-    subtitle: "Deseño e Dirección",
-    img: isCapacitor() ? "assets/images/opinion-jun.jpg" : "/manus-storage/opinion-jun.jpg",
+    title: "Jun Sieira Gerpe",
+    subtitle: "Deseñador gráfico, Dev web e Arquitecto técnico",
+    img: "/manus-storage/collaborator-jun.jpg",
   },
   {
     id: "alvaro",
-    title: "Alvaro Villar",
-    subtitle: "Programación e Código",
-    img: isCapacitor() ? "assets/images/opinion-alvaro.jpg" : "/manus-storage/opinion-alvaro.jpg",
-  },
-  {
-    id: "santiago",
-    title: "Santiago de Compostela",
-    subtitle: "Rúas de pedra e choiva",
-    img: "https://images.unsplash.com/photo-1543872084-c7bd3822856f?q=80&w=600&auto=format&fit=crop",
-  },
-  {
-    id: "cies",
-    title: "Illas Cíes",
-    subtitle: "Praia de Rodas, area e mar",
-    img: "https://images.unsplash.com/photo-1544913716-6081a1fd0411?q=80&w=600&auto=format&fit=crop",
-  },
-  {
-    id: "fragas",
-    title: "Fragas do Eume",
-    subtitle: "Bosque máxico e néboa",
-    img: "https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=600&auto=format&fit=crop",
-  },
-  {
-    id: "sil",
-    title: "Canón do Sil",
-    subtitle: "Ribeira Sacra",
-    img: "https://images.unsplash.com/photo-1620121692029-d088224ddc74?q=80&w=600&auto=format&fit=crop",
-  },
-  {
-    id: "combarro",
-    title: "Combarro",
-    subtitle: "Hórreos ao pé da ría",
-    img: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?q=80&w=600&auto=format&fit=crop",
-  },
-  {
-    id: "barona",
-    title: "Castro de Barona",
-    subtitle: "Historia celta sobre o mar",
-    img: "https://images.unsplash.com/photo-1579712267787-0431e1e39ff7?q=80&w=600&auto=format&fit=crop",
-  },
-  {
-    id: "lugo",
-    title: "Muralla de Lugo",
-    subtitle: "Pedra romana milenaria",
-    img: "https://images.unsplash.com/photo-1599839575945-a9e5af0c3fa5?q=80&w=600&auto=format&fit=crop",
-  },
-  {
-    id: "loiba",
-    title: "Acantilados de Loiba",
-    subtitle: "O mellor banco do mundo",
-    img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600&auto=format&fit=crop",
-  },
-  {
-    id: "catedrais",
-    title: "Praia das Catedrais",
-    subtitle: "Catedrais de pedra e mar",
-    img: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=600&auto=format&fit=crop",
-  },
-  {
-    id: "fisterra",
-    title: "Cabo Fisterra",
-    subtitle: "A fin do mundo antigo",
-    img: "https://images.unsplash.com/photo-1518495973542-4542c06a5843?q=80&w=600&auto=format&fit=crop",
+    title: "Álvaro Villar Gómez",
+    subtitle: "Desenvolvemento web, Voces e Arquitectura técnica",
+    img: "/manus-storage/collaborator-alvaro.jpg",
   },
 ];
 
@@ -212,31 +164,74 @@ export default function NosSection() {
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             onClick={() => setSelectedPhoto(null)}
-            style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.96)", zIndex: 999999,
-              display: "flex", alignItems: "center", justifyContent: "center",
-              padding: m ? "1rem" : "2rem", overflow: "auto" }}>
+            style={{ 
+              position: "fixed", 
+              top: 0, 
+              left: 0, 
+              width: "100vw", 
+              height: "100vh", 
+              background: "rgba(5,5,8,0.98)", 
+              zIndex: 999999,
+              display: "flex", 
+              flexDirection: "column",
+              alignItems: "center", 
+              justifyContent: "center",
+              padding: m ? "1.5rem" : "3rem",
+              backdropFilter: "blur(20px)",
+              WebkitBackdropFilter: "blur(20px)",
+              boxSizing: "border-box"
+            }}
+          >
             <motion.div
               initial={{ scale: 0.85, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               transition={{ type: "spring", damping: 24, stiffness: 200 }}
               onClick={(e) => e.stopPropagation()}
-              style={{ position: "relative", width: m ? "92vw" : "min(900px, 90vw)",
-                maxHeight: m ? "90vh" : "85vh",
-                display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+              style={{ 
+                position: "relative", 
+                width: m ? "90vw" : "auto",
+                maxWidth: "600px",
+                display: "flex", 
+                flexDirection: "column", 
+                alignItems: "center", 
+                justifyContent: "center" 
+              }}
+            >
               <button onClick={() => setSelectedPhoto(null)}
-                style={{ position: "absolute", top: m ? "-36px" : "-44px", right: 0, background: "rgba(0,0,0,0.5)",
-                  border: "1px solid rgba(255,255,255,0.2)", borderRadius: "50%",
-                  width: "32px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center",
-                  color: "#fff", cursor: "pointer", padding: 0, zIndex: 10 }}>
+                style={{ 
+                  position: "absolute", 
+                  top: m ? "-42px" : "-48px", 
+                  right: 0, 
+                  background: "rgba(0,0,0,0.5)",
+                  border: "1px solid rgba(255,255,255,0.2)", 
+                  borderRadius: "50%",
+                  width: "32px", 
+                  height: "32px", 
+                  display: "flex", 
+                  alignItems: "center", 
+                  justifyContent: "center",
+                  color: "#fff", 
+                  cursor: "pointer", 
+                  padding: 0, 
+                  zIndex: 10 
+                }}
+              >
                 <X size={18} />
               </button>
               <img src={selectedPhoto.img} alt={selectedPhoto.title}
-                style={{ width: "100%", maxHeight: m ? "75vh" : "78vh", objectFit: "contain", display: "block",
-                  borderRadius: "4px", boxShadow: "0 20px 60px rgba(0,0,0,0.8)" }} />
-              <div style={{ textAlign: "center", marginTop: m ? "12px" : "20px", flexShrink: 0 }}>
+                style={{ 
+                  maxWidth: "100%", 
+                  maxHeight: m ? "65vh" : "75vh", 
+                  objectFit: "contain", 
+                  display: "block",
+                  borderRadius: "8px", 
+                  boxShadow: "0 20px 60px rgba(0,0,0,0.8)" 
+                }} 
+              />
+              <div style={{ textAlign: "center", marginTop: m ? "14px" : "20px", flexShrink: 0 }}>
                 <h4 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: m ? "1.3rem" : "1.8rem",
                   fontWeight: 400, color: "#EAE2D2", margin: 0 }}>{selectedPhoto.title}</h4>
-                <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: m ? "0.75rem" : "0.85rem", color: "#777", marginTop: "6px" }}>
+                <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: m ? "0.78rem" : "0.88rem", color: "#8B9BB4", marginTop: "8px", lineHeight: 1.4 }}>
                   {selectedPhoto.subtitle}
                 </p>
               </div>
@@ -271,12 +266,12 @@ export default function NosSection() {
             </div>
             <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300,
               fontSize: "clamp(2.5rem, 6vw, 6rem)", lineHeight: 0.9, letterSpacing: "-0.02em", color: "#EAE2D2" }}>
-              Nós, os <span style={{ color: "#C8A96E" }}>Creadores</span>
+              Nós, o <span style={{ color: "#C8A96E" }}>Equipo</span>
             </h2>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300,
               fontSize: m ? "0.9rem" : "1.05rem", lineHeight: 1.8, color: "#8B9BB4",
               maxWidth: "600px", margin: "1.5rem auto 0" }}>
-              Unha viaxe dixital a través da memoria, do insomnio e da revelación fotográfica de Faneca Brava.
+              O equipo de traballo e colaboradores detrás da análise literaria de Faneca Brava.
             </p>
           </motion.div>
 
@@ -332,13 +327,13 @@ export default function NosSection() {
             </div>
             <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.5rem",
               fontWeight: 300, color: "#C8A96E", marginBottom: "8px" }}>
-              {reelVisible ? "Carrete Revelado" : "Cámara de Concha"}
+              {reelVisible ? "Equipo e Colaboradores" : "Colaboradores do Proxecto"}
             </h3>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.85rem",
               lineHeight: 1.6, color: "#EAE2D2", opacity: 0.78, maxWidth: "280px", margin: 0 }}>
               {reelVisible
-                ? "Arrastra ou usa as frechas para ollar as nosas fotos."
-                : "Preme a cámara analóxica para revelar o noso carrete."}
+                ? "Arrastra ou usa as frechas para ver as nosas fotos."
+                : "Preme a cámara analóxica para revelar o noso equipo e colaboradores."}
             </p>
           </motion.div>
 

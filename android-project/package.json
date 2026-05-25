@@ -4,8 +4,8 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "dev": "NODE_ENV=development tsx watch server/_core/index.ts",
-    "build": "vite build && esbuild server/_core/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
+    "dev": "vite",
+    "build": "vite build",
     "cap:build": "npm run build && npx cap sync android",
     "cap:open": "npx cap open android",
     "start": "NODE_ENV=production node dist/index.js",
