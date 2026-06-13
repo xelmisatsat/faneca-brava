@@ -169,6 +169,7 @@ export default function NosSection() {
     if (isTakingPhoto) return;
     setIsTakingPhoto(true);
     try {
+      // @ts-ignore
       const { Haptics, ImpactStyle } = await import("@capacitor/haptics");
       await Haptics.impact({ style: ImpactStyle.Heavy });
     } catch (_) {}

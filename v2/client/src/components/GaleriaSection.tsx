@@ -29,13 +29,13 @@ const items = [
   },
   {
     img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-concha-portrait-ZyBRp5FRRbMYRNpmNDvaVU.webp",
-    title: "Concha — A Paparazzi",
+    title: "Concha — A paparazzi",
     year: "1970s",
     desc: "Detrás da lente, a nena maltratada converteuse na cazadora dos poderosos.",
   },
   {
     img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-camera-archive-nL293BkWpqtR2ugZhHoA9a.webp",
-    title: "O Arquivo",
+    title: "O arquivo",
     year: "Sempre",
     desc: "Cartas, fotografías, cintas. Os fragmentos dunha memoria que non arde.",
   },
@@ -73,7 +73,7 @@ export default function GaleriaSection() {
               </span>
             </div>
             <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontSize: 'clamp(3rem, 7vw, 6.5rem)', lineHeight: 0.88, letterSpacing: '-0.025em', color: '#EAE2D2' }}>
-              As <span style={{ color: '#C8A96E' }}>Fotografías</span><br />Prohibidas
+              As <span style={{ color: '#C8A96E' }}>fotografías</span><br />prohibidas
             </h2>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, fontSize: '1.05rem', lineHeight: 1.8, color: '#8B9BB4', maxWidth: '560px', marginTop: '1.5rem' }}>
               As imaxes que Concha capturou coa súa Leica. Cada disparo, unha vinganza silenciosa. Arrastra para explorar.

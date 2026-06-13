@@ -214,7 +214,7 @@ router.post("/api/chat", async (req, res) => {
             parts: [{ text: m.content }],
           }))
         ],
-        generationConfig: {
+        config: {
           maxOutputTokens: 300,
           temperature: 0.8,
         },

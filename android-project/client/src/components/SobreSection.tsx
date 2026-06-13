@@ -83,7 +83,7 @@ export default function SobreSection() {
               <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, fontSize: '1.05rem', lineHeight: 1.9, color: 'rgba(234,226,210,0.8)', marginBottom: '2.5rem' }}>
                 Obsesionado por atopar a verdade, Fernando comeza a indagar na historia da súa curmá Concha, alcumada a "Faneca Brava", a quen a familia borrou da súa memoria colectiva. A través de conversas coa súa tía Lela —que garda un cartafol con vellos recortes e cartas— e cun veterano fotógrafo catalán chamado Andreu Picart no Hostal dos Reis Católicos, Fernando vai destapando a realidade.
               </p>
-            </S>
+
 
             {/* Stats Cards synced from client version */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: m ? '8px' : '16px', marginBottom: '2.5rem', marginTop: '1.5rem' }}>

@@ -6,35 +6,35 @@ import { useIsMobile } from "@/hooks/useIsMobile";
 const chars = [
   { id: "concha", name: "Concha Pereira", alias: "A Faneca Brava", role: "Protagonista",
     img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-concha-portrait-ZyBRp5FRRbMYRNpmNDvaVU.webp",
-    audio: "/audios/concha.mp3", color: "#C8A96E", cardBg: "#2A1520",
+    audio: "/audios/concha.mp3", color: "#C8A96E", cardBg: "#2A1520", voiceActor: "Sabela Hermida",
     desc: "Orfa de nai, co pai emigrado, Concha crece baixo a tutela opresiva de Mamá Carme. Sofre o maltrato físico da mestra Dona Remedios —que lle fai sangrar as mans a golpes— e o acoso do cura Don Anselmo. Acusada falsamente do incendio da escola, é expulsada da familia. Foxe a Barcelona onde se converte en paparazzi de éxito, usando a cámara como arma de desquite contra os poderosos.",
     traits: ["Feroz", "Silenciosa", "Rebelde", "Libre", "Xusticeira"],
     quote: "Cando miro pola lente, deixo de ser a nena que collían. Por fin, son eu a que observa.",
     arc: "Da infancia oprimida ao desquite silencioso" },
   { id: "fernando", name: "Fernando Pereira", alias: "O médico atormentado", role: "Narrador",
     img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-fernando-portrait-EQpQqF6VEH5zWNhiMpjMkL.webp",
-    audio: "/audios/fernando.mp3", color: "#6B8CAE", cardBg: "#152535",
+    audio: "/audios/fernando.mp3", color: "#6B8CAE", cardBg: "#152535", voiceActor: "Xaime López",
     desc: "Médico de Santiago de Compostela que sofre de insomnio severo. As olleiras fórmanlle un medio arco azul escuro. Os seus síntomas son a somatización dunha profunda culpa herdada. Obsesionado con descubrir a verdade sobre a súa curmá Concha, investiga a través de conversas coa tía Lela e con Andreu Picart no Hostal dos Reis Católicos.",
     traits: ["Atormentado", "Obsesivo", "Culpable", "Determinado"],
     quote: "Non podo durmir porque os ollos de Concha perséguenme cando pecho os meus.",
     arc: "Da culpa herdada á redención a través da verdade" },
   { id: "mama", name: "Mamá Carme", alias: "A matriarca", role: "Antagonista",
     img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-mama-carme-f7k2dQYFH5zPEkXNWFnfCL.webp",
-    audio: "/audios/carme.mp3", color: "#9A8A7A", cardBg: "#251E16",
+    audio: "/audios/carme.mp3", color: "#9A8A7A", cardBg: "#251E16", voiceActor: "Alexandra Pacheco",
     desc: "Matriarca do clan Pereira. Impón unha disciplina despótica e prioriza as aparencias sociais por riba do amor. Berraba botando sapos pola boca e batendo coas palmas das mans nas coxas. Prefire ocultar monstros reais e castigar á vítima para manter a imaxe de familia respectable e católica.",
     traits: ["Despótica", "Hipócrita", "Fría", "Autoritaria"],
     quote: "O apelido é o que nos sustenta. Un nome limpo vale máis ca todo o ouro.",
     arc: "A autoridade moral que encobre a inxustiza" },
   { id: "andreu", name: "Andreu Picart", alias: "O fotógrafo catalán", role: "Confidente",
     img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-andreu-VAxSfuAXwczWNcuCm2shyJ.webp",
-    audio: "/audios/andreu.mp3", color: "#8B7355", cardBg: "#1A2520",
-    desc: "Fotógrafo catalán veterano que coñeceu a Concha cando chegou a Barcelona. Viches como se converteu nunha das mellores paparazzi da cidade. Dicíalle que estaba xogando con lume. É a ponte entre o pasado de Concha e o presente de Fernando.",
+    audio: "/audios/andreu.mp3", color: "#8B7355", cardBg: "#1A2520", voiceActor: "Jordi Pujol",
+    desc: "Fotógrafo catalán veterano que coñeceu a Concha cando chegou a Barcelona. Viches como se converteu nunha das mollos paparazzi da cidade. Dicíalle que estaba xogando con lume. É a ponte entre o pasado de Concha e o presente de Fernando.",
     traits: ["Observador", "Sabio", "Melancólico", "Leal"],
-    quote: "Concha non fotografaba para vivir. Fotografaba para vingarse.",
+    quote: "Concha non fotografaba para vivir. Fotografaba para desquitarse.",
     arc: "O testemuño que conecta pasado e presente" },
   { id: "encarna", name: "Encarna Pereira", alias: "A supervivente", role: "O contrapunto",
     img: "/manus-storage/encarna-portrait.jpg",
-    audio: "/audios/encarna.mp3", color: "#7A6F8A", cardBg: "#1E1A28",
+    audio: "/audios/encarna.mp3", color: "#7A6F8A", cardBg: "#1E1A28", voiceActor: "Anna Pujol",
     desc: "Irmá pequena de Concha, tamén orfa e criada por Mamá Carme. Mentres Concha é a rebeldía e a fuxida, Encarna é o reflexo doutro tipo de supervivencia feminina: a submisión calculada. Acata as normas da matriarca, cala, obedece e resiste dende dentro. Dúas irmás, dous camiños opostos fronte á mesma opresión.",
     traits: ["Calada", "Resignada", "Resiliente", "Sombra"],
     quote: "Eu quedei. Alguén tiña que quedar para que a casa non se derrubara.",
@@ -51,7 +51,7 @@ const cardStyle = (bg: string) => ({
 
 const WAVE_BARS = [0.4, 0.75, 1, 0.6, 0.85, 0.5, 0.9, 0.65, 0.75, 0.45, 0.55, 0.8];
 
-function AudioPlayer({ src, color, name }: { src: string; color: string; name: string }) {
+function AudioPlayer({ src, color, name, voiceActor }: { src: string; color: string; name: string; voiceActor: string }) {
   const [state, setState] = useState<'idle' | 'loading' | 'playing' | 'paused'>('idle');
   const [progress, setProgress] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -107,7 +107,7 @@ function AudioPlayer({ src, color, name }: { src: string; color: string; name: s
   return (
     <div style={{ background: `linear-gradient(135deg, ${color}10, ${color}05)`, border: `1px solid ${color}25`, borderRadius: '16px', padding: '14px 16px', backdropFilter: 'blur(20px)' }}>
       <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '9px', letterSpacing: '0.3em', textTransform: 'uppercase', color: `${color}80`, marginBottom: '10px' }}>
-        Testemuño · ElevenLabs AI
+        Voz · {voiceActor}
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
         {/* Botón play/pause */}
@@ -319,7 +319,7 @@ export default function PersonaxesSection() {
                       <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: m ? '0.95rem' : '1.05rem', color: selChar.color, marginBottom: '1.25rem' }}>{selChar.alias}</p>
 
                       {/* AUDIO PLAYER */}
-                      <AudioPlayer src={selChar.audio} color={selChar.color} name={selChar.name.split(' ')[0]} />
+                      <AudioPlayer src={selChar.audio} color={selChar.color} name={selChar.name.split(' ')[0]} voiceActor={selChar.voiceActor} />
 
                       <div style={{ height: '1px', background: 'linear-gradient(90deg, transparent, rgba(200,169,110,0.3), transparent)', margin: '1.25rem 0 1rem' }} />
                       <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, fontSize: m ? '0.85rem' : '0.95rem', lineHeight: 1.85, color: 'rgba(234,226,210,0.85)', marginBottom: '1rem' }}>{selChar.desc}</p>
