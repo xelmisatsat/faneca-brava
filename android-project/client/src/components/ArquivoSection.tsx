@@ -20,11 +20,11 @@ const temas = [
     quote: "A memoria nunca arde completamente." },
 ];
 
-const G = {
-  background: 'linear-gradient(135deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.04) 100%)',
-  backdropFilter: 'blur(48px)', border: '1px solid rgba(255,255,255,0.12)',
-  borderTop: '1px solid rgba(255,255,255,0.24)', borderRadius: '20px',
-  boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+const cardStyle = {
+  background: '#152232',
+  border: '1.5px solid rgba(255, 255, 255, 0.1)',
+  borderRadius: '20px',
+  boxShadow: '0 16px 45px rgba(0,0,0,0.4)',
 };
 
 export default function ArquivoSection() {
@@ -35,8 +35,8 @@ export default function ArquivoSection() {
   const cur = temas.find(t => t.id === active)!;
 
   return (
-    <section style={{ position: 'relative', padding: m ? '4rem 0 3rem' : '8rem 0 6rem', overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 30% 50%, rgba(13,27,42,0.3) 0%, transparent 55%)' }} />
+    <section style={{ position: 'relative', padding: m ? '4rem 0 3rem' : '8rem 0 6rem', overflow: 'hidden', backgroundColor: '#202D3C' }}>
+      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 30% 50%, rgba(200,169,110,0.06) 0%, transparent 60%)' }} />
 
       <div style={{ maxWidth: '1440px', margin: '0 auto', padding: m ? '0 1.25rem' : '0 5rem', position: 'relative', zIndex: 10 }}>
 
@@ -49,7 +49,7 @@ export default function ArquivoSection() {
           <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontSize: 'clamp(3rem, 7vw, 6.5rem)', lineHeight: 0.88, letterSpacing: '-0.025em', color: '#EAE2D2' }}>
             O arquivo <span style={{ color: '#C8A96E' }}>emocional</span>
           </h2>
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, fontSize: '1.05rem', lineHeight: 1.8, color: '#8B9BB4', maxWidth: '560px', marginTop: '1.5rem' }}>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, fontSize: '1.2rem', lineHeight: 1.8, color: '#CBD5E1', maxWidth: '620px', marginTop: '1.5rem' }}>
             Os cinco eixes que vertebran a novela. Cada tema é unha capa de significado que Manuel Portas tece con precisión literaria.
           </p>
         </motion.div>
@@ -67,13 +67,13 @@ export default function ArquivoSection() {
                   style={{
                     display: 'flex', alignItems: 'center', gap: '16px',
                     padding: '16px 20px', borderRadius: '14px', textAlign: 'left',
-                    background: active === t.id ? 'rgba(200,169,110,0.10)' : 'transparent',
-                    border: active === t.id ? '1px solid rgba(200,169,110,0.22)' : '1px solid transparent',
-                    cursor: 'none', transition: 'all 0.25s',
+                    background: active === t.id ? '#C8A96E' : '#142232',
+                    border: active === t.id ? '1px solid #C8A96E' : '1px solid rgba(255,255,255,0.1)',
+                    cursor: 'pointer', transition: 'all 0.25s',
                   }}
                 >
-                  <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.6rem', fontWeight: 300, color: active === t.id ? '#C8A96E' : 'rgba(200,169,110,0.25)', minWidth: '2.5rem' }}>{t.num}</span>
-                  <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.1rem', fontWeight: 300, color: active === t.id ? '#EAE2D2' : '#8B9BB4' }}>{t.title}</span>
+                  <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.6rem', fontWeight: 600, color: active === t.id ? '#142232' : 'rgba(200,169,110,0.4)', minWidth: '2.5rem' }}>{t.num}</span>
+                  <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.15rem', fontWeight: 500, color: active === t.id ? '#142232' : '#EAE2D2' }}>{t.title}</span>
                 </motion.button>
               ))}
             </div>
@@ -88,34 +88,78 @@ export default function ArquivoSection() {
                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                 exit={{ opacity: 0, y: -15, filter: 'blur(4px)' }}
                 transition={{ duration: 0.4 }}
-                style={{ ...G, padding: '3rem' }}
+                style={{ ...cardStyle, padding: '3rem' }}
               >
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px', marginBottom: '2rem' }}>
                   <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '5rem', fontWeight: 300, lineHeight: 1, color: 'rgba(200,169,110,0.18)' }}>{cur.num}</span>
-                  <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontSize: '2.2rem', color: '#EAE2D2', lineHeight: 1.1, paddingTop: '0.5rem' }}>{cur.title}</h3>
+                  <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontSize: '2.4rem', color: '#FFFFFF', lineHeight: 1.1, paddingTop: '0.5rem' }}>{cur.title}</h3>
                 </div>
-                <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, fontSize: '1rem', lineHeight: 1.9, color: 'rgba(234,226,210,0.85)', marginBottom: '2rem' }}>{cur.content}</p>
-                <div style={{ padding: '20px 24px', borderRadius: '14px', backgroundColor: 'rgba(200,169,110,0.05)', borderLeft: '2px solid rgba(200,169,110,0.4)' }}>
-                  <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: '1.05rem', color: '#C8A96E', lineHeight: 1.7 }}>"{cur.quote}"</p>
+                <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, fontSize: '1.1rem', lineHeight: 1.9, color: '#F8FAFC', marginBottom: '2rem' }}>{cur.content}</p>
+                <div style={{ padding: '20px 24px', borderRadius: '14px', backgroundColor: '#0E1622', borderLeft: '3px solid #C8A96E' }}>
+                  <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: '1.1rem', color: '#C8A96E', lineHeight: 1.7 }}>"{cur.quote}"</p>
                 </div>
               </motion.div>
             </AnimatePresence>
 
             {/* Lugares */}
-            <div style={{ display: 'grid', gridTemplateColumns: m ? '1fr' : 'repeat(3, 1fr)', gap: '16px', marginTop: '2rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: m ? '1fr' : 'repeat(3, 1fr)', gap: '20px', marginTop: '2rem' }}>
               {[
-                { title: "Vila de Foz", desc: "A vila mariñeira onde crece Concha.", img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-village-night-JkiwiqgEL6ZDLZTtniYVuQ.webp" },
-                { title: "Santiago", desc: "Onde Fernando vive o presente.", img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-fernando-portrait-EQpQqF6VEH5zWNhiMpjMkL.webp" },
-                { title: "Barcelona", desc: "A cidade da liberdade e a vinganza.", img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-barcelona-escape-LUvRJ4CSgpchvTjESJRApB.webp" },
+                { 
+                  title: "Vila de Foz", 
+                  desc: "A vila mariñeira onde crece Concha.", 
+                  img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-village-night-JkiwiqgEL6ZDLZTtniYVuQ.webp",
+                  bg: "#283B4F",
+                  border: "1px solid #3E5266"
+                },
+                { 
+                  title: "Santiago", 
+                  desc: "Onde Fernando vive o presente.", 
+                  img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-fernando-portrait-EQpQqF6VEH5zWNhiMpjMkL.webp",
+                  bg: "#364638",
+                  border: "1px solid #4C594A"
+                },
+                { 
+                  title: "Barcelona", 
+                  desc: "A cidade da liberdade e o desquite.", 
+                  img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-barcelona-escape-LUvRJ4CSgpchvTjESJRApB.webp",
+                  bg: "#4A353C",
+                  border: "1px solid #5F4A51"
+                },
               ].map((l, i) => (
-                <motion.div key={i} whileHover={{ scale: 1.04, y: -4 }} style={{ ...G, overflow: 'hidden', borderRadius: '14px' }}>
-                  <div style={{ position: 'relative', aspectRatio: '16/9', overflow: 'hidden' }}>
-                    <img src={l.img} alt={l.title} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.55)', display: 'block' }} />
-                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(8,8,13,0.9) 0%, transparent 60%)' }} />
-                    <div style={{ position: 'absolute', bottom: '10px', left: '12px', right: '12px' }}>
-                      <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1rem', fontWeight: 300, color: '#EAE2D2' }}>{l.title}</div>
-                      <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', color: '#8B9BB4', marginTop: '2px' }}>{l.desc}</div>
-                    </div>
+                <motion.div 
+                  key={i} 
+                  initial="initial"
+                  whileHover="hover"
+                  variants={{
+                    initial: { y: 0 },
+                    hover: { y: -6 }
+                  }}
+                  transition={{ duration: 0.3 }}
+                  style={{ 
+                    overflow: 'hidden', 
+                    borderRadius: '16px', 
+                    backgroundColor: l.bg,
+                    border: l.border,
+                    boxShadow: '0 8px 30px rgba(0,0,0,0.3)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <div style={{ position: 'relative', aspectRatio: '16/10', overflow: 'hidden' }}>
+                    <motion.img 
+                      variants={{
+                        hover: { scale: 1.06 }
+                      }}
+                      transition={{ duration: 0.3 }}
+                      src={l.img} 
+                      alt={l.title} 
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.85)', display: 'block' }} 
+                    />
+                  </div>
+                  <div style={{ padding: '1.25rem', flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                    <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.35rem', fontWeight: 600, color: '#FFFFFF' }}>{l.title}</div>
+                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '12.5px', color: '#E2E8F0', marginTop: '6px', lineHeight: 1.45, fontWeight: 300 }}>{l.desc}</div>
                   </div>
                 </motion.div>
               ))}
