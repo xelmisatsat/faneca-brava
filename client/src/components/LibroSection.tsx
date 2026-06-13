@@ -2,13 +2,24 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useIsMobile } from "@/hooks/useIsMobile";
 
+/* ─── Paleta "Arquivo Atlántico Sereno" ───────────────────────────────────────
+   Fondos: azul-pizarra cálido (non negro puro) → menos fatigante á vista
+   Cristal: opacidade maior e borde máis visible → sensación sólida e premium
+   Acento: ámbar dourado (#C8A96E) mantido — corazón da identidade visual
+   Texto: marfil (#EAE2D2) para títulos, gris-azul suave (#B8C4D4) para corpo
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* Fondo da sección */
+const SECTION_BG = 'linear-gradient(160deg, #1B2A3E 0%, #16222F 55%, #1A2A3A 100%)';
+
+/* Tarxeta Liquid Glass — máis sólido, menos transparente */
 const G = {
-  background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%)',
-  backdropFilter: 'blur(40px)',
-  border: '1px solid rgba(255,255,255,0.10)',
-  borderTop: '1px solid rgba(255,255,255,0.20)',
+  background: 'linear-gradient(145deg, rgba(38,58,82,0.82) 0%, rgba(28,44,64,0.72) 100%)',
+  backdropFilter: 'blur(24px)',
+  border: '1px solid rgba(200,169,110,0.18)',
+  borderTop: '1px solid rgba(200,169,110,0.32)',
   borderRadius: '18px',
-  boxShadow: '0 8px 32px rgba(0,0,0,0.35)',
+  boxShadow: '0 8px 40px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.07)',
 };
 
 const fichaItems = [
@@ -33,8 +44,9 @@ export default function LibroSection() {
   useEffect(() => { const t = setTimeout(() => setV(true), 80); return () => clearTimeout(t); }, []);
 
   return (
-    <section style={{ position: 'relative', padding: m ? '4rem 0 3rem' : '7rem 0 5rem', overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 20% 50%, rgba(13,27,42,0.3) 0%, transparent 55%)' }} />
+    <section style={{ position: 'relative', padding: m ? '4rem 0 3rem' : '7rem 0 5rem', overflow: 'hidden', background: SECTION_BG }}>
+      {/* Overlay radial — brilho suave desde o bordo esquerdo */}
+      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 15% 60%, rgba(200,169,110,0.06) 0%, transparent 55%), radial-gradient(ellipse at 85% 20%, rgba(27,42,62,0.8) 0%, transparent 60%)' }} />
 
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: m ? '0 1.25rem' : '0 4rem', position: 'relative', zIndex: 10 }}>
 
@@ -75,8 +87,8 @@ export default function LibroSection() {
               <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.4rem', fontWeight: 300, color: '#EAE2D2', marginBottom: '20px' }}>Ficha Técnica</div>
               <div style={{ display: 'grid', gridTemplateColumns: m ? '1fr' : '1fr 1fr', gap: '0' }}>
                 {fichaItems.map((item, i) => (
-                  <div key={i} style={{ padding: '12px 0', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8B9BB4', marginBottom: '4px' }}>{item.label}</div>
+                  <div key={i} style={{ padding: '12px 0', borderBottom: '1px solid rgba(200,169,110,0.10)' }}>
+                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#A8BAD0', marginBottom: '4px' }}>{item.label}</div>
                     <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.1rem', fontWeight: 300, color: '#EAE2D2' }}>{item.value}</div>
                   </div>
                 ))}
@@ -86,10 +98,10 @@ export default function LibroSection() {
             {/* Sinopse */}
             <div style={{ marginBottom: '2rem' }}>
               <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.4rem', fontWeight: 300, color: '#EAE2D2', marginBottom: '14px' }}>Sinopse</div>
-              <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, fontSize: '0.97rem', lineHeight: 1.9, color: 'rgba(234,226,210,0.82)', marginBottom: '12px' }}>
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, fontSize: '0.97rem', lineHeight: 1.9, color: '#D4C8B4', marginBottom: '12px' }}>
                 Faneca Brava é unha novela de misterio familiar e reconstrución da memoria que se desenvolve en dúas liñas temporais que acaban chocando. No presente, Fernando Pereira, médico de Santiago, non pode durmir. No pasado, a súa curmá Concha foi borrada da memoria familiar.
               </p>
-              <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, fontSize: '0.97rem', lineHeight: 1.9, color: 'rgba(234,226,210,0.75)' }}>
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, fontSize: '0.97rem', lineHeight: 1.9, color: '#B8C4D4' }}>
                 A través dunha investigación que o leva desde Santiago ata o Hostal dos Reis Católicos, Fernando vai destapando a verdade sobre Concha: non foi unha marxinal derrotada, senón unha supervivente feroz que usou a cámara como arma de vinganza.
               </p>
             </div>
@@ -100,7 +112,7 @@ export default function LibroSection() {
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                 {temas.map((t, i) => (
                   <motion.span key={i} whileHover={{ scale: 1.05, y: -2 }}
-                    style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '12px', padding: '6px 14px', borderRadius: '9999px', background: 'rgba(200,169,110,0.09)', color: '#C8A96E', border: '1px solid rgba(200,169,110,0.22)', cursor: 'default' }}>
+                    style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '12px', padding: '6px 14px', borderRadius: '9999px', background: 'rgba(200,169,110,0.14)', color: '#D4A85A', border: '1px solid rgba(200,169,110,0.35)', cursor: 'default' }}>
                     {t}
                   </motion.span>
                 ))}
@@ -122,7 +134,7 @@ export default function LibroSection() {
               <motion.div key={i} whileHover={{ y: -4, scale: 1.01 }} style={{ ...G, padding: '24px 26px' }}>
                 <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C8A96E', marginBottom: '8px' }}>{p.num}</div>
                 <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.25rem', fontWeight: 300, color: '#EAE2D2', marginBottom: '10px' }}>{p.title}</div>
-                <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, fontSize: '0.88rem', lineHeight: 1.75, color: '#8B9BB4', margin: 0 }}>{p.desc}</p>
+                <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, fontSize: '0.88rem', lineHeight: 1.75, color: '#A8BAD0', margin: 0 }}>{p.desc}</p>
               </motion.div>
             ))}
           </div>
