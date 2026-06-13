@@ -26,10 +26,10 @@ const temas = [
 ];
 
 const capitulosColors = [
-  { bg: "#283B4F", border: "1px solid #3E5266" },
-  { bg: "#364638", border: "1px solid #4C594A" },
-  { bg: "#4A353C", border: "1px solid #5F4A51" },
-  { bg: "#3D354A", border: "1px solid #51485F" },
+  { bg: "#283B4F", border: "1px solid #3E5266" }, // Parte I
+  { bg: "#364638", border: "1px solid #4C594A" }, // Parte II
+  { bg: "#4A353C", border: "1px solid #5F4A51" }, // Parte III
+  { bg: "#3D354A", border: "1px solid #51485F" }, // Coda
 ];
 
 export default function LibroSection() {
@@ -38,7 +38,7 @@ export default function LibroSection() {
   useEffect(() => { const t = setTimeout(() => setV(true), 80); return () => clearTimeout(t); }, []);
 
   return (
-    <section style={{ position: 'relative', padding: m ? '4rem 0 3rem' : '7rem 0 5rem', overflow: 'hidden', backgroundColor: '#202D3C' }}>
+    <section style={{ position: 'relative', padding: m ? '4rem 0 3rem' : '7rem 0 5rem', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 20% 50%, rgba(200,169,110,0.06) 0%, transparent 55%)' }} />
 
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: m ? '0 1.25rem' : '0 4rem', position: 'relative', zIndex: 10 }}>
@@ -62,7 +62,7 @@ export default function LibroSection() {
             <motion.div
               whileHover={{ scale: 1.03, rotateY: 3 }}
               transition={{ duration: 0.5 }}
-              style={{ borderRadius: '16px', overflow: 'hidden', boxShadow: '0 30px 70px rgba(0,0,0,0.6)', transformStyle: 'preserve-3d', perspective: '1000px', border: '1px solid rgba(255,255,255,0.1)' }}
+              style={{ borderRadius: '16px', overflow: 'hidden', boxShadow: '0 30px 70px rgba(0,0,0,0.6)', transformStyle: 'preserve-3d', perspective: '1000px', border: '1px solid rgba(255, 255, 255, 0.1)' }}
             >
               <img
                 src="/manus-storage/NEjJma6w5Oln_b68f9430.jpg"
@@ -82,12 +82,12 @@ export default function LibroSection() {
                 {fichaItems.map((item, i) => {
                   const isEditorial = item.label === "Editorial";
                   return (
-                    <div
-                      key={i}
-                      style={{
-                        padding: '14px 18px',
-                        backgroundColor: '#1C2B3C',
-                        borderRadius: '12px',
+                    <div 
+                      key={i} 
+                      style={{ 
+                        padding: '14px 18px', 
+                        backgroundColor: '#1C2B3C', 
+                        borderRadius: '12px', 
                         border: '1px solid rgba(255,255,255,0.06)',
                         gridColumn: (!m && isEditorial) ? 'span 2' : undefined
                       }}
@@ -116,18 +116,18 @@ export default function LibroSection() {
               <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.2rem', fontWeight: 300, color: '#FFFFFF', marginBottom: '12px' }}>Temas Centrais</div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                 {temas.map((t, i) => (
-                  <motion.span
-                    key={i}
+                  <motion.span 
+                    key={i} 
                     whileHover={{ scale: 1.05, y: -2 }}
-                    style={{
-                      fontFamily: "'DM Sans', sans-serif",
-                      fontSize: '12px',
-                      padding: '6px 14px',
-                      borderRadius: '9999px',
-                      background: '#1C2B3C',
-                      color: '#C8A96E',
-                      border: '1px solid rgba(200,169,110,0.3)',
-                      cursor: 'default'
+                    style={{ 
+                      fontFamily: "'DM Sans', sans-serif", 
+                      fontSize: '12px', 
+                      padding: '6px 14px', 
+                      borderRadius: '9999px', 
+                      background: '#1C2B3C', 
+                      color: '#C8A96E', 
+                      border: '1px solid rgba(200,169,110,0.3)', 
+                      cursor: 'default' 
                     }}
                   >
                     {t}
@@ -150,11 +150,11 @@ export default function LibroSection() {
             ].map((p, i) => {
               const styleTheme = capitulosColors[i] || capitulosColors[0];
               return (
-                <motion.div
-                  key={i}
-                  whileHover={{ y: -6, scale: 1.01 }}
+                <motion.div 
+                  key={i} 
+                  whileHover={{ y: -6, scale: 1.01 }} 
                   transition={{ duration: 0.3 }}
-                  style={{
+                  style={{ 
                     backgroundColor: styleTheme.bg,
                     border: styleTheme.border,
                     borderRadius: '18px',

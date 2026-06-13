@@ -3,19 +3,19 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useIsMobile } from "@/hooks/useIsMobile";
 
 const temas = [
-  { id: "familia", num: "01", title: "A Familia Tóxica",
-    content: "A novela denuncia que o clan dos Pereira é unha estrutura tóxica e enferma. Mamá Carme prefire ocultar monstros reais — como o tío Daniel, un alcohólico, ou o cura abusador — e castigar á vítima (Concha) só para manter a imaxe de familia respectable e católica. A familia non é un refuxio: é a primeira prisión.",
+  { id: "familia", num: "1", title: "A familia tóxica",
+    content: "A novela denuncia que o clan dos Pereira é unha estrutura tóxica e enferma. Mamá Carme prefire ocultar monstros reais — como o tío Daniel, un alcohólico, ou o cura abusador — e castigar a vítima (Concha) só para manter a imaxe de familia respectable e católica. A familia non é un refuxio: é a primeira prisión.",
     quote: "Todas as familias agochan cadáveres na memoria." },
-  { id: "camara", num: "02", title: "A Cámara como Arma",
+  { id: "camara", num: "2", title: "A cámara como arma",
     content: "Concha non é unha fotógrafa artista que busca a beleza; é unha xusticeira social. Ao facerse paparazzi, usa os obxectivos das cámaras para destapar a realidade oculta das clases altas. É a súa forma de dicir: a min botástesme por mala, pero os que mandan son moito peores e eu teño as probas.",
     quote: "Eu teño as probas. E elas valen máis ca calquera apelido." },
-  { id: "culpa", num: "03", title: "A Culpa Somatizada",
+  { id: "culpa", num: "3", title: "A culpa somatizada",
     content: "Fernando é o espello do lector. O seu insomnio e esgotamento representan a culpa das xeracións actuais por permitir ou ignorar os abusos do pasado. Non pode descansar ata que non desenterra a verdade de Concha e lle devolve a súa dignidade. O corpo non mente cando a mente cala.",
     quote: "Os ollos de Concha perséguenme cando pecho os meus." },
-  { id: "franquismo", num: "04", title: "O Franquismo Doméstico",
+  { id: "franquismo", num: "4", title: "O franquismo doméstico",
     content: "A novela retrata o franquismo non como algo político e distante, senón como unha forza que se infiltra nos fogares, nas escolas, nas igrexas. A represión non vén só do Estado: vén da veciña, da mestra, do cura, da avoa. O réxime vivía nos corpos e nas conciencias das persoas.",
     quote: "O silencio foi a arma máis eficaz do réxime." },
-  { id: "memoria", num: "05", title: "Memoria e Identidade",
+  { id: "memoria", num: "5", title: "Memoria e identidade",
     content: "A reconstrución do pasado a través de fragmentos: cartas, fotografías, conversas. Fernando monta un puzzle emocional para entender quen foi Concha e, ao facelo, descobre quen é el mesmo e que herdou da súa familia. A identidade non é o que somos: é o que lembramos e o que decidimos non esquecer.",
     quote: "A memoria nunca arde completamente." },
 ];
@@ -35,7 +35,7 @@ export default function ArquivoSection() {
   const cur = temas.find(t => t.id === active)!;
 
   return (
-    <section style={{ position: 'relative', padding: m ? '4rem 0 3rem' : '8rem 0 6rem', overflow: 'hidden', backgroundColor: '#202D3C' }}>
+    <section style={{ position: 'relative', padding: m ? '4rem 0 3rem' : '8rem 0 6rem', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 30% 50%, rgba(200,169,110,0.06) 0%, transparent 60%)' }} />
 
       <div style={{ maxWidth: '1440px', margin: '0 auto', padding: m ? '0 1.25rem' : '0 5rem', position: 'relative', zIndex: 10 }}>

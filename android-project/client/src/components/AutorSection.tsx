@@ -24,7 +24,7 @@ export default function AutorSection() {
   useEffect(() => { const t = setTimeout(() => setV(true), 80); return () => clearTimeout(t); }, []);
 
   return (
-    <section style={{ position: 'relative', padding: m ? '4rem 0 3rem' : '7rem 0 5rem', overflow: 'hidden', backgroundColor: '#202D3C' }}>
+    <section style={{ position: 'relative', padding: m ? '4rem 0 3rem' : '7rem 0 5rem', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 70% 40%, rgba(200,169,110,0.05) 0%, transparent 55%)' }} />
 
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: m ? '0 1.25rem' : '0 4rem', position: 'relative', zIndex: 10 }}>

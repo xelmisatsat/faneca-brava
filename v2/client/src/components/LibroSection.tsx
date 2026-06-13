@@ -12,12 +12,11 @@ const cardStyle = {
 const fichaItems = [
   { label: "Título",       value: "Faneca Brava" },
   { label: "Autor",        value: "Manuel Portas" },
-  { label: "Editorial",    value: "Editorial Galaxia" },
-  { label: "Publicación",  value: "11 de abril de 2013" },
+  { label: "Editorial",    value: "Editorial Xerais (2013) · Editorial Galaxia (2024)" },
   { label: "Lingua",       value: "Galego" },
   { label: "Xénero",       value: "Novela de memoria" },
-  { label: "Partes",       value: "III" },
-  { label: "Ambientación", value: "Galicia / Barcelona" },
+  { label: "Partes",       value: "III + Coda" },
+  { label: "Nº páxinas",   value: "244" },
 ];
 
 const temas = [
@@ -27,9 +26,10 @@ const temas = [
 ];
 
 const capitulosColors = [
-  { bg: "#283B4F", border: "1px solid #3E5266" },
-  { bg: "#364638", border: "1px solid #4C594A" },
-  { bg: "#4A353C", border: "1px solid #5F4A51" },
+  { bg: "#283B4F", border: "1px solid #3E5266" }, // Parte I
+  { bg: "#364638", border: "1px solid #4C594A" }, // Parte II
+  { bg: "#4A353C", border: "1px solid #5F4A51" }, // Parte III
+  { bg: "#3D354A", border: "1px solid #51485F" }, // Coda
 ];
 
 export default function LibroSection() {
@@ -38,7 +38,7 @@ export default function LibroSection() {
   useEffect(() => { const t = setTimeout(() => setV(true), 80); return () => clearTimeout(t); }, []);
 
   return (
-    <section style={{ position: 'relative', padding: m ? '4rem 0 3rem' : '7rem 0 5rem', overflow: 'hidden', backgroundColor: '#202D3C' }}>
+    <section style={{ position: 'relative', padding: m ? '4rem 0 3rem' : '7rem 0 5rem', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 20% 50%, rgba(200,169,110,0.06) 0%, transparent 55%)' }} />
 
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: m ? '0 1.25rem' : '0 4rem', position: 'relative', zIndex: 10 }}>
@@ -62,7 +62,7 @@ export default function LibroSection() {
             <motion.div
               whileHover={{ scale: 1.03, rotateY: 3 }}
               transition={{ duration: 0.5 }}
-              style={{ borderRadius: '16px', overflow: 'hidden', boxShadow: '0 30px 70px rgba(0,0,0,0.6)', transformStyle: 'preserve-3d', perspective: '1000px', border: '1px solid rgba(255,255,255,0.1)' }}
+              style={{ borderRadius: '16px', overflow: 'hidden', boxShadow: '0 30px 70px rgba(0,0,0,0.6)', transformStyle: 'preserve-3d', perspective: '1000px', border: '1px solid rgba(255, 255, 255, 0.1)' }}
             >
               <img
                 src="/manus-storage/NEjJma6w5Oln_b68f9430.jpg"
@@ -79,20 +79,24 @@ export default function LibroSection() {
             <div style={{ ...cardStyle, padding: '28px 32px', marginBottom: '2rem' }}>
               <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.45rem', fontWeight: 400, color: '#FFFFFF', marginBottom: '20px', letterSpacing: '-0.015em' }}>Ficha Técnica</div>
               <div style={{ display: 'grid', gridTemplateColumns: m ? '1fr' : '1fr 1fr', gap: '12px' }}>
-                {fichaItems.map((item, i) => (
-                  <div
-                    key={i}
-                    style={{
-                      padding: '14px 18px',
-                      backgroundColor: '#1C2B3C',
-                      borderRadius: '12px',
-                      border: '1px solid rgba(255,255,255,0.06)',
-                    }}
-                  >
-                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#C8A96E', marginBottom: '6px', fontWeight: 500 }}>{item.label}</div>
-                    <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.25rem', fontWeight: 300, color: '#FFFFFF', lineHeight: 1.3 }}>{item.value}</div>
-                  </div>
-                ))}
+                {fichaItems.map((item, i) => {
+                  const isEditorial = item.label === "Editorial";
+                  return (
+                    <div 
+                      key={i} 
+                      style={{ 
+                        padding: '14px 18px', 
+                        backgroundColor: '#1C2B3C', 
+                        borderRadius: '12px', 
+                        border: '1px solid rgba(255,255,255,0.06)',
+                        gridColumn: (!m && isEditorial) ? 'span 2' : undefined
+                      }}
+                    >
+                      <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#C8A96E', marginBottom: '6px', fontWeight: 500 }}>{item.label}</div>
+                      <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.25rem', fontWeight: 300, color: '#FFFFFF', lineHeight: 1.3 }}>{item.value}</div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
 
@@ -112,18 +116,18 @@ export default function LibroSection() {
               <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.2rem', fontWeight: 300, color: '#FFFFFF', marginBottom: '12px' }}>Temas Centrais</div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                 {temas.map((t, i) => (
-                  <motion.span
-                    key={i}
+                  <motion.span 
+                    key={i} 
                     whileHover={{ scale: 1.05, y: -2 }}
-                    style={{
-                      fontFamily: "'DM Sans', sans-serif",
-                      fontSize: '12px',
-                      padding: '6px 14px',
-                      borderRadius: '9999px',
-                      background: '#1C2B3C',
-                      color: '#C8A96E',
-                      border: '1px solid rgba(200,169,110,0.3)',
-                      cursor: 'default'
+                    style={{ 
+                      fontFamily: "'DM Sans', sans-serif", 
+                      fontSize: '12px', 
+                      padding: '6px 14px', 
+                      borderRadius: '9999px', 
+                      background: '#1C2B3C', 
+                      color: '#C8A96E', 
+                      border: '1px solid rgba(200,169,110,0.3)', 
+                      cursor: 'default' 
                     }}
                   >
                     {t}
@@ -137,19 +141,20 @@ export default function LibroSection() {
         {/* Estrutura da novela */}
         <motion.div initial={{ opacity: 0, y: 30 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.9, delay: 0.5 }}>
           <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.45rem', fontWeight: 400, color: '#FFFFFF', marginBottom: '20px', letterSpacing: '-0.015em' }}>Estrutura da Novela</div>
-          <div style={{ display: 'grid', gridTemplateColumns: m ? '1fr' : 'repeat(3, 1fr)', gap: '16px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: m ? '1fr' : 'repeat(4, 1fr)', gap: '16px' }}>
             {[
               { num: "Parte I",   title: "Estirpe",            desc: "A familia Pereira, os seus segredos e o pasado silenciado. A infancia de Concha na vila mariñeira galega." },
-              { num: "Parte II",  title: "A Obsesión",         desc: "Fernando investiga. A verdade sobre Concha emerxe fragmento a fragmento a través de Andreu Picart e a tía Lela." },
-              { num: "Parte III", title: "A Xustiza pola Man", desc: "A revelación final. A faneca brava sempre clava as súas espiñas. A memoria devolve a dignidade." },
+              { num: "Parte II",  title: "A obsesión",         desc: "Fernando investiga. A verdade sobre Concha emerxe fragmento a fragmento a través de Andreu Picart e a tía Lela." },
+              { num: "Parte III", title: "A xustiza pola man", desc: "A revelación final. A faneca brava sempre crava as súas espiñas. A memoria devolve a dignidade." },
+              { num: "Coda",      title: "Epílogo",            desc: "As últimas 10 páxinas. O remate emocional da historia. A resolución do destino de Concha." },
             ].map((p, i) => {
               const styleTheme = capitulosColors[i] || capitulosColors[0];
               return (
-                <motion.div
-                  key={i}
-                  whileHover={{ y: -6, scale: 1.01 }}
+                <motion.div 
+                  key={i} 
+                  whileHover={{ y: -6, scale: 1.01 }} 
                   transition={{ duration: 0.3 }}
-                  style={{
+                  style={{ 
                     backgroundColor: styleTheme.bg,
                     border: styleTheme.border,
                     borderRadius: '18px',
