@@ -85,22 +85,32 @@ export default function SobreSection() {
               </p>
             </S>
 
-            {/* Divisor */}
-            <motion.div initial={{ scaleX: 0 }} animate={v ? { scaleX: 1 } : {}} transition={{ delay: 0.5, duration: 0.8 }}
-              style={{ height: '1px', background: 'linear-gradient(90deg, transparent, rgba(200,169,110,0.3), transparent)', margin: '0 0 2.5rem', transformOrigin: 'left' }} />
-
-            {/* Stats */}
-            <S v={FI} d={0.5}>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: m ? '8px' : '16px', marginBottom: '2.5rem' }}>
-                {[{ l: 'Partes', v: 'III + Coda' }, { l: 'Lugar', v: 'Galicia' }, { l: 'Época', v: '1960' }].map((d, i) => (
-                  <motion.div key={i} whileHover={m ? {} : { scale: 1.04, y: -3 }} transition={{ duration: 0.3 }}
-                    style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.04) 100%)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.12)', borderTop: '1px solid rgba(255,255,255,0.22)', borderRadius: m ? '12px' : '16px', padding: m ? '14px 8px' : '20px', textAlign: 'center', boxShadow: '0 4px 20px rgba(0,0,0,0.3)', overflow: 'hidden' }}>
-                    <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: m ? '1.5rem' : '2.2rem', fontWeight: 300, color: '#C8A96E' }}>{d.v}</div>
-                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: m ? '8px' : '10px', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#8B9BB4', marginTop: '6px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{d.l}</div>
-                  </motion.div>
-                ))}
-              </div>
-            </S>
+            {/* Stats Cards synced from client version */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: m ? '8px' : '16px', marginBottom: '2.5rem', marginTop: '1.5rem' }}>
+              {[
+                { l: 'Partes', v: 'III + Coda', bg: '#0D1E3A', txt: '#F4A847', ltxt: 'rgba(255,255,255,0.55)' },
+                { l: 'Lugar',  v: 'Galicia',    bg: '#B5722A', txt: '#FFFFFF', ltxt: 'rgba(255,255,255,0.6)' },
+                { l: 'Época',  v: '1960',       bg: '#1A4A5A', txt: '#8ECAE6', ltxt: 'rgba(255,255,255,0.5)' },
+              ].map((d, i) => (
+                <motion.div key={i} whileHover={m ? {} : { scale: 1.04, y: -3 }} transition={{ duration: 0.3 }}
+                  style={{
+                    background: d.bg,
+                    borderRadius: m ? '12px' : '16px',
+                    padding: m ? '14px 8px' : '20px',
+                    textAlign: 'center',
+                    boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+                    overflow: 'hidden'
+                  }}>
+                  <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: m ? '1.5rem' : '2.2rem', fontWeight: 300, color: d.txt }}>{d.v}</div>
+                  <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: m ? '8px' : '10px', letterSpacing: '0.15em', textTransform: 'uppercase', color: d.ltxt, marginTop: '6px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{d.l}</div>
+                </motion.div>
+              ))}
+            </div>
+          </S>
+ 
+             {/* Divisor */}
+             <motion.div initial={{ scaleX: 0 }} animate={v ? { scaleX: 1 } : {}} transition={{ delay: 0.5, duration: 0.8 }}
+               style={{ height: '1px', background: 'linear-gradient(90deg, transparent, rgba(200,169,110,0.3), transparent)', margin: '0 0 2.5rem', transformOrigin: 'left' }} />
 
             {/* Estrutura */}
             <S v={FI} d={0.65}>
