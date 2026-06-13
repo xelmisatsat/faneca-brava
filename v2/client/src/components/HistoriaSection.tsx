@@ -31,6 +31,8 @@ const caps = [
 
 const G = { background: 'linear-gradient(135deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.04) 100%)', backdropFilter: 'blur(48px)', border: '1px solid rgba(255,255,255,0.12)', borderTop: '1px solid rgba(255,255,255,0.24)', borderRadius: '20px', boxShadow: '0 8px 32px rgba(0,0,0,0.4)' };
 
+const colors = ["#6B8CAE", "#8B9A86", "#A37081", "#D4924A", "#8E7E9E", "#C8A96E"];
+
 export default function HistoriaSection() {
   const [v, setV] = useState(false);
   const m = useIsMobile();
@@ -71,12 +73,20 @@ export default function HistoriaSection() {
                 <motion.div
                   whileHover={{ scale: 1.02, rotateY: i % 2 === 0 ? 2 : -2 }}
                   transition={{ duration: 0.5 }}
-                  style={{ position: 'relative', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 24px 60px rgba(0,0,0,0.55)', transformStyle: 'preserve-3d', perspective: '1000px' }}
+                  style={{
+                    position: 'relative',
+                    borderRadius: '20px',
+                    overflow: 'hidden',
+                    boxShadow: '0 24px 60px rgba(0,0,0,0.55)',
+                    transformStyle: 'preserve-3d',
+                    perspective: '1000px',
+                    border: `2px solid ${colors[i % colors.length]}`
+                  }}
                 >
                   <img src={cap.img} alt={cap.title} style={{ width: '100%', aspectRatio: '4/3', objectFit: 'cover', display: 'block', filter: 'brightness(0.72) saturate(0.8)' }} />
                   <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(8,8,13,0.3) 0%, transparent 55%)' }} />
                   <div style={{ position: 'absolute', top: '20px', left: '20px' }}>
-                    <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '5rem', fontWeight: 300, color: 'rgba(200,169,110,0.18)', lineHeight: 1 }}>{cap.n}</span>
+                    <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '5rem', fontWeight: 300, color: `${colors[i % colors.length]}2d`, lineHeight: 1 }}>{cap.n}</span>
                   </div>
                 </motion.div>
               </div>
@@ -84,14 +94,14 @@ export default function HistoriaSection() {
               {/* Texto */}
               <div style={{ order: i % 2 === 0 ? 2 : 1 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '1.2rem' }}>
-                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', color: '#C8A96E' }}>{cap.n}</span>
-                  <div style={{ width: '24px', height: '1px', backgroundColor: 'rgba(200,169,110,0.4)' }} />
+                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', color: colors[i % colors.length] }}>{cap.n}</span>
+                  <div style={{ width: '24px', height: '1px', backgroundColor: `${colors[i % colors.length]}66` }} />
                   <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8B9BB4' }}>{cap.sub}</span>
                 </div>
                 <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontSize: 'clamp(1.8rem, 3vw, 2.6rem)', color: '#EAE2D2', letterSpacing: '-0.01em', lineHeight: 1.1, marginBottom: '1.5rem' }}>{cap.title}</h3>
                 <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, fontSize: '1rem', lineHeight: 1.9, color: 'rgba(234,226,210,0.82)', marginBottom: '1.5rem' }}>{cap.text}</p>
-                <div style={{ paddingLeft: '20px', borderLeft: '2px solid rgba(200,169,110,0.38)' }}>
-                  <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: '1rem', color: '#C8A96E', lineHeight: 1.7 }}>"{cap.cita}"</p>
+                <div style={{ paddingLeft: '20px', borderLeft: `2px solid ${colors[i % colors.length]}` }}>
+                  <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: '1rem', color: colors[i % colors.length], lineHeight: 1.7 }}>"{cap.cita}"</p>
                 </div>
               </div>
             </motion.div>
