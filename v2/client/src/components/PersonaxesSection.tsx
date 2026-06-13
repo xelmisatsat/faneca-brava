@@ -6,47 +6,48 @@ import { useIsMobile } from "@/hooks/useIsMobile";
 const chars = [
   { id: "concha", name: "Concha Pereira", alias: "A Faneca Brava", role: "Protagonista",
     img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-concha-portrait-ZyBRp5FRRbMYRNpmNDvaVU.webp",
-    audio: "/audios/concha.mp3", color: "#C8A96E",
-    desc: "Orfa de nai, co pai emigrado, Concha crece baixo a tutela opresiva de Mamá Carme. Sofre o maltrato físico da mestra Dona Remedios —que lle fai sangrar as mans a golpes— e o acoso do cura Don Anselmo. Acusada falsamente do incendio da escola, é expulsada da familia. Foxe a Barcelona onde se converte en paparazzi de éxito, usando a cámara como arma de vinganza contra os poderosos.",
+    audio: "/audios/concha.mp3", color: "#C8A96E", cardBg: "#2A1520",
+    desc: "Orfa de nai, co pai emigrado, Concha crece baixo a tutela opresiva de Mamá Carme. Sofre o maltrato físico da mestra Dona Remedios —que lle fai sangrar as mans a golpes— e o acoso do cura Don Anselmo. Acusada falsamente do incendio da escola, é expulsada da familia. Foxe a Barcelona onde se converte en paparazzi de éxito, usando a cámara como arma de desquite contra os poderosos.",
     traits: ["Feroz", "Silenciosa", "Rebelde", "Libre", "Xusticeira"],
     quote: "Cando miro pola lente, deixo de ser a nena que collían. Por fin, son eu a que observa.",
-    arc: "Da infancia oprimida á vinganza silenciosa" },
+    arc: "Da infancia oprimida ao desquite silencioso" },
   { id: "fernando", name: "Fernando Pereira", alias: "O Médico Atormentado", role: "Narrador",
     img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-fernando-portrait-EQpQqF6VEH5zWNhiMpjMkL.webp",
-    audio: "/audios/fernando.mp3", color: "#6B8CAE",
+    audio: "/audios/fernando.mp3", color: "#6B8CAE", cardBg: "#152535",
     desc: "Médico de Santiago de Compostela que sofre de insomnio severo. As olleiras fórmanlle un medio arco azul escuro. Os seus síntomas son a somatización dunha profunda culpa herdada. Obsesionado con descubrir a verdade sobre a súa curmá Concha, investiga a través de conversas coa tía Lela e con Andreu Picart no Hostal dos Reis Católicos.",
     traits: ["Atormentado", "Obsesivo", "Culpable", "Determinado"],
     quote: "Non podo durmir porque os ollos de Concha perséguenme cando pecho os meus.",
     arc: "Da culpa herdada á redención a través da verdade" },
   { id: "mama", name: "Mamá Carme", alias: "A Matriarca", role: "Antagonista",
     img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-mama-carme-f7k2dQYFH5zPEkXNWFnfCL.webp",
-    audio: "/audios/carme.mp3", color: "#9A8A7A",
+    audio: "/audios/carme.mp3", color: "#9A8A7A", cardBg: "#251E16",
     desc: "Matriarca do clan Pereira. Impón unha disciplina despótica e prioriza as aparencias sociais por riba do amor. Berraba botando sapos pola boca e batendo coas palmas das mans nas coxas. Prefire ocultar monstros reais e castigar á vítima para manter a imaxe de familia respectable e católica.",
     traits: ["Despótica", "Hipócrita", "Fría", "Autoritaria"],
     quote: "O apelido é o que nos sustenta. Un nome limpo vale máis ca todo o ouro.",
     arc: "A autoridade moral que encobre a inxustiza" },
   { id: "andreu", name: "Andreu Picart", alias: "O Fotógrafo Catalán", role: "Confidente",
     img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-andreu-VAxSfuAXwczWNcuCm2shyJ.webp",
-    audio: "/audios/andreu.mp3", color: "#8B7355",
+    audio: "/audios/andreu.mp3", color: "#8B7355", cardBg: "#1A2520",
     desc: "Fotógrafo catalán veterano que coñeceu a Concha cando chegou a Barcelona. Viches como se converteu nunha das mellores paparazzi da cidade. Dicíalle que estaba xogando con lume. É a ponte entre o pasado de Concha e o presente de Fernando.",
     traits: ["Observador", "Sabio", "Melancólico", "Leal"],
-    quote: "Concha non fotografaba para vivir. Fotografaba para vingarse.",
+    quote: "Concha non fotografaba para vivir. Fotografaba para desquitarse.",
     arc: "O testemuño que conecta pasado e presente" },
   { id: "encarna", name: "Encarna Pereira", alias: "A Supervivente", role: "O Contrapunto",
     img: "/manus-storage/encarna-portrait.jpg",
-    audio: "/audios/encarna.mp3", color: "#7A6F8A",
+    audio: "/audios/encarna.mp3", color: "#7A6F8A", cardBg: "#1E1A28",
     desc: "Irmá pequena de Concha, tamén orfa e criada por Mamá Carme. Mentres Concha é a rebeldía e a fuxida, Encarna é o reflexo doutro tipo de supervivencia feminina: a submisión calculada. Acata as normas da matriarca, cala, obedece e resiste dende dentro. Dúas irmás, dous camiños opostos fronte á mesma opresión.",
     traits: ["Calada", "Resignada", "Resiliente", "Sombra"],
     quote: "Eu quedei. Alguén tiña que quedar para que a casa non se derrubara.",
     arc: "A indómita vs. a supervivente: dúas respostas á mesma ferida" },
 ];
 
-const G = {
-  background: 'linear-gradient(135deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.04) 100%)',
-  backdropFilter: 'blur(48px)', border: '1px solid rgba(255,255,255,0.12)',
-  borderTop: '1px solid rgba(255,255,255,0.24)', borderRadius: '20px',
-  boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
-};
+/* Card style — solid bg per character, no glassmorphism */
+const cardStyle = (bg: string) => ({
+  background: bg,
+  borderRadius: '16px',
+  boxShadow: '0 6px 24px rgba(0,0,0,0.5)',
+  border: '1px solid rgba(255,255,255,0.06)',
+});
 
 const WAVE_BARS = [0.4, 0.75, 1, 0.6, 0.85, 0.5, 0.9, 0.65, 0.75, 0.45, 0.55, 0.8];
 
@@ -185,8 +186,8 @@ export default function PersonaxesSection() {
   const selChar = chars.find(c => c.id === sel);
 
   return (
-    <section style={{ position: 'relative', padding: m ? '4rem 0 3rem' : '8rem 0 6rem', overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 80% 30%, rgba(26,39,68,0.2) 0%, transparent 50%)' }} />
+    <section style={{ position: 'relative', padding: m ? '4rem 0 3rem' : '8rem 0 6rem', overflow: 'hidden', background: '#07162C' }}>
+      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 80% 30%, rgba(26,39,68,0.25) 0%, transparent 50%)' }} />
 
       <div style={{ maxWidth: '1440px', margin: '0 auto', padding: m ? '0 1.25rem' : '0 5rem', position: 'relative', zIndex: 10 }}>
 
@@ -197,7 +198,7 @@ export default function PersonaxesSection() {
             <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', letterSpacing: '0.35em', textTransform: 'uppercase', color: '#C8A96E' }}>O Elenco</span>
           </div>
           <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontSize: 'clamp(3rem, 7vw, 6.5rem)', lineHeight: 0.88, letterSpacing: '-0.025em', color: '#EAE2D2' }}>
-            Os <span style={{ color: '#C8A96E' }}>Personaxes</span>
+            Os <span style={{ color: '#C8A96E' }}>personaxes</span>
           </h2>
           <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, fontSize: '1.05rem', lineHeight: 1.8, color: '#8B9BB4', maxWidth: '600px', marginTop: '1.5rem' }}>
             Cada un carga co peso dunha verdade que a familia Pereira quixo enterrar. Preme para descubrir a súa historia e escoitar o seu testemuño.
@@ -214,7 +215,7 @@ export default function PersonaxesSection() {
               transition={{ duration: 0.8, delay: 0.15 + i * 0.1, ease: [0.16, 1, 0.3, 1] }}
               whileHover={m ? {} : { y: -8, scale: 1.02 }}
               onClick={() => setSel(c.id)}
-              style={{ ...G, overflow: 'hidden', cursor: 'pointer', position: 'relative' }}
+              style={{ ...cardStyle(c.cardBg), overflow: 'hidden', cursor: 'pointer', position: 'relative' }}
             >
               <div style={{ position: 'relative', aspectRatio: '3/4', overflow: 'hidden' }}>
                 <motion.img src={c.img} alt={c.name}
@@ -222,11 +223,11 @@ export default function PersonaxesSection() {
                   style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.72) saturate(0.85)', display: 'block' }} />
                 <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(to top, rgba(8,8,13,0.96) 0%, rgba(8,8,13,0.1) 50%, transparent 100%)` }} />
                 {/* Badge rol */}
-                <div style={{ position: 'absolute', top: '12px', left: '12px', background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '9999px', padding: '3px 10px' }}>
+                <div style={{ position: 'absolute', top: '12px', left: '12px', background: 'rgba(0,0,0,0.45)', borderRadius: '9999px', padding: '3px 10px' }}>
                   <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '9px', letterSpacing: '0.1em', color: c.color }}>{c.role}</span>
                 </div>
                 {/* Icona audio */}
-                <div style={{ position: 'absolute', top: '12px', right: '12px', width: '28px', height: '28px', borderRadius: '50%', background: `${c.color}18`, border: `1px solid ${c.color}35`, backdropFilter: 'blur(10px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ position: 'absolute', top: '12px', right: '12px', width: '28px', height: '28px', borderRadius: '50%', background: 'rgba(0,0,0,0.45)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
                     <path d="M2 1.5L10 6L2 10.5V1.5Z" fill={c.color} />
                   </svg>
@@ -270,11 +271,11 @@ export default function PersonaxesSection() {
                 style={{
                   position: 'relative', maxWidth: '900px', width: '100%',
                   maxHeight: m ? '95vh' : '85vh',
-                  background: 'linear-gradient(135deg, rgba(12,18,32,0.92) 0%, rgba(8,8,13,0.85) 100%)',
-                  backdropFilter: 'blur(60px)', border: '1px solid rgba(255,255,255,0.1)',
-                  borderTop: '1px solid rgba(255,255,255,0.2)',
+                  background: `linear-gradient(135deg, ${selChar.cardBg}FE, #070B13)`,
+                  border: `1px solid ${selChar.color}25`,
+                  borderTop: `1px solid ${selChar.color}40`,
                   borderRadius: m ? '32px 32px 0 0' : '28px',
-                  boxShadow: '0 40px 100px rgba(0,0,0,0.7)',
+                  boxShadow: '0 40px 100px rgba(0,0,0,0.8)',
                   display: 'flex', flexDirection: 'column',
                 }}
               >

@@ -41,7 +41,7 @@ export default function SobreSection() {
               <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', letterSpacing: '0.4em', textTransform: 'uppercase', color: '#D4924A', fontWeight: 600 }}>A Novela</span>
             </div>
             <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontSize: 'clamp(2.8rem, 7vw, 6rem)', lineHeight: 0.9, color: '#EAE2D2', margin: 0 }}>
-              Unha historia de<br /><span style={{ color: '#D4924A' }}>memoria e vinganza</span>
+              Unha historia de<br /><span style={{ color: '#D4924A' }}>memoria e desquite</span>
             </h2>
           </S>
         </div>

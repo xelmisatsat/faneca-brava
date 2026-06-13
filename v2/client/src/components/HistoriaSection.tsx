@@ -7,7 +7,7 @@ const caps = [
     text: "Fernando Pereira, médico de Santiago, non pode durmir. As olleiras fórmanlle un medio arco azul escuro baixo os ollos. Os seus síntomas físicos son a somatización dunha culpa herdada polo comportamento da súa familia no pasado. Cada noite, os ollos de Concha perségueno. No Hostal dos Reis Católicos, un encontro inesperado con Andreu Picart cambiará todo.",
     cita: "Non podo durmir porque os ollos de Concha perséguenme cando pecho os meus.",
     img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-fernando-portrait-EQpQqF6VEH5zWNhiMpjMkL.webp" },
-  { n: "02", sub: "Vila mariñeira galega, anos 1940–50", title: "A Infancia na Foz",
+  { n: "02", sub: "Vila mariñeira galega, anos 1940–50", title: "A Infancia na Vila",
     text: "A primeira infancia de Concha pasouna nos escasos límites da foz que conformaba o peirao natural da vila, entre a casa da avoa —pegada ao comezo do areal— e a escola de dona Remedios. As tardes diluíanse entre as barrigas estomballadas das dornas con cheiro a brea e sabor a sal, capitaneando unha manchea de rillotes. Nas pelexas a tumbos, non había rapaz que conseguise domeala.",
     cita: "A mestura daquel incipiente liderado primixenio e a dureza do salitre forxaron o carácter rexo da súa infancia.",
     img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-village-night-JkiwiqgEL6ZDLZTtniYVuQ.webp" },
