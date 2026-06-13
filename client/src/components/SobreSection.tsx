@@ -91,36 +91,35 @@ export default function SobreSection() {
               <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '3.8rem', fontWeight: 300, float: 'left', marginRight: '10px', marginTop: '4px', lineHeight: 0.8, color: '#D4924A' }}>F</span>
               aneca Brava é unha novela de misterio familiar e reconstrución da memoria que se desenvolve en dúas liñas temporais que acaban chocando. A historia arrinca no presente cun protagonista atormentado: Fernando Pereira, un médico de Santiago de Compostela que sofre de insomnio severo e dores físicas sen explicación médica.
             </p>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, fontSize: m ? '0.95rem' : '1.02rem', lineHeight: 1.85, color: '#9EB0C8', margin: 0 }}>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, fontSize: m ? '0.95rem' : '1.02rem', lineHeight: 1.85, color: '#9EB0C8', marginBottom: '2rem' }}>
               Obsesionado por atopar a verdade, Fernando comeza a indagar na historia da súa curmá Concha, alcumada a "Faneca Brava", a quen a familia borrou da súa memoria colectiva. A través de conversas coa súa tía Lela e cun veterano fotógrafo catalán chamado Andreu Picart no Hostal dos Reis Católicos, Fernando vai destapando a realidade.
             </p>
+
+            {/* Stats Cards moved from Franxa 3 */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: m ? '8px' : '16px', marginTop: '1.5rem' }}>
+              {[
+                { l: 'Partes', v: 'III + Coda', bg: '#0D1E3A', txt: '#F4A847', ltxt: 'rgba(255,255,255,0.55)' },
+                { l: 'Lugar',  v: 'Galicia',    bg: '#B5722A', txt: '#FFFFFF', ltxt: 'rgba(255,255,255,0.6)' },
+                { l: 'Época',  v: '1960',       bg: '#1A4A5A', txt: '#8ECAE6', ltxt: 'rgba(255,255,255,0.5)' },
+              ].map((d, i) => (
+                <motion.div key={i}
+                  initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.25 + i * 0.08 }}
+                  whileHover={{ y: -3 }}
+                  style={{
+                    background: d.bg,
+                    borderRadius: m ? '10px' : '12px',
+                    padding: m ? '14px 8px' : '22px',
+                    textAlign: 'center',
+                  }}>
+                  <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: m ? '1.4rem' : '2rem', fontWeight: 300, color: d.txt }}>{d.v}</div>
+                  <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: m ? '8px' : '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: d.ltxt, marginTop: '5px' }}>{d.l}</div>
+                </motion.div>
+              ))}
+            </div>
           </S>
         </div>
       </div>
 
-      {/* ═══ FRANXA 3: Stats — steel blue (cor clara de contraste) ═ */}
-      <div style={{ background: '#6E87A6', padding: m ? '1.5rem 1.25rem' : '3rem 0' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: m ? '0' : '0 5rem', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: m ? '8px' : '16px' }}>
-          {[
-            { l: 'Partes', v: 'III + Coda', bg: '#0D1E3A', txt: '#F4A847', ltxt: 'rgba(255,255,255,0.55)' },
-            { l: 'Lugar',  v: 'Galicia',    bg: '#B5722A', txt: '#FFFFFF', ltxt: 'rgba(255,255,255,0.6)' },
-            { l: 'Época',  v: '1960',       bg: '#1A4A5A', txt: '#8ECAE6', ltxt: 'rgba(255,255,255,0.5)' },
-          ].map((d, i) => (
-            <motion.div key={i}
-              initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.25 + i * 0.08 }}
-              whileHover={{ y: -3 }}
-              style={{
-                background: d.bg,
-                borderRadius: m ? '10px' : '12px',
-                padding: m ? '14px 8px' : '22px',
-                textAlign: 'center',
-              }}>
-              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: m ? '1.4rem' : '2rem', fontWeight: 300, color: d.txt }}>{d.v}</div>
-              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: m ? '8px' : '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: d.ltxt, marginTop: '5px' }}>{d.l}</div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
 
       {/* ═══ FRANXA 4: Estrutura das partes — teal escuro ═══════════ */}
       <div style={{ background: '#122535', padding: m ? '2rem 1.25rem' : '3.5rem 0' }}>
