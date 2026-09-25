@@ -9,7 +9,7 @@ const CHARACTERS = [
     alias: "A Faneca Brava",
     role: "Protagonista",
     color: "#C8A96E",
-    avatar: "/assets/images/concha-portrait.webp",
+    avatar: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-concha-portrait-ZyBRp5FRRbMYRNpmNDvaVU.webp",
     sticker: "/manus-storage/sticker-concha_7276b1d9.png",
     voiceId: "SbxCN6LQhBInYaeKjhhW",
     suggestions: [
@@ -25,7 +25,7 @@ const CHARACTERS = [
     alias: "O Médico Atormentado",
     role: "Narrador",
     color: "#6B8CAE",
-    avatar: "/assets/images/fernando-portrait.webp",
+    avatar: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-fernando-portrait-EQpQqF6VEH5zWNhiMpjMkL.webp",
     sticker: "/manus-storage/sticker-fernando_e1828bc1.png",
     voiceId: "syjZiIvIUSwKREBfMpKZ",
     suggestions: [
@@ -41,7 +41,7 @@ const CHARACTERS = [
     alias: "A Matriarca",
     role: "Antagonista",
     color: "#9A8A7A",
-    avatar: "/assets/images/carme-portrait.webp",
+    avatar: "/manus-storage/faneca-mama-carme.jpg",
     sticker: "/manus-storage/sticker-mama_e022af0c.png",
     voiceId: "GszuzIPs4fVZTjP0EXrv",
     suggestions: [
@@ -57,7 +57,7 @@ const CHARACTERS = [
     alias: "O Fotógrafo Catalán",
     role: "Confidente",
     color: "#8B7355",
-    avatar: "/assets/images/andreu-portrait.webp",
+    avatar: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-andreu-VAxSfuAXwczWNcuCm2shyJ.webp",
     sticker: "/manus-storage/sticker-andreu_0cf93efc.png",
     voiceId: "4FMxnogu8ehUVsRIxx9H",
     suggestions: [
@@ -141,65 +141,28 @@ export default function ConversaSection() {
     setInput("");
     setLoading(true);
 
-    // MOCK RESPONSES FOR OFFLINE APK
-    const OFFLINE_RESPONSES: Record<string, string[]> = {
-      concha: [
-        "A lente corsaria non minte. Mostra o que os outros queren agochar.",
-        "A vila de Foz quedou lonxe, pero o mar sigo levándoo dentro.",
-        "En Barcelona aprendín que o silencio é a arma dos que non teñen nada máis.",
-        "Non son unha vítima, son a que dispara o flash.",
-        "O pasado dos Pereira está cheo de sombras que ninguén se atreve a mirar."
-      ],
-      fernando: [
-        "Incapaz de durmir, as sombras do pasado volven a min cada noite.",
-        "Concha era un segredo que a miña familia tentou borrar, pero a verdade sempre sae.",
-        "A culpa somatízase. A miña dor é a dor de todos os Pereira.",
-        "O cartafol da tía Lela foi a chave para entender quen era realmente a Faneca Brava.",
-        "Santiago é unha cidade de pedra e choiva, ideal para quen non pode descansar."
-      ],
-      mama: [
-        "As aparencias son o que manteñen a dignidade dunha estirpe.",
-        "Concha foi unha mancha no bo nome da familia. Fixemos o que había que facer.",
-        "O destino dos Pereira é gobernar, non dar que falar.",
-        "O lume limpa. O lume da escola foi o final de moitas cousas.",
-        "A tía Lela sempre foi demasiado branda para este mundo."
-      ],
-      andreu: [
-        "Concha en Barcelona era un furacán. Ninguén podía parala cunha cámara na man.",
-        "As fotos corsarias fixéronlle tremer as pernas a máis dun poderoso.",
-        "Eu só fun unha testemuña do seu rexurdimento.",
-        "A Faneca Brava sabía que a vinganza é un prato que se serve cun revelado en branco e negro.",
-        "O que vin a través do seu obxectivo non se pode esquecer facilmente."
-      ]
-    };
-
     try {
-      // Importación dinámica de CapacitorHttp para evitar errores en web se fose necesario
-      const { CapacitorHttp } = await import('@capacitor/core');
-      
-      // Intentar API real usando CapacitorHttp (evita problemas de CORS en APK)
-      const r = await CapacitorHttp.post({
-        url: "https://faneca-brava.onrender.com/api/chat",
+      // Usar o proxy do servidor para evitar problemas de CORS e expor a key
+      const r = await fetch("/api/chat", {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
-        data: {
+        body: JSON.stringify({
           characterId: char.id,
           messages: newMsgs.slice(-8),
-        },
+        }),
       });
 
-      if (r.status >= 200 && r.status < 300) {
-        setMsgs(p => [...p, { role: "assistant", content: r.data.reply || "..." }]);
-      } else {
-        // Fallback OFFLINE: Usar frases precargadas
-        const charResponses = OFFLINE_RESPONSES[char.id] || ["..."];
-        const randomReply = charResponses[Math.floor(Math.random() * charResponses.length)];
-        setMsgs(p => [...p, { role: "assistant", content: randomReply }]);
+      if (!r.ok) {
+        const errData = await r.json().catch(() => ({ error: `HTTP ${r.status}` }));
+        throw new Error(errData.error || `HTTP ${r.status}`);
       }
+
+      const data = await r.json();
+      setMsgs(p => [...p, { role: "assistant", content: data.reply || "..." }]);
     } catch (e: any) {
-      // Fallback de seguridade inmediato
-      const charResponses = OFFLINE_RESPONSES[char.id] || ["..."];
-      const randomReply = charResponses[Math.floor(Math.random() * charResponses.length)];
-      setMsgs(p => [...p, { role: "assistant", content: randomReply }]);
+      console.error("Chat error:", e);
+      setError(`Erro: ${e.message || "Non se puido conectar coa IA"}`);
+      setMsgs(p => [...p, { role: "assistant", content: "Non podo falar agora... inténtao de novo." }]);
     }
     setLoading(false);
     setTimeout(() => endRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
@@ -392,4 +355,3 @@ export default function ConversaSection() {
     </section>
   );
 }
-

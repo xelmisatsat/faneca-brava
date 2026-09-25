@@ -18,7 +18,7 @@ const caps = [
   { n: "4", sub: "O punto de non retorno", title: "O incendio e a expulsión",
     text: "A escola arde nun incendio. A familia Pereira, instigada por Mamá Carme, acusa a Concha sen probas e expúlsana do seu seo para non manchar o apelido. A matriarca —que berraba botando sapos pola boca e batendo coas palmas das mans nas coxas— non estaba disposta a consentir que se luxase o nome dunha Pereira. Concha, de dezaseis anos, queda soa no mundo.",
     cita: "A vella negaba, botando sapos pola boca... non estaba disposta a consentir que se luxase o nome dunha Pereira así daquelá maneira.",
-    img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-mama-carme-f7k2dQYFH5zPEkXNWFnfCL.webp" },
+    img: "/manus-storage/faneca-mama-carme.jpg" },
   { n: "5", sub: "Barcelona, anos 1960–70", title: "As fotos corsarias",
     text: "En Barcelona, Concha coñece a Andreu Picart e descobre que a cámara é poder. Convértese nunha das paparazzi máis temidas: retrata a políticos, banqueiros e membros da alta sociedade en situacións comprometidas, cobrando fortunas polas súas ‘fotos corsarias’. Monta un pequeno emporio baixo as iniciais F.B. —Faneca Brava— como franquicia de tendas de material fotográfico.",
     cita: "Non é fácil imaxinar a de cartos que amasou por aquel entón. Tanto diñeiro como riscos seguía correndo cando saía para facer as súas fotos corsarias.",

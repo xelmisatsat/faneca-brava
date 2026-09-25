@@ -19,7 +19,7 @@ const chars = [
     quote: "Non podo durmir porque os ollos de Concha perséguenme cando pecho os meus.",
     arc: "Da culpa herdada á redención a través da verdade" },
   { id: "mama", name: "Mamá Carme", alias: "A matriarca", role: "Antagonista",
-    img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-mama-carme-f7k2dQYFH5zPEkXNWFnfCL.webp",
+    img: "/manus-storage/faneca-mama-carme.jpg",
     audio: "/audios/carme.mp3", color: "#9A8A7A", cardBg: "#251E16", voiceActor: "Alexandra Pacheco",
     desc: "Matriarca do clan Pereira. Impón unha disciplina despótica e prioriza as aparencias sociais por riba do amor. Berraba botando sapos pola boca e batendo coas palmas das mans nas coxas. Prefire ocultar monstros reais e castigar á vítima para manter a imaxe de familia respectable e católica.",
     traits: ["Despótica", "Hipócrita", "Fría", "Autoritaria"],
@@ -28,7 +28,7 @@ const chars = [
   { id: "andreu", name: "Andreu Picart", alias: "O fotógrafo catalán", role: "Confidente",
     img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-andreu-VAxSfuAXwczWNcuCm2shyJ.webp",
     audio: "/audios/andreu.mp3", color: "#8B7355", cardBg: "#1A2520", voiceActor: "Jordi Pujol",
-    desc: "Fotógrafo catalán veterano que coñeceu a Concha cando chegou a Barcelona. Viches como se converteu nunha das mellores paparazzi da cidade. Dicíalle que estaba xogando con lume. É a ponte entre o pasado de Concha e o presente de Fernando.",
+    desc: "Fotógrafo catalán veterano que coñeceu a Concha cando chegou a Barcelona. Viches como se converteu nunha das mollos paparazzi da cidade. Dicíalle que estaba xogando con lume. É a ponte entre o pasado de Concha e o presente de Fernando.",
     traits: ["Observador", "Sabio", "Melancólico", "Leal"],
     quote: "Concha non fotografaba para vivir. Fotografaba para desquitarse.",
     arc: "O testemuño que conecta pasado e presente" },
@@ -37,7 +37,7 @@ const chars = [
     audio: "/audios/encarna.mp3", color: "#7A6F8A", cardBg: "#1E1A28", voiceActor: "Anna Pujol",
     desc: "Irmá pequena de Concha, tamén orfa e criada por Mamá Carme. Mentres Concha é a rebeldía e a fuxida, Encarna é o reflexo doutro tipo de supervivencia feminina: a submisión calculada. Acata as normas da matriarca, cala, obedece e resiste dende dentro. Dúas irmás, dous camiños opostos fronte á mesma opresión.",
     traits: ["Calada", "Resignada", "Resiliente", "Sombra"],
-    quote: "Eu quedei. Alguén tiña que quedar para que a casa não se derrubara.",
+    quote: "Eu quedei. Alguén tiña que quedar para que a casa non se derrubara.",
     arc: "A indómita vs. a supervivente: dúas respostas á mesma ferida" },
 ];
 

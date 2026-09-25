@@ -16,7 +16,7 @@ const items = [
     desc: "Crucifixo, retrato de Franco e a regra de Dona Remedios. O terror cotián.",
   },
   {
-    img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-mama-carme-f7k2dQYFH5zPEkXNWFnfCL.webp",
+    img: "/manus-storage/faneca-mama-carme.jpg",
     title: "Mamá Carme",
     year: "1960",
     desc: "A matriarca que preferiu ocultar monstros antes que perder a reputación.",

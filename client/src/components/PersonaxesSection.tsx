@@ -19,7 +19,7 @@ const chars = [
     quote: "Non podo durmir porque os ollos de Concha perséguenme cando pecho os meus.",
     arc: "Da culpa herdada á redención a través da verdade" },
   { id: "mama", name: "Mamá Carme", alias: "A matriarca", role: "Antagonista",
-    img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-mama-carme-f7k2dQYFH5zPEkXNWFnfCL.webp",
+    img: "/manus-storage/faneca-mama-carme.jpg",
     audio: "/audios/carme.mp3", color: "#9A8A7A", cardBg: "#251E16", voiceActor: "Alexandra Pacheco",
     desc: "Matriarca do clan Pereira. Impón unha disciplina despótica e prioriza as aparencias sociais por riba do amor. Berraba botando sapos pola boca e batendo coas palmas das mans nas coxas. Prefire ocultar monstros reais e castigar á vítima para manter a imaxe de familia respectable e católica.",
     traits: ["Despótica", "Hipócrita", "Fría", "Autoritaria"],

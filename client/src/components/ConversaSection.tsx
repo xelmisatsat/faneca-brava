@@ -41,7 +41,7 @@ const CHARACTERS = [
     alias: "A Matriarca",
     role: "Antagonista",
     color: "#9A8A7A",
-    avatar: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-mama-carme-f7k2dQYFH5zPEkXNWFnfCL.webp",
+    avatar: "/manus-storage/faneca-mama-carme.jpg",
     sticker: "/manus-storage/sticker-mama_e022af0c.png",
     voiceId: "GszuzIPs4fVZTjP0EXrv",
     suggestions: [
