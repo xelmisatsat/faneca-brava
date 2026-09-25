@@ -5,14 +5,14 @@ import { useIsMobile } from "@/hooks/useIsMobile";
 
 const chars = [
   { id: "concha", name: "Concha Pereira", alias: "A Faneca Brava", role: "Protagonista",
-    img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-concha-portrait-ZyBRp5FRRbMYRNpmNDvaVU.webp",
+    img: "/manus-storage/faneca-concha-portrait.jpg",
     audio: "/audios/concha.mp3", color: "#C8A96E", cardBg: "#2A1520", voiceActor: "Sabela Hermida",
     desc: "Orfa de nai, co pai emigrado, Concha crece baixo a tutela opresiva de Mamá Carme. Sofre o maltrato físico da mestra Dona Remedios —que lle fai sangrar as mans a golpes— e o acoso do cura Don Anselmo. Acusada falsamente do incendio da escola, é expulsada da familia. Foxe a Barcelona onde se converte en paparazzi de éxito, usando a cámara como arma de desquite contra os poderosos.",
     traits: ["Feroz", "Silenciosa", "Rebelde", "Libre", "Xusticeira"],
     quote: "Cando miro pola lente, deixo de ser a nena que collían. Por fin, son eu a que observa.",
     arc: "Da infancia oprimida ao desquite silencioso" },
   { id: "fernando", name: "Fernando Pereira", alias: "O médico atormentado", role: "Narrador",
-    img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-fernando-portrait-EQpQqF6VEH5zWNhiMpjMkL.webp",
+    img: "/manus-storage/faneca-fernando-portrait.jpg",
     audio: "/audios/fernando.mp3", color: "#6B8CAE", cardBg: "#152535", voiceActor: "Xaime López",
     desc: "Médico de Santiago de Compostela que sofre de insomnio severo. As olleiras fórmanlle un medio arco azul escuro. Os seus síntomas son a somatización dunha profunda culpa herdada. Obsesionado con descubrir a verdade sobre a súa curmá Concha, investiga a través de conversas coa tía Lela e con Andreu Picart no Hostal dos Reis Católicos.",
     traits: ["Atormentado", "Obsesivo", "Culpable", "Determinado"],

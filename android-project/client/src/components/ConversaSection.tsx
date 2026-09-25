@@ -9,7 +9,7 @@ const CHARACTERS = [
     alias: "A Faneca Brava",
     role: "Protagonista",
     color: "#C8A96E",
-    avatar: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-concha-portrait-ZyBRp5FRRbMYRNpmNDvaVU.webp",
+    avatar: "/manus-storage/faneca-concha-portrait.jpg",
     sticker: "/manus-storage/sticker-concha_7276b1d9.png",
     voiceId: "SbxCN6LQhBInYaeKjhhW",
     suggestions: [
@@ -25,7 +25,7 @@ const CHARACTERS = [
     alias: "O Médico Atormentado",
     role: "Narrador",
     color: "#6B8CAE",
-    avatar: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-fernando-portrait-EQpQqF6VEH5zWNhiMpjMkL.webp",
+    avatar: "/manus-storage/faneca-fernando-portrait.jpg",
     sticker: "/manus-storage/sticker-fernando_e1828bc1.png",
     voiceId: "syjZiIvIUSwKREBfMpKZ",
     suggestions: [

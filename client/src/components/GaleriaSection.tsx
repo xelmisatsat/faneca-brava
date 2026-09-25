@@ -28,7 +28,7 @@ const items = [
     desc: "A cidade que lle deu anonimato, liberdade e unha cámara como arma.",
   },
   {
-    img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-concha-portrait-ZyBRp5FRRbMYRNpmNDvaVU.webp",
+    img: "/manus-storage/faneca-concha-portrait.jpg",
     title: "Concha — A paparazzi",
     year: "1970s",
     desc: "Detrás da lente, a nena maltratada converteuse na cazadora dos poderosos.",
