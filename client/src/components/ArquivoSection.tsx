@@ -107,7 +107,7 @@ export default function ArquivoSection() {
                 { 
                   title: "Vila de Foz", 
                   desc: "A vila mariñeira onde crece Concha.", 
-                  img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-village-night-JkiwiqgEL6ZDLZTtniYVuQ.webp",
+                  img: "/manus-storage/faneca-vila-foz.png",
                   bg: "#283B4F",
                   border: "1px solid #3E5266"
                 },
@@ -121,7 +121,7 @@ export default function ArquivoSection() {
                 { 
                   title: "Barcelona", 
                   desc: "A cidade da liberdade e o desquite.", 
-                  img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-barcelona-escape-LUvRJ4CSgpchvTjESJRApB.webp",
+                  img: "/manus-storage/faneca-barcelona.png",
                   bg: "#4A353C",
                   border: "1px solid #5F4A51"
                 },

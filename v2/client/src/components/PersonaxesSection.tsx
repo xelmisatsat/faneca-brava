@@ -26,7 +26,7 @@ const chars = [
     quote: "O apelido é o que nos sustenta. Un nome limpo vale máis ca todo o ouro.",
     arc: "A autoridade moral que encobre a inxustiza" },
   { id: "andreu", name: "Andreu Picart", alias: "O fotógrafo catalán", role: "Confidente",
-    img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-andreu-VAxSfuAXwczWNcuCm2shyJ.webp",
+    img: "/manus-storage/faneca-andreu-portrait.png",
     audio: "/audios/andreu.mp3", color: "#8B7355", cardBg: "#1A2520", voiceActor: "Jordi Pujol",
     desc: "Fotógrafo catalán veterano que coñeceu a Concha cando chegou a Barcelona. Viches como se converteu nunha das mollos paparazzi da cidade. Dicíalle que estaba xogando con lume. É a ponte entre o pasado de Concha e o presente de Fernando.",
     traits: ["Observador", "Sabio", "Melancólico", "Leal"],

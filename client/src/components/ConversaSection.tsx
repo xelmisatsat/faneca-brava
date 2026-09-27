@@ -57,7 +57,7 @@ const CHARACTERS = [
     alias: "O Fotógrafo Catalán",
     role: "Confidente",
     color: "#8B7355",
-    avatar: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-andreu-VAxSfuAXwczWNcuCm2shyJ.webp",
+    avatar: "/manus-storage/faneca-andreu-portrait.png",
     sticker: "/manus-storage/sticker-andreu_0cf93efc.png",
     voiceId: "4FMxnogu8ehUVsRIxx9H",
     suggestions: [

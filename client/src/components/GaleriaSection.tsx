@@ -4,13 +4,13 @@ import { useIsMobile } from "@/hooks/useIsMobile";
 
 const items = [
   {
-    img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-village-night-JkiwiqgEL6ZDLZTtniYVuQ.webp",
+    img: "/manus-storage/faneca-vila-marineira.png",
     title: "A vila mariñeira",
     year: "1950s",
     desc: "Rúas de pedra, néboa e silencio. O microcosmos onde todo comezou.",
   },
   {
-    img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-school-1960s-nAvQsmurgnEG3CJKH9fM67.webp",
+    img: "/manus-storage/faneca-escola-franquista.png",
     title: "A escola franquista",
     year: "1952",
     desc: "Crucifixo, retrato de Franco e a regra de Dona Remedios. O terror cotián.",
@@ -22,7 +22,7 @@ const items = [
     desc: "A matriarca que preferiu ocultar monstros antes que perder a reputación.",
   },
   {
-    img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-barcelona-escape-LUvRJ4CSgpchvTjESJRApB.webp",
+    img: "/manus-storage/faneca-barcelona.png",
     title: "Barcelona — A Fuga",
     year: "1965",
     desc: "A cidade que lle deu anonimato, liberdade e unha cámara como arma.",
@@ -34,7 +34,7 @@ const items = [
     desc: "Detrás da lente, a nena maltratada converteuse na cazadora dos poderosos.",
   },
   {
-    img: "https://d2xsxph8kpxj0f.cloudfront.net/310519663643442601/erhsSpbuxQaSwrF6gHEwu3/faneca-camera-archive-nL293BkWpqtR2ugZhHoA9a.webp",
+    img: "/manus-storage/faneca-arquivo-mesa.png",
     title: "O arquivo",
     year: "Sempre",
     desc: "Cartas, fotografías, cintas. Os fragmentos dunha memoria que non arde.",
