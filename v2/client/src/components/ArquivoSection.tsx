@@ -114,7 +114,7 @@ export default function ArquivoSection() {
                 { 
                   title: "Santiago", 
                   desc: "Onde Fernando vive o presente.", 
-                  img: "/manus-storage/faneca-fernando-portrait.jpg",
+                  img: "/manus-storage/faneca-santiago-cidade.png",
                   bg: "#364638",
                   border: "1px solid #4C594A"
                 },

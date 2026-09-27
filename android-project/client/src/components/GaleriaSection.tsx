@@ -20,6 +20,7 @@ const items = [
     title: "Mamá Carme",
     year: "1960",
     desc: "A matriarca que preferiu ocultar monstros antes que perder a reputación.",
+    objectPosition: "top center",
   },
   {
     img: "/manus-storage/faneca-barcelona.png",
@@ -32,6 +33,7 @@ const items = [
     title: "Concha — A paparazzi",
     year: "1970s",
     desc: "Detrás da lente, a nena maltratada converteuse na cazadora dos poderosos.",
+    objectPosition: "top center",
   },
   {
     img: "/manus-storage/faneca-arquivo-mesa.png",
@@ -149,6 +151,7 @@ export default function GaleriaSection() {
                     width: '100%',
                     height: '260px',
                     objectFit: 'cover',
+                    objectPosition: (item as any).objectPosition || 'center',
                     display: 'block',
                     filter: hovered === i ? 'brightness(0.85) saturate(0.9)' : 'brightness(0.65) saturate(0.3)',
                     transition: 'filter 0.5s ease',
