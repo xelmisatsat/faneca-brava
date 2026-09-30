@@ -118,7 +118,10 @@ export default function GaleriaSection() {
         >
           <style>{`.gallery-scroll::-webkit-scrollbar { display: none; }`}</style>
 
-          {items.map((item, i) => (
+          {items.map((item, i) => {
+            const accentColors = ['#B8734F', '#607C70', '#B69A62', '#9E3F32', '#B8734F', '#607C70'];
+            const accent = accentColors[i % accentColors.length];
+            return (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 40, scale: 0.95 }}
@@ -128,14 +131,14 @@ export default function GaleriaSection() {
               onHoverEnd={() => setHovered(null)}
               style={{
                 flexShrink: 0,
-                width: '340px',
-                background: 'linear-gradient(135deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.04) 100%)',
-                backdropFilter: 'blur(40px)',
-                border: '1px solid rgba(255,255,255,0.12)',
-                borderTop: '1px solid rgba(255,255,255,0.22)',
-                borderRadius: '20px',
+                width: m ? '80vw' : '340px',
+                maxWidth: '340px',
+                background: '#1B2D31',
+                border: `1px solid rgba(182,154,98,0.22)`,
+                borderTop: `3px solid ${accent}`,
+                borderRadius: '16px',
                 overflow: 'hidden',
-                boxShadow: hovered === i ? '0 24px 60px rgba(0,0,0,0.6)' : '0 8px 30px rgba(0,0,0,0.4)',
+                boxShadow: hovered === i ? `0 24px 60px rgba(0,0,0,0.55), 0 0 0 1px ${accent}33` : '0 8px 28px rgba(0,0,0,0.38)',
                 transform: hovered === i ? 'translateY(-8px)' : 'translateY(0)',
                 transition: 'transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s ease',
               }}
@@ -153,23 +156,23 @@ export default function GaleriaSection() {
                     objectFit: 'cover',
                     objectPosition: (item as any).objectPosition || 'center',
                     display: 'block',
-                    filter: hovered === i ? 'brightness(0.85) saturate(0.9)' : 'brightness(0.65) saturate(0.3)',
+                   filter: hovered === i ? 'brightness(0.88) saturate(0.85)' : 'brightness(0.72) saturate(0.55)',
                     transition: 'filter 0.5s ease',
                   }}
                 />
                 <div style={{
                   position: 'absolute', inset: 0,
-                  background: 'linear-gradient(to bottom, transparent 40%, rgba(8,8,13,0.85) 100%)',
+                  background: 'linear-gradient(to bottom, transparent 35%, rgba(27,45,49,0.9) 100%)',
                 }} />
 
                 {/* Ano badge */}
                 <div style={{
                   position: 'absolute', top: '14px', right: '14px',
-                  background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(255,255,255,0.15)', borderRadius: '9999px',
+                  background: 'rgba(16,26,27,0.82)', backdropFilter: 'blur(12px)',
+                  border: `1px solid ${accent}55`, borderRadius: '9999px',
                   padding: '4px 12px',
                 }}>
-                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', color: '#C8A96E' }}>{item.year}</span>
+                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', color: accent }}>{item.year}</span>
                 </div>
 
                 {/* Visor cámara ao hover */}
@@ -181,25 +184,27 @@ export default function GaleriaSection() {
                     pointerEvents: 'none',
                   }}
                 >
-                  <div style={{ width: '64px', height: '64px', borderRadius: '50%', border: '2px solid rgba(200,169,110,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <div style={{ width: '24px', height: '24px', borderRadius: '50%', border: '1px solid rgba(200,169,110,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <div style={{ width: '4px', height: '4px', borderRadius: '50%', backgroundColor: 'rgba(200,169,110,0.8)' }} />
+                  <div style={{ width: '64px', height: '64px', borderRadius: '50%', border: `2px solid ${accent}99`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ width: '24px', height: '24px', borderRadius: '50%', border: `1px solid ${accent}66`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <div style={{ width: '4px', height: '4px', borderRadius: '50%', backgroundColor: accent }} />
                     </div>
                   </div>
                 </motion.div>
               </div>
 
               {/* Info */}
-              <div style={{ padding: '20px 22px 22px' }}>
-                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.25rem', fontWeight: 300, color: '#EAE2D2', marginBottom: '8px' }}>
+              <div style={{ padding: '18px 20px 20px' }}>
+                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.22rem', fontWeight: 300, color: '#F1EBDD', marginBottom: '8px' }}>
                   {item.title}
                 </div>
-                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', fontWeight: 300, color: '#8B9BB4', lineHeight: 1.6 }}>
+                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', fontWeight: 300, color: '#A9B4AE', lineHeight: 1.6 }}>
                   {item.desc}
                 </div>
               </div>
             </motion.div>
-          ))}
+            );
+          })}
+
         </div>
 
         {/* Indicador de scroll */}

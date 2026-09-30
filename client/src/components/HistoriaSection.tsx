@@ -83,7 +83,7 @@ export default function HistoriaSection() {
       {/* ═══ CABECEIRA — Noite de Foz ═══════════ */}
       <div style={{
         background: 'linear-gradient(180deg, #0C1516 0%, #101A1B 100%)',
-        padding: m ? '3.5rem 1.25rem 2.5rem' : '7rem 0 4rem',
+        padding: m ? '3.5rem 0.75rem 2.5rem' : '7rem 0 4rem',
         borderBottom: '1px solid rgba(182, 154, 98, 0.15)'
       }}>
         <div style={{ maxWidth: '1440px', margin: '0 auto', padding: m ? '0' : '0 5rem' }}>
@@ -109,9 +109,9 @@ export default function HistoriaSection() {
       </div>
 
       {/* ═══ CAPÍTULOS — Bloques editoriais atlánticos ═══════════ */}
-      <div style={{ padding: m ? '2.5rem 1.25rem 4rem' : '5rem 0 7rem' }}>
+      <div style={{ padding: m ? '2rem 0.75rem 3.5rem' : '5rem 0 7rem' }}>
         <div style={{ maxWidth: '1440px', margin: '0 auto', padding: m ? '0' : '0 5rem' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: m ? '2.5rem' : '4rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: m ? '1.8rem' : '4rem' }}>
             {caps.map((cap, i) => (
               <motion.div
                 key={i}
@@ -122,13 +122,13 @@ export default function HistoriaSection() {
                   background: '#1B2D31',
                   border: '1px solid rgba(182, 154, 98, 0.2)',
                   borderLeft: `5px solid ${cap.acento}`,
-                  borderRadius: '20px',
-                  padding: m ? '20px 16px' : '36px 44px',
+                  borderRadius: m ? '14px' : '20px',
+                  padding: m ? '16px 14px' : '36px 44px',
                   boxShadow: '0 12px 35px rgba(0, 0, 0, 0.35)',
                   display: m ? 'flex' : 'grid',
                   flexDirection: m ? 'column' : undefined,
                   gridTemplateColumns: m ? '1fr' : (i % 2 === 0 ? '1fr 1.2fr' : '1.2fr 1fr'),
-                  gap: m ? '1.8rem' : '3.5rem',
+                  gap: m ? '1rem' : '3.5rem',
                   alignItems: 'center'
                 }}
               >
@@ -151,7 +151,7 @@ export default function HistoriaSection() {
                       alt={cap.title}
                       style={{
                         width: '100%',
-                        aspectRatio: '4/3',
+                        aspectRatio: m ? '16/9' : '4/3',
                         objectFit: 'cover',
                         display: 'block'
                       }}
