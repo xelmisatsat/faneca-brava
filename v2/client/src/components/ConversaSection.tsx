@@ -88,6 +88,38 @@ export default function ConversaSection() {
   const [speaking, setSpeaking] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  // Detección de Capacitor para APK nativa e URL de Render
+  const isCapacitor = () => typeof window !== 'undefined' && !!(window as any).Capacitor;
+  const API_BASE = isCapacitor() ? "https://faneca-brava.onrender.com" : "";
+
+  // Respostas predeterminadas cando o dispositivo non ten internet (modo offline)
+  const OFFLINE_RESPONSES: Record<string, string[]> = {
+    concha: [
+      "Cando miro pola lente da cámara, deixo de ser a nena que collían. Por fin son eu a que observa.",
+      "A min botástesme por mala, pero os que mandan son moito peores e eu teño as probas.",
+      "Non fuxín a Barcelona para esquecer, senón para transformar a rabia en forza.",
+      "A Faneca Brava sempre se agocha na area... pero se a pisas, clávache as espiñas."
+    ],
+    fernando: [
+      "Non podo durmir porque os ollos de Concha perséguenme cando pecho os meus.",
+      "A culpa herdada da miña familia é unha carga que só podo sandar descubrindo toda a verdade.",
+      "Entre as cartas que gardaba a tía Lela e o relato de Andreu no Hostal dos Reis Católicos, todo comeza a ter sentido.",
+      "Como médico sei que o corpo somatiza o que a memoria cala."
+    ],
+    mama: [
+      "O apelido Pereira é o que nos sustenta; un nome limpo vale máis ca todo o ouro do mundo.",
+      "Fixen o que calquera matriarca honorable tiña que facer para protexer a familia.",
+      "Non estaba disposta a consentir que se luxase o noso nome daquela maneira.",
+      "A orde e as aparencias son as que manteñen unha casa en pé."
+    ],
+    andreu: [
+      "Concha non fotografaba para vivir. Fotografaba para desquitarse e buscar xustiza.",
+      "Dicíalle que estaba xogando con lume en Barcelona, pero ela só ría polo baixo coa súa Leica.",
+      "A memoria nunca arde completamente. Sempre queda un rastro de verdade nos arquivos.",
+      "Eu fun testemuña de como pasou de ser unha rapaza rota a converterse na paparazzi máis audaz."
+    ]
+  };
+
   // Función para reproducir voz - usa ElevenLabs con fallback a Web Speech API
   const speakText = async (text: string) => {
     if (speaking) {
@@ -99,7 +131,7 @@ export default function ConversaSection() {
     setSpeaking(true);
     try {
       // Intentar ElevenLabs primeiro
-      const r = await fetch('/api/tts', {
+      const r = await fetch(`${API_BASE}/api/tts`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text, voiceId: char.voiceId }),
@@ -142,8 +174,7 @@ export default function ConversaSection() {
     setLoading(true);
 
     try {
-      // Usar o proxy do servidor para evitar problemas de CORS e expor a key
-      const r = await fetch("/api/chat", {
+      const r = await fetch(`${API_BASE}/api/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -160,9 +191,11 @@ export default function ConversaSection() {
       const data = await r.json();
       setMsgs(p => [...p, { role: "assistant", content: data.reply || "..." }]);
     } catch (e: any) {
-      console.error("Chat error:", e);
-      setError(`Erro: ${e.message || "Non se puido conectar coa IA"}`);
-      setMsgs(p => [...p, { role: "assistant", content: "Non podo falar agora... inténtao de novo." }]);
+      console.warn("Chat online non dispoñible, usando resposta predeterminada offline:", e);
+      // Fallback predeterminado offline cando non hai internet ou falla o servidor
+      const offlinePool = OFFLINE_RESPONSES[char.id] || OFFLINE_RESPONSES.concha;
+      const randomReply = offlinePool[Math.floor(Math.random() * offlinePool.length)];
+      setMsgs(p => [...p, { role: "assistant", content: randomReply }]);
     }
     setLoading(false);
     setTimeout(() => endRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
