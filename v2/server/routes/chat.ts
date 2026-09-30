@@ -192,14 +192,14 @@ router.post("/api/chat", async (req, res) => {
       return res.status(500).json({ error: "Gemini API key not configured" });
     }
 
-    const tryChat = async (key: string) => {
+    const tryChat = async (key: string, modelName: string) => {
       const ai = new GoogleGenAI({ apiKey: key });
       
       // Instrucción de formato crítica para evitar asteriscos e identidade de IA
       const formatInstruction = "\n\nIMPORTANTE: Responde SEMPRE en galego. NUNCA uses asteriscos (**) nin negriñas. NUNCA digas que es unha intelixencia artificial; ti es o personaxe. Responde só con texto plano.";
       
       const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: modelName,
         contents: [
           {
             role: "user",
@@ -222,17 +222,28 @@ router.post("/api/chat", async (req, res) => {
       return response;
     };
 
-    let response;
-    try {
-      response = await tryChat(apiKey);
-    } catch (error: any) {
-      // If primary key fails with quota error (429) and we have a backup, try the backup
-      if (error?.message?.includes("429") && backupKey) {
-        console.log("Primary Gemini API key quota exceeded, trying backup...");
-        response = await tryChat(backupKey);
-      } else {
-        throw error;
+    // Prioridade de modelos: primeiro o solicitado (gemini-3.8-flash), seguido de alternativas estables de Google
+    const candidateModels = ["gemini-3.8-flash", "gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"];
+    const candidateKeys = [apiKey, backupKey].filter(Boolean) as string[];
+
+    let response: any;
+    let lastError: any;
+
+    for (const key of candidateKeys) {
+      for (const mod of candidateModels) {
+        try {
+          response = await tryChat(key, mod);
+          if (response?.text) break;
+        } catch (err: any) {
+          lastError = err;
+          console.warn(`Tentativa con modelo ${mod} fallou (${err?.message || err}). Probando seguinte opción...`);
+        }
       }
+      if (response?.text) break;
+    }
+
+    if (!response?.text) {
+      throw lastError || new Error("Non foi posible obter resposta dos modelos de IA.");
     }
 
     const reply = response.text || "...";
