@@ -1,353 +1,431 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MapContainer, TileLayer, Marker, Polyline } from 'react-leaflet';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
 import { useIsMobile } from "@/hooks/useIsMobile";
+
+/*
+  Paleta "Âmbar Costeiro" — distinta de Historia (#1B2D31/cobre) e Galería (glassmorphism)
+  Fondo:        #1A1208 (Negro melaza)  /  #231A0C (Café escuro)
+  Superficie:   #2E2210 (Madeira queimada)
+  Texto:        #F5EDD4 (Pergamino)  /  #BFA880 (Âmbar apagado)
+  Acento:       #D4924A (Âmbar cálido)  /  #9E6230 (Cobre escuro)
+  Liñas:        #8B6840 (Coiro)
+  Perigo/Lume:  #C05A3A (Terracota)
+*/
+
+const PALETTE = {
+  bg:        '#1A1208',
+  bgAlt:     '#231A0C',
+  surface:   '#2E2210',
+  text:      '#F5EDD4',
+  textSub:   '#BFA880',
+  accent:    '#D4924A',
+  accentDk:  '#9E6230',
+  line:      '#8B6840',
+  fire:      '#C05A3A',
+};
 
 const stages = [
   {
+    n: "I",
     label: "A OPRESIÓN",
     subtitle: "O microcosmos da vila mariñeira.",
     desc: "A infancia de Concha está marcada pola asfixia. Crece baixo a ditadura moral de Mamá Carme, matriarca despótica que prioriza as aparencias. Sofre os abusos da mestra Dona Remedios e o acoso do cura Don Anselmo. É unha vítima do sistema.",
-    color: "#5D7B9E",
-    bg: "rgba(26, 38, 54, 0.98)",
+    color: "#7CA8C2",
+    icon: "⚓",
   },
   {
+    n: "II",
     label: "O LUME",
     subtitle: "O punto de ruptura.",
     desc: "A escola de Dona Remedios arde nun incendio. A vila enteira e a propia familia sinalan a Concha como culpable. O lume simboliza a destrución da súa infancia e o inicio do seu estigma como a ovella negra do clan.",
-    color: "#C85C5C",
-    bg: "rgba(50, 24, 24, 0.98)",
+    color: "#C05A3A",
+    icon: "🔥",
   },
   {
+    n: "III",
     label: "O DESTERRO",
     subtitle: "A expulsión do paraíso familiar.",
     desc: "Para protexer o bo nome dos Pereira, Mamá Carme condena á súa propia neta e expúlsana sen piedade. Só a tía Lela e o tío Seso lhe ofrecen un mínimo de acubillo antes do exilio forzoso.",
-    color: "#A88463",
-    bg: "rgba(42, 32, 24, 0.98)",
+    color: "#D4924A",
+    icon: "🧭",
   },
   {
+    n: "IV",
     label: "A LENTE CORSARIA",
     subtitle: "A metamorfose en Barcelona.",
-    desc: "Concha foxe e reencontra co seu pai emigrado. Desde alí, chega a Cataluña e transforma o trauma en poder. Convértese nunha temida paparazzi. Usa a cámara como arma para destapar as miserias de banqueiros e políticos. Xa no é a vítima; é a executora.",
-    color: "#D9BE8B",
-    bg: "rgba(42, 37, 24, 0.98)",
+    desc: "Concha foxe e reencontra co seu pai emigrado. Desde alí, chega a Cataluña e transforma o trauma en poder. Convértese nunha temida paparazzi. Usa a cámara como arma para destapar as miserias de banqueiros e políticos. Xa non é a vítima; é a executora.",
+    color: "#BFA880",
+    icon: "📷",
   },
   {
+    n: "V",
     label: "O REMORSO",
     subtitle: "A culpa somatizada no presente.",
     desc: "Anos despois, o doutor Fernando Pereira sofre insomnio crónico e dores inexplicables. Non é enfermidade: é a somatización da culpa colectiva da familia por silenciar a verdade de Concha.",
-    color: "#6BA0C9",
-    bg: "rgba(24, 40, 56, 0.98)",
+    color: "#7CA8C2",
+    icon: "🌙",
   },
   {
+    n: "VI",
     label: "A REVELACIÓN",
     subtitle: "O arquivo da memoria.",
     desc: "Incapaz de durmir, Fernando investiga o pasado. Grazas a un cartafol da tía Lela e ao fotógrafo Andreu Picart, descobre a verdadeira dimensión da Faneca Brava: unha muller libre que venceu a moralidade que a tentou destruír.",
-    color: "#EAD09C",
-    bg: "rgba(46, 42, 32, 0.98)",
+    color: "#D4924A",
+    icon: "📜",
   },
 ];
 
-const galiciaPos: [number, number] = [42.8806, -8.5446]; // Santiago de Compostela
-const barcelonaPos: [number, number] = [41.3851, 2.1734]; // Barcelona
-
-const getCurvePoints = (start: [number, number], end: [number, number], offset: number = 3.5) => {
-  const points: [number, number][] = [];
-  const midLat = (start[0] + end[0]) / 2 + offset;
-  const midLng = (start[1] + end[1]) / 2;
-
-  for (let t = 0; t <= 1; t += 0.05) {
-    const lat = (1 - t) * (1 - t) * start[0] + 2 * (1 - t) * t * midLat + t * t * end[0];
-    const lng = (1 - t) * (1 - t) * start[1] + 2 * (1 - t) * t * midLng + t * t * end[1];
-    points.push([lat, lng]);
-  }
-  return points;
+const mapCities = {
+  galicia: {
+    x: 78, y: 145,
+    label: "GALICIA",
+    title: "Galicia",
+    sub: "A Orixe e a Culpa",
+    text: "A vila mariñeira e Santiago de Compostela. Aquí nace o trauma baixo a man de ferro de Mamá Carme e aquí xorde a somatización de Fernando décadas despois. É a terra da fuxida e do regreso inevitable.",
+  },
+  barcelona: {
+    x: 332, y: 158,
+    label: "BARCELONA",
+    title: "Barcelona",
+    sub: "O Rexurdimento",
+    text: "O refuxio onde Concha Pereira se reinventa. Lonxe da opresión, a Faneca Brava afía os seus dentes e utiliza a súa cámara para desposuír do seu poder ás altas esferas. A vítima faise verdugo.",
+  },
 };
 
-const createGoldenIcon = (active: boolean, label: string) => L.divIcon({
-  className: 'custom-div-icon',
-  html: `<div style="position: relative;">
-           <div style="width: 16px; height: 16px; background: ${active ? '#C8A96E' : 'rgba(200,169,110,0.3)'}; border-radius: 50%; box-shadow: ${active ? '0 0 20px #C8A96E' : 'none'}; border: 2px solid ${active ? '#fff' : 'rgba(255,255,255,0.2)'}; position: absolute; top: -8px; left: -8px; transition: all 0.3s ease;"></div>
-           <div style="position: absolute; top: 12px; left: -50%; transform: translateX(-20%); font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: bold; letter-spacing: 0.15em; color: ${active ? '#C8A96E' : '#8B9BB4'}; white-space: nowrap; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">${label}</div>
-         </div>`,
-  iconSize: [0, 0],
-  iconAnchor: [0, 0],
-});
+/* SVG path aproximado da Península Ibérica simplificada */
+const IBERIA_PATH = "M 20 60 C 30 30, 60 15, 100 20 C 140 25, 165 10, 195 22 C 225 34, 250 18, 280 30 C 310 42, 345 28, 370 55 C 395 82, 400 110, 395 140 C 390 170, 375 195, 355 215 C 335 235, 310 248, 285 255 C 260 262, 235 258, 210 250 C 185 242, 175 260, 155 265 C 135 270, 110 262, 90 248 C 70 234, 58 215, 45 195 C 32 175, 15 155, 12 130 C 9 105, 12 85, 20 60 Z";
 
 export default function TimelineSection() {
   const [v, setV] = useState(false);
-  const [mapOpen, setMapOpen] = useState(false);
   const [activeCity, setActiveCity] = useState<'galicia' | 'barcelona' | null>(null);
   const m = useIsMobile();
   useEffect(() => { const t = setTimeout(() => setV(true), 80); return () => clearTimeout(t); }, []);
 
   return (
-    <section style={{ position: 'relative', padding: m ? '4rem 0 3rem' : '8rem 0 6rem', overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(8,8,13,1) 0%, rgba(13,27,42,0.15) 50%, rgba(8,8,13,1) 100%)' }} />
+    <section style={{ position: 'relative', background: PALETTE.bg, overflow: 'hidden' }}>
 
-      <div style={{ maxWidth: '1440px', margin: '0 auto', padding: m ? '0 1.25rem' : '0 5rem', position: 'relative', zIndex: 10 }}>
+      {/* Textura de fondo */}
+      <div style={{
+        position: 'absolute', inset: 0, zIndex: 0,
+        background: `radial-gradient(ellipse at 20% 30%, rgba(212,146,74,0.06) 0%, transparent 60%),
+                     radial-gradient(ellipse at 80% 70%, rgba(124,168,194,0.04) 0%, transparent 55%)`,
+        pointerEvents: 'none'
+      }} />
 
-        {/* Cabeceira */}
+      <div style={{ maxWidth: '1440px', margin: '0 auto', padding: m ? '4rem 1rem 3.5rem' : '8rem 5rem 7rem', position: 'relative', zIndex: 10 }}>
+
+        {/* ═══ CABECEIRA ══════════════════════════════════ */}
         <motion.div
-          initial={{ opacity: 0, y: 50, filter: 'blur(4px)' }}
-          animate={v ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          style={{ marginBottom: '5rem' }}
+          initial={{ opacity: 0, y: 40 }}
+          animate={v ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.85 }}
+          style={{ marginBottom: m ? '3rem' : '5.5rem' }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '1.5rem' }}>
-            <motion.div initial={{ scaleX: 0 }} animate={v ? { scaleX: 1 } : {}} transition={{ duration: 0.8 }}
-              style={{ width: '48px', height: '1px', background: 'linear-gradient(90deg, #C8A96E, transparent)', transformOrigin: 'left' }} />
-            <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', letterSpacing: '0.35em', textTransform: 'uppercase', color: '#C8A96E' }}>Percorrido Emocional</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '1.2rem' }}>
+            <motion.div
+              initial={{ scaleX: 0 }} animate={v ? { scaleX: 1 } : {}} transition={{ duration: 0.9 }}
+              style={{ width: '44px', height: '2px', background: `linear-gradient(90deg, ${PALETTE.accent}, transparent)`, transformOrigin: 'left' }}
+            />
+            <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', letterSpacing: '0.38em', textTransform: 'uppercase', color: PALETTE.accent, fontWeight: 600 }}>
+              Percorrido Emocional
+            </span>
           </div>
-          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontSize: 'clamp(3rem, 7vw, 6.5rem)', lineHeight: 0.88, letterSpacing: '-0.025em', color: '#EAE2D2' }}>
-            Liña do tempo <span style={{ color: '#C8A96E' }}>Emocional</span>
+          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontSize: 'clamp(2.8rem, 7vw, 6rem)', lineHeight: 0.9, letterSpacing: '-0.025em', color: PALETTE.text, margin: 0 }}>
+            Liña do tempo<br /><span style={{ color: PALETTE.accent }}>Emocional</span>
           </h2>
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, fontSize: '1.2rem', lineHeight: 1.8, color: '#CBD5E1', maxWidth: '620px', marginTop: '1.5rem' }}>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, fontSize: m ? '1rem' : '1.1rem', lineHeight: 1.8, color: PALETTE.textSub, maxWidth: '580px', marginTop: '1.4rem' }}>
             Desde a opresión ata a revelación. Seis etapas dunha muller que se negou a ser vítima.
           </p>
         </motion.div>
 
-        {/* Timeline */}
-        <div style={{ position: 'relative' }}>
-          {/* Liña vertical */}
-          <div style={{ position: 'absolute', left: m ? '16px' : '50%', top: 0, bottom: 0, width: '3px', background: 'linear-gradient(to bottom, rgba(93,123,158,0.25), rgba(200,92,92,0.25), rgba(168,132,99,0.25), rgba(217,190,139,0.25), rgba(107,160,201,0.25), rgba(234,208,156,0.25))', transform: m ? 'none' : 'translateX(-50%)' }}>
-            <motion.div
-              initial={{ scaleY: 0 }}
-              animate={v ? { scaleY: 1 } : {}}
-              transition={{ duration: 2, delay: 0.3, ease: "easeOut" }}
-              style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'linear-gradient(to bottom, #5D7B9E, #C85C5C, #A88463, #D9BE8B, #6BA0C9, #EAD09C)', transformOrigin: 'top' }}
-            />
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: m ? '1.5rem' : '4.5rem' }}>
+        {/* ═══ TIMELINE ══════════════════════════════════ */}
+        {m ? (
+          /* ── MÓBIL: lista vertical limpa ── */
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
             {stages.map((ev, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 40 }}
-                animate={v ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.7, delay: 0.1 + i * 0.12, ease: [0.16, 1, 0.3, 1] }}
-                style={m ? { display: 'flex', alignItems: 'flex-start', position: 'relative', paddingLeft: '40px' } : { display: 'flex', alignItems: 'flex-start', gap: 0, position: 'relative' }}
+                initial={{ opacity: 0, x: -24 }}
+                animate={v ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.6, delay: 0.08 + i * 0.09 }}
+                style={{
+                  display: 'flex',
+                  gap: '0',
+                  borderRadius: '14px',
+                  overflow: 'hidden',
+                  boxShadow: `0 4px 20px rgba(0,0,0,0.45), 0 0 0 1px ${ev.color}22`,
+                }}
               >
-                {/* Punto */}
-                <div style={{ position: 'absolute', left: m ? '6px' : '50%', top: '20px', transform: m ? 'none' : 'translateX(-50%)', zIndex: 10 }}>
-                  <div style={{
-                    width: '24px',
-                    height: '24px',
-                    borderRadius: '50%',
-                    backgroundColor: '#0F172A',
-                    border: `2.5px solid ${ev.color}`,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    boxShadow: `0 0 20px ${ev.color}80, inset 0 0 8px ${ev.color}30`,
-                  }}>
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={v ? { scale: 1 } : {}}
-                      transition={{ delay: 0.2 + i * 0.12, type: 'spring', stiffness: 300 }}
-                      style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: ev.color, boxShadow: `0 0 10px ${ev.color}` }}
-                    />
+                {/* Barra lateral de acento */}
+                <div style={{ width: '5px', flexShrink: 0, background: ev.color }} />
+                {/* Contido */}
+                <div style={{ background: PALETTE.bgAlt, padding: '16px 16px 18px', flex: 1 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
+                    <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.1rem', fontWeight: 600, color: ev.color, lineHeight: 1 }}>{ev.n}</span>
+                    <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.32em', fontWeight: 700, color: ev.color, textTransform: 'uppercase' }}>{ev.label}</span>
                   </div>
+                  <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.2rem', fontStyle: 'italic', color: PALETTE.text, marginBottom: '8px', lineHeight: 1.2 }}>{ev.subtitle}</div>
+                  <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.93rem', fontWeight: 300, color: PALETTE.textSub, lineHeight: 1.75 }}>{ev.desc}</div>
                 </div>
-
-                {m ? (
-                  /* Móbil: tarxeta simple á dereita */
-                  <motion.div
-                    style={{
-                      background: `linear-gradient(135deg, ${ev.bg}, rgba(15,23,42,0.98))`,
-                      backdropFilter: 'blur(40px)',
-                      border: `1.5px solid rgba(255, 255, 255, 0.15)`,
-                      borderLeft: `4px solid ${ev.color}`,
-                      borderRadius: '16px',
-                      padding: '20px 22px',
-                      boxShadow: `0 8px 32px rgba(0,0,0,0.65), 0 0 20px ${ev.color}15, inset 0 1px 0 rgba(255,255,255,0.08)`,
-                      width: '100%',
-                    }}
-                  >
-                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', letterSpacing: '0.4em', fontWeight: 700, color: ev.color, lineHeight: 1, textTransform: 'uppercase' }}>{ev.label}</div>
-                    <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.4rem', fontWeight: 400, fontStyle: 'italic', color: '#FFFFFF', marginTop: '8px' }}>{ev.subtitle}</div>
-                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '16px', fontWeight: 300, color: '#F8FAFC', marginTop: '12px', lineHeight: 1.8 }}>{ev.desc}</div>
-                  </motion.div>
-                ) : (
-                  /* Desktop: layout alternante */
-                  <>
-                    {/* Lado esquerdo */}
-                    <div style={{ width: '50%', paddingRight: '4.5rem', textAlign: 'right', display: i % 2 === 0 ? 'block' : 'none' }}>
-                      <motion.div
-                        whileHover={{ x: -6 }}
-                        style={{
-                          display: 'inline-block',
-                          background: `linear-gradient(135deg, ${ev.bg}, rgba(15,23,42,0.98))`,
-                          backdropFilter: 'blur(40px)',
-                          border: `1.5px solid rgba(255, 255, 255, 0.15)`,
-                          borderLeft: `4px solid ${ev.color}`,
-                          borderRadius: '20px',
-                          padding: '28px 32px',
-                          boxShadow: `0 20px 45px rgba(0,0,0,0.65), 0 0 30px ${ev.color}20, inset 0 1px 0 rgba(255,255,255,0.08)`,
-                          maxWidth: '450px',
-                          textAlign: 'left',
-                        }}
-                      >
-                        <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', letterSpacing: '0.4em', fontWeight: 700, color: ev.color, lineHeight: 1, textTransform: 'uppercase' }}>{ev.label}</div>
-                        <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.65rem', fontWeight: 400, fontStyle: 'italic', color: '#FFFFFF', marginTop: '10px' }}>{ev.subtitle}</div>
-                        <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '17px', fontWeight: 300, color: '#F8FAFC', marginTop: '14px', lineHeight: 1.85 }}>{ev.desc}</div>
-                      </motion.div>
-                    </div>
-                    {i % 2 !== 0 && <div style={{ width: '50%' }} />}
-
-                    {/* Lado dereito */}
-                    {i % 2 !== 0 && (
-                      <div style={{ width: '50%', paddingLeft: '4.5rem' }}>
-                        <motion.div
-                          whileHover={{ x: 6 }}
-                          style={{
-                            background: `linear-gradient(135deg, ${ev.bg}, rgba(15,23,42,0.98))`,
-                            backdropFilter: 'blur(40px)',
-                            border: `1.5px solid rgba(255, 255, 255, 0.15)`,
-                            borderLeft: `4px solid ${ev.color}`,
-                            borderRadius: '20px',
-                            padding: '28px 32px',
-                            boxShadow: `0 20px 45px rgba(0,0,0,0.65), 0 0 30px ${ev.color}20, inset 0 1px 0 rgba(255,255,255,0.08)`,
-                            maxWidth: '450px',
-                          }}
-                        >
-                          <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', letterSpacing: '0.4em', fontWeight: 700, color: ev.color, lineHeight: 1, textTransform: 'uppercase' }}>{ev.label}</div>
-                          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.65rem', fontWeight: 400, fontStyle: 'italic', color: '#FFFFFF', marginTop: '10px' }}>{ev.subtitle}</div>
-                          <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '17px', fontWeight: 300, color: '#F8FAFC', marginTop: '14px', lineHeight: 1.85 }}>{ev.desc}</div>
-                        </motion.div>
-                      </div>
-                    )}
-                    {i % 2 === 0 && <div style={{ width: '50%' }} />}
-                  </>
-                )}
               </motion.div>
             ))}
           </div>
-        </div>
-
-        {/* Botón e Contedor do Mapa Narrativo */}
-        <div style={{ marginTop: '5rem', textAlign: 'center' }}>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setMapOpen(!mapOpen)}
-            style={{
-              background: mapOpen ? 'rgba(200,169,110,0.1)' : 'rgba(255,255,255,0.03)',
-              border: mapOpen ? '1px solid rgba(200,169,110,0.5)' : '1px solid rgba(255,255,255,0.15)',
-              borderRadius: '30px',
-              padding: '12px 32px',
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: '11px',
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-              color: mapOpen ? '#C8A96E' : '#EAE2D2',
-              cursor: 'pointer',
-              backdropFilter: 'blur(10px)',
-              transition: 'all 0.3s ease'
-            }}
-          >
-            {mapOpen ? "Pechar Mapa" : "Ver Mapa Narrativo"}
-          </motion.button>
-
-          <AnimatePresence>
-            {mapOpen && (
+        ) : (
+          /* ── DESKTOP: timeline con liña e cards alternos ── */
+          <div style={{ position: 'relative' }}>
+            {/* Liña vertical central */}
+            <div style={{ position: 'absolute', left: '50%', top: 0, bottom: 0, width: '2px', transform: 'translateX(-50%)', background: `linear-gradient(to bottom, ${PALETTE.surface}, ${PALETTE.accent}66, ${PALETTE.fire}66, ${PALETTE.accentDk}66, ${PALETTE.line}66, ${PALETTE.accent}66)` }}>
               <motion.div
-                initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                animate={{ opacity: 1, height: 'auto', marginTop: '3rem' }}
-                exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                style={{ overflow: 'hidden' }}
+                initial={{ scaleY: 0 }} animate={v ? { scaleY: 1 } : {}}
+                transition={{ duration: 2.2, delay: 0.3, ease: 'easeOut' }}
+                style={{ position: 'absolute', inset: 0, background: `linear-gradient(to bottom, ${PALETTE.accent}, ${PALETTE.fire}, ${PALETTE.accentDk}, ${PALETTE.line}, ${PALETTE.accent}, ${PALETTE.textSub})`, transformOrigin: 'top' }}
+              />
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '4rem' }}>
+              {stages.map((ev, i) => {
+                const isLeft = i % 2 === 0;
+                return (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 36 }}
+                    animate={v ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.7, delay: 0.1 + i * 0.11, ease: [0.16, 1, 0.3, 1] }}
+                    style={{ display: 'flex', alignItems: 'flex-start', position: 'relative' }}
+                  >
+                    {/* Nodo central */}
+                    <div style={{ position: 'absolute', left: '50%', top: '24px', transform: 'translateX(-50%)', zIndex: 10 }}>
+                      <div style={{
+                        width: '44px', height: '44px', borderRadius: '50%',
+                        background: PALETTE.bgAlt,
+                        border: `2px solid ${ev.color}`,
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        boxShadow: `0 0 18px ${ev.color}55`,
+                      }}>
+                        <motion.span
+                          initial={{ scale: 0 }} animate={v ? { scale: 1 } : {}}
+                          transition={{ delay: 0.25 + i * 0.11, type: 'spring', stiffness: 280 }}
+                          style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1rem', fontWeight: 700, color: ev.color }}
+                        >{ev.n}</motion.span>
+                      </div>
+                    </div>
+
+                    {/* Tarxeta esquerda */}
+                    <div style={{ width: '50%', paddingRight: '4rem', display: 'flex', justifyContent: 'flex-end' }}>
+                      {isLeft && (
+                        <motion.div
+                          whileHover={{ x: -5, boxShadow: `0 20px 50px rgba(0,0,0,0.6), 0 0 0 1px ${ev.color}44` }}
+                          style={{
+                            background: PALETTE.bgAlt,
+                            border: `1px solid ${ev.color}33`,
+                            borderRight: `4px solid ${ev.color}`,
+                            borderRadius: '16px',
+                            padding: '26px 30px',
+                            maxWidth: '460px',
+                            boxShadow: `0 12px 35px rgba(0,0,0,0.4), 0 0 20px ${ev.color}15`,
+                            transition: 'box-shadow 0.3s ease',
+                          }}
+                        >
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
+                            <span style={{ fontSize: '18px' }}>{ev.icon}</span>
+                            <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', letterSpacing: '0.38em', fontWeight: 700, color: ev.color, textTransform: 'uppercase' }}>{ev.label}</span>
+                          </div>
+                          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.5rem', fontStyle: 'italic', color: PALETTE.text, marginBottom: '10px', lineHeight: 1.2 }}>{ev.subtitle}</div>
+                          <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.98rem', fontWeight: 300, color: PALETTE.textSub, lineHeight: 1.85 }}>{ev.desc}</div>
+                        </motion.div>
+                      )}
+                    </div>
+
+                    {/* Tarxeta dereita */}
+                    <div style={{ width: '50%', paddingLeft: '4rem', display: 'flex', justifyContent: 'flex-start' }}>
+                      {!isLeft && (
+                        <motion.div
+                          whileHover={{ x: 5, boxShadow: `0 20px 50px rgba(0,0,0,0.6), 0 0 0 1px ${ev.color}44` }}
+                          style={{
+                            background: PALETTE.bgAlt,
+                            border: `1px solid ${ev.color}33`,
+                            borderLeft: `4px solid ${ev.color}`,
+                            borderRadius: '16px',
+                            padding: '26px 30px',
+                            maxWidth: '460px',
+                            boxShadow: `0 12px 35px rgba(0,0,0,0.4), 0 0 20px ${ev.color}15`,
+                            transition: 'box-shadow 0.3s ease',
+                          }}
+                        >
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
+                            <span style={{ fontSize: '18px' }}>{ev.icon}</span>
+                            <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', letterSpacing: '0.38em', fontWeight: 700, color: ev.color, textTransform: 'uppercase' }}>{ev.label}</span>
+                          </div>
+                          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.5rem', fontStyle: 'italic', color: PALETTE.text, marginBottom: '10px', lineHeight: 1.2 }}>{ev.subtitle}</div>
+                          <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.98rem', fontWeight: 300, color: PALETTE.textSub, lineHeight: 1.85 }}>{ev.desc}</div>
+                        </motion.div>
+                      )}
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* ═══ MAPA NARRATIVO SVG ══════════════════════════ */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={v ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          style={{ marginTop: m ? '3rem' : '5rem' }}
+        >
+          {/* Cabeceira mapa */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '1.5rem' }}>
+            <div style={{ width: '36px', height: '2px', background: PALETTE.accent }} />
+            <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', letterSpacing: '0.35em', textTransform: 'uppercase', color: PALETTE.accent, fontWeight: 600 }}>Mapa Narrativo</span>
+          </div>
+
+          <div style={{
+            background: PALETTE.bgAlt,
+            border: `1px solid ${PALETTE.line}55`,
+            borderRadius: '20px',
+            padding: m ? '1.5rem 1rem' : '3rem 3.5rem',
+            display: 'flex',
+            flexDirection: m ? 'column' : 'row',
+            gap: m ? '1.5rem' : '3rem',
+            alignItems: m ? 'stretch' : 'center',
+            boxShadow: `0 20px 55px rgba(0,0,0,0.5), 0 0 0 1px ${PALETTE.line}33`,
+          }}>
+
+            {/* SVG Map */}
+            <div style={{ flex: m ? 'none' : '0 0 420px', position: 'relative' }}>
+              <svg
+                viewBox="0 0 420 290"
+                style={{ width: '100%', maxWidth: m ? '100%' : '420px', display: 'block', borderRadius: '12px', background: '#100D06', border: `1px solid ${PALETTE.line}44` }}
               >
-                <div style={{
-                  background: 'linear-gradient(135deg, #151F32 0%, #0D1321 100%)',
-                  backdropFilter: 'blur(40px)',
-                  border: '2px solid #C8A96E',
-                  borderRadius: '24px',
-                  padding: m ? '2.5rem 1.75rem' : '4.5rem',
-                  display: 'flex',
-                  flexDirection: m ? 'column' : 'row',
-                  gap: '3rem',
-                  alignItems: 'center',
-                  boxShadow: '0 25px 65px rgba(0,0,0,0.7), 0 0 30px rgba(200,169,110,0.15)'
-                }}>
-                  {/* Mapa interactivo OpenStreetMap */}
-                  <div style={{ flex: m ? 'none' : 1, width: '100%', height: m ? '320px' : '380px', minHeight: m ? '320px' : '380px', display: 'block', borderRadius: '16px', overflow: 'hidden', border: '1px solid rgba(200,169,110,0.2)', position: 'relative', zIndex: 1 }}>
-                    <MapContainer
-                      center={[42.0, -3.0]}
-                      zoom={m ? 5 : 6}
-                      zoomControl={false}
-                      scrollWheelZoom={false}
-                      style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: '#0a0a0a' }}
-                      attributionControl={false}
-                    >
-                      <TileLayer
-                        url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-                      />
-                      
-                      {/* Curva de conexión */}
-                      <Polyline
-                        positions={getCurvePoints(galiciaPos, barcelonaPos, m ? 4.5 : 3.5)}
-                        color="rgba(200,169,110,0.5)"
-                        weight={2}
-                        dashArray="6, 6"
-                      />
+                {/* Ocean background */}
+                <rect width="420" height="290" fill="#0F1A0A" rx="12" />
 
-                      {/* Marcador Galicia */}
-                      <Marker
-                        position={galiciaPos}
-                        icon={createGoldenIcon(activeCity === 'galicia', 'GALICIA')}
-                        eventHandlers={{
-                          click: () => setActiveCity('galicia'),
-                        }}
-                      />
+                {/* Iberian Peninsula shape (simplified) */}
+                <path
+                  d={IBERIA_PATH}
+                  fill="#2A1F0E"
+                  stroke={PALETTE.line}
+                  strokeWidth="1.2"
+                  opacity="0.85"
+                />
 
-                      {/* Marcador Barcelona */}
-                      <Marker
-                        position={barcelonaPos}
-                        icon={createGoldenIcon(activeCity === 'barcelona', 'BARCELONA')}
-                        eventHandlers={{
-                          click: () => setActiveCity('barcelona'),
-                        }}
-                      />
-                    </MapContainer>
-                  </div>
+                {/* France stub */}
+                <path d="M 195 22 C 225 12, 270 8, 310 20 C 340 30, 370 45, 370 55 L 310 42 C 280 30, 250 18, 225 22 Z" fill="#1E1508" stroke={PALETTE.line} strokeWidth="0.8" opacity="0.6" />
 
-                  {/* Texto dinámico */}
-                  <div style={{ flex: 1, textAlign: 'left', minHeight: '180px' }}>
-                    <AnimatePresence mode="wait">
-                      {activeCity === 'galicia' && (
-                        <motion.div key="g" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-                          <h4 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '2.8rem', color: '#FFFFFF', lineHeight: 1 }}>Galicia</h4>
-                          <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', letterSpacing: '0.2em', color: '#E5C583', marginBottom: '1.2rem', marginTop: '0.5rem', fontWeight: 600 }}>A Orixe e a Culpa</div>
-                          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '1.15rem', color: '#F8FAFC', lineHeight: 1.85 }}>
-                            A vila mariñeira e Santiago de Compostela. Aquí nace o trauma baixo a man de ferro de Mamá Carme e aquí xorde a somatización de Fernando décadas despois. É a terra da fuxida e do regreso inevitable.
-                          </p>
-                        </motion.div>
-                      )}
-                      {activeCity === 'barcelona' && (
-                        <motion.div key="b" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-                          <h4 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '2.8rem', color: '#FFFFFF', lineHeight: 1 }}>Barcelona</h4>
-                          <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', letterSpacing: '0.2em', color: '#E5C583', marginBottom: '1.2rem', marginTop: '0.5rem', fontWeight: 600 }}>O Rexurdimento</div>
-                          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '1.15rem', color: '#F8FAFC', lineHeight: 1.85 }}>
-                            O refuxio onde Concha Pereira se reinventa. Lonxe da opresión, a Faneca Brava afía os seus dentes e utiliza a súa cámara para desposuír do seu poder ás altas esferas que a rodean. A vítima faise verdugo.
-                          </p>
-                        </motion.div>
-                      )}
-                      {!activeCity && (
-                        <motion.div key="e" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} style={{ display: 'flex', alignItems: 'center', height: '100%' }}>
-                          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '1.1rem', color: '#CBD5E1', fontStyle: 'italic', lineHeight: 1.6 }}>
-                            Preme nunha localización no mapa para descubrir os seus segredos...
-                          </p>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+                {/* Atlantic label */}
+                <text x="18" y="200" fontFamily="'DM Sans', sans-serif" fontSize="9" fill={PALETTE.accentDk} opacity="0.6" letterSpacing="2">ATLÁNTICO</text>
+                {/* Mediterranean label */}
+                <text x="360" y="210" fontFamily="'DM Sans', sans-serif" fontSize="9" fill={PALETTE.accentDk} opacity="0.6" letterSpacing="2" transform="rotate(-30, 360, 210)">MED</text>
+
+                {/* Route arc — Galicia to Barcelona */}
+                <path
+                  d={`M ${mapCities.galicia.x} ${mapCities.galicia.y} Q 210 80 ${mapCities.barcelona.x} ${mapCities.barcelona.y}`}
+                  fill="none"
+                  stroke={PALETTE.accent}
+                  strokeWidth="1.5"
+                  strokeDasharray="6 4"
+                  opacity="0.7"
+                />
+
+                {/* Arrow tip near Barcelona */}
+                <polygon points={`${mapCities.barcelona.x - 6},${mapCities.barcelona.y - 4} ${mapCities.barcelona.x + 2},${mapCities.barcelona.y} ${mapCities.barcelona.x - 6},${mapCities.barcelona.y + 4}`} fill={PALETTE.accent} opacity="0.8" />
+
+                {/* GALICIA marker */}
+                <g
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => setActiveCity(activeCity === 'galicia' ? null : 'galicia')}
+                >
+                  <circle cx={mapCities.galicia.x} cy={mapCities.galicia.y} r="16" fill={activeCity === 'galicia' ? `${PALETTE.accent}30` : 'transparent'} stroke={PALETTE.accent} strokeWidth="1" strokeDasharray="3 2" opacity="0.7" />
+                  <circle cx={mapCities.galicia.x} cy={mapCities.galicia.y} r="7" fill={activeCity === 'galicia' ? PALETTE.accent : PALETTE.accentDk} stroke={PALETTE.text} strokeWidth="1.5" />
+                  <circle cx={mapCities.galicia.x} cy={mapCities.galicia.y} r="3" fill={PALETTE.text} opacity={activeCity === 'galicia' ? 1 : 0.5} />
+                  <text x={mapCities.galicia.x} y={mapCities.galicia.y + 28} textAnchor="middle" fontFamily="'DM Sans', sans-serif" fontSize="8.5" fill={activeCity === 'galicia' ? PALETTE.accent : PALETTE.textSub} fontWeight="700" letterSpacing="1.5">GALICIA</text>
+                </g>
+
+                {/* BARCELONA marker */}
+                <g
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => setActiveCity(activeCity === 'barcelona' ? null : 'barcelona')}
+                >
+                  <circle cx={mapCities.barcelona.x} cy={mapCities.barcelona.y} r="16" fill={activeCity === 'barcelona' ? `${PALETTE.accent}30` : 'transparent'} stroke={PALETTE.accent} strokeWidth="1" strokeDasharray="3 2" opacity="0.7" />
+                  <circle cx={mapCities.barcelona.x} cy={mapCities.barcelona.y} r="7" fill={activeCity === 'barcelona' ? PALETTE.accent : PALETTE.accentDk} stroke={PALETTE.text} strokeWidth="1.5" />
+                  <circle cx={mapCities.barcelona.x} cy={mapCities.barcelona.y} r="3" fill={PALETTE.text} opacity={activeCity === 'barcelona' ? 1 : 0.5} />
+                  <text x={mapCities.barcelona.x} y={mapCities.barcelona.y + 28} textAnchor="middle" fontFamily="'DM Sans', sans-serif" fontSize="8.5" fill={activeCity === 'barcelona' ? PALETTE.accent : PALETTE.textSub} fontWeight="700" letterSpacing="1.5">BARCELONA</text>
+                </g>
+
+                {/* Instruction hint */}
+                {!activeCity && (
+                  <text x="210" y="278" textAnchor="middle" fontFamily="'DM Sans', sans-serif" fontSize="8" fill={PALETTE.textSub} opacity="0.5" letterSpacing="1">Toca un punto para explorar</text>
+                )}
+              </svg>
+            </div>
+
+            {/* Texto dinámico */}
+            <div style={{ flex: 1, minHeight: m ? 'auto' : '200px', display: 'flex', alignItems: 'center' }}>
+              <AnimatePresence mode="wait">
+                {activeCity ? (
+                  <motion.div
+                    key={activeCity}
+                    initial={{ opacity: 0, x: m ? 0 : 20, y: m ? 16 : 0 }}
+                    animate={{ opacity: 1, x: 0, y: 0 }}
+                    exit={{ opacity: 0, x: m ? 0 : -16, y: m ? -10 : 0 }}
+                    transition={{ duration: 0.35 }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '0.6rem' }}>
+                      <div style={{ width: '22px', height: '2px', background: PALETTE.accent }} />
+                      <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.3em', color: PALETTE.accent, textTransform: 'uppercase', fontWeight: 700 }}>
+                        {mapCities[activeCity].sub}
+                      </span>
+                    </div>
+                    <h4 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: m ? '2.2rem' : '2.8rem', color: PALETTE.text, lineHeight: 1, margin: '0 0 0.8rem' }}>
+                      {mapCities[activeCity].title}
+                    </h4>
+                    <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: m ? '0.95rem' : '1.05rem', color: PALETTE.textSub, lineHeight: 1.85, margin: 0 }}>
+                      {mapCities[activeCity].text}
+                    </p>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="empty"
+                    initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                  >
+                    <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: m ? '1rem' : '1.1rem', color: PALETTE.textSub, fontStyle: 'italic', lineHeight: 1.75, margin: 0 }}>
+                      Preme nunha localización no mapa para descubrir os seus segredos...
+                    </p>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '1.4rem' }}>
+                      {(['galicia', 'barcelona'] as const).map(c => (
+                        <button
+                          key={c}
+                          onClick={() => setActiveCity(c)}
+                          style={{
+                            background: 'transparent',
+                            border: `1px solid ${PALETTE.line}66`,
+                            borderRadius: '30px',
+                            padding: '8px 22px',
+                            fontFamily: "'DM Sans', sans-serif",
+                            fontSize: '11px',
+                            letterSpacing: '0.25em',
+                            textTransform: 'uppercase',
+                            color: PALETTE.textSub,
+                            cursor: 'pointer',
+                            textAlign: 'left',
+                            transition: 'all 0.2s',
+                          }}
+                          onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = PALETTE.accent; (e.currentTarget as HTMLButtonElement).style.color = PALETTE.accent; }}
+                          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = `${PALETTE.line}66`; (e.currentTarget as HTMLButtonElement).style.color = PALETTE.textSub; }}
+                        >
+                          → {mapCities[c].title}
+                        </button>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+        </motion.div>
+
       </div>
     </section>
   );
