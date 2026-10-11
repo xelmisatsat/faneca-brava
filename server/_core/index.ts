@@ -29,6 +29,8 @@ async function findAvailablePort(startPort: number = 3000): Promise<number> {
   throw new Error(`No available port found starting from ${startPort}`);
 }
 
+import { wafMiddleware } from "./waf";
+
 // Global process safety handlers to prevent server crashes on Render
 process.on("unhandledRejection", (reason) => {
   console.error("[Server Security] Unhandled Rejection caught:", reason);
@@ -47,18 +49,12 @@ async function startServer() {
   // Hide server identity to mitigate automated scanner fingerprinting
   app.disable("x-powered-by");
 
-  // Security HTTP Headers Middleware
-  app.use((_req, res, next) => {
-    res.setHeader("X-Content-Type-Options", "nosniff");
-    res.setHeader("X-Frame-Options", "SAMEORIGIN");
-    res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
-    res.setHeader("X-XSS-Protection", "1; mode=block");
-    next();
-  });
-
   // Strict request body limit to protect memory from DoS/exhaustion attacks
   app.use(express.json({ limit: "1mb" }));
   app.use(express.urlencoded({ limit: "1mb", extended: true }));
+
+  // Advanced WAF Security Shield: blocks scanners, probes, XSS, prototype pollution, DoS
+  app.use(wafMiddleware);
 
   registerStorageProxy(app);
   registerOAuthRoutes(app);

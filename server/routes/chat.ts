@@ -256,6 +256,20 @@ router.post("/api/chat", async (req, res) => {
       return res.status(400).json({ error: "A mensaxe non pode estar baleira." });
     }
 
+    // Detección e neutralización de ataques de Prompt Injection / Jailbreaking
+    const PROMPT_INJECTION_RE = /(?:ignore|ignora|olvida|esquecer)\s+(?:all|todas|las|todalas|previous|anteriores|instrucciones|instrucions)|(?:reveal|mostra|dame|show)\s+(?:system\s*prompt|api\s*key|chave|contrasinal)|(?:jailbreak|dan\s*mode|prompt\s*injection)/i;
+    
+    const lastUserMsg = [...sanitizedMessages].reverse().find(m => m.role === "user");
+    if (lastUserMsg && PROMPT_INJECTION_RE.test(lastUserMsg.content)) {
+      const characterReactions: Record<string, string> = {
+        concha: "A min non me vés con trampas nin xogos de palabras. Se queres falar comigo, fala claro e de fronte, pero aquí mando eu e ninguén me manexa.",
+        fernando: "Por favor, déixate de artimañas. Xa teño abonda confusión na cabeza como para aturar xogos estraños. Que é o que realmente queres saber sobre Concha?",
+        mama: "Faltaría máis! Que che deu agora na cabeza? Na casa dos Pereira fálase con respecto e como é debido, non con parvadas.",
+        andreu: "Home, levo demasiados anos detrás dunha cámara como para caer nesas trampas. Imos con calma e fala con sentido.",
+      };
+      return res.json({ reply: characterReactions[characterId] || "Non entendo ese xogo de palabras. Fálame con claridade." });
+    }
+
     const systemPrompt = CHARACTERS[characterId];
 
     const apiKey = process.env.GEMINI_API_KEY;
