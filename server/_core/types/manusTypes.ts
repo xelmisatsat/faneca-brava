@@ -1,6 +1,4 @@
-// WebDev Auth TypeScript types
-// Auto-generated from protobuf definitions
-// Generated on: 2025-09-24T05:57:57.338Z
+// Tipos de autenticación e sesión
 
 export interface AuthorizeRequest {
   redirectUri: string;

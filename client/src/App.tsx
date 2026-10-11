@@ -8,7 +8,6 @@ import AvisoLegal from "./components/AvisoLegal";
 import Home from "./pages/Home";
 
 function Router() {
-  // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
       <Route path={"/"} component={Home} />

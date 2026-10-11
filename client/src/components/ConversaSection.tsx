@@ -226,13 +226,13 @@ export default function ConversaSection() {
         <motion.div initial={{ opacity: 0, y: 40 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.9 }} style={{ marginBottom: '3rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '1rem' }}>
             <motion.div initial={{ scaleX: 0 }} animate={v ? { scaleX: 1 } : {}} transition={{ duration: 0.8 }} style={{ width: '48px', height: '1px', background: 'linear-gradient(90deg, #C8A96E, transparent)', transformOrigin: 'left' }} />
-            <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', letterSpacing: '0.35em', textTransform: 'uppercase', color: '#C8A96E' }}>IA — Personaxes</span>
+            <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', letterSpacing: '0.35em', textTransform: 'uppercase', color: '#C8A96E' }}>Diálogo — Personaxes</span>
           </div>
           <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontSize: 'clamp(2.5rem, 5vw, 5rem)', lineHeight: 0.9, letterSpacing: '-0.025em', color: '#EAE2D2' }}>
             Fala cos <span style={{ color: '#C8A96E' }}>Personaxes</span>
           </h2>
           <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, fontSize: '1rem', lineHeight: 1.7, color: '#8B9BB4', maxWidth: '500px', marginTop: '1rem' }}>
-            Cada personaxe está entrenado co texto real do libro. Responden en galego coa súa personalidade auténtica.
+            Conversa cos personaxes da novela. Responden en galego coa súa personalidade auténtica e emocións do relato.
           </p>
         </motion.div>
 
@@ -379,7 +379,7 @@ export default function ConversaSection() {
                 </button>
               </div>
               <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', color: 'rgba(139,155,180,0.3)', marginTop: '7px', paddingLeft: '4px' }}>
-                Preme Enter para enviar · IA entrenada co texto real do libro
+                Preme Enter para enviar · Conversa literaria co personaxe
               </div>
             </div>
           </div>
