@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import AudioPlayer from "@/components/AudioPlayer";
-import { Haptics, ImpactStyle } from "@capacitor/haptics";
 
 interface Section { id: string; label: string; short: string; }
 interface NavPillProps { sections: Section[]; activeIdx: number; onSelect: (idx: number) => void; }
 
 export default function NavPill({ sections, activeIdx, onSelect }: NavPillProps) {
   const [open, setOpen] = useState(false);
+  const isMercar = sections[activeIdx]?.id === 'mercar';
 
   return (
     <>
@@ -18,15 +18,20 @@ export default function NavPill({ sections, activeIdx, onSelect }: NavPillProps)
             alignItems: 'center',
             gap: '6px',
             padding: '8px 16px',
-            background: 'linear-gradient(135deg, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0.10) 100%)',
-            backdropFilter: 'blur(60px) saturate(200%) brightness(1.1)',
-            WebkitBackdropFilter: 'blur(60px) saturate(200%) brightness(1.1)',
-            border: '1px solid rgba(255,255,255,0.18)',
-            borderTop: '1px solid rgba(255,255,255,0.30)',
+            background: isMercar
+              ? '#0D141F'
+              : 'linear-gradient(135deg, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0.10) 100%)',
+            backdropFilter: isMercar ? 'none' : 'blur(60px) saturate(200%) brightness(1.1)',
+            WebkitBackdropFilter: isMercar ? 'none' : 'blur(60px) saturate(200%) brightness(1.1)',
+            border: isMercar ? '1.5px solid rgba(200,169,110,0.4)' : '1px solid rgba(255,255,255,0.18)',
+            borderTop: isMercar ? '1.5px solid #C8A96E' : '1px solid rgba(255,255,255,0.30)',
             borderRadius: '9999px',
-            boxShadow: '0 4px 24px rgba(0,0,0,0.5), 0 1px 4px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.20)',
+            boxShadow: isMercar
+              ? '0 16px 40px rgba(0,0,0,0.7), 0 2px 8px rgba(0,0,0,0.5)'
+              : '0 4px 24px rgba(0,0,0,0.5), 0 1px 4px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.20)',
             position: 'relative',
             overflow: 'visible',
+            transition: 'background 0.3s ease, border 0.3s ease, box-shadow 0.3s ease',
           }}
           initial={{ y: -80, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -40,7 +45,7 @@ export default function NavPill({ sections, activeIdx, onSelect }: NavPillProps)
             pointerEvents: 'none',
           }} />
 
-          {/* Logo FB circular con borde dourado */}
+          {/* Logo FB con imaxe circular */}
           <button
             onClick={() => {
               const el = document.documentElement as any;
@@ -75,17 +80,16 @@ export default function NavPill({ sections, activeIdx, onSelect }: NavPillProps)
               border: '1.5px solid rgba(200,169,110,0.55)',
               boxShadow: '0 0 10px rgba(200,169,110,0.25)',
               transition: 'transform 0.3s, box-shadow 0.3s',
-            }}>
-              <img
-                src={(window as any).Capacitor ? "assets/images/logo-fb.webp" : "/manus-storage/logo-fb.webp"}
-                alt="Faneca Brava Logo"
-                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-              />
+            }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1.09)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 0 18px rgba(200,169,110,0.5)'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 0 10px rgba(200,169,110,0.25)'; }}
+            >
+              <img src="/manus-storage/logo-fb.webp" alt="Faneca Brava Logo" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
             </div>
           </button>
 
           {/* Separador */}
-          <div style={{ width: '1px', height: '18px', background: 'rgba(255,255,255,0.15)', flexShrink: 0 }} />
+          <div style={{ width: '1px', height: '18px', background: isMercar ? 'rgba(200,169,110,0.35)' : 'rgba(255,255,255,0.15)', flexShrink: 0 }} />
 
           {/* Links desktop */}
           <div className="hidden md:flex" style={{ alignItems: 'center', gap: '2px' }}>
@@ -94,21 +98,22 @@ export default function NavPill({ sections, activeIdx, onSelect }: NavPillProps)
               return (
               <button
                 key={s.id}
-                onClick={async () => {
-                  try { await Haptics.impact({ style: ImpactStyle.Light }); } catch (e) {}
-                  onSelect(realIdx);
-                }}
+                onClick={() => onSelect(realIdx)}
                 style={{
                   position: 'relative',
                   padding: '7px 14px',
                   borderRadius: '9999px',
                   fontFamily: "'DM Sans', system-ui, sans-serif",
                   fontSize: '11.5px',
-                  fontWeight: 400,
+                  fontWeight: activeIdx === realIdx ? 500 : 400,
                   letterSpacing: '0.08em',
-                  color: activeIdx === realIdx ? '#C8A96E' : 'rgba(234,226,210,0.5)',
-                  background: activeIdx === realIdx ? 'rgba(200,169,110,0.14)' : 'transparent',
-                  border: activeIdx === realIdx ? '1px solid rgba(200,169,110,0.25)' : '1px solid transparent',
+                  color: activeIdx === realIdx
+                    ? '#C8A96E'
+                    : (isMercar ? 'rgba(234,226,210,0.88)' : 'rgba(234,226,210,0.5)'),
+                  background: activeIdx === realIdx
+                    ? (isMercar ? 'rgba(200,169,110,0.22)' : 'rgba(200,169,110,0.14)')
+                    : 'transparent',
+                  border: activeIdx === realIdx ? '1px solid rgba(200,169,110,0.35)' : '1px solid transparent',
                   cursor: 'none',
                   whiteSpace: 'nowrap',
                   transition: 'all 0.25s ease',
@@ -121,7 +126,7 @@ export default function NavPill({ sections, activeIdx, onSelect }: NavPillProps)
           </div>
 
           {/* Separador */}
-          <div className="hidden md:block" style={{ width: '1px', height: '18px', background: 'rgba(255,255,255,0.15)', flexShrink: 0 }} />
+          <div className="hidden md:block" style={{ width: '1px', height: '18px', background: isMercar ? 'rgba(200,169,110,0.35)' : 'rgba(255,255,255,0.15)', flexShrink: 0 }} />
 
           {/* Botón Música */}
           <AudioPlayer sectionId={sections[activeIdx]?.id || 'hero'} inline />
@@ -139,14 +144,15 @@ export default function NavPill({ sections, activeIdx, onSelect }: NavPillProps)
               borderRadius: '9999px',
               fontFamily: "'DM Sans', system-ui, sans-serif",
               fontSize: '11.5px',
-              fontWeight: 400,
+              fontWeight: isMercar ? 600 : 400,
               letterSpacing: '0.1em',
-              color: '#C8A96E',
-              background: 'rgba(200,169,110,0.12)',
-              border: '1px solid rgba(200,169,110,0.28)',
+              color: isMercar ? '#0D141F' : '#C8A96E',
+              background: isMercar ? '#C8A96E' : 'rgba(200,169,110,0.12)',
+              border: isMercar ? '1px solid #C8A96E' : '1px solid rgba(200,169,110,0.28)',
+              boxShadow: isMercar ? '0 2px 12px rgba(200,169,110,0.4)' : 'none',
               cursor: 'none',
               whiteSpace: 'nowrap',
-              transition: 'opacity 0.3s',
+              transition: 'all 0.3s ease',
               flexShrink: 0,
             }}
           >
@@ -192,4 +198,3 @@ export default function NavPill({ sections, activeIdx, onSelect }: NavPillProps)
     </>
   );
 }
-

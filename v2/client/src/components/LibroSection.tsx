@@ -12,7 +12,7 @@ const cardStyle = {
 const fichaItems = [
   { label: "Título",       value: "Faneca Brava" },
   { label: "Autor",        value: "Manuel Portas" },
-  { label: "Editorial",    value: "Editorial Xerais (2013) · Editorial Galaxia (2024)" },
+  { label: "Editorial",    value: "Editorial Galaxia (2024)" },
   { label: "Lingua",       value: "Galego" },
   { label: "Xénero",       value: "Novela de memoria" },
   { label: "Partes",       value: "III + Coda" },
@@ -98,7 +98,7 @@ export default function LibroSection() {
               return (
                 <div style={{ padding: '8px 12px', backgroundColor: theme.bg, borderRadius: '10px', border: theme.border, borderLeft: theme.borderLeft }}>
                   <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '9px', letterSpacing: '0.12em', textTransform: 'uppercase', color: theme.label, marginBottom: '2px', fontWeight: 600 }}>Editorial</div>
-                  <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '0.95rem', fontWeight: 300, color: '#FFFFFF', lineHeight: 1.3 }}>Xerais (2013) · Galaxia (2024)</div>
+                  <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '0.95rem', fontWeight: 300, color: '#FFFFFF', lineHeight: 1.3 }}>Editorial Galaxia (2024)</div>
                 </div>
               );
             })()}

@@ -6,9 +6,9 @@ export default function AvisoLegal() {
   const [visible, setVisible] = useState(false);
   const m = useIsMobile();
 
-  // Aparece sempre ao cargar — sen localStorage
+  // Aparece ao cargar
   useEffect(() => {
-    const t = setTimeout(() => setVisible(true), 400);
+    const t = setTimeout(() => setVisible(true), 350);
     return () => clearTimeout(t);
   }, []);
 
@@ -26,30 +26,36 @@ export default function AvisoLegal() {
     <AnimatePresence>
       {visible && (
         <>
-          {/* Fondo semitransparente */}
+          {/* Backdrop con desenfoque cinematográfico */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
+            transition={{ duration: 0.35 }}
             style={{
-              position: "fixed", inset: 0, zIndex: 99999,
-              background: "rgba(4,4,8,0.88)",
-              backdropFilter: "blur(12px)",
-              WebkitBackdropFilter: "blur(12px)",
+              position: "fixed",
+              inset: 0,
+              zIndex: 99999,
+              background: "rgba(5, 7, 12, 0.85)",
+              backdropFilter: "blur(14px)",
+              WebkitBackdropFilter: "blur(14px)",
             }}
           />
 
-          {/* Modal */}
+          {/* Contedor Centrado Bento Grid */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.94, y: 30 }}
+            initial={{ opacity: 0, scale: 0.94, y: 24 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.94, y: 20 }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            exit={{ opacity: 0, scale: 0.95, y: 16 }}
+            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
             style={{
-              position: "fixed", inset: 0, zIndex: 100000,
-              display: "flex", alignItems: "center", justifyContent: "center",
-              padding: m ? "1rem" : "2rem",
+              position: "fixed",
+              inset: 0,
+              zIndex: 100000,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: m ? "1rem 0.85rem" : "2rem",
               pointerEvents: "none",
             }}
           >
@@ -57,189 +63,309 @@ export default function AvisoLegal() {
               style={{
                 pointerEvents: "auto",
                 width: "100%",
-                maxWidth: m ? "100%" : "720px",
+                maxWidth: "880px",
                 maxHeight: "92vh",
                 overflowY: "auto",
-                background: "linear-gradient(160deg, rgba(14,18,28,0.98) 0%, rgba(8,10,18,0.99) 100%)",
-                backdropFilter: "blur(48px)",
-                border: "1px solid rgba(200,169,110,0.22)",
-                borderTop: "1px solid rgba(200,169,110,0.45)",
-                borderRadius: m ? "20px" : "28px",
-                boxShadow: "0 32px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.04) inset",
-                padding: m ? "1.8rem 1.4rem 2rem" : "3.5rem 4rem 3rem",
+                background: "linear-gradient(170deg, #0E141E 0%, #080C13 100%)",
+                border: "1px solid rgba(255, 255, 255, 0.12)",
+                borderRadius: m ? "22px" : "28px",
+                boxShadow: "0 32px 80px rgba(0,0,0,0.85), inset 0 1px 0 rgba(255,255,255,0.1)",
+                padding: m ? "1.2rem 1rem" : "2rem 2.2rem",
                 position: "relative",
                 scrollbarWidth: "none",
               }}
             >
-              {/* Liña dourada topo */}
-              <div style={{
-                position: "absolute", top: 0, left: "10%", right: "10%", height: "1px",
-                background: "linear-gradient(90deg, transparent, rgba(200,169,110,0.7), transparent)",
-              }} />
-
-              {/* Icono / cabeceira */}
-              <div style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: m ? "1.4rem" : "2rem" }}>
-                <div style={{
-                  width: "40px", height: "40px", borderRadius: "50%", flexShrink: 0,
-                  background: "rgba(200,169,110,0.12)",
-                  border: "1px solid rgba(200,169,110,0.3)",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: "1.1rem",
-                }}>
-                  ⚖️
-                </div>
-                <div>
-                  <div style={{
-                    fontFamily: "'DM Sans', sans-serif", fontSize: "10px",
-                    letterSpacing: "0.35em", textTransform: "uppercase", color: "#C8A96E",
-                    marginBottom: "4px",
-                  }}>
-                    Proxecto educativo
-                  </div>
-                  <h2 style={{
-                    fontFamily: "'Cormorant Garamond', serif", fontWeight: 300,
-                    fontSize: m ? "1.5rem" : "2rem", color: "#EAE2D2",
-                    lineHeight: 1.1, letterSpacing: "-0.01em",
-                  }}>
-                    Aviso sobre este proxecto
-                  </h2>
-                </div>
-              </div>
-
-              {/* Divisor */}
-              <div style={{
-                height: "1px",
-                background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent)",
-                marginBottom: m ? "1.2rem" : "1.8rem",
-              }} />
-
-              {/* Corpo do texto */}
-              <div style={{
-                fontFamily: "'DM Sans', sans-serif", fontWeight: 300,
-                fontSize: m ? "0.82rem" : "0.92rem", lineHeight: 1.85,
-                color: "rgba(234,226,210,0.80)",
-              }}>
-                <p style={{ marginBottom: "1rem" }}>
-                  Esta web é un <strong style={{ color: "#C8A96E", fontWeight: 400 }}>traballo educativo</strong> realizado por{" "}
-                  <strong style={{ color: "#EAE2D2", fontWeight: 400 }}>Jun Sieira Gerpe</strong> e{" "}
-                  <strong style={{ color: "#EAE2D2", fontWeight: 400 }}>Álvaro Villar Gómez</strong>, alumnos de{" "}
-                  <strong style={{ color: "#EAE2D2", fontWeight: 400 }}>4º ESO do IES Arcebispo Xelmírez I</strong> (Santiago de Compostela),
-                  para a materia de Lingua Galega e Literatura, curso 2025–2026.
-                </p>
-
-                <p style={{ marginBottom: "1rem" }}>
-                  O proxecto foi desenvolvido baixo a supervisión e con autorización do IES Arcebispo Xelmírez I.
-                  Ten <strong style={{ color: "#C8A96E", fontWeight: 400 }}>fins exclusivamente académicos e educativos</strong>,
-                  sen ningún tipo de beneficio económico, comercial nin lucrativo de ningún tipo.
-                </p>
-
-                {/* Bloque: contidos da obra */}
-                <div style={{
-                  padding: m ? "0.9rem 1rem" : "1rem 1.4rem",
-                  borderLeft: "2px solid rgba(200,169,110,0.35)",
-                  background: "rgba(200,169,110,0.04)",
-                  borderRadius: "0 10px 10px 0",
-                  marginBottom: "1rem",
-                }}>
-                  <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "10px", letterSpacing: "0.25em", textTransform: "uppercase", color: "#C8A96E", marginBottom: "6px" }}>
-                    Sobre os contidos da obra
-                  </div>
-                  <p style={{ margin: 0, fontSize: m ? "0.8rem" : "0.88rem" }}>
-                    Os fragmentos textuais, citas, referencias á trama, aos personaxes e á obra <em>Faneca Brava</em> úsanse con fins
-                    estritamente didácticos, no marco dun traballo de análise literaria escolar.
-                    Non se reproduce a obra na súa totalidade nin se busca substituíla.
-                  </p>
-                </div>
-
-                {/* Bloque: imaxes e audio */}
-                <div style={{
-                  padding: m ? "0.9rem 1rem" : "1rem 1.4rem",
-                  borderLeft: "2px solid rgba(107,140,174,0.35)",
-                  background: "rgba(107,140,174,0.04)",
-                  borderRadius: "0 10px 10px 0",
-                  marginBottom: "1rem",
-                }}>
-                  <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "10px", letterSpacing: "0.25em", textTransform: "uppercase", color: "#8B9BB4", marginBottom: "6px" }}>
-                    Sobre as imaxes e o audio
-                  </div>
-                  <p style={{ margin: 0, fontSize: m ? "0.8rem" : "0.88rem" }}>
-                    As imaxes dos personaxes son creacións propias xeradas por intelixencia artificial con fins ilustrativos e escolares.
-                    As recreacións de voz dos personaxes son producións propias realizadas como parte do proxecto educativo,
-                    e non pretenden representar nin suplantar a ningún individuo real.
-                  </p>
-                </div>
-
-                {/* Bloque: autoría */}
-                <div style={{
-                  padding: m ? "0.9rem 1rem" : "1rem 1.4rem",
-                  borderLeft: "2px solid rgba(154,138,122,0.35)",
-                  background: "rgba(154,138,122,0.04)",
-                  borderRadius: "0 10px 10px 0",
-                  marginBottom: "1rem",
-                }}>
-                  <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "10px", letterSpacing: "0.25em", textTransform: "uppercase", color: "#9A8A7A", marginBottom: "6px" }}>
-                    Sobre a autoría e a editorial
-                  </div>
-                  <p style={{ margin: 0, fontSize: m ? "0.8rem" : "0.88rem" }}>
-                    Este proxecto <strong style={{ color: "#EAE2D2", fontWeight: 400 }}>non está afiliado, non representa nin conta co respaldo oficial</strong> de
-                    Editorial Galaxia nin do autor Manuel Portas. O botón "Mercar" redirixe á páxina oficial da editorial
-                    unicamente para facilitar o acceso lexítimo á obra a quen queira adquirila.
-                  </p>
-                </div>
-
-                {/* Bloque: datos persoais */}
-                <div style={{
-                  padding: m ? "0.9rem 1rem" : "1rem 1.4rem",
-                  borderLeft: "2px solid rgba(74,124,89,0.35)",
-                  background: "rgba(74,124,89,0.04)",
-                  borderRadius: "0 10px 10px 0",
-                  marginBottom: m ? "1.4rem" : "2rem",
-                }}>
-                  <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "10px", letterSpacing: "0.25em", textTransform: "uppercase", color: "#4A7C59", marginBottom: "6px" }}>
-                    Sobre os datos persoais
-                  </div>
-                  <p style={{ margin: 0, fontSize: m ? "0.8rem" : "0.88rem" }}>
-                    Esta web <strong style={{ color: "#EAE2D2", fontWeight: 400 }}>non recolle, non almacena nin comparte ningún dato persoal</strong> dos visitantes.
-                    Non se usan cookies de rastrexo nin sistemas de análise de usuarios.
-                  </p>
-                </div>
-              </div>
-
-              {/* Botón Entendido */}
-              <motion.button
-                whileHover={{ scale: 1.03, backgroundColor: "rgba(200,169,110,0.18)" }}
-                whileTap={{ scale: 0.97 }}
-                onClick={() => setVisible(false)}
+              {/* Liña superior dourada sutil estilo Bento */}
+              <div
                 style={{
-                  width: "100%",
-                  padding: m ? "14px" : "16px",
-                  background: "rgba(200,169,110,0.10)",
-                  border: "1px solid rgba(200,169,110,0.40)",
-                  borderRadius: "14px",
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontSize: m ? "14px" : "15px",
-                  fontWeight: 500,
-                  letterSpacing: "0.08em",
-                  color: "#C8A96E",
-                  cursor: "pointer",
-                  transition: "background 0.25s",
-                  marginBottom: "1rem",
+                  position: "absolute",
+                  top: 0,
+                  left: "15%",
+                  right: "15%",
+                  height: "2px",
+                  background: "linear-gradient(90deg, transparent, #C8A96E, transparent)",
+                  borderRadius: "9999px",
+                }}
+              />
+
+              {/* Cabeceira Compacta Bento */}
+              <div style={{ marginBottom: "1.2rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "8px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                  <div
+                    style={{
+                      width: "32px",
+                      height: "32px",
+                      borderRadius: "10px",
+                      background: "rgba(200, 169, 110, 0.15)",
+                      border: "1px solid rgba(200, 169, 110, 0.3)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: "1rem",
+                    }}
+                  >
+                    ⚖️
+                  </div>
+                  <div>
+                    <span
+                      style={{
+                        fontFamily: "'DM Sans', sans-serif",
+                        fontSize: "9.5px",
+                        letterSpacing: "0.22em",
+                        textTransform: "uppercase",
+                        color: "#C8A96E",
+                        fontWeight: 600,
+                        display: "block",
+                      }}
+                    >
+                      Aviso Oficial
+                    </span>
+                    <h2
+                      style={{
+                        fontFamily: "'Cormorant Garamond', serif",
+                        fontWeight: 400,
+                        fontSize: m ? "1.35rem" : "1.65rem",
+                        color: "#FFFFFF",
+                        margin: 0,
+                        lineHeight: 1.1,
+                      }}
+                    >
+                      Cadro de Transparencia do Proxecto
+                    </h2>
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    padding: "4px 10px",
+                    borderRadius: "9999px",
+                    background: "rgba(255, 255, 255, 0.05)",
+                    border: "1px solid rgba(255, 255, 255, 0.1)",
+                    fontSize: "10px",
+                    color: "rgba(234, 226, 210, 0.75)",
+                    fontFamily: "'DM Sans', sans-serif",
+                  }}
+                >
+                  <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#4ADE80", display: "inline-block" }} />
+                  IES Arcebispo Xelmírez I
+                </div>
+              </div>
+
+              {/* Bento Grid Layout */}
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: m ? "1fr" : "repeat(12, 1fr)",
+                  gap: "10px",
+                  marginBottom: "1.2rem",
                 }}
               >
-                Entendido — Continuar á web
-              </motion.button>
+                {/* BLOQUE 1 (Hero Bento): Autoría escolar (8 columnas desktop) */}
+                <div
+                  style={{
+                    gridColumn: m ? "span 1" : "span 8",
+                    background: "linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%)",
+                    border: "1px solid rgba(255, 255, 255, 0.08)",
+                    borderRadius: "18px",
+                    padding: m ? "1rem" : "1.25rem 1.4rem",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <div>
+                    <div
+                      style={{
+                        fontFamily: "'DM Sans', sans-serif",
+                        fontSize: "9px",
+                        letterSpacing: "0.2em",
+                        textTransform: "uppercase",
+                        color: "#C8A96E",
+                        marginBottom: "4px",
+                        fontWeight: 600,
+                      }}
+                    >
+                      Autores e Ámbito
+                    </div>
+                    <div
+                      style={{
+                        fontFamily: "'Cormorant Garamond', serif",
+                        fontSize: m ? "1.15rem" : "1.3rem",
+                        color: "#FFFFFF",
+                        fontWeight: 400,
+                        marginBottom: "6px",
+                      }}
+                    >
+                      Jun Sieira Gerpe & Álvaro Villar Gómez
+                    </div>
+                    <p
+                      style={{
+                        fontFamily: "'DM Sans', sans-serif",
+                        fontSize: m ? "0.82rem" : "0.86rem",
+                        color: "rgba(234, 226, 210, 0.8)",
+                        lineHeight: 1.6,
+                        margin: 0,
+                      }}
+                    >
+                      Alumnos de <strong>4º ESO do IES Arcebispo Xelmírez I</strong> (Santiago de Compostela).
+                      Traballo escolar para a materia de <em>Lingua Galega e Literatura</em>, curso 2025–2026.
+                    </p>
+                  </div>
+                </div>
 
-              {/* Nota inferior */}
-              <div style={{
-                textAlign: "center",
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: "10px",
-                letterSpacing: "0.15em",
-                textTransform: "uppercase",
-                color: "rgba(139,155,180,0.45)",
-                lineHeight: 1.6,
-              }}>
-                IES Arcebispo Xelmírez I · 4º ESO · Lingua Galega e Literatura 2025–2026
+                {/* BLOQUE 2 (Metric Bento): Fins Académicos (4 columnas desktop) */}
+                <div
+                  style={{
+                    gridColumn: m ? "span 1" : "span 4",
+                    background: "linear-gradient(135deg, rgba(200, 169, 110, 0.1) 0%, rgba(200, 169, 110, 0.03) 100%)",
+                    border: "1px solid rgba(200, 169, 110, 0.25)",
+                    borderRadius: "18px",
+                    padding: m ? "1rem" : "1.25rem 1.3rem",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                  }}
+                >
+                  <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.8rem", color: "#C8A96E", lineHeight: 1, fontWeight: 400, marginBottom: "4px" }}>
+                    0 €
+                  </div>
+                  <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "11px", fontWeight: 600, color: "#FFFFFF", marginBottom: "2px" }}>
+                    Fins 100% Didácticos
+                  </div>
+                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.78rem", color: "rgba(234, 226, 210, 0.75)", lineHeight: 1.5, margin: 0 }}>
+                    Sen ningún beneficio comercial nin lucrativo.
+                  </p>
+                </div>
+
+                {/* BLOQUE 3 (Bento Medio): Análise da Obra (6 columnas desktop) */}
+                <div
+                  style={{
+                    gridColumn: m ? "span 1" : "span 6",
+                    background: "rgba(255, 255, 255, 0.03)",
+                    border: "1px solid rgba(255, 255, 255, 0.08)",
+                    borderRadius: "18px",
+                    padding: m ? "1rem" : "1.2rem 1.3rem",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "6px" }}>
+                    <span style={{ fontSize: "1rem" }}>📖</span>
+                    <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "12px", fontWeight: 600, color: "#FFFFFF" }}>
+                      Contidos e Análise Literaria
+                    </span>
+                  </div>
+                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", color: "rgba(234, 226, 210, 0.75)", lineHeight: 1.6, margin: 0 }}>
+                    Fragmentos, referencias e citas de <em>Faneca Brava</em> úsanse estritamente como exercicio didáctico e divulgativo. Non se reproduce a obra íntegra nin se substitúe.
+                  </p>
+                </div>
+
+                {/* BLOQUE 4 (Bento Medio): Ilustracións e Son (6 columnas desktop) */}
+                <div
+                  style={{
+                    gridColumn: m ? "span 1" : "span 6",
+                    background: "rgba(255, 255, 255, 0.03)",
+                    border: "1px solid rgba(255, 255, 255, 0.08)",
+                    borderRadius: "18px",
+                    padding: m ? "1rem" : "1.2rem 1.3rem",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "6px" }}>
+                    <span style={{ fontSize: "1rem" }}>🎙️</span>
+                    <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "12px", fontWeight: 600, color: "#FFFFFF" }}>
+                      Imaxes con IA e Gravacións
+                    </span>
+                  </div>
+                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", color: "rgba(234, 226, 210, 0.75)", lineHeight: 1.6, margin: 0 }}>
+                    Retratos ilustrados con intelixencia artificial escolar e dramatizacións de voz gravadas polos propios alumnos para a recreación literaria sen suplantar a ninguén.
+                  </p>
+                </div>
+
+                {/* BLOQUE 5 (Bento Inferior 1): Editorial e Autor (7 columnas desktop) */}
+                <div
+                  style={{
+                    gridColumn: m ? "span 1" : "span 7",
+                    background: "rgba(255, 255, 255, 0.03)",
+                    border: "1px solid rgba(255, 255, 255, 0.08)",
+                    borderRadius: "18px",
+                    padding: m ? "1rem" : "1.1rem 1.3rem",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "6px" }}>
+                    <span style={{ fontSize: "1rem" }}>🏛️</span>
+                    <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "12px", fontWeight: 600, color: "#FFFFFF" }}>
+                      Editorial Galaxia e Autoría
+                    </span>
+                  </div>
+                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", color: "rgba(234, 226, 210, 0.75)", lineHeight: 1.6, margin: 0 }}>
+                    Proxecto independente sen afiliación oficial con Editorial Galaxia nin con Manuel Portas. O acceso «Mercar» enlaza a tendas legais para adquirir o libro.
+                  </p>
+                </div>
+
+                {/* BLOQUE 6 (Bento Inferior 2): Privacidade (5 columnas desktop) */}
+                <div
+                  style={{
+                    gridColumn: m ? "span 1" : "span 5",
+                    background: "rgba(255, 255, 255, 0.03)",
+                    border: "1px solid rgba(255, 255, 255, 0.08)",
+                    borderRadius: "18px",
+                    padding: m ? "1rem" : "1.1rem 1.3rem",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "6px" }}>
+                    <span style={{ fontSize: "1rem" }}>🔒</span>
+                    <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "12px", fontWeight: 600, color: "#FFFFFF" }}>
+                      0 Rastreamento · 100% Privado
+                    </span>
+                  </div>
+                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", color: "rgba(234, 226, 210, 0.75)", lineHeight: 1.6, margin: 0 }}>
+                    Non se recollen nin almacenan datos persoais. Sen cookies de terceiros nin publicidade.
+                  </p>
+                </div>
+              </div>
+
+              {/* Bento Botón de Aceptar (Full Width) */}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  flexDirection: m ? "column" : "row",
+                  gap: "12px",
+                  background: "rgba(255, 255, 255, 0.04)",
+                  border: "1px solid rgba(255, 255, 255, 0.1)",
+                  borderRadius: "18px",
+                  padding: m ? "12px" : "12px 18px",
+                }}
+              >
+                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "10.5px", color: "rgba(234, 226, 210, 0.6)", textAlign: m ? "center" : "left" }}>
+                  Ao pulsar «Aceptar e Entrar», confirmas que comprendes a natureza educativa deste proxecto escolar.
+                </div>
+
+                <motion.button
+                  whileHover={{ scale: 1.02, backgroundColor: "#E0BF80" }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => setVisible(false)}
+                  style={{
+                    padding: "11px 24px",
+                    background: "#C8A96E",
+                    border: "none",
+                    borderRadius: "12px",
+                    fontFamily: "'DM Sans', sans-serif",
+                    fontSize: "13px",
+                    fontWeight: 600,
+                    letterSpacing: "0.03em",
+                    color: "#080C13",
+                    cursor: "pointer",
+                    whiteSpace: "nowrap",
+                    width: m ? "100%" : "auto",
+                    boxShadow: "0 4px 16px rgba(200, 169, 110, 0.3)",
+                    transition: "background 0.2s",
+                  }}
+                >
+                  Aceptar e Entrar á Web →
+                </motion.button>
               </div>
             </div>
           </motion.div>
