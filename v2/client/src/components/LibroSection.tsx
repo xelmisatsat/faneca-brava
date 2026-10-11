@@ -19,6 +19,16 @@ const fichaItems = [
   { label: "Nº páxinas",   value: "244" },
 ];
 
+const fichaColors: Record<string, { bg: string; border: string; label: string }> = {
+  "Título":     { bg: "#1A2535", border: "rgba(124, 168, 194, 0.3)", label: "#7CA8C2" },
+  "Autor":      { bg: "#282016", border: "rgba(212, 146, 74, 0.3)",  label: "#D4924A" },
+  "Editorial":  { bg: "#1A2620", border: "rgba(96, 124, 112, 0.3)",  label: "#8BB49E" },
+  "Lingua":     { bg: "#2A1C20", border: "rgba(192, 90, 90, 0.3)",   label: "#E28E8E" },
+  "Xénero":     { bg: "#221C2B", border: "rgba(154, 130, 186, 0.3)", label: "#BAA0DE" },
+  "Partes":     { bg: "#162529", border: "rgba(90, 160, 160, 0.3)",  label: "#7CC6C6" },
+  "Nº páxinas": { bg: "#292316", border: "rgba(182, 154, 98, 0.3)",  label: "#E5C583" },
+};
+
 const temas = [
   "Memoria familiar", "Franquismo", "Vinganza", "Identidade",
   "Fotografía", "Segredos", "Culpa xeracional", "Resistencia feminina",
@@ -73,17 +83,25 @@ export default function LibroSection() {
 
           {/* Ficha compacta ao lado da portada */}
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            {fichaItems.filter(f => f.label !== "Editorial").map((item, i) => (
-              <div key={i} style={{ padding: '8px 12px', backgroundColor: '#152232', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.07)' }}>
-                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '9px', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#C8A96E', marginBottom: '2px', fontWeight: 500 }}>{item.label}</div>
-                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.05rem', fontWeight: 300, color: '#FFFFFF', lineHeight: 1.2 }}>{item.value}</div>
-              </div>
-            ))}
+            {fichaItems.filter(f => f.label !== "Editorial").map((item, i) => {
+              const theme = fichaColors[item.label] || { bg: '#152232', border: 'rgba(255,255,255,0.07)', label: '#C8A96E' };
+              return (
+                <div key={i} style={{ padding: '8px 12px', backgroundColor: theme.bg, borderRadius: '10px', border: `1px solid ${theme.border}` }}>
+                  <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '9px', letterSpacing: '0.12em', textTransform: 'uppercase', color: theme.label, marginBottom: '2px', fontWeight: 600 }}>{item.label}</div>
+                  <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.05rem', fontWeight: 300, color: '#FFFFFF', lineHeight: 1.2 }}>{item.value}</div>
+                </div>
+              );
+            })}
             {/* Editorial en ancho completo */}
-            <div style={{ padding: '8px 12px', backgroundColor: '#152232', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.07)' }}>
-              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '9px', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#C8A96E', marginBottom: '2px', fontWeight: 500 }}>Editorial</div>
-              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '0.95rem', fontWeight: 300, color: '#FFFFFF', lineHeight: 1.3 }}>Xerais (2013) · Galaxia (2024)</div>
-            </div>
+            {(() => {
+              const theme = fichaColors["Editorial"] || { bg: '#152232', border: 'rgba(255,255,255,0.07)', label: '#C8A96E' };
+              return (
+                <div style={{ padding: '8px 12px', backgroundColor: theme.bg, borderRadius: '10px', border: `1px solid ${theme.border}` }}>
+                  <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '9px', letterSpacing: '0.12em', textTransform: 'uppercase', color: theme.label, marginBottom: '2px', fontWeight: 600 }}>Editorial</div>
+                  <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '0.95rem', fontWeight: 300, color: '#FFFFFF', lineHeight: 1.3 }}>Xerais (2013) · Galaxia (2024)</div>
+                </div>
+              );
+            })()}
           </div>
         </motion.div>
 
@@ -166,9 +184,10 @@ export default function LibroSection() {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                 {fichaItems.map((item, i) => {
                   const isEditorial = item.label === "Editorial";
+                  const theme = fichaColors[item.label] || { bg: '#1C2B3C', border: 'rgba(255,255,255,0.06)', label: '#C8A96E' };
                   return (
-                    <div key={i} style={{ padding: '14px 18px', backgroundColor: '#1C2B3C', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.06)', gridColumn: isEditorial ? 'span 2' : undefined }}>
-                      <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#C8A96E', marginBottom: '6px', fontWeight: 500 }}>{item.label}</div>
+                    <div key={i} style={{ padding: '14px 18px', backgroundColor: theme.bg, borderRadius: '12px', border: `1px solid ${theme.border}`, gridColumn: isEditorial ? 'span 2' : undefined }}>
+                      <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', color: theme.label, marginBottom: '6px', fontWeight: 600 }}>{item.label}</div>
                       <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.25rem', fontWeight: 300, color: '#FFFFFF', lineHeight: 1.3 }}>{item.value}</div>
                     </div>
                   );

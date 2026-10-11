@@ -23,14 +23,14 @@ const stages = [
   {
     label: "O DESTERRO",
     subtitle: "A expulsión do paraíso familiar.",
-    desc: "Para protexer o bo nome dos Pereira, Mamá Carme condena á súa propia neta e expúlsana sen piedade. Só a tía Lela e o tío Seso lle ofrecen un mínimo de acubillo antes do exilio forzoso.",
+    desc: "Para protexer o bo nome dos Pereira, Mamá Carme condena á súa propia neta e expúlsana sen piedade. Só a tía Lela e o tío Seso lhe ofrecen un mínimo de acubillo antes do exilio forzoso.",
     color: "#A88463",
     bg: "rgba(42, 32, 24, 0.98)",
   },
   {
     label: "A LENTE CORSARIA",
     subtitle: "A metamorfose en Barcelona.",
-    desc: "Concha foxe e reencontrase co seu pai emigrado. Desde alí, chega a Cataluña e transforma o trauma en poder. Convértese nunha temida paparazzi. Usa a cámara como arma para destapar as miserias de banqueiros e políticos. Xa no é a vítima; é a executora.",
+    desc: "Concha foxe e reencontra co seu pai emigrado. Desde alí, chega a Cataluña e transforma o trauma en poder. Convértese nunha temida paparazzi. Usa a cámara como arma para destapar as miserias de banqueiros e políticos. Xa no é a vítima; é a executora.",
     color: "#D9BE8B",
     bg: "rgba(42, 37, 24, 0.98)",
   },
@@ -44,7 +44,7 @@ const stages = [
   {
     label: "A REVELACIÓN",
     subtitle: "O arquivo da memoria.",
-    desc: "Incapaz de durmir, Fernando investiga o pasado. Grazas a un cartafol da tía Lela e ao fotógrafo Andreu Picart, descobre a verdadeira dimensión da Faneca Brava: unha muller libre que venceu á moralidade que a tentou destruír.",
+    desc: "Incapaz de durmir, Fernando investiga o pasado. Grazas a un cartafol da tía Lela e ao fotógrafo Andreu Picart, descobre a verdadeira dimensión da Faneca Brava: unha muller libre que venceu a moralidade que a tentou destruír.",
     color: "#EAD09C",
     bg: "rgba(46, 42, 32, 0.98)",
   },
@@ -282,7 +282,8 @@ export default function TimelineSection() {
                       attributionControl={false}
                     >
                       <TileLayer
-                        url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}{s}.png"
+                        url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+                        maxZoom={16}
                       />
                       
                       {/* Curva de conexión */}
