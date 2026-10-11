@@ -1,28 +1,30 @@
-import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { createPortal } from "react-dom";
 import { X, ArrowRight, Sparkles } from "lucide-react";
 import { Haptics, ImpactStyle } from "@capacitor/haptics";
 
 /* ──────────────────────────────────────────────────────────────
-   Material 3 Expressive — Paleta limpa e refinada
+   Material 3 Expressive — Paleta clara e refinada
    ────────────────────────────────────────────────────────────── */
 const M3 = {
   surface:   "#FAF8FD",
-  surfaceCard: "#FFFFFF",
+  surfaceC:  "#F3EDF7",
   primary:   "#6750A4",
   onPrimary: "#FFFFFF",
   primaryC:  "#EADDFF",
-  onSurface: "#1C1B1F",
+  onSurface: "#1D1B20",
   onSurfVar: "#49454E",
   pinkC:     "#FFD8E4",
-  limeC:     "#E2F6B8",
+  limeC:     "#D7F0B0",
   blueC:     "#D3E3FD",
   peachC:    "#FFDBCB",
 };
 
 const FONT = "'DM Sans', 'Google Sans', system-ui, sans-serif";
 const EASE_SMOOTH = [0.22, 1, 0.36, 1] as const;
+const EASE_EMPH = [0.2, 0, 0, 1] as const;
+const SPRING_CARD = { type: "spring" as const, stiffness: 180, damping: 22, mass: 0.9 };
 
 const BOOK_COVER = "/manus-storage/NEjJma6w5Oln_b68f9430.jpg";
 
@@ -87,9 +89,58 @@ const CHARS: { id: string; name: string; alias: string; role: string; img: strin
 
 type Phase = "connect" | "book" | "char";
 
+/* Formas orgánicas morfolóxicas de fondo */
+function shape(n: number, amp: number, R = 100, pts = 120) {
+  let d = "";
+  for (let i = 0; i < pts; i++) {
+    const t = (i / pts) * Math.PI * 2;
+    const r = (R * (1 + amp * Math.cos(n * t))) / (1 + amp);
+    const x = 100 + r * Math.cos(t);
+    const y = 100 + r * Math.sin(t);
+    d += `${i === 0 ? "M" : "L"}${x.toFixed(2)} ${y.toFixed(2)} `;
+  }
+  return d + "Z";
+}
+
+const SHAPES = {
+  cookie12: shape(12, 0.06),
+  flower8:  shape(8, 0.10),
+  clover4:  shape(4, 0.13),
+  soft5:    shape(5, 0.08),
+  circle:   shape(1, 0),
+};
+
+function MorphShape({ size, color }: { size: number; color: string }) {
+  return (
+    <motion.div
+      animate={{ rotate: 360 }}
+      transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+      style={{
+        width: size,
+        height: size,
+        position: "absolute",
+        left: "50%",
+        top: "50%",
+        marginLeft: -size / 2,
+        marginTop: -size / 2,
+        pointerEvents: "none",
+      }}
+    >
+      <svg viewBox="0 0 200 200" width="100%" height="100%">
+        <motion.path
+          fill={color}
+          initial={{ d: SHAPES.circle }}
+          animate={{ d: [SHAPES.cookie12, SHAPES.flower8, SHAPES.soft5, SHAPES.clover4, SHAPES.cookie12] }}
+          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+        />
+      </svg>
+    </motion.div>
+  );
+}
+
 /* Indicador de progreso ondulado */
-function WavyProgress({ width = 200 }: { width?: number }) {
-  const wl = 20, amp = 3, h = 14, mid = h / 2;
+function WavyProgress({ width = 220 }: { width?: number }) {
+  const wl = 20, amp = 3.2, h = 16, mid = h / 2;
   const wave = useMemo(() => {
     let d = "";
     for (let x = -wl * 2; x <= width + wl * 2; x += 2) {
@@ -98,30 +149,30 @@ function WavyProgress({ width = 200 }: { width?: number }) {
     }
     return d;
   }, [width]);
-  const clipId = useMemo(() => "wave-clip-" + Math.random().toString(36).slice(2, 7), []);
+  const clipId = useMemo(() => "wave-clip-" + Math.random().toString(36).slice(2, 8), []);
 
   return (
     <svg width={width} height={h} style={{ overflow: "visible", display: "block" }}>
       <defs>
         <clipPath id={clipId}>
-          <motion.rect x={0} y={-4} height={h + 8} initial={{ width: 0 }} animate={{ width }} transition={{ duration: 1.8, ease: "easeOut" }} />
+          <motion.rect x={0} y={-4} height={h + 8} initial={{ width: 0 }} animate={{ width }} transition={{ duration: 2, ease: "easeInOut" }} />
         </clipPath>
       </defs>
-      <line x1={0} x2={width} y1={mid} y2={mid} stroke={M3.primaryC} strokeWidth={3.5} strokeLinecap="round" />
+      <line x1={0} x2={width} y1={mid} y2={mid} stroke={M3.primaryC} strokeWidth={4} strokeLinecap="round" />
       <g clipPath={`url(#${clipId})`}>
-        <motion.path d={wave} fill="none" stroke={M3.primary} strokeWidth={3.5} strokeLinecap="round"
+        <motion.path d={wave} fill="none" stroke={M3.primary} strokeWidth={4} strokeLinecap="round"
           animate={{ x: [0, -wl] }} transition={{ duration: 0.75, repeat: Infinity, ease: "linear" }} />
       </g>
     </svg>
   );
 }
 
-/* Glifo NFC con animación suave */
-function NfcGlyph() {
+/* Glifo de conexión máxica */
+function MagicTouchGlyph() {
   return (
-    <svg viewBox="0 0 24 24" width={38} height={38} fill="none" stroke={M3.primary} strokeWidth={2.4} strokeLinecap="round">
+    <svg viewBox="0 0 24 24" width={42} height={42} fill="none" stroke={M3.onPrimary} strokeWidth={2.2} strokeLinecap="round">
       {["M7 8.5a5 5 0 0 1 0 7", "M10.5 6a8.5 8.5 0 0 1 0 12", "M14 3.5a12 12 0 0 1 0 17"].map((d, i) => (
-        <motion.path key={i} d={d} animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 1.3, delay: i * 0.2, repeat: Infinity, ease: "easeInOut" }} />
+        <motion.path key={i} d={d} animate={{ opacity: [0.25, 1, 0.25] }} transition={{ duration: 1.4, delay: i * 0.18, repeat: Infinity, ease: "easeInOut" }} />
       ))}
     </svg>
   );
@@ -145,7 +196,7 @@ export default function NfcShareOverlay() {
     let alive = true;
     try {
       if (new URLSearchParams(window.location.search).get("nfc") === "1") {
-        setTimeout(open, 800);
+        setTimeout(open, 600);
       }
     } catch {}
 
@@ -156,7 +207,7 @@ export default function NfcShareOverlay() {
         if (!alive) return;
         if (!avail.available || !avail.enabled) {
           if (avail.available && !avail.enabled) {
-            toast("Activa o NFC en Axustes para compartir personaxes");
+            toast("Activa o sensor en Axustes para compartir contidos");
           }
           return;
         }
@@ -183,13 +234,13 @@ export default function NfcShareOverlay() {
     setTimeout(() => setShowToast(false), 3500);
   }
 
-  // Transición suave de conexión a libro
+  // Transición suave da conexión á revelación do libro
   useEffect(() => {
     if (!visible || phase !== "connect") return;
     const t = setTimeout(async () => {
       try { await Haptics.impact({ style: ImpactStyle.Light }); } catch {}
       setPhase("book");
-    }, 2000);
+    }, 2200);
     return () => clearTimeout(t);
   }, [visible, phase]);
 
@@ -234,373 +285,498 @@ export default function NfcShareOverlay() {
         )}
       </AnimatePresence>
 
-      {/* Overlay principal con saída suave e natural */}
+      {/* Pantalla completa inmersiva con peche suave */}
       <AnimatePresence onExitComplete={() => { setPhase("connect"); setChar(null); }}>
         {visible && char && (
           <motion.div
-            key="nfc-modal-root"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
+            key="full-screen-container"
+            initial={{ opacity: 0, y: "100%" }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: "100%" }}
+            transition={{ duration: 0.45, ease: EASE_SMOOTH }}
             style={{
               position: "fixed",
               inset: 0,
               zIndex: 99999,
-              background: "rgba(22, 20, 26, 0.65)",
-              backdropFilter: "blur(12px)",
-              WebkitBackdropFilter: "blur(12px)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: "16px",
-              fontFamily: FONT,
+              background: M3.surface,
               overflowY: "auto",
+              overflowX: "hidden",
+              fontFamily: FONT,
             }}
           >
-            {/* Tarxeta contedor con animación suave */}
-            <motion.div
-              initial={{ scale: 0.94, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.95, opacity: 0, y: 16 }}
-              transition={{ duration: 0.35, ease: EASE_SMOOTH }}
-              onClick={e => e.stopPropagation()}
+            {/* Luces de fondo ambientais */}
+            <div style={{ position: "fixed", inset: 0, pointerEvents: "none", overflow: "hidden" }}>
+              <motion.div
+                animate={{ x: [0, 24, 0], y: [0, 20, 0] }}
+                transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+                style={{
+                  position: "absolute",
+                  width: 380,
+                  height: 380,
+                  left: -120,
+                  top: -100,
+                  borderRadius: "50%",
+                  background: M3.primaryC,
+                  filter: "blur(65px)",
+                  opacity: 0.85,
+                }}
+              />
+              <motion.div
+                animate={{ x: [0, -20, 0], y: [0, -24, 0] }}
+                transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+                style={{
+                  position: "absolute",
+                  width: 340,
+                  height: 340,
+                  right: -100,
+                  bottom: -80,
+                  borderRadius: "50%",
+                  background: M3.pinkC,
+                  filter: "blur(70px)",
+                  opacity: 0.8,
+                }}
+              />
+            </div>
+
+            {/* Barra superior con peche */}
+            <div
               style={{
-                width: "100%",
-                maxWidth: 410,
-                maxHeight: "92vh",
-                overflowY: "auto",
-                background: M3.surface,
-                borderRadius: 32,
-                boxShadow: "0 24px 60px rgba(0,0,0,0.32)",
-                padding: "20px 22px 24px",
-                position: "relative",
+                position: "sticky",
+                top: 0,
+                zIndex: 25,
                 display: "flex",
-                flexDirection: "column",
-                gap: 16,
-                scrollbarWidth: "none",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "16px 20px",
+                background: "linear-gradient(to bottom, rgba(250,248,253,0.92) 0%, rgba(250,248,253,0.4) 100%)",
+                backdropFilter: "blur(12px)",
               }}
             >
-              {/* Barra superior da tarxeta */}
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "5px 12px 5px 6px", borderRadius: 9999, background: M3.primaryC }}>
-                  <img src="/assets/images/logo-fb.webp" alt="" style={{ width: 22, height: 22, borderRadius: "50%", objectFit: "cover" }} />
-                  <span style={{ fontSize: 12, fontWeight: 700, color: M3.onSurface }}>Faneca Brava</span>
-                </div>
-
-                <motion.button
-                  whileTap={{ scale: 0.92 }}
-                  onClick={close}
-                  style={{
-                    width: 36,
-                    height: 36,
-                    borderRadius: "50%",
-                    border: "none",
-                    background: "rgba(0,0,0,0.06)",
-                    color: M3.onSurface,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    cursor: "pointer",
-                  }}
-                >
-                  <X size={18} />
-                </motion.button>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                  padding: "6px 14px 6px 8px",
+                  borderRadius: 9999,
+                  background: "rgba(255,255,255,0.85)",
+                  boxShadow: "0 2px 10px rgba(0,0,0,0.06)",
+                }}
+              >
+                <img src="/assets/images/logo-fb.webp" alt="Logo" style={{ width: 24, height: 24, borderRadius: "50%", objectFit: "cover" }} />
+                <span style={{ fontSize: 13, fontWeight: 700, color: M3.onSurface }}>Faneca Brava</span>
               </div>
 
-              {/* FASE 1: Conexión NFC */}
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.92 }}
+                onClick={close}
+                style={{
+                  width: 44,
+                  height: 44,
+                  borderRadius: "50%",
+                  border: "none",
+                  background: M3.primaryC,
+                  color: M3.onSurface,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  boxShadow: "0 4px 12px rgba(103,80,164,0.18)",
+                }}
+              >
+                <X size={20} />
+              </motion.button>
+            </div>
+
+            {/* Contido Principal */}
+            <div
+              style={{
+                position: "relative",
+                zIndex: 10,
+                minHeight: "calc(100% - 80px)",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "8px 20px 40px",
+              }}
+            >
+              {/* FASE 1: Conexión Literaria */}
               {phase === "connect" && (
                 <motion.div
                   key="phase-connect"
-                  initial={{ opacity: 0, scale: 0.97 }}
+                  initial={{ opacity: 0, scale: 0.94 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.97 }}
-                  transition={{ duration: 0.3, ease: EASE_SMOOTH }}
-                  style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", padding: "16px 8px 12px", gap: 16 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.4, ease: EASE_SMOOTH }}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    textAlign: "center",
+                    maxWidth: 380,
+                    width: "100%",
+                    gap: 22,
+                  }}
                 >
                   <div
                     style={{
-                      width: 96,
-                      height: 96,
-                      borderRadius: "50%",
-                      background: M3.primaryC,
+                      position: "relative",
+                      width: 140,
+                      height: 140,
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      position: "relative",
                     }}
                   >
-                    {[1, 2].map(i => (
+                    <MorphShape size={200} color={M3.primaryC} />
+
+                    {[0, 1].map(i => (
                       <motion.div
                         key={i}
-                        initial={{ scale: 0.8, opacity: 0.6 }}
-                        animate={{ scale: 1.6 + i * 0.4, opacity: 0 }}
-                        transition={{ duration: 1.8, delay: i * 0.4, repeat: Infinity, ease: "easeOut" }}
+                        initial={{ scale: 0.6, opacity: 0.6 }}
+                        animate={{ scale: 1.8 + i * 0.4, opacity: 0 }}
+                        transition={{ duration: 2, delay: i * 0.5, repeat: Infinity, ease: "easeOut" }}
                         style={{
                           position: "absolute",
-                          inset: 0,
+                          inset: 16,
                           borderRadius: "50%",
                           border: `2px solid ${M3.primary}`,
                         }}
                       />
                     ))}
-                    <NfcGlyph />
+
+                    <div
+                      style={{
+                        width: 80,
+                        height: 80,
+                        borderRadius: "50%",
+                        background: M3.primary,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        boxShadow: "0 10px 28px rgba(103,80,164,0.35)",
+                        position: "relative",
+                        zIndex: 3,
+                      }}
+                    >
+                      <MagicTouchGlyph />
+                    </div>
                   </div>
 
                   <div>
-                    <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: M3.primary, marginBottom: 4 }}>
-                      Sincronización NFC
+                    <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: M3.primary, marginBottom: 6 }}>
+                      ✦ Transmisión Literaria ✦
                     </div>
-                    <h3 style={{ fontSize: 22, fontWeight: 800, color: M3.onSurface, margin: "0 0 6px", letterSpacing: "-0.02em" }}>
+                    <h2 style={{ fontSize: "clamp(24px, 6vw, 32px)", fontWeight: 800, color: M3.onSurface, letterSpacing: "-0.03em", margin: "0 0 8px", lineHeight: 1.15 }}>
                       Mantén os teléfonos xuntos
-                    </h3>
-                    <p style={{ fontSize: 13, color: M3.onSurfVar, margin: 0 }}>
-                      Compartindo contidos de Faneca Brava...
+                    </h2>
+                    <p style={{ fontSize: 14, color: M3.onSurfVar, margin: 0, lineHeight: 1.5 }}>
+                      Sintonizando memorias de Faneca Brava...
                     </p>
                   </div>
 
-                  <WavyProgress width={200} />
+                  <WavyProgress width={220} />
                 </motion.div>
               )}
 
-              {/* FASE 2: Libro recibido */}
+              {/* FASE 2: Libro Recibido con Portada */}
               {phase === "book" && (
                 <motion.div
                   key="phase-book"
-                  initial={{ opacity: 0, y: 12 }}
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -12 }}
-                  transition={{ duration: 0.35, ease: EASE_SMOOTH }}
-                  style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: 14 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.45, ease: EASE_SMOOTH }}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    textAlign: "center",
+                    maxWidth: 400,
+                    width: "100%",
+                    gap: 20,
+                  }}
                 >
                   <div>
-                    <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: M3.primary, marginBottom: 3 }}>
-                      Conexión completada
+                    <div style={{ fontSize: 11.5, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: M3.primary, marginBottom: 4 }}>
+                      Transmisión completada
                     </div>
-                    <h3 style={{ fontSize: 24, fontWeight: 800, color: M3.onSurface, margin: "0 0 2px", letterSpacing: "-0.02em" }}>
+                    <h2 style={{ fontSize: "clamp(26px, 7vw, 34px)", fontWeight: 800, color: M3.onSurface, letterSpacing: "-0.03em", margin: "0 0 4px", lineHeight: 1.1 }}>
                       Faneca Brava
-                    </h3>
-                    <p style={{ fontSize: 13, color: M3.onSurfVar, margin: 0 }}>
+                    </h2>
+                    <p style={{ fontSize: 14, color: M3.onSurfVar, margin: 0 }}>
                       Recibiches un personaxe da novela
                     </p>
                   </div>
 
-                  {/* Portada do libro con botón */}
-                  <div style={{ position: "relative", cursor: "pointer" }} onClick={reveal}>
+                  {/* Portada Flotante con Chips */}
+                  <div
+                    style={{ position: "relative", cursor: "pointer", margin: "14px 0 10px" }}
+                    onClick={reveal}
+                  >
                     <motion.div
-                      whileHover={{ scale: 1.03 }}
+                      whileHover={{ scale: 1.03, rotate: -1 }}
                       whileTap={{ scale: 0.98 }}
+                      animate={{ y: [0, -8, 0] }}
+                      transition={{ y: { duration: 3.5, repeat: Infinity, ease: "easeInOut" } }}
                       style={{
-                        width: 170,
-                        height: 250,
-                        borderRadius: 20,
+                        width: 180,
+                        height: 265,
+                        borderRadius: 24,
                         overflow: "hidden",
-                        boxShadow: "0 18px 40px rgba(0,0,0,0.22)",
-                        border: "2px solid rgba(255,255,255,0.8)",
+                        boxShadow: "0 22px 50px rgba(0,0,0,0.22)",
+                        border: "3px solid rgba(255,255,255,0.9)",
                       }}
                     >
                       <img src={BOOK_COVER} alt="Faneca Brava" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
                     </motion.div>
 
-                    {/* Chips flotantes limpos sen erros de texto */}
-                    <div
+                    {/* Chips Flotantes Informativos */}
+                    <motion.div
+                      initial={{ opacity: 0, x: -15 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.15 }}
                       style={{
                         position: "absolute",
-                        top: -8,
-                        left: -18,
+                        top: 10,
+                        left: -24,
                         background: M3.limeC,
                         color: "#1E3A0E",
-                        fontSize: 11,
+                        fontSize: 11.5,
                         fontWeight: 700,
-                        padding: "5px 12px",
+                        padding: "6px 14px",
                         borderRadius: 9999,
-                        boxShadow: "0 4px 12px rgba(0,0,0,0.12)",
+                        boxShadow: "0 6px 16px rgba(0,0,0,0.1)",
                       }}
                     >
                       Manuel Portas
-                    </div>
+                    </motion.div>
 
-                    <div
+                    <motion.div
+                      initial={{ opacity: 0, x: 15 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.25 }}
                       style={{
                         position: "absolute",
-                        bottom: 40,
-                        right: -24,
+                        top: 100,
+                        right: -28,
                         background: M3.pinkC,
                         color: "#5E1133",
-                        fontSize: 11,
+                        fontSize: 11.5,
                         fontWeight: 700,
-                        padding: "5px 12px",
+                        padding: "6px 14px",
                         borderRadius: 9999,
-                        boxShadow: "0 4px 12px rgba(0,0,0,0.12)",
+                        boxShadow: "0 6px 16px rgba(0,0,0,0.1)",
                       }}
                     >
                       Editorial Galaxia
-                    </div>
+                    </motion.div>
 
-                    <div
+                    <motion.div
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.35 }}
                       style={{
                         position: "absolute",
-                        bottom: -10,
-                        left: -12,
+                        bottom: -12,
+                        left: -16,
                         background: M3.blueC,
                         color: "#0A2F6B",
-                        fontSize: 11,
+                        fontSize: 11.5,
                         fontWeight: 700,
-                        padding: "5px 12px",
+                        padding: "6px 14px",
                         borderRadius: 9999,
-                        boxShadow: "0 4px 12px rgba(0,0,0,0.12)",
+                        boxShadow: "0 6px 16px rgba(0,0,0,0.1)",
                       }}
                     >
                       Galego · 244 páxinas
-                    </div>
+                    </motion.div>
                   </div>
 
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.97 }}
-                    onClick={reveal}
-                    style={{
-                      marginTop: 10,
-                      width: "100%",
-                      padding: "14px 20px",
-                      borderRadius: 9999,
-                      border: "none",
-                      background: M3.primary,
-                      color: M3.onPrimary,
-                      fontFamily: FONT,
-                      fontSize: 15,
-                      fontWeight: 700,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: 8,
-                      cursor: "pointer",
-                      boxShadow: "0 6px 20px rgba(103,80,164,0.3)",
-                    }}
-                  >
-                    <span>Revelar personaxe</span>
-                    <ArrowRight size={17} />
-                  </motion.button>
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8, width: "100%", maxWidth: 300 }}>
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.97 }}
+                      onClick={reveal}
+                      style={{
+                        width: "100%",
+                        padding: "16px 26px",
+                        borderRadius: 9999,
+                        border: "none",
+                        background: M3.primary,
+                        color: M3.onPrimary,
+                        fontFamily: FONT,
+                        fontSize: 16,
+                        fontWeight: 700,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: 10,
+                        cursor: "pointer",
+                        boxShadow: "0 8px 24px rgba(103,80,164,0.32)",
+                      }}
+                    >
+                      <span>Revelar personaxe</span>
+                      <ArrowRight size={18} />
+                    </motion.button>
+                    <span style={{ fontSize: 12.5, color: M3.onSurfVar }}>Ou toca na portada do libro</span>
+                  </div>
                 </motion.div>
               )}
 
-              {/* FASE 3: Personaxe revelado — Presentación limpa, suave e sen parpadeos */}
+              {/* FASE 3: Personaxe Revelado — Despregue Suave a Pantalla Completa */}
               {phase === "char" && (
                 <motion.div
                   key="phase-char"
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 12 }}
-                  transition={{ duration: 0.4, ease: EASE_SMOOTH }}
-                  style={{ display: "flex", flexDirection: "column", gap: 14 }}
+                  initial={{ opacity: 0, y: 35, scale: 0.96 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 30, scale: 0.96 }}
+                  transition={{ duration: 0.5, ease: EASE_SMOOTH }}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    maxWidth: 420,
+                    width: "100%",
+                    gap: 16,
+                  }}
                 >
-                  {/* Foto do personaxe */}
-                  <div
+                  {/* Imaxe Superior do Personaxe */}
+                  <motion.div
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 0.45, ease: EASE_SMOOTH }}
                     style={{
                       width: "100%",
-                      height: 190,
-                      borderRadius: 22,
+                      height: 230,
+                      borderRadius: 28,
                       overflow: "hidden",
                       position: "relative",
-                      background: char.tone.c,
-                      boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
+                      boxShadow: "0 14px 36px rgba(0,0,0,0.16)",
+                      border: "3px solid #FFFFFF",
                     }}
                   >
                     <img
                       src={char.img}
                       alt={char.name}
-                      style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 22%", display: "block" }}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        objectPosition: "center 22%",
+                        display: "block",
+                      }}
                     />
                     <div
                       style={{
                         position: "absolute",
-                        bottom: 10,
-                        left: 12,
-                        padding: "5px 12px",
+                        bottom: 12,
+                        left: 14,
+                        padding: "6px 14px",
                         borderRadius: 9999,
                         background: char.tone.c,
                         color: char.tone.on,
-                        fontSize: 11.5,
+                        fontSize: 12,
                         fontWeight: 700,
-                        boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+                        boxShadow: "0 2px 10px rgba(0,0,0,0.14)",
                       }}
                     >
                       {char.role}
                     </div>
-                  </div>
+                  </motion.div>
 
-                  {/* Nome e alcume */}
-                  <div>
-                    <h3 style={{ margin: "0 0 2px", fontSize: 24, fontWeight: 800, color: M3.onSurface, letterSpacing: "-0.02em" }}>
-                      {char.name}
-                    </h3>
-                    <div style={{ fontSize: 14, fontWeight: 700, color: char.tone.accent }}>
-                      {char.alias}
-                    </div>
-                  </div>
-
-                  {/* Descrición sen fallos de texto */}
-                  <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.6, color: M3.onSurfVar }}>
-                    {char.desc}
-                  </p>
-
-                  {/* Trazos de personalidade */}
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-                    {char.traits.map(trait => (
-                      <span
-                        key={trait}
-                        style={{
-                          padding: "5px 12px",
-                          borderRadius: 9999,
-                          background: char.tone.c,
-                          color: char.tone.on,
-                          fontSize: 11.5,
-                          fontWeight: 700,
-                        }}
-                      >
-                        {trait}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Cita */}
-                  <div
-                    style={{
-                      background: "rgba(0,0,0,0.03)",
-                      borderLeft: `3px solid ${char.tone.accent}`,
-                      borderRadius: "0 14px 14px 0",
-                      padding: "10px 14px",
-                    }}
-                  >
-                    <p style={{ margin: 0, fontSize: 13, fontStyle: "italic", lineHeight: 1.55, color: M3.onSurface }}>
-                      "{char.quote}"
-                    </p>
-                  </div>
-
-                  {/* Botón de pechar suave */}
-                  <motion.button
-                    whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={close}
+                  {/* Tarxeta de Contido que se Desprega */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.1, ease: EASE_SMOOTH }}
                     style={{
                       width: "100%",
-                      padding: "13px",
-                      borderRadius: 9999,
-                      border: "none",
-                      background: M3.primaryC,
-                      color: M3.primary,
-                      fontFamily: FONT,
-                      fontSize: 14.5,
-                      fontWeight: 700,
-                      cursor: "pointer",
-                      marginTop: 4,
+                      background: "#FFFFFF",
+                      borderRadius: 28,
+                      padding: "22px 22px 20px",
+                      boxShadow: "0 10px 30px rgba(0,0,0,0.06)",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 14,
                     }}
                   >
-                    Pechar
-                  </motion.button>
+                    <div>
+                      <h2 style={{ margin: "0 0 2px", fontSize: 26, fontWeight: 800, color: M3.onSurface, letterSpacing: "-0.03em" }}>
+                        {char.name}
+                      </h2>
+                      <div style={{ fontSize: 14.5, fontWeight: 700, color: char.tone.accent }}>
+                        {char.alias}
+                      </div>
+                    </div>
+
+                    {/* Divisor Onda */}
+                    <div style={{ height: 2, background: `linear-gradient(90deg, ${char.tone.c}, transparent)` }} />
+
+                    <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: M3.onSurfVar }}>
+                      {char.desc}
+                    </p>
+
+                    {/* Trazos de personalidade */}
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 7 }}>
+                      {char.traits.map(trait => (
+                        <span
+                          key={trait}
+                          style={{
+                            padding: "6px 13px",
+                            borderRadius: 9999,
+                            background: char.tone.c,
+                            color: char.tone.on,
+                            fontSize: 12,
+                            fontWeight: 700,
+                          }}
+                        >
+                          {trait}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* Cita textual */}
+                    <div
+                      style={{
+                        background: "rgba(0,0,0,0.025)",
+                        borderLeft: `3px solid ${char.tone.accent}`,
+                        borderRadius: "0 14px 14px 0",
+                        padding: "12px 16px",
+                      }}
+                    >
+                      <p style={{ margin: 0, fontSize: 13.5, fontStyle: "italic", lineHeight: 1.6, color: M3.onSurface }}>
+                        "{char.quote}"
+                      </p>
+                    </div>
+
+                    {/* Botón de Pechar */}
+                    <motion.button
+                      whileHover={{ scale: 1.01 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={close}
+                      style={{
+                        width: "100%",
+                        padding: "14px",
+                        borderRadius: 9999,
+                        border: "none",
+                        background: M3.primaryC,
+                        color: M3.primary,
+                        fontFamily: FONT,
+                        fontSize: 15,
+                        fontWeight: 700,
+                        cursor: "pointer",
+                        marginTop: 4,
+                      }}
+                    >
+                      Pechar
+                    </motion.button>
+                  </motion.div>
                 </motion.div>
               )}
-            </motion.div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
