@@ -29,12 +29,37 @@ async function findAvailablePort(startPort: number = 3000): Promise<number> {
   throw new Error(`No available port found starting from ${startPort}`);
 }
 
+// Global process safety handlers to prevent server crashes on Render
+process.on("unhandledRejection", (reason) => {
+  console.error("[Server Security] Unhandled Rejection caught:", reason);
+});
+process.on("uncaughtException", (error) => {
+  console.error("[Server Security] Uncaught Exception caught:", error);
+});
+
 async function startServer() {
   const app = express();
   const server = createServer(app);
-  // Configure body parser with larger size limit for file uploads
-  app.use(express.json({ limit: "50mb" }));
-  app.use(express.urlencoded({ limit: "50mb", extended: true }));
+
+  // Trust Render reverse proxy for accurate client IP identification (rate limiting)
+  app.set("trust proxy", 1);
+
+  // Hide server identity to mitigate automated scanner fingerprinting
+  app.disable("x-powered-by");
+
+  // Security HTTP Headers Middleware
+  app.use((_req, res, next) => {
+    res.setHeader("X-Content-Type-Options", "nosniff");
+    res.setHeader("X-Frame-Options", "SAMEORIGIN");
+    res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+    res.setHeader("X-XSS-Protection", "1; mode=block");
+    next();
+  });
+
+  // Strict request body limit to protect memory from DoS/exhaustion attacks
+  app.use(express.json({ limit: "1mb" }));
+  app.use(express.urlencoded({ limit: "1mb", extended: true }));
+
   registerStorageProxy(app);
   registerOAuthRoutes(app);
   // Chat IA route

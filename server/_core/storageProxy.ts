@@ -5,17 +5,44 @@ import { ENV } from "./env";
 
 export function registerStorageProxy(app: Express) {
   app.get("/manus-storage/*", async (req, res) => {
-    const key = (req.params as Record<string, string>)[0];
-    if (!key) {
+    const rawKey = (req.params as Record<string, string>)[0];
+    if (!rawKey) {
       res.status(400).send("Missing storage key");
       return;
     }
 
-    // First try to serve locally from the assets we downloaded
-    const localPath = path.join(process.cwd(), "client", "public", "manus-storage", key);
-    if (fs.existsSync(localPath)) {
-      res.sendFile(localPath);
+    // Security check: strictly block path traversal attempts (.., null bytes, backslashes, drive letters)
+    const decodedKey = decodeURIComponent(rawKey);
+    if (decodedKey.includes("..") || decodedKey.includes("\0") || decodedKey.includes("\\") || decodedKey.includes(":")) {
+      res.status(403).send("Forbidden: Invalid storage path");
       return;
+    }
+
+    // Sanitize key to remove any leading slashes or dangerous characters
+    const cleanKey = decodedKey.replace(/^\/+/, "");
+
+    // Allowed local base directories
+    const allowedBaseDirs = [
+      path.resolve(process.cwd(), "client", "public", "manus-storage"),
+      path.resolve(process.cwd(), "dist", "public", "manus-storage"),
+    ];
+
+    for (const baseDir of allowedBaseDirs) {
+      if (!fs.existsSync(baseDir)) continue;
+
+      const resolvedPath = path.resolve(baseDir, cleanKey);
+
+      // Verify that resolvedPath is strictly inside baseDir
+      if (resolvedPath.startsWith(baseDir + path.sep)) {
+        try {
+          if (fs.existsSync(resolvedPath) && fs.statSync(resolvedPath).isFile()) {
+            res.sendFile(resolvedPath);
+            return;
+          }
+        } catch {
+          // If stat fails, continue
+        }
+      }
     }
 
     if (!ENV.forgeApiUrl || !ENV.forgeApiKey) {
@@ -28,7 +55,7 @@ export function registerStorageProxy(app: Express) {
         "v1/storage/presign/get",
         ENV.forgeApiUrl.replace(/\/+$/, "") + "/",
       );
-      forgeUrl.searchParams.set("path", key);
+      forgeUrl.searchParams.set("path", cleanKey);
 
       const forgeResp = await fetch(forgeUrl, {
         headers: { Authorization: `Bearer ${ENV.forgeApiKey}` },
@@ -55,3 +82,4 @@ export function registerStorageProxy(app: Express) {
     }
   });
 }
+

@@ -170,26 +170,100 @@ ESTILO DE RESPOSTA:
 - Ás veces ri con amargura ao recordar`,
 };
 
+// --- SEGURIDADE E CONTROL DE VELOCIDADE (RATE LIMITING) ---
+interface RateLimitEntry {
+  count: number;
+  resetAt: number;
+}
+
+const rateLimitStore = new Map<string, RateLimitEntry>();
+
+// Limpeza periódica de IPs expirados para evitar fugas de memoria
+setInterval(() => {
+  const now = Date.now();
+  rateLimitStore.forEach((entry, ip) => {
+    if (entry.resetAt <= now) {
+      rateLimitStore.delete(ip);
+    }
+  });
+}, 5 * 60 * 1000).unref();
+
+function checkRateLimit(ip: string, limit: number, windowMs: number): { allowed: boolean; retryAfter: number } {
+  const now = Date.now();
+  const entry = rateLimitStore.get(ip);
+
+  if (!entry || entry.resetAt <= now) {
+    rateLimitStore.set(ip, { count: 1, resetAt: now + windowMs });
+    return { allowed: true, retryAfter: 0 };
+  }
+
+  if (entry.count >= limit) {
+    const retryAfter = Math.ceil((entry.resetAt - now) / 1000);
+    return { allowed: false, retryAfter };
+  }
+
+  entry.count++;
+  return { allowed: true, retryAfter: 0 };
+}
+
 //  ENDPOINT DO CHAT 
 
 router.post("/api/chat", async (req, res) => {
+  // 1. Rate limiting por IP (máx 25 peticións por minuto)
+  const clientIp = (req.ip || (req.headers["x-forwarded-for"] as string)?.split(",")[0] || req.socket.remoteAddress || "unknown").trim();
+  const rateLimit = checkRateLimit(`chat_${clientIp}`, 25, 60 * 1000);
+
+  if (!rateLimit.allowed) {
+    res.setHeader("Retry-After", rateLimit.retryAfter);
+    return res.status(429).json({
+      error: "Demasiadas mensaxes nun curto período de tempo. Agarda uns segundos antes de continuar.",
+    });
+  }
+
   try {
     const { characterId, messages } = req.body;
 
-    if (!characterId || !messages) {
-      return res.status(400).json({ error: "Missing characterId or messages" });
+    // 2. Validación estrita de personaxe
+    if (!characterId || typeof characterId !== "string" || !CHARACTERS[characterId]) {
+      return res.status(400).json({ error: "Personaxe non atopado ou non válido." });
+    }
+
+    // 3. Validación e saneamento da estrutura de mensaxes
+    if (!messages || !Array.isArray(messages) || messages.length === 0 || messages.length > 25) {
+      return res.status(400).json({ error: "A estrutura de conversa non é válida." });
+    }
+
+    // Validar cada mensaxe individualmente (lonxitude e contido seguro)
+    const sanitizedMessages: { role: string; content: string }[] = [];
+    for (const m of messages) {
+      if (!m || typeof m !== "object") {
+        return res.status(400).json({ error: "Formato de mensaxe corrupto." });
+      }
+      const role = m.role === "assistant" || m.role === "model" ? "model" : "user";
+      if (typeof m.content !== "string") {
+        return res.status(400).json({ error: "O contido da mensaxe debe ser texto." });
+      }
+      const trimmed = m.content.trim();
+      if (trimmed.length === 0) continue;
+      // Truncar ou rexeitar se supera 2000 caracteres para protexer consumo de tokens e memoria
+      sanitizedMessages.push({
+        role,
+        content: trimmed.length > 2000 ? trimmed.substring(0, 2000) : trimmed,
+      });
+    }
+
+    if (sanitizedMessages.length === 0) {
+      return res.status(400).json({ error: "A mensaxe non pode estar baleira." });
     }
 
     const systemPrompt = CHARACTERS[characterId];
-    if (!systemPrompt) {
-      return res.status(400).json({ error: "Unknown character" });
-    }
 
     const apiKey = process.env.GEMINI_API_KEY;
     const backupKey = process.env.GEMINI_API_KEY_BACKUP;
 
     if (!apiKey) {
-      return res.status(500).json({ error: "Gemini API key not configured" });
+      console.error("[Seguridade Chat] GEMINI_API_KEY non está configurada no servidor.");
+      return res.status(503).json({ error: "O servizo de IA non está dispoñible polo de agora." });
     }
 
     const tryChat = async (key: string, modelName: string) => {
@@ -209,7 +283,7 @@ router.post("/api/chat", async (req, res) => {
             role: "model",
             parts: [{ text: "Entendido. Acepto o personaxe e as normas de formato. Falarei sempre como o personaxe de forma completa e natural sen usar asteriscos." }]
           },
-          ...messages.map((m: { role: string; content: string }) => ({
+          ...sanitizedMessages.map((m) => ({
             role: m.role === "user" ? "user" : "model",
             parts: [{ text: m.content }],
           }))
@@ -222,7 +296,7 @@ router.post("/api/chat", async (req, res) => {
       return response;
     };
 
-    // Prioridade de modelos: primeiro o solicitado (gemini-3.8-flash), seguido de alternativas estables de Google
+    // Prioridade de modelos estables de Google
     const candidateModels = ["gemini-3.8-flash", "gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"];
     const candidateKeys = [apiKey, backupKey].filter(Boolean) as string[];
 
@@ -236,38 +310,52 @@ router.post("/api/chat", async (req, res) => {
           if (response?.text) break;
         } catch (err: any) {
           lastError = err;
-          console.warn(`Tentativa con modelo ${mod} fallou (${err?.message || err}). Probando seguinte opción...`);
+          console.warn(`[Chat IA] Tentativa con modelo ${mod} fallou (${err?.message || err}).`);
         }
       }
       if (response?.text) break;
     }
 
     if (!response?.text) {
-      throw lastError || new Error("Non foi posible obter resposta dos modelos de IA.");
+      throw lastError || new Error("Non foi posible acadar resposta da IA.");
     }
 
     const reply = response.text || "...";
     return res.json({ reply });
 
   } catch (error: any) {
-    console.error("Gemini chat error:", error?.message || error);
-    return res.status(500).json({ error: error?.message || "Internal server error" });
+    console.error("[Chat IA Error]:", error?.message || error);
+    // Non expoñer detalles internos de chamadas ou trazas da API ao cliente
+    return res.status(500).json({ error: "Non foi posible procesar a mensaxe neste intre. Por favor, téntao de novo máis tarde." });
   }
 });
 
-export default router;
-
-// Proxy para ElevenLabs TTS (evita bloqueo de Cloudflare desde o navegador)
+// Proxy para ElevenLabs TTS (con rate limiting e validación de parámetros)
 router.post("/api/tts", async (req, res) => {
+  // Rate limiting por IP (máx 20 peticións por minuto)
+  const clientIp = (req.ip || (req.headers["x-forwarded-for"] as string)?.split(",")[0] || req.socket.remoteAddress || "unknown").trim();
+  const rateLimit = checkRateLimit(`tts_${clientIp}`, 20, 60 * 1000);
+
+  if (!rateLimit.allowed) {
+    res.setHeader("Retry-After", rateLimit.retryAfter);
+    return res.status(429).json({ error: "Límite de audio acadado. Agarda uns instantes." });
+  }
+
   try {
     const { text, voiceId } = req.body;
-    if (!text || !voiceId) {
-      return res.status(400).json({ error: "Missing text or voiceId" });
+
+    if (!text || typeof text !== "string" || text.trim().length === 0 || text.length > 350) {
+      return res.status(400).json({ error: "Texto non válido (máximo 350 caracteres)." });
+    }
+
+    if (!voiceId || typeof voiceId !== "string" || !/^[a-zA-Z0-9_-]{1,64}$/.test(voiceId)) {
+      return res.status(400).json({ error: "Identificador de voz non válido." });
     }
 
     const apiKey = process.env.ELEVENLABS_API_KEY;
     if (!apiKey) {
-      return res.status(500).json({ error: "ElevenLabs API key not configured" });
+      console.error("[TTS Error] ELEVENLABS_API_KEY non está configurada.");
+      return res.status(503).json({ error: "Servizo de voz temporalmente non dispoñible." });
     }
 
     const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
@@ -278,7 +366,7 @@ router.post("/api/tts", async (req, res) => {
         "Accept": "audio/mpeg",
       },
       body: JSON.stringify({
-        text,
+        text: text.trim(),
         model_id: "eleven_multilingual_v2",
         voice_settings: { stability: 0.5, similarity_boost: 0.8 },
       }),
@@ -286,15 +374,18 @@ router.post("/api/tts", async (req, res) => {
 
     if (!response.ok) {
       const err = await response.text();
-      console.error("ElevenLabs error:", response.status, err);
-      return res.status(response.status).json({ error: err });
+      console.error("[ElevenLabs Error]:", response.status, err);
+      return res.status(502).json({ error: "Erro ao xerar o audio de voz." });
     }
 
     res.setHeader("Content-Type", "audio/mpeg");
+    res.setHeader("Cache-Control", "public, max-age=86400"); // Cache audio for 24h
     const buffer = await response.arrayBuffer();
     res.send(Buffer.from(buffer));
   } catch (error: any) {
-    console.error("TTS error:", error?.message || error);
-    return res.status(500).json({ error: error?.message || "TTS error" });
+    console.error("[TTS Error]:", error?.message || error);
+    return res.status(500).json({ error: "Erro interno no procesamento de audio." });
   }
 });
+
+export default router;
