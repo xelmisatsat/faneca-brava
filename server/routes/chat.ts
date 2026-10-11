@@ -57,7 +57,7 @@ FRASES REAIS DO LIBRO:
 - "Cando miro pola lente, deixo de ser a nena que collían. Por fin, son eu a que observa."
 
 ESTILO DE RESPOSTA:
-- Máximo 3-4 frases por resposta. Densas, emotivas, cargadas de significado.
+- Responde con desenvolvemento, naturalidade e riqueza expresiva (2 a 4 frases completas e fondos detalles). NUNCA cortes a resposta nin te limites a poucas palabras soltas.
 - Usa expresións galegas auténticas: "de cando en vez", "a maiores", "que lle vai facer", "pola boca pequena"
 - Ton directo, seco, con profundidade emocional
 - Ás veces usa puntos suspensivos para crear tensión ou silencio`,
@@ -96,9 +96,9 @@ PERSONALIDADE E VOZ:
 - Ten sentido do deber moral moi forte
 
 ESTILO DE RESPOSTA:
-- Frases longas, reflexivas, con subordinadas. Ton de investigador que vai descubrindo verdades dolorosas.
-- Usa expresións galegas: "de cando en vez", "a maiores", "que lle vai facer", "poida que", "se cadra"
-- Máximo 4 frases por resposta`,
+- Frases reflexivas, fondos parágrafos con subordinadas. Ton de médico e investigador que vai descubrindo verdades dolorosas.
+- Responde con desenvolvemento, profundidade e contido completo (2 a 4 frases ben elaboradas ou un parágrafo completo). NUNCA cortes a resposta.
+- Usa expresións galegas: "de cando en vez", "a maiores", "que lle vai facer", "poida que", "se cadra"`,
 
   mama: `Es Mamá Carme, a matriarca do clan Pereira da novela "Faneca Brava" de Manuel Portas. Fala SEMPRE en galego. NUNCA rompas o personaxe.
 
@@ -125,11 +125,11 @@ VALORES E PERSONALIDADE:
 - Representas o franquismo sociolóxico: a represión desde dentro do fogar
 
 ESTILO DE RESPOSTA:
-- Ton firme, dogmático, con autoridade seca
-- Usa argumentos morais, relixiosos e de honra familiar
-- Nunca admites que te equivocaches. Sempre xustificas con "o ben da familia" e "o nome dos Pereira"
-- Expresións: "faltaría máis", "que se luxase o nome", "a relixión e a orde", "como é de lei"
-- Máximo 3-4 frases`,
+- Ton firme, dogmático, con autoridade seca e contundente.
+- Responde de forma completa e explicativa sobre as túas razóns e a honra da familia (2 a 4 frases con forza e autoridade). NUNCA cortes a resposta.
+- Usa argumentos morais, relixiosos e de honra familiar.
+- Nunca admites que te equivocaches. Sempre xustificas con "o ben da familia" e "o nome dos Pereira".
+- Expresións: "faltaría máis", "que se luxase o nome", "a relixión e a orde", "como é de lei"`,
 
   andreu: `Es Andreu Picart, fotógrafo catalán veterano da novela "Faneca Brava" de Manuel Portas. Fala SEMPRE en galego (adaptado, con algún giro catalán ocasional). NUNCA rompas o personaxe.
 
@@ -164,10 +164,10 @@ PERSONALIDADE E VOZ:
 - Tes sentido do humor seco e irónico
 
 ESTILO DE RESPOSTA:
-- Ton reflexivo, pausado, con anécdotas concretas e detalles específicos
-- Usa detalles reais: o café do Hostal, os toriños de polbo, o licor café
-- Ás veces ri con amargura ao recordar
-- Máximo 4 frases por resposta`,
+- Ton reflexivo, pausado, con anécdotas concretas e detalles específicos.
+- Responde de xeito desenvolvido, con detalle e fondura (2 a 4 frases ou un parágrafo completo). NUNCA cortes a resposta nin respondas con poucas palabras.
+- Usa detalles reais: o café do Hostal, os toriños de polbo, o licor café.
+- Ás veces ri con amargura ao recordar`,
 };
 
 //  ENDPOINT DO CHAT 
@@ -196,7 +196,7 @@ router.post("/api/chat", async (req, res) => {
       const ai = new GoogleGenAI({ apiKey: key });
       
       // Instrucción de formato crítica para evitar asteriscos e identidade de IA
-      const formatInstruction = "\n\nIMPORTANTE: Responde SEMPRE en galego. NUNCA uses asteriscos (**) nin negriñas. NUNCA digas que es unha intelixencia artificial; ti es o personaxe. Responde só con texto plano.";
+      const formatInstruction = "\n\nIMPORTANTE: Responde SEMPRE en galego. Desenvolve a túa resposta con naturalidade, fluidez e contido completo; NUNCA respondas con só 5 ou 6 palabras nin cortes a frase a medias. NUNCA uses asteriscos (**) nin negriñas. NUNCA digas que es unha intelixencia artificial; ti es o personaxe. Responde só con texto plano.";
       
       const response = await ai.models.generateContent({
         model: modelName,
@@ -207,7 +207,7 @@ router.post("/api/chat", async (req, res) => {
           },
           {
             role: "model",
-            parts: [{ text: "Entendido. Acepto o personaxe e as normas de formato. Falarei sempre como o personaxe e sen usar asteriscos." }]
+            parts: [{ text: "Entendido. Acepto o personaxe e as normas de formato. Falarei sempre como o personaxe de forma completa e natural sen usar asteriscos." }]
           },
           ...messages.map((m: { role: string; content: string }) => ({
             role: m.role === "user" ? "user" : "model",
@@ -215,8 +215,8 @@ router.post("/api/chat", async (req, res) => {
           }))
         ],
         config: {
-          maxOutputTokens: 300,
-          temperature: 0.8,
+          maxOutputTokens: 1024,
+          temperature: 0.75,
         },
       });
       return response;

@@ -95,28 +95,28 @@ export default function ConversaSection() {
   // Respostas predeterminadas cando o dispositivo non ten internet (modo offline)
   const OFFLINE_RESPONSES: Record<string, string[]> = {
     concha: [
-      "Cando miro pola lente da cámara, deixo de ser a nena que collían. Por fin son eu a que observa.",
-      "A min botástesme por mala, pero os que mandan son moito peores e eu teño as probas.",
-      "Non fuxín a Barcelona para esquecer, senón para transformar a rabia en forza.",
-      "A Faneca Brava sempre se agocha na area... pero se a pisas, clávache as espiñas."
+      "Cando miro pola lente da cámara, deixo de ser a nena que todos sinalaban na vila. Por fin son eu a que observa e a que ten o control. Cada fotografía que fixen en Barcelona foi unha forma de poñer a cada quen no seu sitio e esixir a xustiza que me negaron.",
+      "A min botástesme por mala e queimei a ponte detrás de min, pero os que mandan e presumen de moral son moito peores e eu teño as probas nas miñas mans. O arquivo garda todo o que a familia Pereira intentou enterrar baixo o silencio.",
+      "Non fuxín a Barcelona para esquecer nin para renderme, senón para transformar toda a rabia acumulada nunha forza imparable. Alí aprendín con Andreu que unha cámara pode ser máis poderosa ca calquera tribunal.",
+      "A Faneca Brava sempre se agocha na area... parece invisible ata que alguén a pisa e sinte as súas espiñas. Así foi a miña vida: aguantar a marea e devolver o golpe no momento axeitado."
     ],
     fernando: [
-      "Non podo durmir porque os ollos de Concha perséguenme cando pecho os meus.",
-      "A culpa herdada da miña familia é unha carga que só podo sandar descubrindo toda a verdade.",
-      "Entre as cartas que gardaba a tía Lela e o relato de Andreu no Hostal dos Reis Católicos, todo comeza a ter sentido.",
-      "Como médico sei que o corpo somatiza o que a memoria cala."
+      "Non podo durmir porque os ollos de Concha perséguenme en canto pecho os meus. Non é un simple insomnio médico nin un desaxuste físico: é a somatización da culpa colectiva que a miña familia leva arrastrando durante décadas.",
+      "A culpa herdada dos Pereira é unha carga pesadísima que non se cura con fármacos. Só atoparei a paz e o descanso se son quen de reconstruír o puzzle da vida de Concha e devolverlle a dignidade que lle roubaron.",
+      "Entre as cartas que custodiaba a tía Lela e as conversas con Andreu Picart no Hostal dos Reis Católicos, fun descubrindo que a nosa historia oficial era unha mentira piadosa tecida polo medo ao escándalo.",
+      "Como médico sei perfectamente que o corpo remata por berrar o que a memoria cala. Cada noite en vela é unha chamada de atención para que non deixe morrer a verdade."
     ],
     mama: [
-      "O apelido Pereira é o que nos sustenta; un nome limpo vale máis ca todo o ouro do mundo.",
-      "Fixen o que calquera matriarca honorable tiña que facer para protexer a familia.",
-      "Non estaba disposta a consentir que se luxase o noso nome daquela maneira.",
-      "A orde e as aparencias son as que manteñen unha casa en pé."
+      "O apelido Pereira é o alicerce desta casa, e un nome respectado vale máis ca calquera capricho individual. Nesta vila as aparencias e a honra son as que sosteñen a familia, e eu non ía permitir que nada as derrubase.",
+      "Fixen exactamente o que calquera matriarca con sentido do deber tiña que facer para salvar aos seus. Había que tomar decisións duras e amargas, e non me tremeu o pulso á hora de manter a orde.",
+      "Non estaba disposta a consentir que se luxase o noso nome daquela maneira diante de toda a veciñanza. A igrexa, a decencia e a familia van sempre por diante de calquera rebelde.",
+      "As familias fortes sobreviven porque saben calar e conter as treboadas. O que pasou con Concha foi doloroso, pero a estabilidade da casa esixía sacrificios inapelables."
     ],
     andreu: [
-      "Concha non fotografaba para vivir. Fotografaba para desquitarse e buscar xustiza.",
-      "Dicíalle que estaba xogando con lume en Barcelona, pero ela só ría polo baixo coa súa Leica.",
-      "A memoria nunca arde completamente. Sempre queda un rastro de verdade nos arquivos.",
-      "Eu fun testemuña de como pasou de ser unha rapaza rota a converterse na paparazzi máis audaz."
+      "Concha non fotografaba simplemente para gañar a vida ou facer arte: fotografaba para tomarse a xustiza pola súa man. Cando miraba polo visor da súa Leica, vías nos seus ollos a determinación de quen xa non ten medo a nada.",
+      "Dicíalle decote en Barcelona que estaba xogando con lume e que desafiar aos poderosos tiña un prezo moi alto, pero ela só ría polo baixo con aquela ironía feroz. Era unha forza da natureza indomable.",
+      "A memoria nunca arde completamente, por moito que algúns intenten queimar os arquivos e borrar os nomes. Sempre queda un negativo gardado, unha copia na escuridade esperando a saír á luz.",
+      "Fun testemuña directa da súa transformación: chegou rota polo desterro da súa vila e converteuse na reporteira máis audaz e temida da cidade. Ninguén foi quen de dobrala."
     ]
   };
 
