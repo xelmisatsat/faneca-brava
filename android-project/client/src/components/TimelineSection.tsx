@@ -4,74 +4,80 @@ import { MapContainer, TileLayer, Marker, Polyline } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { useIsMobile } from "@/hooks/useIsMobile";
-import { Compass, MapPin, ArrowRight, Sparkles, Navigation } from "lucide-react";
+import { FileText, MapPin, Compass, ShieldAlert, FolderOpen, ArrowUpRight } from "lucide-react";
 
 const stages = [
   {
     id: "01",
+    expNum: "EXP-1948/01",
     label: "A OPRESIÓN",
     subtitle: "O microcosmos da vila mariñeira.",
     desc: "A infancia de Concha está marcada pola asfixia. Crece baixo a ditadura moral de Mamá Carme, matriarca despótica que prioriza as aparencias. Sofre os abusos da mestra Dona Remedios e o acoso do cura Don Anselmo. É unha vítima do sistema.",
-    location: "Foz · A Mariña Lucense",
+    location: "Vila de Foz · A Mariña",
+    tag: "TESTEMUÑO INICIAL",
+    sealColor: "#B91C1C",
     targetCity: "galicia" as const,
-    color: "#5D7B9E",
-    accent: "#93B3D9",
-    bg: "rgba(22, 34, 50, 0.96)",
+    archiveDate: "Outono de 1948",
   },
   {
     id: "02",
+    expNum: "EXP-1952/02",
     label: "O LUME",
     subtitle: "O punto de ruptura.",
     desc: "A escola de Dona Remedios arde nun incendio. A vila enteira e a propia familia sinalan a Concha como culpable. O lume simboliza a destrución da súa infancia e o inicio do seu estigma como a ovella negra do clan.",
     location: "A Escola Parroquial",
+    tag: "INFORME DE SINISTRO",
+    sealColor: "#C2410C",
     targetCity: "galicia" as const,
-    color: "#D95D5D",
-    accent: "#F87171",
-    bg: "rgba(48, 22, 24, 0.96)",
+    archiveDate: "Inverno de 1952",
   },
   {
     id: "03",
+    expNum: "EXP-1954/03",
     label: "O DESTERRO",
     subtitle: "A expulsión do paraíso familiar.",
     desc: "Para protexer o bo nome dos Pereira, Mamá Carme condena á súa propia neta e expúlsana sen piedade. Só a tía Lela e o tío Seso lhe ofrecen un mínimo de acubillo antes do exilio forzoso.",
-    location: "O Porto de Partida",
+    location: "Porto de Foz",
+    tag: "ORDE DE EXPULSIÓN",
+    sealColor: "#78350F",
     targetCity: "galicia" as const,
-    color: "#B88E67",
-    accent: "#FBBF24",
-    bg: "rgba(44, 34, 26, 0.96)",
+    archiveDate: "Primavera de 1954",
   },
   {
     id: "04",
+    expNum: "EXP-1965/04",
     label: "A LENTE CORSARIA",
     subtitle: "A metamorfose en Barcelona.",
     desc: "Concha foxe e reencontra co seu pai emigrado. Desde alí, chega a Cataluña e transforma o trauma en poder. Convértese nunha temida paparazzi. Usa a cámara como arma para destapar as miserias de banqueiros e políticos. Xa no é a vítima; é a executora.",
-    location: "Barcelona · Estudi & Prensa",
+    location: "Barcelona · Estudi & Redacción",
+    tag: "ACTA DE METAMORFOSE",
+    sealColor: "#854D0E",
     targetCity: "barcelona" as const,
-    color: "#E5B96B",
-    accent: "#FDE68A",
-    bg: "rgba(46, 38, 22, 0.96)",
+    archiveDate: "Anos 1960 - 1970",
   },
   {
     id: "05",
+    expNum: "EXP-1976/05",
     label: "O REMORSO",
     subtitle: "A culpa somatizada no presente.",
     desc: "Anos despois, o doutor Fernando Pereira sofre insomnio crónico e dores inexplicables. Non é enfermidade: é a somatización da culpa colectiva da familia por silenciar a verdade de Concha.",
     location: "Santiago de Compostela",
+    tag: "HISTORIAL CLÍNICO",
+    sealColor: "#1E3A8A",
     targetCity: "galicia" as const,
-    color: "#6BA0C9",
-    accent: "#93C5FD",
-    bg: "rgba(22, 38, 54, 0.96)",
+    archiveDate: "Presente Clínico",
   },
   {
     id: "06",
+    expNum: "EXP-1978/06",
     label: "A REVELACIÓN",
     subtitle: "O arquivo da memoria.",
     desc: "Incapaz de durmir, Fernando investiga o pasado. Grazas a un cartafol da tía Lela e ao fotógrafo Andreu Picart, descobre a verdadeira dimensión da Faneca Brava: unha muller libre que venceu a moralidade que a tentou destruír.",
     location: "O Cartafol de Lela",
+    tag: "RESOLUCIÓN DO CASO",
+    sealColor: "#065F46",
     targetCity: "galicia" as const,
-    color: "#E2C88F",
-    accent: "#FEF08A",
-    bg: "rgba(42, 36, 26, 0.96)",
+    archiveDate: "Feche do Cartafol",
   },
 ];
 
@@ -91,12 +97,18 @@ const getCurvePoints = (start: [number, number], end: [number, number], offset: 
   return points;
 };
 
-const createGoldenIcon = (active: boolean, label: string) =>
+const createArchivePin = (active: boolean, label: string) =>
   L.divIcon({
-    className: "custom-div-icon",
+    className: "archive-map-pin",
     html: `<div style="position: relative;">
-             <div style="width: 18px; height: 18px; background: ${active ? "#C8A96E" : "rgba(200,169,110,0.4)"}; border-radius: 50%; box-shadow: ${active ? "0 0 24px #C8A96E, 0 0 10px #FFF" : "0 0 6px rgba(0,0,0,0.8)"}; border: 2.5px solid ${active ? "#FFFFFF" : "rgba(255,255,255,0.4)"}; position: absolute; top: -9px; left: -9px; transition: all 0.3s ease;"></div>
-             <div style="position: absolute; top: 13px; left: -50%; transform: translateX(-18%); font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 800; letter-spacing: 0.16em; color: ${active ? "#F5D898" : "#94A3B8"}; white-space: nowrap; text-shadow: 0 2px 4px rgba(0,0,0,0.95);">${label}</div>
+             <div style="width: 20px; height: 20px; border-radius: 50%; background: ${
+               active ? "#B91C1C" : "#1E293B"
+             }; border: 3px solid #FFFFFF; box-shadow: 0 4px 12px rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; position: absolute; top: -10px; left: -10px;">
+               <div style="width: 6px; height: 6px; border-radius: 50%; background: #FFFFFF;"></div>
+             </div>
+             <div style="position: absolute; top: 14px; left: -50%; transform: translateX(-15%); font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 800; letter-spacing: 0.15em; color: ${
+               active ? "#991B1B" : "#334155"
+             }; background: #FFFFFF; padding: 2px 7px; border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.15); border: 1px solid #CBD5E1; white-space: nowrap;">${label}</div>
            </div>`,
     iconSize: [0, 0],
     iconAnchor: [0, 0],
@@ -110,7 +122,7 @@ export default function TimelineSection() {
   const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   useEffect(() => {
-    const t = setTimeout(() => setMounted(true), 100);
+    const t = setTimeout(() => setMounted(true), 80);
     return () => clearTimeout(t);
   }, []);
 
@@ -130,28 +142,18 @@ export default function TimelineSection() {
       id="timeline"
       style={{
         position: "relative",
-        padding: m ? "4.5rem 0 3.5rem" : "7.5rem 0 6.5rem",
+        padding: m ? "4.5rem 0 3.5rem" : "7rem 0 6.5rem",
         overflow: "hidden",
-        backgroundColor: "#070A12",
-        backgroundImage:
-          "radial-gradient(ellipse at 15% 25%, rgba(93, 123, 158, 0.12) 0%, transparent 55%), radial-gradient(ellipse at 85% 75%, rgba(200, 169, 110, 0.09) 0%, transparent 60%)",
+        backgroundColor: "#EFE8DA",
+        backgroundImage: "radial-gradient(#D8CEBC 1px, transparent 1px)",
+        backgroundSize: "28px 28px",
+        borderTop: "1px solid #D5C9B4",
+        borderBottom: "1px solid #D5C9B4",
       }}
     >
       <div
         style={{
-          position: "absolute",
-          inset: 0,
-          pointerEvents: "none",
-          opacity: 0.25,
-          backgroundImage:
-            "linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px)",
-          backgroundSize: "48px 48px",
-        }}
-      />
-
-      <div
-        style={{
-          maxWidth: "1400px",
+          maxWidth: "1360px",
           margin: "0 auto",
           padding: m ? "0 1.25rem" : "0 3.5rem",
           position: "relative",
@@ -159,116 +161,173 @@ export default function TimelineSection() {
         }}
       >
         <motion.div
-          initial={{ opacity: 0, y: 35 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={mounted ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-          style={{ marginBottom: m ? "2.5rem" : "4.5rem" }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          style={{ marginBottom: m ? "2.5rem" : "3.75rem" }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: "1.25rem" }}>
-            <div style={{ width: "42px", height: "1px", background: "linear-gradient(90deg, #C8A96E, transparent)" }} />
-            <div
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
+              background: "#FFFFFF",
+              padding: "5px 14px",
+              borderRadius: "4px",
+              border: "1px dashed #B8A892",
+              boxShadow: "0 2px 4px rgba(60,45,25,0.06)",
+              marginBottom: "1.25rem",
+            }}
+          >
+            <FolderOpen size={14} color="#991B1B" />
+            <span
               style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "7px",
-                background: "linear-gradient(180deg, #1A2234 0%, #0F1626 100%)",
-                padding: "4px 14px",
-                borderRadius: "6px",
-                border: "1px solid rgba(200,169,110,0.3)",
-                boxShadow: "0 2px 6px rgba(0,0,0,0.5)",
+                fontFamily: "monospace",
+                fontSize: "11px",
+                fontWeight: 700,
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                color: "#991B1B",
               }}
             >
-              <Compass size={13} color="#C8A96E" />
-              <span
-                style={{
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontSize: "10.5px",
-                  fontWeight: 700,
-                  letterSpacing: "0.3em",
-                  textTransform: "uppercase",
-                  color: "#C8A96E",
-                }}
-              >
-                Percorrido Emocional
-              </span>
-            </div>
-            <div style={{ width: "42px", height: "1px", background: "linear-gradient(90deg, transparent, #C8A96E)" }} />
+              CARTAFOL DE LELA · ARQUIVO N.º 1948-1978
+            </span>
           </div>
 
-          <h2
-            style={{
-              fontFamily: "'Cormorant Garamond', Georgia, serif",
-              fontWeight: 400,
-              fontSize: "clamp(2.7rem, 6vw, 5.8rem)",
-              lineHeight: 0.92,
-              letterSpacing: "-0.025em",
-              color: "#F8FAFC",
-              margin: "0 0 1rem",
-            }}
-          >
-            Liña do tempo <span style={{ color: "#E2BA70", fontStyle: "italic" }}>Emocional</span>
-          </h2>
-
-          <p
-            style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontWeight: 300,
-              fontSize: m ? "0.98rem" : "1.15rem",
-              lineHeight: 1.7,
-              color: "#94A3B8",
-              maxWidth: "680px",
-              margin: 0,
-            }}
-          >
-            Desde a opresión ata a revelación. Seis etapas dunha muller que se negou a ser vítima nunha travesía de máis de
-            mil quilómetros entre a costa de Foz e o Mediterráneo catalán.
-          </p>
-        </motion.div>
-
-        {m && (
           <div
             style={{
               display: "flex",
-              gap: "8px",
-              overflowX: "auto",
-              paddingBottom: "14px",
-              marginBottom: "1.75rem",
-              scrollbarWidth: "none",
+              flexDirection: m ? "column" : "row",
+              alignItems: m ? "flex-start" : "flex-end",
+              justifyContent: "space-between",
+              gap: "1.5rem",
             }}
           >
-            {stages.map((st) => {
-              const isSelected = st.id === activeStageId;
-              return (
-                <button
-                  key={st.id}
-                  onClick={() => scrollToStage(st.id, st.targetCity)}
+            <div>
+              <h2
+                style={{
+                  fontFamily: "'Cormorant Garamond', Georgia, serif",
+                  fontWeight: 700,
+                  fontSize: "clamp(2.6rem, 5.8vw, 5.4rem)",
+                  lineHeight: 0.94,
+                  letterSpacing: "-0.025em",
+                  color: "#1C1917",
+                  margin: 0,
+                }}
+              >
+                Crónica do <span style={{ color: "#92400E", fontStyle: "italic" }}>Expediente</span>
+              </h2>
+              <p
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontWeight: 400,
+                  fontSize: m ? "0.95rem" : "1.1rem",
+                  lineHeight: 1.65,
+                  color: "#57534E",
+                  maxWidth: "650px",
+                  marginTop: "0.75rem",
+                  marginBottom: 0,
+                }}
+              >
+                Percorrido emocional e documental do caso Concha Pereira. Seis actas arquivadas que reconstruen a vida
+                dunha muller dende a asfixia da posguerra ata a súa liberación en Barcelona.
+              </p>
+            </div>
+
+            <div
+              style={{
+                background: "#FAF7F2",
+                border: "1px solid #D8CFC0",
+                borderRadius: "8px",
+                padding: "10px 16px",
+                display: "flex",
+                gap: "18px",
+                alignItems: "center",
+                boxShadow: "0 4px 12px rgba(60,45,25,0.06)",
+                flexShrink: 0,
+              }}
+            >
+              <div>
+                <div style={{ fontFamily: "monospace", fontSize: "9px", color: "#78716C", textTransform: "uppercase" }}>
+                  Rexisto
+                </div>
+                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "13px", fontWeight: 700, color: "#1C1917" }}>
+                  06 Actas
+                </div>
+              </div>
+              <div style={{ width: "1px", height: "26px", background: "#D8CFC0" }} />
+              <div>
+                <div style={{ fontFamily: "monospace", fontSize: "9px", color: "#78716C", textTransform: "uppercase" }}>
+                  Itinerario
+                </div>
+                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "13px", fontWeight: 700, color: "#1C1917" }}>
+                  ~1.050 km
+                </div>
+              </div>
+              <div style={{ width: "1px", height: "26px", background: "#D8CFC0" }} />
+              <div>
+                <div style={{ fontFamily: "monospace", fontSize: "9px", color: "#78716C", textTransform: "uppercase" }}>
+                  Estado
+                </div>
+                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "13px", fontWeight: 700, color: "#065F46" }}>
+                  Desvelado
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        <div
+          style={{
+            display: "flex",
+            gap: "6px",
+            overflowX: "auto",
+            paddingBottom: "10px",
+            marginBottom: "2rem",
+            scrollbarWidth: "none",
+          }}
+        >
+          {stages.map((st) => {
+            const isSelected = st.id === activeStageId;
+            return (
+              <button
+                key={st.id}
+                onClick={() => scrollToStage(st.id, st.targetCity)}
+                style={{
+                  flexShrink: 0,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "7px",
+                  background: isSelected ? "#FFFFFF" : "#E5DEC9",
+                  border: "1px solid",
+                  borderColor: isSelected ? "#B8A892" : "#D4C8B5",
+                  borderBottom: isSelected ? "3px solid #991B1B" : "1px solid #D4C8B5",
+                  borderRadius: "6px 6px 0 0",
+                  padding: "8px 16px",
+                  cursor: "pointer",
+                  color: isSelected ? "#1C1917" : "#57534E",
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "11.5px",
+                  fontWeight: isSelected ? 800 : 600,
+                  boxShadow: isSelected ? "0 -2px 8px rgba(60,45,25,0.06)" : "none",
+                  transition: "all 0.2s ease",
+                }}
+              >
+                <span
                   style={{
-                    flexShrink: 0,
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "6px",
-                    background: isSelected ? st.color : "rgba(20, 28, 44, 0.8)",
-                    border: `1px solid ${isSelected ? "#FFFFFF" : "rgba(255,255,255,0.12)"}`,
-                    borderRadius: "20px",
-                    padding: "6px 14px",
-                    cursor: "pointer",
-                    color: isSelected ? "#FFFFFF" : "#CBD5E1",
-                    fontFamily: "'DM Sans', sans-serif",
-                    fontSize: "11px",
-                    fontWeight: isSelected ? 700 : 500,
-                    boxShadow: isSelected ? `0 4px 14px ${st.color}60` : "none",
-                    transition: "all 0.25s ease",
+                    fontFamily: "monospace",
+                    fontSize: "10px",
+                    color: isSelected ? "#991B1B" : "#78716C",
+                    fontWeight: 700,
                   }}
                 >
-                  <span style={{ opacity: isSelected ? 1 : 0.6, fontSize: "9.5px", fontFamily: "monospace" }}>
-                    {st.id}
-                  </span>
-                  <span>{st.label}</span>
-                </button>
-              );
-            })}
-          </div>
-        )}
+                  {st.id}
+                </span>
+                <span>{st.label}</span>
+              </button>
+            );
+          })}
+        </div>
 
         <div
           style={{
@@ -281,7 +340,7 @@ export default function TimelineSection() {
           <div
             style={{
               position: m ? "relative" : "sticky",
-              top: m ? "auto" : "110px",
+              top: m ? "auto" : "105px",
               display: "flex",
               flexDirection: "column",
               gap: "1.5rem",
@@ -290,11 +349,11 @@ export default function TimelineSection() {
           >
             <div
               style={{
-                background: "linear-gradient(180deg, #121927 0%, #0B101A 100%)",
-                border: "1px solid rgba(200,169,110,0.35)",
-                borderRadius: "22px",
+                background: "#FCFBF7",
+                border: "1px solid #D5C9B4",
+                borderRadius: "14px",
                 padding: m ? "14px" : "18px",
-                boxShadow: "0 25px 60px -10px rgba(0,0,0,0.85), inset 0 1px 0 rgba(255,255,255,0.1)",
+                boxShadow: "0 18px 45px -8px rgba(60,45,25,0.14), 0 2px 6px rgba(0,0,0,0.04)",
               }}
             >
               <div
@@ -303,36 +362,43 @@ export default function TimelineSection() {
                   alignItems: "center",
                   justifyContent: "space-between",
                   marginBottom: "12px",
-                  padding: "0 4px",
+                  paddingBottom: "10px",
+                  borderBottom: "1px solid #EBE3D3",
                 }}
               >
                 <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                  <Navigation size={14} color="#C8A96E" />
-                  <span
-                    style={{
-                      fontFamily: "'DM Sans', sans-serif",
-                      fontSize: "11px",
-                      fontWeight: 700,
-                      letterSpacing: "0.15em",
-                      textTransform: "uppercase",
-                      color: "#E2BA70",
-                    }}
-                  >
-                    Eixo Cartográfico
-                  </span>
+                  <Compass size={16} color="#991B1B" />
+                  <div>
+                    <div
+                      style={{
+                        fontFamily: "monospace",
+                        fontSize: "9px",
+                        letterSpacing: "0.2em",
+                        color: "#991B1B",
+                        fontWeight: 700,
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      MESA CARTOGRÁFICA
+                    </div>
+                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "12px", fontWeight: 700, color: "#1C1917" }}>
+                      Plano Foz ↔ Barcelona
+                    </div>
+                  </div>
                 </div>
 
-                <div style={{ display: "flex", gap: "6px" }}>
+                <div style={{ display: "flex", gap: "5px" }}>
                   <button
                     onClick={() => setActiveCity("galicia")}
                     style={{
-                      background: activeCity === "galicia" ? "#C8A96E" : "rgba(255,255,255,0.06)",
-                      color: activeCity === "galicia" ? "#0A0D14" : "#CBD5E1",
-                      border: "none",
-                      borderRadius: "6px",
+                      background: activeCity === "galicia" ? "#1C1917" : "#F3EDE2",
+                      color: activeCity === "galicia" ? "#FFFFFF" : "#57534E",
+                      border: "1px solid",
+                      borderColor: activeCity === "galicia" ? "#1C1917" : "#D8CEBC",
+                      borderRadius: "4px",
                       padding: "4px 10px",
                       fontFamily: "'DM Sans', sans-serif",
-                      fontSize: "10px",
+                      fontSize: "11px",
                       fontWeight: 700,
                       cursor: "pointer",
                       transition: "all 0.2s ease",
@@ -343,13 +409,14 @@ export default function TimelineSection() {
                   <button
                     onClick={() => setActiveCity("barcelona")}
                     style={{
-                      background: activeCity === "barcelona" ? "#C8A96E" : "rgba(255,255,255,0.06)",
-                      color: activeCity === "barcelona" ? "#0A0D14" : "#CBD5E1",
-                      border: "none",
-                      borderRadius: "6px",
+                      background: activeCity === "barcelona" ? "#1C1917" : "#F3EDE2",
+                      color: activeCity === "barcelona" ? "#FFFFFF" : "#57534E",
+                      border: "1px solid",
+                      borderColor: activeCity === "barcelona" ? "#1C1917" : "#D8CEBC",
+                      borderRadius: "4px",
                       padding: "4px 10px",
                       fontFamily: "'DM Sans', sans-serif",
-                      fontSize: "10px",
+                      fontSize: "11px",
                       fontWeight: 700,
                       cursor: "pointer",
                       transition: "all 0.2s ease",
@@ -364,11 +431,11 @@ export default function TimelineSection() {
                 style={{
                   width: "100%",
                   height: m ? "280px" : "320px",
-                  borderRadius: "14px",
+                  borderRadius: "8px",
                   overflow: "hidden",
-                  border: "1px solid rgba(255,255,255,0.12)",
+                  border: "1px solid #D5C9B4",
                   position: "relative",
-                  background: "#080B11",
+                  background: "#E5DEC9",
                 }}
               >
                 {mounted && (
@@ -377,7 +444,7 @@ export default function TimelineSection() {
                     zoom={m ? 5 : 5.4}
                     zoomControl={false}
                     scrollWheelZoom={false}
-                    style={{ position: "absolute", inset: 0, background: "#080B11" }}
+                    style={{ position: "absolute", inset: 0, background: "#E5DEC9" }}
                     attributionControl={false}
                   >
                     <TileLayer
@@ -387,15 +454,15 @@ export default function TimelineSection() {
 
                     <Polyline
                       positions={getCurvePoints(galiciaPos, barcelonaPos, m ? 4.5 : 3.5)}
-                      color="#C8A96E"
+                      color="#B91C1C"
                       weight={2.5}
                       dashArray="6, 6"
-                      opacity={0.85}
+                      opacity={0.9}
                     />
 
                     <Marker
                       position={galiciaPos}
-                      icon={createGoldenIcon(activeCity === "galicia", "GALICIA")}
+                      icon={createArchivePin(activeCity === "galicia", "GALICIA")}
                       eventHandlers={{
                         click: () => setActiveCity("galicia"),
                       }}
@@ -403,7 +470,7 @@ export default function TimelineSection() {
 
                     <Marker
                       position={barcelonaPos}
-                      icon={createGoldenIcon(activeCity === "barcelona", "BARCELONA")}
+                      icon={createArchivePin(activeCity === "barcelona", "BARCELONA")}
                       eventHandlers={{
                         click: () => setActiveCity("barcelona"),
                       }}
@@ -414,42 +481,42 @@ export default function TimelineSection() {
 
               <div
                 style={{
-                  marginTop: "14px",
-                  background: "rgba(10, 14, 22, 0.75)",
-                  borderRadius: "12px",
-                  padding: "14px",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  minHeight: "115px",
+                  marginTop: "12px",
+                  background: "#F7F3EB",
+                  borderRadius: "8px",
+                  padding: "12px 14px",
+                  border: "1px solid #D8CFC0",
+                  minHeight: "110px",
                 }}
               >
                 <AnimatePresence mode="wait">
                   {activeCity === "galicia" ? (
                     <motion.div
                       key="galicia"
-                      initial={{ opacity: 0, y: 8 }}
+                      initial={{ opacity: 0, y: 6 }}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -8 }}
-                      transition={{ duration: 0.25 }}
+                      exit={{ opacity: 0, y: -6 }}
+                      transition={{ duration: 0.2 }}
                     >
                       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                        <h4
+                        <div
                           style={{
                             fontFamily: "'Cormorant Garamond', Georgia, serif",
                             fontSize: "1.45rem",
                             fontWeight: 700,
-                            color: "#FFFFFF",
-                            margin: 0,
+                            color: "#1C1917",
+                            lineHeight: 1,
                           }}
                         >
                           Galicia
-                        </h4>
+                        </div>
                         <span
                           style={{
-                            fontFamily: "'DM Sans', sans-serif",
+                            fontFamily: "monospace",
                             fontSize: "10px",
                             fontWeight: 700,
+                            color: "#991B1B",
                             letterSpacing: "0.15em",
-                            color: "#E2BA70",
                             textTransform: "uppercase",
                           }}
                         >
@@ -461,7 +528,7 @@ export default function TimelineSection() {
                           fontFamily: "'DM Sans', sans-serif",
                           fontSize: "0.86rem",
                           lineHeight: 1.55,
-                          color: "#CBD5E1",
+                          color: "#44403C",
                           marginTop: "6px",
                           marginBottom: 0,
                         }}
@@ -474,30 +541,30 @@ export default function TimelineSection() {
                   ) : (
                     <motion.div
                       key="barcelona"
-                      initial={{ opacity: 0, y: 8 }}
+                      initial={{ opacity: 0, y: 6 }}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -8 }}
-                      transition={{ duration: 0.25 }}
+                      exit={{ opacity: 0, y: -6 }}
+                      transition={{ duration: 0.2 }}
                     >
                       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                        <h4
+                        <div
                           style={{
                             fontFamily: "'Cormorant Garamond', Georgia, serif",
                             fontSize: "1.45rem",
                             fontWeight: 700,
-                            color: "#FFFFFF",
-                            margin: 0,
+                            color: "#1C1917",
+                            lineHeight: 1,
                           }}
                         >
                           Barcelona
-                        </h4>
+                        </div>
                         <span
                           style={{
-                            fontFamily: "'DM Sans', sans-serif",
+                            fontFamily: "monospace",
                             fontSize: "10px",
                             fontWeight: 700,
+                            color: "#854D0E",
                             letterSpacing: "0.15em",
-                            color: "#E2BA70",
                             textTransform: "uppercase",
                           }}
                         >
@@ -509,7 +576,7 @@ export default function TimelineSection() {
                           fontFamily: "'DM Sans', sans-serif",
                           fontSize: "0.86rem",
                           lineHeight: 1.55,
-                          color: "#CBD5E1",
+                          color: "#44403C",
                           marginTop: "6px",
                           marginBottom: 0,
                         }}
@@ -528,8 +595,8 @@ export default function TimelineSection() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  marginTop: "12px",
-                  padding: "0 4px",
+                  marginTop: "10px",
+                  padding: "0 2px",
                 }}
               >
                 <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
@@ -538,15 +605,14 @@ export default function TimelineSection() {
                       width: "8px",
                       height: "8px",
                       borderRadius: "50%",
-                      backgroundColor: currentStage.color,
-                      boxShadow: `0 0 10px ${currentStage.color}`,
+                      backgroundColor: currentStage.sealColor,
                     }}
                   />
-                  <span style={{ fontFamily: "monospace", fontSize: "10px", color: currentStage.accent }}>
-                    Etapa activa: {currentStage.id} · {currentStage.label}
+                  <span style={{ fontFamily: "monospace", fontSize: "10px", color: "#57534E", fontWeight: 600 }}>
+                    Acta seleccionada: {currentStage.id} · {currentStage.label}
                   </span>
                 </div>
-                <span style={{ fontFamily: "monospace", fontSize: "10px", color: "#64748B" }}>
+                <span style={{ fontFamily: "monospace", fontSize: "10px", color: "#78716C" }}>
                   Traxecto: ~1.050 km
                 </span>
               </div>
@@ -557,25 +623,11 @@ export default function TimelineSection() {
             style={{
               display: "flex",
               flexDirection: "column",
-              gap: m ? "1.5rem" : "2rem",
+              gap: "2rem",
               order: m ? 1 : 2,
               position: "relative",
             }}
           >
-            <div
-              style={{
-                position: "absolute",
-                left: "24px",
-                top: "20px",
-                bottom: "20px",
-                width: "2px",
-                background:
-                  "linear-gradient(to bottom, #5D7B9E, #D95D5D, #B88E67, #E5B96B, #6BA0C9, #E2C88F)",
-                opacity: 0.35,
-                display: m ? "none" : "block",
-              }}
-            />
-
             {stages.map((st) => {
               const isActive = st.id === activeStageId;
 
@@ -591,76 +643,94 @@ export default function TimelineSection() {
                   }}
                   style={{
                     position: "relative",
-                    background: `linear-gradient(135deg, ${st.bg} 0%, rgba(11, 16, 26, 0.98) 100%)`,
-                    border: `1.5px solid ${isActive ? st.color : "rgba(255,255,255,0.12)"}`,
-                    borderLeft: `5px solid ${st.color}`,
-                    borderRadius: "18px",
-                    padding: m ? "1.5rem 1.25rem" : "2rem 2.25rem",
+                    background: "#FCFBF7",
+                    border: "1px solid",
+                    borderColor: isActive ? "#991B1B" : "#D8CEBC",
+                    borderRadius: "14px",
+                    padding: m ? "1.6rem 1.3rem" : "2.2rem 2.5rem",
                     boxShadow: isActive
-                      ? `0 20px 50px -10px rgba(0,0,0,0.8), 0 0 35px ${st.color}25`
-                      : "0 10px 30px rgba(0,0,0,0.6)",
+                      ? "0 18px 45px -8px rgba(60,45,25,0.16), 0 0 0 1px #991B1B"
+                      : "0 8px 24px -4px rgba(60,45,25,0.08)",
                     cursor: "pointer",
-                    transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
-                    marginLeft: m ? 0 : "36px",
+                    transition: "all 0.25s ease",
+                    overflow: "hidden",
                   }}
                 >
+                  <span
+                    style={{
+                      position: "absolute",
+                      right: "22px",
+                      top: "14px",
+                      fontSize: m ? "4.5rem" : "6.5rem",
+                      fontFamily: "'Cormorant Garamond', Georgia, serif",
+                      fontWeight: 700,
+                      color: "#EFE8DA",
+                      pointerEvents: "none",
+                      lineHeight: 1,
+                      userSelect: "none",
+                    }}
+                  >
+                    {st.id}
+                  </span>
+
                   <div
                     style={{
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "space-between",
-                      marginBottom: "10px",
+                      marginBottom: "14px",
                       flexWrap: "wrap",
                       gap: "8px",
+                      position: "relative",
+                      zIndex: 2,
                     }}
                   >
                     <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                       <span
                         style={{
                           fontFamily: "monospace",
-                          fontSize: "12px",
+                          fontSize: "11px",
                           fontWeight: 700,
-                          color: st.accent,
-                          background: "rgba(0,0,0,0.4)",
-                          padding: "2px 8px",
+                          color: st.sealColor,
+                          background: "#F3EDE2",
+                          padding: "3px 8px",
                           borderRadius: "4px",
-                          border: `1px solid ${st.color}40`,
+                          border: `1px solid ${st.sealColor}40`,
                         }}
                       >
-                        {st.id}
+                        {st.expNum}
                       </span>
-                      <h3
+                      <span
                         style={{
                           fontFamily: "'DM Sans', sans-serif",
-                          fontSize: "12px",
-                          fontWeight: 800,
-                          letterSpacing: "0.3em",
+                          fontSize: "10.5px",
+                          fontWeight: 700,
+                          letterSpacing: "0.15em",
                           textTransform: "uppercase",
-                          color: st.accent,
-                          margin: 0,
+                          color: "#78716C",
                         }}
                       >
-                        {st.label}
-                      </h3>
+                        {st.tag}
+                      </span>
                     </div>
 
                     <div
                       style={{
                         display: "flex",
                         alignItems: "center",
-                        gap: "5px",
-                        background: "rgba(0,0,0,0.35)",
+                        gap: "6px",
+                        background: "#FAF7F2",
                         padding: "3px 10px",
-                        borderRadius: "20px",
-                        border: "1px solid rgba(255,255,255,0.08)",
+                        borderRadius: "4px",
+                        border: "1px solid #E5DED1",
                       }}
                     >
-                      <MapPin size={11} color={st.accent} />
+                      <MapPin size={11} color="#78716C" />
                       <span
                         style={{
-                          fontFamily: "'DM Sans', sans-serif",
+                          fontFamily: "monospace",
                           fontSize: "10.5px",
-                          color: "#CBD5E1",
+                          color: "#57534E",
                         }}
                       >
                         {st.location}
@@ -668,32 +738,65 @@ export default function TimelineSection() {
                     </div>
                   </div>
 
-                  <div
-                    style={{
-                      fontFamily: "'Cormorant Garamond', Georgia, serif",
-                      fontSize: m ? "1.35rem" : "1.65rem",
-                      fontWeight: 600,
-                      fontStyle: "italic",
-                      color: "#FFFFFF",
-                      margin: "0 0 10px",
-                      lineHeight: 1.25,
-                    }}
-                  >
-                    {st.subtitle}
-                  </div>
+                  <div style={{ position: "relative", zIndex: 2 }}>
+                    <h3
+                      style={{
+                        fontFamily: "'Cormorant Garamond', Georgia, serif",
+                        fontSize: m ? "1.65rem" : "2.1rem",
+                        fontWeight: 700,
+                        color: "#1C1917",
+                        margin: "0 0 4px",
+                        lineHeight: 1.1,
+                      }}
+                    >
+                      {st.label}
+                    </h3>
 
-                  <p
-                    style={{
-                      fontFamily: "'DM Sans', sans-serif",
-                      fontSize: m ? "0.92rem" : "1.02rem",
-                      fontWeight: 300,
-                      lineHeight: 1.75,
-                      color: "#F1F5F9",
-                      margin: 0,
-                    }}
-                  >
-                    {st.desc}
-                  </p>
+                    <div
+                      style={{
+                        fontFamily: "'Cormorant Garamond', Georgia, serif",
+                        fontSize: m ? "1.15rem" : "1.32rem",
+                        fontWeight: 600,
+                        fontStyle: "italic",
+                        color: st.sealColor,
+                        marginBottom: "12px",
+                      }}
+                    >
+                      {st.subtitle}
+                    </div>
+
+                    <p
+                      style={{
+                        fontFamily: "'DM Sans', sans-serif",
+                        fontSize: m ? "0.94rem" : "1.05rem",
+                        fontWeight: 400,
+                        lineHeight: 1.75,
+                        color: "#292524",
+                        margin: 0,
+                      }}
+                    >
+                      {st.desc}
+                    </p>
+
+                    <div
+                      style={{
+                        marginTop: "16px",
+                        paddingTop: "10px",
+                        borderTop: "1px dashed #E5DED1",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        fontFamily: "monospace",
+                        fontSize: "9.5px",
+                        color: "#78716C",
+                      }}
+                    >
+                      <span>Período rexistrado: {st.archiveDate}</span>
+                      <span style={{ color: isActive ? "#991B1B" : "#A8A29E", fontWeight: 700 }}>
+                        {isActive ? "Ficha activa en lectura" : "Preme para fixar no mapa"}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               );
             })}
