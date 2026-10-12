@@ -14,6 +14,7 @@ interface Milestone {
   desc: string;
   location: string;
   targetCity: "galicia" | "barcelona";
+  accent: string;
 }
 
 const stages: Milestone[] = [
@@ -25,6 +26,7 @@ const stages: Milestone[] = [
     desc: "A infancia de Concha está marcada pola asfixia. Crece baixo a ditadura moral de Mamá Carme, matriarca despótica que prioriza as aparencias. Sofre os abusos da mestra Dona Remedios e o acoso do cura Don Anselmo. É unha vítima do sistema.",
     location: "A vila na foz",
     targetCity: "galicia",
+    accent: "#C8A96E",
   },
   {
     id: "02",
@@ -34,6 +36,7 @@ const stages: Milestone[] = [
     desc: "A escola de Dona Remedios arde nun incendio. A vila enteira e a propia familia sinalan a Concha como culpable. O lume simboliza a destrución da súa infancia e o inicio do seu estigma como a ovella negra do clan.",
     location: "A Escola Parroquial",
     targetCity: "galicia",
+    accent: "#E07A5F",
   },
   {
     id: "03",
@@ -43,6 +46,7 @@ const stages: Milestone[] = [
     desc: "Para protexer o bo nome dos Pereira, Mamá Carme condena á súa propia neta e expúlsana sen piedade. Só a tía Lela e o tío Seso lhe ofrecen un mínimo de acubillo antes do exilio forzoso.",
     location: "Aldea",
     targetCity: "galicia",
+    accent: "#D4924A",
   },
   {
     id: "04",
@@ -52,6 +56,7 @@ const stages: Milestone[] = [
     desc: "Concha foxe e reencontra co seu pai emigrado. Desde alí, chega a Cataluña e transforma o trauma en poder. Convértese nunha temida paparazzi. Usa a cámara como arma para destapar as miserias de banqueiros e políticos. Xa no é a vítima; é a executora.",
     location: "Barcelona · Estudio e Redacción",
     targetCity: "barcelona",
+    accent: "#7CA8C2",
   },
   {
     id: "05",
@@ -61,6 +66,7 @@ const stages: Milestone[] = [
     desc: "Anos despois, o doutor Fernando Pereira sofre insomnio crónico e dores inexplicables. Non é enfermidade: é a somatización da culpa colectiva da familia por silenciar a verdade de Concha.",
     location: "Santiago de Compostela",
     targetCity: "galicia",
+    accent: "#9381FF",
   },
   {
     id: "06",
@@ -70,6 +76,7 @@ const stages: Milestone[] = [
     desc: "Incapaz de durmir, Fernando investiga o pasado. Grazas a un cartafol da tía Lela e ao fotógrafo Andreu Picart, descobre a verdadeira dimensión da Faneca Brava: unha muller libre que venceu a moralidade que a tentou destruír.",
     location: "O Cartafol de Lela",
     targetCity: "galicia",
+    accent: "#8BB49E",
   },
 ];
 
@@ -93,12 +100,14 @@ const createMapPin = (active: boolean, label: string) =>
   L.divIcon({
     className: "map-pin-marker",
     html: `<div style="position: relative;">
-             <div style="width: 14px; height: 14px; border-radius: 50%; background: ${
-               active ? "#C8A96E" : "#475569"
-             }; border: 2px solid #FFFFFF; box-shadow: 0 0 10px rgba(0,0,0,0.6); position: absolute; top: -7px; left: -7px;"></div>
-             <div style="position: absolute; top: 10px; left: -50%; transform: translateX(-20%); font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; color: ${
-               active ? "#C8A96E" : "#94A3B8"
-             }; background: #0E141D; padding: 2px 7px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); white-space: nowrap;">${label}</div>
+             <div style="width: 16px; height: 16px; border-radius: 50%; background: ${
+               active ? "#C8A96E" : "#4A627A"
+             }; border: 2px solid #FFFFFF; box-shadow: 0 0 12px ${
+               active ? "rgba(200, 169, 110, 0.6)" : "rgba(0,0,0,0.5)"
+             }; position: absolute; top: -8px; left: -8px;"></div>
+             <div style="position: absolute; top: 12px; left: -50%; transform: translateX(-20%); font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: ${
+               active ? "#C8A96E" : "#D2DCED"
+             }; background: #131E2A; padding: 3px 8px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.18); box-shadow: 0 4px 10px rgba(0,0,0,0.4); white-space: nowrap;">${label}</div>
            </div>`,
     iconSize: [0, 0],
     iconAnchor: [0, 0],
@@ -131,17 +140,34 @@ export default function TimelineSection() {
       style={{
         position: "relative",
         padding: m ? "4.5rem 0 4rem" : "7rem 0 6.5rem",
-        backgroundColor: "#0D131D",
-        color: "#F1EBDD",
-        borderTop: "1px solid rgba(255,255,255,0.06)",
-        borderBottom: "1px solid rgba(255,255,255,0.06)",
+        background: "linear-gradient(180deg, #131E2B 0%, #172434 45%, #131E2B 100%)",
+        color: "#F4EFE6",
+        borderTop: "1px solid rgba(200, 169, 110, 0.15)",
+        borderBottom: "1px solid rgba(200, 169, 110, 0.15)",
+        overflow: "hidden",
       }}
     >
+      <div
+        style={{
+          position: "absolute",
+          top: "10%",
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: "900px",
+          height: "450px",
+          background: "radial-gradient(ellipse at center, rgba(200, 169, 110, 0.08) 0%, transparent 70%)",
+          pointerEvents: "none",
+          zIndex: 0,
+        }}
+      />
+
       <div
         style={{
           maxWidth: "1280px",
           margin: "0 auto",
           padding: m ? "0 1.25rem" : "0 3rem",
+          position: "relative",
+          zIndex: 1,
         }}
       >
         <motion.div
@@ -160,8 +186,8 @@ export default function TimelineSection() {
           >
             <span
               style={{
-                width: "24px",
-                height: "1px",
+                width: "28px",
+                height: "2px",
                 backgroundColor: "#C8A96E",
               }}
             />
@@ -169,9 +195,8 @@ export default function TimelineSection() {
               style={{
                 fontFamily: "'Playfair Display', Georgia, serif",
                 fontStyle: "italic",
-                fontSize: "13px",
-                fontWeight: 400,
-                letterSpacing: "0.15em",
+                fontSize: "14px",
+                letterSpacing: "0.12em",
                 color: "#C8A96E",
               }}
             >
@@ -187,7 +212,7 @@ export default function TimelineSection() {
               alignItems: m ? "flex-start" : "flex-end",
               gap: "1.5rem",
               paddingBottom: "1.5rem",
-              borderBottom: "1px solid rgba(255,255,255,0.08)",
+              borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
             }}
           >
             <div>
@@ -198,7 +223,7 @@ export default function TimelineSection() {
                   fontSize: "clamp(2.5rem, 5vw, 4.6rem)",
                   lineHeight: 1.08,
                   letterSpacing: "-0.01em",
-                  color: "#F1EBDD",
+                  color: "#FAF6EF",
                   margin: 0,
                 }}
               >
@@ -208,10 +233,10 @@ export default function TimelineSection() {
                 style={{
                   fontFamily: "'DM Sans', sans-serif",
                   fontWeight: 300,
-                  fontSize: m ? "1rem" : "1.1rem",
-                  lineHeight: 1.7,
-                  color: "#A0ABBA",
-                  maxWidth: "640px",
+                  fontSize: m ? "1rem" : "1.12rem",
+                  lineHeight: 1.75,
+                  color: "#B4C2D4",
+                  maxWidth: "660px",
                   marginTop: "0.75rem",
                   marginBottom: 0,
                 }}
@@ -234,7 +259,7 @@ export default function TimelineSection() {
                   style={{
                     display: "block",
                     fontFamily: "'Prata', 'Playfair Display', Georgia, serif",
-                    fontSize: "1.8rem",
+                    fontSize: "1.85rem",
                     fontWeight: 400,
                     lineHeight: 1,
                     color: "#C8A96E",
@@ -248,7 +273,7 @@ export default function TimelineSection() {
                     fontStyle: "italic",
                     fontSize: "12px",
                     letterSpacing: "0.05em",
-                    color: "#78879B",
+                    color: "#94A5BC",
                   }}
                 >
                   Percorrido narrativo
@@ -273,7 +298,7 @@ export default function TimelineSection() {
               gap: m ? "1.25rem" : "2rem",
               minWidth: m ? "max-content" : "100%",
               justifyContent: m ? "flex-start" : "space-between",
-              borderBottom: "1px solid rgba(255,255,255,0.08)",
+              borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
               paddingBottom: "0.85rem",
             }}
           >
@@ -298,9 +323,9 @@ export default function TimelineSection() {
                   <span
                     style={{
                       fontFamily: "'Prata', 'Playfair Display', Georgia, serif",
-                      fontSize: "1.3rem",
+                      fontSize: "1.35rem",
                       fontWeight: 400,
-                      color: active ? "#C8A96E" : "#64748B",
+                      color: active ? "#C8A96E" : "#72859D",
                       transition: "color 0.2s ease",
                     }}
                   >
@@ -312,7 +337,7 @@ export default function TimelineSection() {
                       fontStyle: "italic",
                       fontSize: "15px",
                       fontWeight: active ? 600 : 400,
-                      color: active ? "#F1EBDD" : "#8090A4",
+                      color: active ? "#FAF6EF" : "#94A5BC",
                       transition: "color 0.2s ease",
                     }}
                   >
@@ -341,7 +366,7 @@ export default function TimelineSection() {
           style={{
             display: "grid",
             gridTemplateColumns: m ? "1fr" : "1fr 440px",
-            gap: m ? "3.5rem" : "4.5rem",
+            gap: m ? "3rem" : "4rem",
             alignItems: "start",
           }}
         >
@@ -352,12 +377,12 @@ export default function TimelineSection() {
                 top: 0,
                 bottom: 0,
                 left: m ? "14px" : "20px",
-                width: "1px",
-                backgroundColor: "rgba(255,255,255,0.08)",
+                width: "2px",
+                background: "linear-gradient(180deg, rgba(200, 169, 110, 0.4) 0%, rgba(255, 255, 255, 0.1) 100%)",
               }}
             />
 
-            <div style={{ display: "flex", flexDirection: "column", gap: m ? "3.25rem" : "4.5rem" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: m ? "2.5rem" : "3.5rem" }}>
               {stages.map((st) => {
                 const isSelected = activeStageId === st.id;
 
@@ -376,49 +401,60 @@ export default function TimelineSection() {
                       style={{
                         position: "absolute",
                         left: m ? "8px" : "14px",
-                        top: "8px",
-                        width: "13px",
-                        height: "13px",
+                        top: "10px",
+                        width: "14px",
+                        height: "14px",
                         borderRadius: "50%",
-                        backgroundColor: isSelected ? "#C8A96E" : "#1A2534",
-                        border: `2px solid ${isSelected ? "#C8A96E" : "#4A5B70"}`,
+                        backgroundColor: isSelected ? "#C8A96E" : "#1A2838",
+                        border: `2px solid ${isSelected ? "#C8A96E" : "#576E87"}`,
+                        boxShadow: isSelected ? "0 0 10px rgba(200, 169, 110, 0.5)" : "none",
                         transition: "all 0.25s ease",
                       }}
                     />
 
-                    <div>
+                    <div
+                      style={{
+                        background: isSelected ? "rgba(255, 255, 255, 0.04)" : "rgba(255, 255, 255, 0.015)",
+                        border: "1px solid",
+                        borderColor: isSelected ? "rgba(200, 169, 110, 0.3)" : "rgba(255, 255, 255, 0.06)",
+                        borderRadius: "14px",
+                        padding: m ? "18px 16px" : "26px 30px",
+                        borderLeft: `4px solid ${st.accent}`,
+                        transition: "all 0.3s ease",
+                      }}
+                    >
                       <div
                         style={{
                           display: "flex",
                           alignItems: "center",
                           gap: "8px",
-                          marginBottom: "0.35rem",
+                          marginBottom: "0.4rem",
                         }}
                       >
                         <span
                           style={{
                             fontFamily: "'Playfair Display', Georgia, serif",
                             fontStyle: "italic",
-                            fontSize: "13px",
+                            fontSize: "13.5px",
                             fontWeight: 400,
-                            color: isSelected ? "#C8A96E" : "#8090A4",
+                            color: st.accent,
                           }}
                         >
                           {st.stageName}
                         </span>
-                        <span style={{ color: "rgba(255,255,255,0.2)" }}>·</span>
+                        <span style={{ color: "rgba(255,255,255,0.25)" }}>·</span>
                         <span
                           style={{
                             display: "inline-flex",
                             alignItems: "center",
                             gap: "4px",
                             fontFamily: "'DM Sans', sans-serif",
-                            fontSize: "12px",
+                            fontSize: "12.5px",
                             fontWeight: 400,
-                            color: "#94A3B8",
+                            color: "#AABCCC",
                           }}
                         >
-                          <MapPin size={12} color="#C8A96E" />
+                          <MapPin size={12} color={st.accent} />
                           {st.location}
                         </span>
                       </div>
@@ -430,7 +466,7 @@ export default function TimelineSection() {
                           fontWeight: 400,
                           lineHeight: 1.15,
                           letterSpacing: "-0.01em",
-                          color: "#F1EBDD",
+                          color: "#FAF6EF",
                           margin: "0 0 0.25rem 0",
                         }}
                       >
@@ -443,7 +479,7 @@ export default function TimelineSection() {
                           fontStyle: "italic",
                           fontSize: m ? "1.05rem" : "1.15rem",
                           fontWeight: 400,
-                          color: "#C8A96E",
+                          color: st.accent,
                           margin: "0 0 0.85rem 0",
                         }}
                       >
@@ -453,12 +489,11 @@ export default function TimelineSection() {
                       <p
                         style={{
                           fontFamily: "'DM Sans', sans-serif",
-                          fontSize: m ? "0.96rem" : "1.04rem",
+                          fontSize: m ? "0.96rem" : "1.05rem",
                           fontWeight: 300,
                           lineHeight: 1.8,
-                          color: "#CAD3DF",
+                          color: "#D2DCED",
                           margin: 0,
-                          maxWidth: "620px",
                         }}
                       >
                         {st.desc}
@@ -500,7 +535,7 @@ export default function TimelineSection() {
                   style={{
                     fontFamily: "'DM Sans', sans-serif",
                     fontSize: "12px",
-                    color: "#78879B",
+                    color: "#94A5BC",
                   }}
                 >
                   Foz / Santiago ↔ Barcelona
@@ -511,20 +546,20 @@ export default function TimelineSection() {
                 style={{
                   display: "flex",
                   gap: "8px",
-                  borderBottom: "1px solid rgba(255,255,255,0.08)",
+                  borderBottom: "1px solid rgba(255,255,255,0.1)",
                   paddingBottom: "8px",
                 }}
               >
                 <button
                   onClick={() => setActiveCity("galicia")}
                   style={{
-                    background: activeCity === "galicia" ? "rgba(200, 169, 110, 0.15)" : "transparent",
-                    color: activeCity === "galicia" ? "#C8A96E" : "#8090A4",
+                    background: activeCity === "galicia" ? "rgba(200, 169, 110, 0.2)" : "rgba(255, 255, 255, 0.03)",
+                    color: activeCity === "galicia" ? "#C8A96E" : "#AABCCC",
                     border: "1px solid",
-                    borderColor: activeCity === "galicia" ? "#C8A96E" : "rgba(255,255,255,0.1)",
-                    borderRadius: "4px",
-                    padding: "5px 12px",
-                    fontSize: "12px",
+                    borderColor: activeCity === "galicia" ? "#C8A96E" : "rgba(255,255,255,0.12)",
+                    borderRadius: "6px",
+                    padding: "6px 14px",
+                    fontSize: "12.5px",
                     fontWeight: 500,
                     cursor: "pointer",
                     display: "inline-flex",
@@ -539,13 +574,13 @@ export default function TimelineSection() {
                 <button
                   onClick={() => setActiveCity("barcelona")}
                   style={{
-                    background: activeCity === "barcelona" ? "rgba(200, 169, 110, 0.15)" : "transparent",
-                    color: activeCity === "barcelona" ? "#C8A96E" : "#8090A4",
+                    background: activeCity === "barcelona" ? "rgba(200, 169, 110, 0.2)" : "rgba(255, 255, 255, 0.03)",
+                    color: activeCity === "barcelona" ? "#C8A96E" : "#AABCCC",
                     border: "1px solid",
-                    borderColor: activeCity === "barcelona" ? "#C8A96E" : "rgba(255,255,255,0.1)",
-                    borderRadius: "4px",
-                    padding: "5px 12px",
-                    fontSize: "12px",
+                    borderColor: activeCity === "barcelona" ? "#C8A96E" : "rgba(255,255,255,0.12)",
+                    borderRadius: "6px",
+                    padding: "6px 14px",
+                    fontSize: "12.5px",
                     fontWeight: 500,
                     cursor: "pointer",
                     display: "inline-flex",
@@ -563,9 +598,10 @@ export default function TimelineSection() {
             <div
               style={{
                 height: m ? "280px" : "340px",
-                borderRadius: "8px",
+                borderRadius: "12px",
                 overflow: "hidden",
-                border: "1px solid rgba(255,255,255,0.08)",
+                border: "1px solid rgba(200, 169, 110, 0.25)",
+                boxShadow: "0 10px 30px rgba(0, 0, 0, 0.35)",
                 position: "relative",
               }}
             >
@@ -576,16 +612,16 @@ export default function TimelineSection() {
                   scrollWheelZoom={false}
                   attributionControl={false}
                   zoomControl={false}
-                  style={{ height: "100%", width: "100%", background: "#0B111A" }}
+                  style={{ height: "100%", width: "100%", background: "#101923" }}
                 >
                   <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}" />
                   <Polyline
                     positions={getCurvePoints(galiciaPos, barcelonaPos)}
                     pathOptions={{
                       color: "#C8A96E",
-                      weight: 2,
+                      weight: 2.5,
                       dashArray: "5, 7",
-                      opacity: 0.8,
+                      opacity: 0.85,
                     }}
                   />
                   <Marker
