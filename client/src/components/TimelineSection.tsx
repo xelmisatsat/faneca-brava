@@ -94,13 +94,13 @@ const cityText: Record<City, { name: string; region: string; text: string }> = {
 };
 
 const C = {
-  bg: "#24201C",
+  bg: "#2F2A25",
   paper: "#EDE5D8",
-  ink: "#F5EFE5",
-  body: "#C9BFB1",
-  muted: "#8C8275",
-  line: "rgba(237, 229, 216, 0.14)",
-  accent: "#B89470",
+  ink: "#FBF6EE",
+  body: "#E6DDCF",
+  muted: "#BBAF9B",
+  line: "rgba(237, 229, 216, 0.22)",
+  accent: "#D9B48A",
 };
 
 const SERIF = "'Bodoni Moda', 'Playfair Display', Georgia, serif";
@@ -259,7 +259,7 @@ export default function TimelineSection() {
           <span style={{ fontFamily: SERIF, fontSize: "1.9rem", lineHeight: 1, color: C.ink }}>{cityText[city].name}</span>
           <span style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "1rem", color: C.accent }}>{cityText[city].region}</span>
         </div>
-        <p style={{ fontFamily: SANS, fontWeight: 300, fontSize: "14.5px", lineHeight: 1.75, color: C.body, margin: 0 }}>
+        <p style={{ fontFamily: SANS, fontWeight: 400, fontSize: "15px", lineHeight: 1.75, color: C.body, margin: 0 }}>
           {cityText[city].text}
         </p>
       </motion.div>
@@ -280,84 +280,59 @@ export default function TimelineSection() {
         position: "relative",
         background: C.bg,
         color: C.ink,
-        padding: m ? "5rem 0 4.5rem" : "9rem 0 8rem",
+        padding: m ? "4.5rem 0 4rem" : "7.5rem 0 7rem",
       }}
     >
-      <div style={{ maxWidth: "1380px", margin: "0 auto", padding: m ? "0 1.4rem" : "0 4rem" }}>
-        <motion.header
-          initial={{ opacity: 0, y: 24 }}
-          animate={mounted ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          style={{
-            display: "grid",
-            gridTemplateColumns: m ? "1fr" : "1fr 1fr",
-            columnGap: "6rem",
-            rowGap: "2rem",
-            alignItems: "end",
-            marginBottom: m ? "3.5rem" : "7rem",
-          }}
-        >
-          <div>
-            <span
-              style={{
-                display: "block",
-                fontFamily: SANS,
-                fontSize: "11px",
-                letterSpacing: "0.34em",
-                textTransform: "uppercase",
-                color: C.muted,
-                marginBottom: m ? "1.4rem" : "2.2rem",
-              }}
-            >
+      <div style={{ maxWidth: "1320px", margin: "0 auto", padding: m ? "0 1.4rem" : "0 4rem" }}>
+        <header style={{ textAlign: "center", maxWidth: "900px", margin: "0 auto", marginBottom: m ? "2.8rem" : "4.5rem" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "18px", marginBottom: m ? "1.4rem" : "2rem" }}>
+            <span style={{ width: "48px", height: "1px", background: C.accent }} />
+            <span style={{ fontFamily: SANS, fontSize: "12px", fontWeight: 500, letterSpacing: "0.38em", textTransform: "uppercase", color: C.accent }}>
               Cronoloxía
             </span>
-            <h2
-              style={{
-                fontFamily: SERIF,
-                fontWeight: 400,
-                fontSize: m ? "3.3rem" : "clamp(4.5rem, 8.2vw, 8.4rem)",
-                lineHeight: 0.92,
-                letterSpacing: "-0.035em",
-                color: C.ink,
-                margin: 0,
-              }}
-            >
-              A Liña
-              <br />
-              do Tempo
-              <br />
-              <span style={{ fontStyle: "italic", color: C.accent }}>de Concha</span>
-            </h2>
+            <span style={{ width: "48px", height: "1px", background: C.accent }} />
           </div>
+          <h2
+            style={{
+              fontFamily: SERIF,
+              fontWeight: 400,
+              fontSize: m ? "2.7rem" : "clamp(3.6rem, 6.4vw, 6.4rem)",
+              lineHeight: 1,
+              letterSpacing: "-0.03em",
+              color: C.ink,
+              margin: 0,
+            }}
+          >
+            A Liña do Tempo <span style={{ fontStyle: "italic", color: C.accent }}>de Concha</span>
+          </h2>
           <p
             style={{
               fontFamily: SANS,
-              fontWeight: 300,
-              fontSize: m ? "1rem" : "1.12rem",
-              lineHeight: 1.85,
-              color: C.body,
-              maxWidth: "430px",
-              margin: 0,
-              justifySelf: m ? "start" : "end",
-              paddingBottom: m ? 0 : "1rem",
+              fontWeight: 400,
+              fontSize: m ? "1.05rem" : "1.22rem",
+              lineHeight: 1.75,
+              color: C.ink,
+              opacity: 0.92,
+              maxWidth: "640px",
+              margin: m ? "1.4rem auto 0" : "2rem auto 0",
             }}
           >
             O itinerario vital e emocional de Concha Pereira. Un percorrido que vai dende a infancia ferida na vila ata a
             súa liberación e resistencia a través da fotografía en Barcelona.
           </p>
-        </motion.header>
+        </header>
 
         <nav
           style={{
             display: "flex",
-            gap: m ? "1.6rem" : "0",
+            gap: m ? "1.8rem" : "0",
             justifyContent: m ? "flex-start" : "space-between",
             overflowX: "auto",
             scrollbarWidth: "none",
             borderTop: `1px solid ${C.line}`,
             borderBottom: `1px solid ${C.line}`,
             padding: "18px 0",
-            marginBottom: m ? "3.5rem" : "6rem",
+            marginBottom: m ? "2.8rem" : "5rem",
           }}
         >
           {stages.map((st) => {
@@ -366,28 +341,19 @@ export default function TimelineSection() {
               <button
                 key={st.id}
                 onClick={() => goTo(st)}
-                style={{
-                  background: "none",
-                  border: "none",
-                  padding: 0,
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "baseline",
-                  gap: "10px",
-                  flexShrink: 0,
-                }}
+                style={{ background: "none", border: "none", padding: 0, cursor: "pointer", display: "flex", alignItems: "baseline", gap: "10px", flexShrink: 0 }}
               >
-                <span style={{ fontFamily: SERIF, fontSize: "1rem", color: on ? C.accent : C.muted, transition: "color .25s" }}>
-                  {st.numeral}
-                </span>
+                <span style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "1.1rem", color: on ? C.accent : C.muted }}>{st.numeral}</span>
                 <span
                   style={{
                     fontFamily: SANS,
-                    fontSize: "11px",
-                    letterSpacing: "0.22em",
+                    fontSize: "12px",
+                    fontWeight: 500,
+                    letterSpacing: "0.18em",
                     textTransform: "uppercase",
                     color: on ? C.ink : C.muted,
-                    transition: "color .25s",
+                    borderBottom: `1px solid ${on ? C.accent : "transparent"}`,
+                    paddingBottom: "3px",
                   }}
                 >
                   {st.title}
@@ -397,69 +363,71 @@ export default function TimelineSection() {
           })}
         </nav>
 
+        {m && (
+          <div id="timeline-map" style={{ marginBottom: "3.5rem" }}>
+            {mapBlock}
+          </div>
+        )}
+
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: m ? "1fr" : "minmax(320px, 4fr) 8fr",
-            columnGap: "7rem",
+            gridTemplateColumns: m ? "1fr" : "minmax(340px, 5fr) 7fr",
+            columnGap: "5.5rem",
             alignItems: "start",
           }}
         >
           {!m && <aside style={{ position: "sticky", top: "6rem" }}>{mapBlock}</aside>}
 
           <div>
-            {stages.map((st, i) => {
-              const flip = i % 2 === 1;
-              return (
-                <article
-                  key={st.id}
-                  data-id={st.id}
-                  ref={(el) => {
-                    refs.current[st.id] = el;
-                  }}
-                  style={{
-                    position: "relative",
-                    paddingBottom: m ? "4rem" : "7.5rem",
-                    marginBottom: m ? "4rem" : "7.5rem",
-                    borderBottom: i < stages.length - 1 ? `1px solid ${C.line}` : "none",
-                  }}
-                >
-                  <div
+            {stages.map((st, i) => (
+              <article
+                key={st.id}
+                data-id={st.id}
+                ref={(el) => {
+                  refs.current[st.id] = el;
+                }}
+                style={{
+                  paddingBottom: m ? "3.2rem" : "4.5rem",
+                  marginBottom: m ? "3.2rem" : "4.5rem",
+                  borderBottom: i < stages.length - 1 ? `1px solid ${C.line}` : "none",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "flex-end", gap: m ? "16px" : "24px", marginBottom: m ? "1.2rem" : "1.6rem" }}>
+                  <span
                     style={{
-                      display: "flex",
-                      alignItems: "baseline",
-                      justifyContent: "space-between",
-                      marginBottom: m ? "1.2rem" : "1.8rem",
+                      fontFamily: SERIF,
+                      fontStyle: "italic",
+                      fontSize: m ? "3.4rem" : "4.6rem",
+                      lineHeight: 0.8,
+                      color: C.accent,
+                      minWidth: m ? "64px" : "92px",
                     }}
                   >
-                    <span style={{ fontFamily: SANS, fontSize: "11px", letterSpacing: "0.3em", textTransform: "uppercase", color: C.muted }}>
-                      {st.location}
-                    </span>
-                    <span style={{ fontFamily: SANS, fontSize: "11px", letterSpacing: "0.2em", color: C.muted }}>
-                      {st.id} / 06
-                    </span>
-                  </div>
-
-                  <div style={{ position: "relative", zIndex: 2, textAlign: !m && flip ? "right" : "left" }}>
+                    {st.numeral}
+                  </span>
+                  <div style={{ flex: 1, paddingBottom: "4px" }}>
                     <span
                       style={{
                         display: "block",
-                        fontFamily: SERIF,
-                        fontStyle: "italic",
-                        fontSize: m ? "1.1rem" : "1.35rem",
-                        color: C.accent,
-                        marginBottom: "0.4rem",
+                        fontFamily: SANS,
+                        fontSize: "11.5px",
+                        fontWeight: 500,
+                        letterSpacing: "0.26em",
+                        textTransform: "uppercase",
+                        color: C.muted,
+                        marginBottom: "8px",
                       }}
                     >
-                      {st.numeral}.
+                      {st.location}
                     </span>
                     <h3
                       style={{
                         fontFamily: SERIF,
                         fontWeight: 400,
-                        fontSize: m ? "2.7rem" : "clamp(3.4rem, 5.6vw, 5.6rem)",
-                        lineHeight: 0.95,
-                        letterSpacing: "-0.03em",
+                        fontSize: m ? "2.2rem" : "clamp(2.6rem, 3.6vw, 3.6rem)",
+                        lineHeight: 1,
+                        letterSpacing: "-0.025em",
                         color: C.ink,
                         margin: 0,
                       }}
@@ -467,98 +435,58 @@ export default function TimelineSection() {
                       {st.title}
                     </h3>
                   </div>
+                </div>
 
-                  {st.img && (
-                    <div
-                      style={{
-                        position: "relative",
-                        zIndex: 1,
-                        width: m ? "100%" : "78%",
-                        marginLeft: !m && flip ? 0 : "auto",
-                        marginTop: m ? "1.5rem" : "-1.6rem",
-                        aspectRatio: m ? "4 / 3" : "16 / 10",
-                        overflow: "hidden",
-                        background: "#1A1714",
-                      }}
-                    >
-                      <motion.img
-                        src={st.img}
-                        alt={st.title}
-                        loading="lazy"
-                        initial={{ scale: 1.06, opacity: 0 }}
-                        whileInView={{ scale: 1, opacity: 1 }}
-                        viewport={{ once: true, margin: "-10%" }}
-                        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          objectFit: "cover",
-                          display: "block",
-                          filter: "grayscale(0.35) sepia(0.15) contrast(1.02)",
-                        }}
-                      />
-                    </div>
-                  )}
-
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: m ? "1fr" : "5fr 7fr",
-                      columnGap: "3.5rem",
-                      rowGap: "1rem",
-                      marginTop: m ? "1.6rem" : "2.6rem",
-                      direction: !m && flip ? "rtl" : "ltr",
-                    }}
-                  >
-                    <p
-                      style={{
-                        direction: "ltr",
-                        fontFamily: SERIF,
-                        fontStyle: "italic",
-                        fontSize: m ? "1.25rem" : "1.5rem",
-                        lineHeight: 1.35,
-                        color: C.ink,
-                        margin: 0,
-                      }}
-                    >
-                      {st.subtitle}
-                    </p>
-                    <div style={{ direction: "ltr" }}>
-                      <p
-                        style={{
-                          fontFamily: SANS,
-                          fontWeight: 300,
-                          fontSize: m ? "1rem" : "1.05rem",
-                          lineHeight: 1.9,
-                          color: C.body,
-                          margin: 0,
-                        }}
-                      >
-                        {st.desc}
-                      </p>
-                      <button
-                        onClick={() => {
-                          setCity(st.city);
-                          setActiveId(st.id);
-                          if (m) document.getElementById("timeline-map")?.scrollIntoView({ behavior: "smooth", block: "center" });
-                        }}
-                        style={{ ...textLink(false), marginTop: "1.4rem", color: C.accent }}
-                      >
-                        {cityText[st.city].name} — ver no mapa
-                      </button>
-                    </div>
+                {st.img && (
+                  <div style={{ width: "100%", aspectRatio: m ? "4 / 3" : "16 / 9", overflow: "hidden", background: "#26221E", marginBottom: m ? "1.4rem" : "1.8rem" }}>
+                    <img
+                      src={st.img}
+                      alt={st.title}
+                      loading="lazy"
+                      style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                    />
                   </div>
-                </article>
-              );
-            })}
+                )}
+
+                <p
+                  style={{
+                    fontFamily: SERIF,
+                    fontStyle: "italic",
+                    fontSize: m ? "1.3rem" : "1.5rem",
+                    lineHeight: 1.35,
+                    color: C.accent,
+                    margin: "0 0 0.9rem",
+                  }}
+                >
+                  {st.subtitle}
+                </p>
+                <p
+                  style={{
+                    fontFamily: SANS,
+                    fontWeight: 400,
+                    fontSize: m ? "1.02rem" : "1.08rem",
+                    lineHeight: 1.85,
+                    color: C.body,
+                    margin: 0,
+                    maxWidth: "640px",
+                  }}
+                >
+                  {st.desc}
+                </p>
+                <button
+                  onClick={() => {
+                    setCity(st.city);
+                    setActiveId(st.id);
+                    if (m) document.getElementById("timeline-map")?.scrollIntoView({ behavior: "smooth", block: "center" });
+                  }}
+                  style={{ ...textLink(false), marginTop: "1.3rem", color: C.accent, borderBottom: `1px solid ${C.accent}` }}
+                >
+                  {cityText[st.city].name} — ver no mapa
+                </button>
+              </article>
+            ))}
           </div>
         </div>
-
-        {m && (
-          <div id="timeline-map" style={{ marginTop: "-1rem" }}>
-            {mapBlock}
-          </div>
-        )}
       </div>
     </section>
   );
