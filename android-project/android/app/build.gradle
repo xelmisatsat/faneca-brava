@@ -7,8 +7,8 @@ android {
         applicationId "com.fanecabrava.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 55
-        versionName "v54.1.0"
+        versionCode 56
+        versionName "v55.1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
