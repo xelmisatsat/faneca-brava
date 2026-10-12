@@ -270,10 +270,11 @@ export default function ConversaSection() {
       id="conversa"
       style={{
         position: "relative",
-        padding: m ? "4rem 1rem 3rem" : "8rem 2rem 7rem",
+        padding: m ? "4rem 1rem 3rem" : "5rem 1.5rem 4rem",
+        scrollMarginTop: "95px",
         overflow: "hidden",
         backgroundColor: "#06080F",
-        minHeight: "100vh",
+        minHeight: m ? "100vh" : "auto",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -388,22 +389,22 @@ export default function ConversaSection() {
       {/* =========================================================================
           2. CONTIDO PRINCIPAL: CONSOLA DE CRISTAL (PURE GLASSMORPHISM)
           ========================================================================= */}
-      <div style={{ maxWidth: "1280px", width: "100%", margin: "0 auto", position: "relative", zIndex: 10 }}>
+      <div style={{ maxWidth: m ? "100%" : "960px", width: "100%", margin: "0 auto", position: "relative", zIndex: 10 }}>
 
         {/* CABECEIRA: Título con placa de cristal flotante */}
         <motion.div
           initial={{ opacity: 0, y: 35 }}
           animate={v ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-          style={{ marginBottom: m ? "2rem" : "3.5rem", textAlign: m ? "center" : "left" }}
+          style={{ marginBottom: m ? "2rem" : "1.8rem", textAlign: m ? "center" : "left" }}
         >
           {/* Badge de cristal biselado */}
           <div
             style={{
               display: "inline-flex",
               alignItems: "center",
-              gap: "10px",
-              padding: "7px 18px",
+              gap: "9px",
+              padding: "6px 16px",
               borderRadius: "9999px",
               background: "linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.03) 100%)",
               backdropFilter: "blur(20px)",
@@ -411,16 +412,16 @@ export default function ConversaSection() {
               border: "1px solid rgba(255, 255, 255, 0.22)",
               borderTop: "1px solid rgba(255, 255, 255, 0.45)",
               boxShadow: "0 10px 25px -5px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.35)",
-              marginBottom: "1.25rem",
+              marginBottom: "0.85rem",
             }}
           >
-            <Sparkles size={14} color="#E2BA70" />
+            <Sparkles size={13} color="#E2BA70" />
             <span
               style={{
                 fontFamily: "'DM Sans', sans-serif",
-                fontSize: "11px",
+                fontSize: "10.5px",
                 fontWeight: 600,
-                letterSpacing: "0.28em",
+                letterSpacing: "0.26em",
                 textTransform: "uppercase",
                 color: "#E2BA70",
               }}
@@ -432,12 +433,12 @@ export default function ConversaSection() {
           <h2
             style={{
               fontFamily: "'Cormorant Garamond', Georgia, serif",
-              fontSize: m ? "2.6rem" : "clamp(3rem, 5.5vw, 4.8rem)",
+              fontSize: m ? "2.6rem" : "clamp(2.1rem, 2.8vw, 2.6rem)",
               fontWeight: 400,
-              lineHeight: 1.02,
+              lineHeight: 1.05,
               letterSpacing: "-0.025em",
               color: "#F8FAFC",
-              margin: "0 0 1rem",
+              margin: "0 0 0.5rem",
               textShadow: "0 4px 20px rgba(0,0,0,0.6)",
             }}
           >
@@ -447,10 +448,10 @@ export default function ConversaSection() {
           <p
             style={{
               fontFamily: "'DM Sans', sans-serif",
-              fontSize: m ? "0.95rem" : "1.1rem",
-              lineHeight: 1.65,
+              fontSize: m ? "0.95rem" : "0.98rem",
+              lineHeight: 1.55,
               color: "rgba(226, 232, 240, 0.8)",
-              maxWidth: "620px",
+              maxWidth: "580px",
               margin: m ? "0 auto" : "0",
               fontWeight: 300,
             }}
@@ -555,9 +556,9 @@ export default function ConversaSection() {
           style={{
             position: "relative",
             display: "grid",
-            gridTemplateColumns: m ? "1fr" : "330px 1fr",
+            gridTemplateColumns: m ? "1fr" : "250px 1fr",
             gap: "0",
-            borderRadius: m ? "24px" : "32px",
+            borderRadius: m ? "24px" : "26px",
             background: "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%)",
             backdropFilter: "blur(32px)",
             WebkitBackdropFilter: "blur(32px)",
@@ -565,7 +566,9 @@ export default function ConversaSection() {
             borderTop: "1px solid rgba(255, 255, 255, 0.38)",
             boxShadow: "0 30px 90px -15px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 0 35px rgba(255, 255, 255, 0.015)",
             overflow: "hidden",
-            minHeight: m ? "560px" : "680px",
+            height: m ? "auto" : "510px",
+            minHeight: m ? "560px" : "510px",
+            maxHeight: m ? "none" : "510px",
           }}
         >
           {/* =========================================================================
@@ -578,25 +581,27 @@ export default function ConversaSection() {
                 flexDirection: "column",
                 borderRight: "1px solid rgba(255, 255, 255, 0.1)",
                 background: "linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%)",
-                padding: "24px 20px",
+                padding: "14px 12px",
+                height: "100%",
+                overflow: "hidden",
               }}
             >
               <div
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: "8px",
-                  marginBottom: "16px",
-                  paddingLeft: "6px",
+                  gap: "7px",
+                  marginBottom: "8px",
+                  paddingLeft: "4px",
                 }}
               >
-                <Compass size={14} color="#E2BA70" />
+                <Compass size={13} color="#E2BA70" />
                 <span
                   style={{
                     fontFamily: "'DM Sans', sans-serif",
-                    fontSize: "10.5px",
+                    fontSize: "10px",
                     fontWeight: 700,
-                    letterSpacing: "0.22em",
+                    letterSpacing: "0.2em",
                     textTransform: "uppercase",
                     color: "rgba(226, 232, 240, 0.6)",
                   }}
@@ -606,21 +611,21 @@ export default function ConversaSection() {
               </div>
 
               {/* Lista vertical de tarxetas de cristal */}
-              <div style={{ display: "flex", flexDirection: "column", gap: "10px", flex: 1 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                 {CHARACTERS.map((c, i) => {
                   const active = charIdx === i;
                   return (
                     <motion.button
                       key={c.id}
                       onClick={() => changeChar(i)}
-                      whileHover={{ x: 4, scale: 1.01 }}
+                      whileHover={{ x: 3, scale: 1.01 }}
                       whileTap={{ scale: 0.98 }}
                       style={{
                         display: "flex",
                         alignItems: "center",
-                        gap: "14px",
-                        padding: "14px 16px",
-                        borderRadius: "20px",
+                        gap: "10px",
+                        padding: "8px 10px",
+                        borderRadius: "14px",
                         textAlign: "left",
                         background: active
                           ? `linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.04) 100%)`
@@ -630,13 +635,13 @@ export default function ConversaSection() {
                         border: active ? `1px solid ${c.color}70` : "1px solid rgba(255, 255, 255, 0.08)",
                         borderTop: active ? "1px solid rgba(255, 255, 255, 0.5)" : "1px solid rgba(255, 255, 255, 0.14)",
                         boxShadow: active
-                          ? `0 14px 30px -6px ${c.glow}, inset 0 1px 0 rgba(255, 255, 255, 0.35)`
-                          : "0 4px 12px rgba(0,0,0,0.15)",
+                          ? `0 10px 24px -5px ${c.glow}, inset 0 1px 0 rgba(255, 255, 255, 0.35)`
+                          : "0 3px 8px rgba(0,0,0,0.12)",
                         cursor: "pointer",
-                        transition: "all 0.28s cubic-bezier(0.16, 1, 0.3, 1)",
+                        transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
                       }}
                     >
-                      <div style={{ position: "relative", width: "46px", height: "46px", flexShrink: 0 }}>
+                      <div style={{ position: "relative", width: "34px", height: "34px", flexShrink: 0 }}>
                         <img
                           src={c.avatar}
                           alt={c.name}
@@ -646,7 +651,7 @@ export default function ConversaSection() {
                             borderRadius: "50%",
                             objectFit: "cover",
                             border: active ? `2px solid ${c.color}` : "1.5px solid rgba(255,255,255,0.18)",
-                            boxShadow: active ? `0 0 16px ${c.color}50` : "none",
+                            boxShadow: active ? `0 0 12px ${c.color}50` : "none",
                           }}
                         />
                         {active && (
@@ -655,12 +660,12 @@ export default function ConversaSection() {
                               position: "absolute",
                               bottom: "0px",
                               right: "0px",
-                              width: "10px",
-                              height: "10px",
+                              width: "8px",
+                              height: "8px",
                               borderRadius: "50%",
                               background: "#22C55E",
-                              boxShadow: "0 0 10px #22C55E",
-                              border: "2px solid #0F172A",
+                              boxShadow: "0 0 8px #22C55E",
+                              border: "1.5px solid #0F172A",
                             }}
                           />
                         )}
@@ -670,12 +675,13 @@ export default function ConversaSection() {
                         <div
                           style={{
                             fontFamily: "'Cormorant Garamond', Georgia, serif",
-                            fontSize: "1.15rem",
+                            fontSize: "0.96rem",
                             fontWeight: 600,
                             color: active ? c.color : "#F8FAFC",
                             whiteSpace: "nowrap",
                             overflow: "hidden",
                             textOverflow: "ellipsis",
+                            lineHeight: 1.15,
                           }}
                         >
                           {c.name}
@@ -683,9 +689,12 @@ export default function ConversaSection() {
                         <div
                           style={{
                             fontFamily: "'DM Sans', sans-serif",
-                            fontSize: "11px",
+                            fontSize: "10px",
                             color: active ? "rgba(248, 250, 252, 0.85)" : "rgba(226, 232, 240, 0.5)",
-                            marginTop: "2px",
+                            marginTop: "1px",
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
                           }}
                         >
                           {c.role}
@@ -700,17 +709,17 @@ export default function ConversaSection() {
               <div
                 style={{
                   marginTop: "auto",
-                  padding: "16px",
-                  borderRadius: "18px",
+                  padding: "8px 10px",
+                  borderRadius: "12px",
                   background: "linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%)",
                   border: "1px solid rgba(255, 255, 255, 0.1)",
                   borderTop: "1px solid rgba(255, 255, 255, 0.22)",
                   boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.15)",
                 }}
               >
-                <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "6px" }}>
-                  <ShieldCheck size={13} color="#E2BA70" />
-                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "10px", color: "#E2BA70", letterSpacing: "0.15em", textTransform: "uppercase" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "5px", marginBottom: "4px" }}>
+                  <ShieldCheck size={12} color="#E2BA70" />
+                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "9.5px", color: "#E2BA70", letterSpacing: "0.15em", textTransform: "uppercase" }}>
                     Voz Literaria
                   </span>
                 </div>
@@ -718,10 +727,14 @@ export default function ConversaSection() {
                   style={{
                     fontFamily: "'Playfair Display', Georgia, serif",
                     fontStyle: "italic",
-                    fontSize: "0.85rem",
-                    lineHeight: 1.5,
+                    fontSize: "0.75rem",
+                    lineHeight: 1.38,
                     color: "rgba(248, 250, 252, 0.8)",
                     margin: 0,
+                    display: "-webkit-box",
+                    WebkitLineClamp: 3,
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
                   }}
                 >
                   {char.quote}
@@ -733,7 +746,7 @@ export default function ConversaSection() {
           {/* =========================================================================
               PANEL DEREITO: AREA DE CONVERSA DE CRISTAL PURA
               ========================================================================= */}
-          <div style={{ display: "flex", flexDirection: "column", minHeight: m ? "560px" : "680px" }}>
+          <div style={{ display: "flex", flexDirection: "column", minHeight: m ? "560px" : "0", height: "100%", overflow: "hidden" }}>
 
             {/* BARRA SUPERIOR DE CRISTAL (ACTIVE CHARACTER BAR) */}
             <div
@@ -741,15 +754,15 @@ export default function ConversaSection() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
-                padding: m ? "14px 16px" : "18px 26px",
+                padding: m ? "14px 16px" : "10px 18px",
                 borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
                 background: "linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.01) 100%)",
                 backdropFilter: "blur(24px)",
                 WebkitBackdropFilter: "blur(24px)",
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-                <div style={{ position: "relative", width: m ? "38px" : "44px", height: m ? "38px" : "44px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                <div style={{ position: "relative", width: m ? "38px" : "34px", height: m ? "38px" : "34px" }}>
                   <img
                     src={char.avatar}
                     alt={char.name}
@@ -759,7 +772,7 @@ export default function ConversaSection() {
                       borderRadius: "50%",
                       objectFit: "cover",
                       border: `2px solid ${char.color}`,
-                      boxShadow: `0 0 16px ${char.glow}`,
+                      boxShadow: `0 0 14px ${char.glow}`,
                     }}
                   />
                   <span
@@ -767,8 +780,8 @@ export default function ConversaSection() {
                       position: "absolute",
                       bottom: "0px",
                       right: "0px",
-                      width: "9px",
-                      height: "9px",
+                      width: "8px",
+                      height: "8px",
                       borderRadius: "50%",
                       background: "#22C55E",
                       boxShadow: "0 0 8px #22C55E",
@@ -780,7 +793,7 @@ export default function ConversaSection() {
                   <div
                     style={{
                       fontFamily: "'Cormorant Garamond', Georgia, serif",
-                      fontSize: m ? "1.15rem" : "1.35rem",
+                      fontSize: m ? "1.15rem" : "1.15rem",
                       fontWeight: 600,
                       color: "#F8FAFC",
                       lineHeight: 1.1,
@@ -791,9 +804,9 @@ export default function ConversaSection() {
                   <div
                     style={{
                       fontFamily: "'DM Sans', sans-serif",
-                      fontSize: "11px",
+                      fontSize: "10px",
                       color: char.color,
-                      marginTop: "2px",
+                      marginTop: "1px",
                       fontWeight: 500,
                     }}
                   >
@@ -804,7 +817,7 @@ export default function ConversaSection() {
 
               {/* Botón de control de voz flotante */}
               <motion.button
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => {
                   const lastMsg = [...msgs].reverse().find((m) => m.role === "assistant");
@@ -814,8 +827,8 @@ export default function ConversaSection() {
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
-                  gap: "7px",
-                  padding: m ? "7px 12px" : "8px 16px",
+                  gap: "6px",
+                  padding: m ? "7px 12px" : "5px 12px",
                   borderRadius: "9999px",
                   background: speaking
                     ? `linear-gradient(135deg, ${char.color}40, ${char.color}15)`
@@ -824,18 +837,18 @@ export default function ConversaSection() {
                   WebkitBackdropFilter: "blur(18px)",
                   border: speaking ? `1px solid ${char.color}` : "1px solid rgba(255, 255, 255, 0.14)",
                   borderTop: "1px solid rgba(255, 255, 255, 0.35)",
-                  boxShadow: speaking ? `0 0 20px ${char.glow}` : "0 4px 12px rgba(0,0,0,0.2)",
+                  boxShadow: speaking ? `0 0 16px ${char.glow}` : "0 3px 8px rgba(0,0,0,0.18)",
                   color: speaking ? char.color : "rgba(248, 250, 252, 0.8)",
                   cursor: msgs.length === 0 ? "not-allowed" : "pointer",
                   opacity: msgs.length === 0 ? 0.4 : 1,
                   fontFamily: "'DM Sans', sans-serif",
-                  fontSize: "11px",
+                  fontSize: "10.5px",
                   fontWeight: 600,
                   transition: "all 0.25s ease",
                 }}
               >
-                {speaking ? <VolumeX size={14} /> : <Volume2 size={14} />}
-                <span>{speaking ? "Pausar voz" : "Voz literaria"}</span>
+                {speaking ? <VolumeX size={13} /> : <Volume2 size={13} />}
+                <span>{speaking ? "Pausar" : "Voz literaria"}</span>
               </motion.button>
             </div>
 
@@ -844,10 +857,10 @@ export default function ConversaSection() {
               style={{
                 flex: 1,
                 overflowY: "auto",
-                padding: m ? "16px 14px" : "24px 28px",
+                padding: m ? "16px 14px" : "14px 18px",
                 display: "flex",
                 flexDirection: "column",
-                gap: "16px",
+                gap: "12px",
                 scrollbarWidth: "thin",
                 scrollbarColor: "rgba(255,255,255,0.15) transparent",
               }}
@@ -861,7 +874,7 @@ export default function ConversaSection() {
                     alignItems: "center",
                     justifyContent: "center",
                     flex: 1,
-                    padding: m ? "2rem 1rem" : "3.5rem 2rem",
+                    padding: m ? "2rem 1rem" : "1.2rem 1rem",
                     textAlign: "center",
                   }}
                 >
@@ -870,13 +883,13 @@ export default function ConversaSection() {
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ duration: 0.6 }}
                     style={{
-                      width: m ? "72px" : "88px",
-                      height: m ? "72px" : "88px",
+                      width: m ? "72px" : "54px",
+                      height: m ? "72px" : "54px",
                       borderRadius: "50%",
-                      padding: "4px",
+                      padding: "3px",
                       background: `linear-gradient(135deg, ${char.color}60, rgba(255,255,255,0.1))`,
-                      boxShadow: `0 20px 40px -10px ${char.glow}, inset 0 1px 0 rgba(255,255,255,0.4)`,
-                      marginBottom: "1.25rem",
+                      boxShadow: `0 15px 30px -8px ${char.glow}, inset 0 1px 0 rgba(255,255,255,0.4)`,
+                      marginBottom: "0.7rem",
                     }}
                   >
                     <img
@@ -895,10 +908,10 @@ export default function ConversaSection() {
                   <h3
                     style={{
                       fontFamily: "'Cormorant Garamond', Georgia, serif",
-                      fontSize: m ? "1.5rem" : "1.85rem",
+                      fontSize: m ? "1.5rem" : "1.35rem",
                       fontWeight: 600,
                       color: "#F8FAFC",
-                      margin: "0 0 6px",
+                      margin: "0 0 4px",
                     }}
                   >
                     Conversa con {char.name}
@@ -908,19 +921,19 @@ export default function ConversaSection() {
                     style={{
                       fontFamily: "'Playfair Display', Georgia, serif",
                       fontStyle: "italic",
-                      fontSize: m ? "0.95rem" : "1.05rem",
+                      fontSize: m ? "0.95rem" : "0.86rem",
                       color: "rgba(226, 232, 240, 0.7)",
-                      maxWidth: "460px",
-                      margin: "0 auto 1.75rem",
-                      lineHeight: 1.5,
+                      maxWidth: "420px",
+                      margin: "0 auto 0.9rem",
+                      lineHeight: 1.45,
                     }}
                   >
                     «{char.quote}»
                   </p>
 
-                  <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "1rem" }}>
-                    <MessageSquare size={13} color="#E2BA70" />
-                    <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "11px", color: "#E2BA70", letterSpacing: "0.15em", textTransform: "uppercase", fontWeight: 600 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "0.6rem" }}>
+                    <MessageSquare size={12} color="#E2BA70" />
+                    <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "10px", color: "#E2BA70", letterSpacing: "0.14em", textTransform: "uppercase", fontWeight: 600 }}>
                       Suxestións de preguntas
                     </span>
                   </div>
@@ -930,9 +943,9 @@ export default function ConversaSection() {
                     style={{
                       display: "flex",
                       flexWrap: "wrap",
-                      gap: "9px",
+                      gap: "6px",
                       justifyContent: "center",
-                      maxWidth: "520px",
+                      maxWidth: "480px",
                     }}
                   >
                     {char.suggestions.map((s, i) => (
@@ -943,16 +956,16 @@ export default function ConversaSection() {
                         onClick={() => send(s)}
                         style={{
                           fontFamily: "'DM Sans', sans-serif",
-                          fontSize: "12px",
+                          fontSize: "11px",
                           fontWeight: 400,
-                          padding: "8px 16px",
+                          padding: "5px 12px",
                           borderRadius: "9999px",
                           background: "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%)",
                           backdropFilter: "blur(18px)",
                           WebkitBackdropFilter: "blur(18px)",
                           border: `1px solid rgba(255, 255, 255, 0.14)`,
                           borderTop: "1px solid rgba(255, 255, 255, 0.32)",
-                          boxShadow: "0 4px 15px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.2)",
+                          boxShadow: "0 3px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.2)",
                           color: "#E2E8F0",
                           cursor: "pointer",
                           transition: "all 0.25s ease",
@@ -972,13 +985,13 @@ export default function ConversaSection() {
                   return (
                     <motion.div
                       key={i}
-                      initial={{ opacity: 0, y: 14, scale: 0.98 }}
+                      initial={{ opacity: 0, y: 12, scale: 0.98 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
-                      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                       style={{
                         display: "flex",
                         justifyContent: isUser ? "flex-end" : "flex-start",
-                        gap: "10px",
+                        gap: "8px",
                         alignItems: "flex-end",
                       }}
                     >
@@ -988,21 +1001,21 @@ export default function ConversaSection() {
                           src={char.sticker}
                           alt=""
                           style={{
-                            width: "36px",
-                            height: "36px",
+                            width: m ? "36px" : "28px",
+                            height: m ? "36px" : "28px",
                             objectFit: "contain",
                             flexShrink: 0,
                             marginBottom: "2px",
-                            filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.45))",
+                            filter: "drop-shadow(0 3px 6px rgba(0,0,0,0.4))",
                           }}
                         />
                       )}
 
                       <div
                         style={{
-                          maxWidth: m ? "84%" : "72%",
-                          padding: m ? "12px 16px" : "14px 20px",
-                          borderRadius: isUser ? "22px 22px 6px 22px" : "22px 22px 22px 6px",
+                          maxWidth: m ? "84%" : "78%",
+                          padding: m ? "12px 16px" : "9px 14px",
+                          borderRadius: isUser ? "18px 18px 5px 18px" : "18px 18px 18px 5px",
                           background: isUser
                             ? `linear-gradient(135deg, rgba(226, 186, 112, 0.28) 0%, rgba(226, 186, 112, 0.10) 100%)`
                             : `linear-gradient(135deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.03) 100%)`,
@@ -1011,15 +1024,15 @@ export default function ConversaSection() {
                           border: isUser ? `1px solid rgba(226, 186, 112, 0.45)` : `1px solid rgba(255, 255, 255, 0.18)`,
                           borderTop: isUser ? `1px solid rgba(255, 255, 255, 0.45)` : `1px solid rgba(255, 255, 255, 0.35)`,
                           boxShadow: isUser
-                            ? `0 10px 30px -5px rgba(0, 0, 0, 0.4), 0 0 20px ${char.color}15, inset 0 1px 0 rgba(255, 255, 255, 0.3)`
-                            : `0 10px 30px -5px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25)`,
+                            ? `0 8px 24px -5px rgba(0, 0, 0, 0.4), 0 0 18px ${char.color}15, inset 0 1px 0 rgba(255, 255, 255, 0.3)`
+                            : `0 8px 24px -5px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25)`,
                         }}
                       >
                         <p
                           style={{
                             fontFamily: "'DM Sans', sans-serif",
-                            fontSize: m ? "0.92rem" : "0.98rem",
-                            lineHeight: 1.7,
+                            fontSize: m ? "0.92rem" : "0.89rem",
+                            lineHeight: 1.55,
                             color: "#F8FAFC",
                             margin: 0,
                             fontWeight: 300,
@@ -1030,7 +1043,7 @@ export default function ConversaSection() {
                         </p>
 
                         {!isUser && (
-                          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "10px" }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: "6px", marginTop: "6px" }}>
                             <button
                               onClick={() => speakText(msg.content)}
                               style={{
@@ -1040,15 +1053,15 @@ export default function ConversaSection() {
                                 cursor: "pointer",
                                 display: "inline-flex",
                                 alignItems: "center",
-                                gap: "5px",
+                                gap: "4px",
                                 color: char.color,
-                                fontSize: "11px",
+                                fontSize: "10px",
                                 fontFamily: "'DM Sans', sans-serif",
                                 fontWeight: 600,
                                 opacity: 0.9,
                               }}
                             >
-                              <Volume2 size={13} />
+                              <Volume2 size={12} />
                               <span>{speaking ? "Pausar" : "Reproducir voz"}</span>
                             </button>
                           </div>
@@ -1064,14 +1077,14 @@ export default function ConversaSection() {
                 <motion.div
                   initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
-                  style={{ display: "flex", gap: "10px", alignItems: "flex-end" }}
+                  style={{ display: "flex", gap: "8px", alignItems: "flex-end" }}
                 >
                   <img
                     src={char.avatar}
                     alt=""
                     style={{
-                      width: "32px",
-                      height: "32px",
+                      width: m ? "32px" : "26px",
+                      height: m ? "32px" : "26px",
                       borderRadius: "50%",
                       objectFit: "cover",
                       border: `1.5px solid ${char.color}`,
@@ -1079,26 +1092,26 @@ export default function ConversaSection() {
                   />
                   <div
                     style={{
-                      padding: "12px 18px",
-                      borderRadius: "20px 20px 20px 6px",
+                      padding: "8px 14px",
+                      borderRadius: "16px 16px 16px 5px",
                       background: "rgba(255, 255, 255, 0.08)",
                       backdropFilter: "blur(20px)",
                       WebkitBackdropFilter: "blur(20px)",
                       border: "1px solid rgba(255, 255, 255, 0.16)",
                       borderTop: "1px solid rgba(255, 255, 255, 0.35)",
-                      boxShadow: "0 8px 24px rgba(0,0,0,0.25)",
+                      boxShadow: "0 6px 18px rgba(0,0,0,0.22)",
                     }}
                   >
-                    <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
+                    <div style={{ display: "flex", gap: "5px", alignItems: "center" }}>
                       {[0, 1, 2].map((j) => (
                         <motion.div
                           key={j}
                           style={{
-                            width: "7px",
-                            height: "7px",
+                            width: "6px",
+                            height: "6px",
                             borderRadius: "50%",
                             backgroundColor: char.color,
-                            boxShadow: `0 0 8px ${char.color}`,
+                            boxShadow: `0 0 7px ${char.color}`,
                           }}
                           animate={{ opacity: [0.3, 1, 0.3], scale: [0.8, 1.25, 0.8] }}
                           transition={{ duration: 1.1, repeat: Infinity, delay: j * 0.2 }}
@@ -1112,13 +1125,13 @@ export default function ConversaSection() {
               {error && (
                 <div
                   style={{
-                    padding: "12px 16px",
-                    borderRadius: "14px",
+                    padding: "10px 14px",
+                    borderRadius: "12px",
                     background: "rgba(239, 68, 68, 0.12)",
                     backdropFilter: "blur(16px)",
                     border: "1px solid rgba(239, 68, 68, 0.3)",
                     fontFamily: "'DM Sans', sans-serif",
-                    fontSize: "12.5px",
+                    fontSize: "12px",
                     color: "#FCA5A5",
                   }}
                 >
@@ -1132,14 +1145,14 @@ export default function ConversaSection() {
             {/* PE DE CONVERSA: DOCK FLOTANTE DE ENTRADA (FROSTED GLASS DOCK) */}
             <div
               style={{
-                padding: m ? "14px 16px" : "18px 26px",
+                padding: m ? "14px 16px" : "10px 18px",
                 borderTop: "1px solid rgba(255, 255, 255, 0.1)",
                 background: "linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.05) 100%)",
                 backdropFilter: "blur(28px)",
                 WebkitBackdropFilter: "blur(28px)",
               }}
             >
-              <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+              <div style={{ display: "flex", gap: "9px", alignItems: "center" }}>
                 <input
                   ref={inputRef}
                   type="text"
@@ -1149,8 +1162,8 @@ export default function ConversaSection() {
                   placeholder={`Escríbelle a ${char.name}...`}
                   style={{
                     flex: 1,
-                    padding: m ? "13px 18px" : "15px 22px",
-                    borderRadius: "20px",
+                    padding: m ? "13px 18px" : "9px 16px",
+                    borderRadius: "16px",
                     background: "rgba(10, 14, 24, 0.55)",
                     backdropFilter: "blur(20px)",
                     WebkitBackdropFilter: "blur(20px)",
@@ -1158,7 +1171,7 @@ export default function ConversaSection() {
                     borderTop: "1px solid rgba(255, 255, 255, 0.28)",
                     color: "#F8FAFC",
                     fontFamily: "'DM Sans', sans-serif",
-                    fontSize: m ? "14px" : "15px",
+                    fontSize: m ? "14px" : "13.5px",
                     fontWeight: 300,
                     outline: "none",
                     boxShadow: "inset 0 2px 4px rgba(0,0,0,0.4)",
@@ -1184,9 +1197,9 @@ export default function ConversaSection() {
                     display: "inline-flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    gap: "8px",
-                    padding: m ? "13px 18px" : "15px 24px",
-                    borderRadius: "20px",
+                    gap: "6px",
+                    padding: m ? "13px 18px" : "9px 18px",
+                    borderRadius: "16px",
                     background: input.trim()
                       ? `linear-gradient(135deg, ${char.color}50 0%, ${char.color}20 100%)`
                       : "rgba(255, 255, 255, 0.05)",
@@ -1197,24 +1210,24 @@ export default function ConversaSection() {
                     boxShadow: input.trim() ? `0 10px 25px -4px ${char.glow}, inset 0 1px 0 rgba(255,255,255,0.4)` : "none",
                     color: input.trim() ? "#FFFFFF" : "rgba(226, 232, 240, 0.4)",
                     fontFamily: "'DM Sans', sans-serif",
-                    fontSize: "13.5px",
+                    fontSize: "12.5px",
                     fontWeight: 600,
                     cursor: loading || !input.trim() ? "not-allowed" : "pointer",
                     transition: "all 0.25s ease",
                   }}
                 >
                   <span>Enviar</span>
-                  <Send size={15} />
+                  <Send size={13} />
                 </motion.button>
               </div>
 
               <div
                 style={{
                   fontFamily: "'DM Sans', sans-serif",
-                  fontSize: "10.5px",
+                  fontSize: "10px",
                   color: "rgba(226, 232, 240, 0.4)",
-                  marginTop: "8px",
-                  paddingLeft: "6px",
+                  marginTop: "5px",
+                  paddingLeft: "4px",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
