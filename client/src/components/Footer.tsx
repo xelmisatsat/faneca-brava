@@ -57,7 +57,7 @@ export default function Footer() {
               title: "Esta Experiencia",
               content: (
                 <p className="font-body text-sm leading-relaxed" style={{ color: '#8B9BB4' }}>
-                  Experiencia web inmersiva creada como homenaxe artístico á novela. Deseño cinematográfico, IA de personaxes entrenada co texto orixinal e narrativa interactiva.
+                  Experiencia web inmersiva creada como homenaxe artístico á novela. Deseño cinematográfico, diálogos literarios de personaxes baseados no texto orixinal e narrativa interactiva.
                 </p>
               )
             },
