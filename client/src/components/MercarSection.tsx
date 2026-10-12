@@ -98,7 +98,7 @@ export default function MercarSection() {
         borderBottom: '4px solid #000000',
       }}
     >
-      {/* Padrón sutil de cuadrícula brutalista no fondo */}
+      
       <div style={{
         position: 'absolute',
         inset: 0,
@@ -110,7 +110,7 @@ export default function MercarSection() {
 
       <div style={{ maxWidth: '1280px', margin: '0 auto', padding: m ? '0 1rem' : '0 3rem', position: 'relative', zIndex: 10 }}>
 
-        {/* ── BANNER CABECEIRA NEO-BRUTALISTA ─────────────────────── */}
+        
         <div style={{ marginBottom: m ? '2rem' : '3.5rem' }}>
           
           <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
@@ -177,7 +177,7 @@ export default function MercarSection() {
               </p>
             </div>
 
-            {/* Selo brutalista lateral */}
+            
             <div style={{
               backgroundColor: '#FF5E5B',
               color: '#FFFFFF',
@@ -196,7 +196,7 @@ export default function MercarSection() {
           </div>
         </div>
 
-        {/* ── BLOQUE DESTACADO DO EXEMPLAR (HERO BRUTALISTA) ───────── */}
+        
         <div style={{
           backgroundColor: '#F3F4F6',
           border: '3px solid #000000',
@@ -208,7 +208,7 @@ export default function MercarSection() {
           gap: m ? '1.25rem' : '2.5rem',
           alignItems: 'center',
         }}>
-          {/* Portada */}
+          
           <div style={{ textAlign: 'center' }}>
             <img 
               src="/manus-storage/NEjJma6w5Oln_b68f9430.jpg"
@@ -224,7 +224,7 @@ export default function MercarSection() {
             />
           </div>
 
-          {/* Ficha rápida */}
+          
           <div>
             <div style={{ display: 'inline-block', backgroundColor: '#000000', color: '#FFFFFF', fontSize: '11px', fontWeight: 800, padding: '3px 8px', marginBottom: '8px', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
               NOVELA DE MEMORIA · 2024
@@ -249,7 +249,7 @@ export default function MercarSection() {
             </div>
           </div>
 
-          {/* Prezo + Botón Galaxia */}
+          
           <div style={{
             borderLeft: m ? 'none' : '3px solid #000000',
             borderTop: m ? '3px solid #000000' : 'none',
@@ -290,7 +290,7 @@ export default function MercarSection() {
           </div>
         </div>
 
-        {/* ── TÍTULO DA GRELLA DE LIBRARÍAS ─────────────────────────── */}
+        
         <div style={{
           display: 'flex',
           alignItems: 'center',
@@ -317,7 +317,7 @@ export default function MercarSection() {
           </span>
         </div>
 
-        {/* ── CUADRÍCULA DE LIBRARÍAS (UI BRUTALISMO) ────────────────── */}
+        
         <div style={{
           display: 'grid',
           gridTemplateColumns: m ? '1fr' : 'repeat(auto-fill, minmax(360px, 1fr))',
@@ -337,7 +337,7 @@ export default function MercarSection() {
                 position: 'relative',
               }}
             >
-              {/* Header da tarxeta */}
+              
               <div>
                 <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '8px', marginBottom: '10px' }}>
                   <span style={{
@@ -384,7 +384,7 @@ export default function MercarSection() {
                 </p>
               </div>
 
-              {/* Footer da tarxeta: Prezo + Botón de acción */}
+              
               <div style={{
                 borderTop: '2px dashed #000000',
                 paddingTop: '14px',
@@ -430,7 +430,7 @@ export default function MercarSection() {
           ))}
         </div>
 
-        {/* ── PE BRUTALISTA ────────────────────────────────────────── */}
+        
         <div style={{
           marginTop: m ? '2.5rem' : '3.5rem',
           border: '3px solid #000000',

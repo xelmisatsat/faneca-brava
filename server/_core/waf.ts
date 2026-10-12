@@ -1,9 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
 
-// =============================================================================
-// FANECA BRAVA - WAF & ADVANCED SECURITY SHIELD (RENDER PRODUCTION GRADE)
-// Multi-layer defense against Scanners, Injections, Probes, Exploits & DoS
-// =============================================================================
 
 // --- 1. IP JAIL & REPUTATION SYSTEM ---
 interface JailRecord {
@@ -146,9 +142,7 @@ function sanitizeValue(value: unknown): unknown {
   return value;
 }
 
-// =============================================================================
-// WAF MIDDLEWARE PRINCIPAL
-// =============================================================================
+
 
 export function wafMiddleware(req: Request, res: Response, next: NextFunction): void {
   // Aplicar sempre todas as cabeceiras de seguridade avanzadas para o navegador (CSP, HSTS, COOP, CORP)

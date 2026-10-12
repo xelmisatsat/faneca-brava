@@ -118,11 +118,9 @@ export default function ConversaSection() {
 
   const char = CHARACTERS[charIdx];
 
-  // Detección de Capacitor para APK nativa e URL de Render
   const isCapacitor = () => typeof window !== "undefined" && !!(window as any).Capacitor;
   const API_BASE = isCapacitor() ? "https://faneca-brava.onrender.com" : "";
 
-  // Respostas de reserva literarias sen internet
   const OFFLINE_RESPONSES: Record<string, string[]> = {
     concha: [
       "Cando miro pola lente da cámara, deixo de ser a nena que todos sinalaban na vila. Por fin son eu a que observa e a que ten o control. Cada fotografía que fixen en Barcelona foi unha forma de poñer a cada quen no seu sitio e esixir a xustiza que me negaron.",
@@ -187,7 +185,7 @@ export default function ConversaSection() {
         return;
       }
     } catch {
-      // Fallback a SpeechSynthesis
+
     }
 
     try {
@@ -280,11 +278,9 @@ export default function ConversaSection() {
         justifyContent: "center",
       }}
     >
-      {/* =========================================================================
-          1. FONDO RICO EN COLOR E XEOMETRÍA PARA REFRACCIÓN DE CRISTAL (GLASSMORPHISM)
-          ========================================================================= */}
+      
       <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none", zIndex: 0 }}>
-        {/* Orbe 1: Azure / Cyan Atlántico */}
+        
         <motion.div
           animate={{
             x: [0, 40, -30, 0],
@@ -305,7 +301,7 @@ export default function ConversaSection() {
           }}
         />
 
-        {/* Orbe 2: Ámbar Dourado / Solposto Literario */}
+        
         <motion.div
           animate={{
             x: [0, -45, 30, 0],
@@ -326,7 +322,7 @@ export default function ConversaSection() {
           }}
         />
 
-        {/* Orbe 3: Violeta e Maxenta Nocturno */}
+        
         <motion.div
           animate={{
             x: [0, 35, -25, 0],
@@ -347,7 +343,7 @@ export default function ConversaSection() {
           }}
         />
 
-        {/* Orbe 4: Esmeralda Mariña Profunda */}
+        
         <motion.div
           animate={{
             x: [0, -30, 40, 0],
@@ -368,7 +364,7 @@ export default function ConversaSection() {
           }}
         />
 
-        {/* Liñas xeométricas e reixa de luz detrás do cristal para crear refracción de arestas */}
+        
         <svg
           style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.12 }}
           xmlns="http://www.w3.org/2000/svg"
@@ -386,19 +382,17 @@ export default function ConversaSection() {
         </svg>
       </div>
 
-      {/* =========================================================================
-          2. CONTIDO PRINCIPAL: CONSOLA DE CRISTAL (PURE GLASSMORPHISM)
-          ========================================================================= */}
+      
       <div style={{ maxWidth: m ? "100%" : "960px", width: "100%", margin: "0 auto", position: "relative", zIndex: 10 }}>
 
-        {/* CABECEIRA: Título con placa de cristal flotante */}
+        
         <motion.div
           initial={{ opacity: 0, y: 35 }}
           animate={v ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
           style={{ marginBottom: m ? "2rem" : "1.8rem", textAlign: m ? "center" : "left" }}
         >
-          {/* Badge de cristal biselado */}
+          
           <div
             style={{
               display: "inline-flex",
@@ -461,9 +455,7 @@ export default function ConversaSection() {
           </p>
         </motion.div>
 
-        {/* =========================================================================
-            3. CAROUSEL HORIZONTAL DE PERSONAXES EN MÓBIL (FLOATING GLASS TABS)
-            ========================================================================= */}
+        
         {m && (
           <div
             style={{
@@ -546,9 +538,7 @@ export default function ConversaSection() {
           </div>
         )}
 
-        {/* =========================================================================
-            4. COCKPIT DE CRISTAL (DUAL PANE DESKTOP / ARENA INTEGRADA)
-            ========================================================================= */}
+        
         <motion.div
           initial={{ opacity: 0, scale: 0.98, y: 25 }}
           animate={v ? { opacity: 1, scale: 1, y: 0 } : {}}
@@ -571,9 +561,7 @@ export default function ConversaSection() {
             maxHeight: m ? "none" : "510px",
           }}
         >
-          {/* =========================================================================
-              PANEL ESQUERDO (DESKTOP): DOSSIER DE CRISTAL E SELECTOR DE PERSONAXES
-              ========================================================================= */}
+          
           {!m && (
             <div
               style={{
@@ -610,7 +598,7 @@ export default function ConversaSection() {
                 </span>
               </div>
 
-              {/* Lista vertical de tarxetas de cristal */}
+              
               <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                 {CHARACTERS.map((c, i) => {
                   const active = charIdx === i;
@@ -705,7 +693,7 @@ export default function ConversaSection() {
                 })}
               </div>
 
-              {/* Tarxeta inferior con cita destacada do personaxe activo */}
+              
               <div
                 style={{
                   marginTop: "auto",
@@ -743,12 +731,10 @@ export default function ConversaSection() {
             </div>
           )}
 
-          {/* =========================================================================
-              PANEL DEREITO: AREA DE CONVERSA DE CRISTAL PURA
-              ========================================================================= */}
+          
           <div style={{ display: "flex", flexDirection: "column", minHeight: m ? "560px" : "0", height: "100%", overflow: "hidden" }}>
 
-            {/* BARRA SUPERIOR DE CRISTAL (ACTIVE CHARACTER BAR) */}
+            
             <div
               style={{
                 display: "flex",
@@ -815,7 +801,7 @@ export default function ConversaSection() {
                 </div>
               </div>
 
-              {/* Botón de control de voz flotante */}
+              
               <motion.button
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.95 }}
@@ -852,7 +838,7 @@ export default function ConversaSection() {
               </motion.button>
             </div>
 
-            {/* FLUXO DE MENSAXES (FROSTED GLASS STREAM) */}
+            
             <div
               style={{
                 flex: 1,
@@ -865,7 +851,7 @@ export default function ConversaSection() {
                 scrollbarColor: "rgba(255,255,255,0.15) transparent",
               }}
             >
-              {/* Estado baleiro (Welcome Glass Slate) */}
+              
               {msgs.length === 0 && (
                 <div
                   style={{
@@ -938,7 +924,7 @@ export default function ConversaSection() {
                     </span>
                   </div>
 
-                  {/* Chips de cristal de suxestións flotantes */}
+                  
                   <div
                     style={{
                       display: "flex",
@@ -978,7 +964,7 @@ export default function ConversaSection() {
                 </div>
               )}
 
-              {/* Burbullas de mensaxes en Glassmorphism */}
+              
               <AnimatePresence>
                 {msgs.map((msg, i) => {
                   const isUser = msg.role === "user";
@@ -995,7 +981,7 @@ export default function ConversaSection() {
                         alignItems: "flex-end",
                       }}
                     >
-                      {/* Sticker / Avatar do personaxe */}
+                      
                       {!isUser && (
                         <img
                           src={char.sticker}
@@ -1072,7 +1058,7 @@ export default function ConversaSection() {
                 })}
               </AnimatePresence>
 
-              {/* Indicador de escritura (Liquid Glass Typing Loader) */}
+              
               {loading && (
                 <motion.div
                   initial={{ opacity: 0, y: 6 }}
@@ -1142,7 +1128,7 @@ export default function ConversaSection() {
               <div ref={endRef} />
             </div>
 
-            {/* PE DE CONVERSA: DOCK FLOTANTE DE ENTRADA (FROSTED GLASS DOCK) */}
+            
             <div
               style={{
                 padding: m ? "14px 16px" : "10px 18px",
@@ -1187,7 +1173,7 @@ export default function ConversaSection() {
                   }}
                 />
 
-                {/* Botón enviar con prisma de cristal */}
+                
                 <motion.button
                   whileHover={{ scale: 1.04 }}
                   whileTap={{ scale: 0.94 }}
@@ -1234,7 +1220,7 @@ export default function ConversaSection() {
                 }}
               >
                 <span>Preme Enter para enviar · Conversa literaria co personaxe</span>
-                <span style={{ opacity: 0.7 }}>v50.1.0</span>
+                <span style={{ opacity: 0.7 }}>v51.1.0</span>
               </div>
             </div>
           </div>

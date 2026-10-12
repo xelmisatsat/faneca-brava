@@ -10,9 +10,9 @@ const opinions = [
     role: "Alumno de 4º ESO · IES Arcebispo Xelmírez I",
     badge: "Crítica Estrutural & Personaxes",
     img: "/manus-storage/opinion-jun.jpg",
-    blockColor: "#064E3B", // Verde Bosque Atlántico sólido
-    frameColor: "#022C22", // Bloque monocromático escuro para a foto
-    accentColor: "#6EE7B7", // Menta luminosa
+    blockColor: "#064E3B",
+    frameColor: "#022C22",
+    accentColor: "#6EE7B7",
     tagColor: "#34D399",
     rating: 5,
     quote:
@@ -24,9 +24,9 @@ const opinions = [
     role: "Alumno de 4º ESO · IES Arcebispo Xelmírez I",
     badge: "Ritmo Narrativo & Intriga",
     img: "/manus-storage/opinion-alvaro.jpg",
-    blockColor: "#B45309", // Ámbar Terracota Cálido sólido
-    frameColor: "#451A03", // Bloque monocromático café/tellado
-    accentColor: "#FDE68A", // Amarelo solpor luminoso
+    blockColor: "#B45309",
+    frameColor: "#451A03",
+    accentColor: "#FDE68A",
     tagColor: "#F59E0B",
     rating: 5,
     quote:
@@ -50,21 +50,17 @@ export default function OpinionSection() {
         position: "relative",
         padding: m ? "4.5rem 1rem 3.5rem" : "6.5rem 2rem 5.5rem",
         scrollMarginTop: "95px",
-        backgroundColor: "#070A12", // Base arquitectónica sólida
+        backgroundColor: "#070A12",
         overflow: "hidden",
       }}
     >
       <div style={{ maxWidth: "1180px", margin: "0 auto", position: "relative", zIndex: 10, width: "100%" }}>
-
-        {/* =========================================================================
-            1. BLOQUE HERO DE COR SÓLIDA (CABECEIRA: AZUL MARIÑO PROFUNDO)
-            ========================================================================= */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={v ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           style={{
-            backgroundColor: "#0F1E36", // Azul sólido de alto contraste
+            backgroundColor: "#0F1E36",
             borderRadius: "22px",
             padding: m ? "2rem 1.4rem" : "3rem 3.5rem",
             marginBottom: m ? "1.5rem" : "2.5rem",
@@ -77,13 +73,12 @@ export default function OpinionSection() {
           }}
         >
           <div style={{ maxWidth: "680px" }}>
-            {/* Badge de contraste funcional */}
             <div
               style={{
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "8px",
-                backgroundColor: "#D97706", // Ámbar intenso sólido
+                backgroundColor: "#D97706",
                 color: "#080E1A",
                 padding: "5px 14px",
                 borderRadius: "8px",
@@ -128,7 +123,6 @@ export default function OpinionSection() {
             </p>
           </div>
 
-          {/* Bloque complementario de valoración */}
           <div
             style={{
               backgroundColor: "#081324",
@@ -164,14 +158,7 @@ export default function OpinionSection() {
           </div>
         </motion.div>
 
-        {/* =========================================================================
-            2. BLOQUES DE COLOR BLOCKING MODULAR: JUN & ÁLVARO (CONTRASTE FUNCIONAL)
-            ========================================================================= */}
         <div style={{ display: "flex", flexDirection: "column", gap: m ? "1.5rem" : "2.25rem" }}>
-
-          {/* ───────────────────────────────────────────────────────────────────────
-              BLOQUE 1: JUN SIEIRA GERPE (VERDE BOSQUE SÓLIDO #064E3B)
-              ─────────────────────────────────────────────────────────────────────── */}
           <motion.div
             initial={{ opacity: 0, y: 35 }}
             animate={v ? { opacity: 1, y: 0 } : {}}
@@ -184,10 +171,9 @@ export default function OpinionSection() {
               boxShadow: "0 18px 45px -8px rgba(0,0,0,0.55)",
             }}
           >
-            {/* Módulo A (Foto sobre fondo monocromático esmeralda profundo) */}
             <div
               style={{
-                backgroundColor: opinions[0].frameColor, // #022C22
+                backgroundColor: opinions[0].frameColor,
                 padding: m ? "1.5rem" : "2rem",
                 display: "flex",
                 flexDirection: "column",
@@ -261,10 +247,9 @@ export default function OpinionSection() {
               </p>
             </div>
 
-            {/* Módulo B (Contido de Valoración en Verde Bosque sólido) */}
             <div
               style={{
-                backgroundColor: opinions[0].blockColor, // #064E3B
+                backgroundColor: opinions[0].blockColor,
                 padding: m ? "1.75rem 1.4rem" : "2.75rem 3rem",
                 display: "flex",
                 flexDirection: "column",
@@ -273,7 +258,6 @@ export default function OpinionSection() {
               }}
             >
               <div>
-                {/* Estrelas e Cabeceira da crítica */}
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.25rem" }}>
                   <div style={{ display: "flex", gap: "4px" }}>
                     {[...Array(opinions[0].rating)].map((_, i) => (
@@ -294,7 +278,6 @@ export default function OpinionSection() {
                   </span>
                 </div>
 
-                {/* Texto da crítica en Bloque */}
                 <div style={{ position: "relative" }}>
                   <Quote
                     size={36}
@@ -317,7 +300,6 @@ export default function OpinionSection() {
                 </div>
               </div>
 
-              {/* Pé do Bloque con síntese clave */}
               <div
                 style={{
                   backgroundColor: "#022C22",
@@ -340,36 +322,30 @@ export default function OpinionSection() {
             </div>
           </motion.div>
 
-
-          {/* ───────────────────────────────────────────────────────────────────────
-              BLOQUE 2: ÁLVARO VILLAR GÓMEZ (ÁMBAR TERRAS DO SOLPOR SÓLIDO #B45309)
-              ─────────────────────────────────────────────────────────────────────── */}
           <motion.div
             initial={{ opacity: 0, y: 35 }}
             animate={v ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.85, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             style={{
               display: "grid",
-              gridTemplateColumns: m ? "1fr" : "1fr 320px", // Alternancia xeométrica
+              gridTemplateColumns: m ? "1fr" : "1fr 320px",
               borderRadius: "22px",
               overflow: "hidden",
               boxShadow: "0 18px 45px -8px rgba(0,0,0,0.55)",
             }}
           >
-            {/* Módulo B (Contido de Valoración en Ámbar Terracota sólido) */}
             <div
               style={{
-                backgroundColor: opinions[1].blockColor, // #B45309
+                backgroundColor: opinions[1].blockColor,
                 padding: m ? "1.75rem 1.4rem" : "2.75rem 3rem",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
                 gap: "1.5rem",
-                order: m ? 2 : 1, // En desktop vai á esquerda
+                order: m ? 2 : 1,
               }}
             >
               <div>
-                {/* Estrelas e Cabeceira da crítica */}
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.25rem" }}>
                   <div style={{ display: "flex", gap: "4px" }}>
                     {[...Array(opinions[1].rating)].map((_, i) => (
@@ -390,7 +366,6 @@ export default function OpinionSection() {
                   </span>
                 </div>
 
-                {/* Texto da crítica en Bloque */}
                 <div style={{ position: "relative" }}>
                   <Quote
                     size={36}
@@ -413,7 +388,6 @@ export default function OpinionSection() {
                 </div>
               </div>
 
-              {/* Pé do Bloque con síntese clave */}
               <div
                 style={{
                   backgroundColor: "#451A03",
@@ -435,17 +409,16 @@ export default function OpinionSection() {
               </div>
             </div>
 
-            {/* Módulo A (Foto sobre fondo monocromático café/tellado) */}
             <div
               style={{
-                backgroundColor: opinions[1].frameColor, // #451A03
+                backgroundColor: opinions[1].frameColor,
                 padding: m ? "1.5rem" : "2rem",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "center",
                 textAlign: "center",
-                order: m ? 1 : 2, // En desktop vai á dereita
+                order: m ? 1 : 2,
               }}
             >
               <div
@@ -513,7 +486,6 @@ export default function OpinionSection() {
               </p>
             </div>
           </motion.div>
-
         </div>
       </div>
     </section>
