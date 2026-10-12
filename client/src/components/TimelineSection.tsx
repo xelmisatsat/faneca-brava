@@ -15,7 +15,7 @@ interface Stage {
   desc: string;
   location: string;
   city: City;
-  img?: string;
+  img: string;
 }
 
 const stages: Stage[] = [
@@ -47,6 +47,7 @@ const stages: Stage[] = [
     desc: "Para protexer o bo nome dos Pereira, Mamá Carme condena á súa propia neta e expúlsana sen piedade. Só a tía Lela e o tío Seso lhe ofrecen un mínimo de acubillo antes do exilio forzoso.",
     location: "Aldea",
     city: "aldea",
+    img: "/manus-storage/faneca-vila-marineira.png",
   },
   {
     id: "04",
@@ -94,13 +95,15 @@ const cityText: Record<City, { name: string; region: string; text: string }> = {
 };
 
 const C = {
-  bg: "#2F2A25",
+  bg: "linear-gradient(155deg, #132435 0%, #153036 45%, #122c26 100%)",
   paper: "#EDE5D8",
-  ink: "#FBF6EE",
-  body: "#E6DDCF",
-  muted: "#BBAF9B",
-  line: "rgba(237, 229, 216, 0.22)",
-  accent: "#D9B48A",
+  ink: "#FAF6EE",
+  body: "#E5E0D8",
+  muted: "#A4BAC5",
+  line: "rgba(237, 229, 216, 0.16)",
+  accent: "#E5C394",
+  borderDark: "rgba(237, 229, 216, 0.12)",
+  cardBg: "rgba(18, 38, 48, 0.65)",
 };
 
 const SERIF = "'Bodoni Moda', 'Playfair Display', Georgia, serif";
@@ -126,12 +129,14 @@ const pin = (active: boolean, label: string) =>
   L.divIcon({
     className: "",
     html: `<div style="position:relative;">
-      <div style="position:absolute;top:-5px;left:-5px;width:10px;height:10px;border-radius:50%;background:${
+      <div style="position:absolute;top:-6px;left:-6px;width:12px;height:12px;border-radius:50%;background:${
         active ? C.accent : C.paper
-      };outline:1px solid ${active ? C.accent : "rgba(237,229,216,0.5)"};outline-offset:4px;"></div>
-      <div style="position:absolute;top:14px;left:0;transform:translateX(-50%);font-family:${SANS};font-size:10px;font-weight:500;letter-spacing:0.28em;color:${
+      };box-shadow:0 0 12px ${active ? C.accent : "rgba(237,229,216,0.6)"};outline:2px solid ${
+        active ? C.accent : "rgba(237,229,216,0.4)"
+      };outline-offset:3px;"></div>
+      <div style="position:absolute;top:15px;left:0;transform:translateX(-50%);font-family:${SANS};font-size:11px;font-weight:600;letter-spacing:0.24em;color:${
         active ? C.accent : C.paper
-      };white-space:nowrap;">${label}</div>
+      };text-shadow:0 2px 6px rgba(0,0,0,0.85);white-space:nowrap;">${label}</div>
     </div>`,
     iconSize: [0, 0],
     iconAnchor: [0, 0],
@@ -158,12 +163,11 @@ export default function TimelineSection() {
             const st = stages.find((s) => s.id === id);
             if (st) {
               setActiveId(st.id);
-              setCity(st.city);
             }
           }
         });
       },
-      { rootMargin: "-45% 0px -45% 0px" }
+      { rootMargin: "-40% 0px -40% 0px" }
     );
     Object.values(refs.current).forEach((el) => el && io.observe(el));
     return () => io.disconnect();
@@ -171,107 +175,16 @@ export default function TimelineSection() {
 
   const goTo = (st: Stage) => {
     setActiveId(st.id);
-    setCity(st.city);
     refs.current[st.id]?.scrollIntoView({ behavior: "smooth", block: "center" });
   };
 
-  const active = stages.find((s) => s.id === activeId) || stages[0];
+  const scrollToMap = (selectedCity: City) => {
+    setCity(selectedCity);
+    document.getElementById("mapa-traxectoria")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
-  const textLink = (on: boolean): React.CSSProperties => ({
-    background: "none",
-    border: "none",
-    padding: "0 0 4px",
-    cursor: "pointer",
-    fontFamily: SANS,
-    fontSize: "11px",
-    fontWeight: 500,
-    letterSpacing: "0.24em",
-    textTransform: "uppercase",
-    color: on ? C.ink : C.muted,
-    borderBottom: `1px solid ${on ? C.accent : "transparent"}`,
-    transition: "color .25s, border-color .25s",
-  });
-
-  const mapBlock = (
-    <div>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "baseline",
-          justifyContent: "space-between",
-          paddingBottom: "14px",
-          borderBottom: `1px solid ${C.line}`,
-          marginBottom: "18px",
-        }}
-      >
-        <span style={{ fontFamily: SANS, fontSize: "11px", letterSpacing: "0.3em", textTransform: "uppercase", color: C.muted }}>
-          Mapa
-        </span>
-        <div style={{ display: "flex", gap: "22px" }}>
-          <button onClick={() => setCity("aldea")} style={textLink(city === "aldea")}>
-            Aldea
-          </button>
-          <button onClick={() => setCity("barcelona")} style={textLink(city === "barcelona")}>
-            Barcelona
-          </button>
-        </div>
-      </div>
-
-      <div
-        style={{
-          height: m ? "260px" : "min(46vh, 380px)",
-          overflow: "hidden",
-          filter: "sepia(0.35) saturate(0.7) brightness(1.08)",
-        }}
-      >
-        {mounted && (
-          <MapContainer
-            center={[42.2, -3.2]}
-            zoom={m ? 4.8 : 5.3}
-            scrollWheelZoom={false}
-            attributionControl={false}
-            zoomControl={false}
-            style={{ height: "100%", width: "100%", background: "#1C1915" }}
-          >
-            <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}" />
-            <Polyline
-              positions={curve(aldeaPos, barcelonaPos)}
-              pathOptions={{ color: C.accent, weight: 1.2, dashArray: "2, 6", opacity: 0.9 }}
-            />
-            <Marker position={aldeaPos} icon={pin(city === "aldea", "ALDEA")} eventHandlers={{ click: () => setCity("aldea") }} />
-            <Marker
-              position={barcelonaPos}
-              icon={pin(city === "barcelona", "BARCELONA")}
-              eventHandlers={{ click: () => setCity("barcelona") }}
-            />
-          </MapContainer>
-        )}
-      </div>
-
-      <motion.div
-        key={city}
-        initial={{ opacity: 0, y: 6 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.45 }}
-        style={{ marginTop: "22px" }}
-      >
-        <div style={{ display: "flex", alignItems: "baseline", gap: "12px", marginBottom: "10px" }}>
-          <span style={{ fontFamily: SERIF, fontSize: "1.9rem", lineHeight: 1, color: C.ink }}>{cityText[city].name}</span>
-          <span style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "1rem", color: C.accent }}>{cityText[city].region}</span>
-        </div>
-        <p style={{ fontFamily: SANS, fontWeight: 400, fontSize: "15px", lineHeight: 1.75, color: C.body, margin: 0 }}>
-          {cityText[city].text}
-        </p>
-      </motion.div>
-
-      {!m && (
-        <div style={{ marginTop: "34px", paddingTop: "16px", borderTop: `1px solid ${C.line}`, display: "flex", alignItems: "baseline", gap: "14px" }}>
-          <span style={{ fontFamily: SERIF, fontSize: "2.6rem", lineHeight: 1, color: C.accent }}>{active.numeral}</span>
-          <span style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "1.1rem", color: C.ink }}>{active.title}</span>
-        </div>
-      )}
-    </div>
-  );
+  const stage1 = stages[0];
+  const remainingStages = stages.slice(1);
 
   return (
     <section
@@ -281,11 +194,37 @@ export default function TimelineSection() {
         background: C.bg,
         color: C.ink,
         padding: m ? "4.5rem 0 4rem" : "7.5rem 0 7rem",
+        overflow: "hidden",
       }}
     >
-      <div style={{ maxWidth: "1320px", margin: "0 auto", padding: m ? "0 1.4rem" : "0 4rem" }}>
-        <header style={{ textAlign: "center", maxWidth: "900px", margin: "0 auto", marginBottom: m ? "2.8rem" : "4.5rem" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "18px", marginBottom: m ? "1.4rem" : "2rem" }}>
+      <div
+        style={{
+          position: "absolute",
+          top: "4%",
+          left: "4%",
+          width: "580px",
+          height: "580px",
+          background: "radial-gradient(circle, rgba(28, 88, 126, 0.25) 0%, transparent 68%)",
+          pointerEvents: "none",
+          zIndex: 0,
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          bottom: "6%",
+          right: "4%",
+          width: "640px",
+          height: "640px",
+          background: "radial-gradient(circle, rgba(22, 104, 86, 0.22) 0%, transparent 68%)",
+          pointerEvents: "none",
+          zIndex: 0,
+        }}
+      />
+
+      <div style={{ maxWidth: "1320px", margin: "0 auto", padding: m ? "0 1.4rem" : "0 4rem", position: "relative", zIndex: 1 }}>
+        <header style={{ textAlign: "center", maxWidth: "900px", margin: "0 auto", marginBottom: m ? "2.5rem" : "4.2rem" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "18px", marginBottom: m ? "1.2rem" : "1.8rem" }}>
             <span style={{ width: "48px", height: "1px", background: C.accent }} />
             <span style={{ fontFamily: SANS, fontSize: "12px", fontWeight: 500, letterSpacing: "0.38em", textTransform: "uppercase", color: C.accent }}>
               Cronoloxía
@@ -296,7 +235,7 @@ export default function TimelineSection() {
             style={{
               fontFamily: SERIF,
               fontWeight: 400,
-              fontSize: m ? "2.7rem" : "clamp(3.6rem, 6.4vw, 6.4rem)",
+              fontSize: m ? "2.7rem" : "clamp(3.6rem, 6.2vw, 6.2rem)",
               lineHeight: 1,
               letterSpacing: "-0.03em",
               color: C.ink,
@@ -311,10 +250,9 @@ export default function TimelineSection() {
               fontWeight: 400,
               fontSize: m ? "1.05rem" : "1.22rem",
               lineHeight: 1.75,
-              color: C.ink,
-              opacity: 0.92,
-              maxWidth: "640px",
-              margin: m ? "1.4rem auto 0" : "2rem auto 0",
+              color: C.body,
+              maxWidth: "660px",
+              margin: m ? "1.3rem auto 0" : "1.8rem auto 0",
             }}
           >
             O itinerario vital e emocional de Concha Pereira. Un percorrido que vai dende a infancia ferida na vila ata a
@@ -325,14 +263,14 @@ export default function TimelineSection() {
         <nav
           style={{
             display: "flex",
-            gap: m ? "1.8rem" : "0",
+            gap: m ? "1.6rem" : "0",
             justifyContent: m ? "flex-start" : "space-between",
             overflowX: "auto",
             scrollbarWidth: "none",
             borderTop: `1px solid ${C.line}`,
             borderBottom: `1px solid ${C.line}`,
             padding: "18px 0",
-            marginBottom: m ? "2.8rem" : "5rem",
+            marginBottom: m ? "3rem" : "4.5rem",
           }}
         >
           {stages.map((st) => {
@@ -341,19 +279,31 @@ export default function TimelineSection() {
               <button
                 key={st.id}
                 onClick={() => goTo(st)}
-                style={{ background: "none", border: "none", padding: 0, cursor: "pointer", display: "flex", alignItems: "baseline", gap: "10px", flexShrink: 0 }}
+                style={{
+                  background: "none",
+                  border: "none",
+                  padding: 0,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "baseline",
+                  gap: "10px",
+                  flexShrink: 0,
+                }}
               >
-                <span style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "1.1rem", color: on ? C.accent : C.muted }}>{st.numeral}</span>
+                <span style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "1.15rem", color: on ? C.accent : C.muted }}>
+                  {st.numeral}
+                </span>
                 <span
                   style={{
                     fontFamily: SANS,
                     fontSize: "12px",
                     fontWeight: 500,
-                    letterSpacing: "0.18em",
+                    letterSpacing: "0.2em",
                     textTransform: "uppercase",
                     color: on ? C.ink : C.muted,
                     borderBottom: `1px solid ${on ? C.accent : "transparent"}`,
                     paddingBottom: "3px",
+                    transition: "color 0.25s, border-color 0.25s",
                   }}
                 >
                   {st.title}
@@ -363,129 +313,461 @@ export default function TimelineSection() {
           })}
         </nav>
 
-        {m && (
-          <div id="timeline-map" style={{ marginBottom: "3.5rem" }}>
-            {mapBlock}
-          </div>
-        )}
-
         <div
+          id="mapa-traxectoria"
           style={{
-            display: "grid",
-            gridTemplateColumns: m ? "1fr" : "minmax(340px, 5fr) 7fr",
-            columnGap: "5.5rem",
-            alignItems: "start",
+            background: C.cardBg,
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
+            border: `1px solid ${C.borderDark}`,
+            borderRadius: "16px",
+            padding: m ? "1.4rem" : "2.4rem",
+            marginBottom: m ? "4rem" : "6rem",
+            boxShadow: "0 20px 45px -15px rgba(0, 0, 0, 0.4)",
           }}
         >
-          {!m && <aside style={{ position: "sticky", top: "6rem" }}>{mapBlock}</aside>}
-
-          <div>
-            {stages.map((st, i) => (
-              <article
-                key={st.id}
-                data-id={st.id}
-                ref={(el) => {
-                  refs.current[st.id] = el;
-                }}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: m ? "column" : "row",
+              justifyContent: "space-between",
+              alignItems: m ? "flex-start" : "center",
+              gap: "1rem",
+              paddingBottom: "1.2rem",
+              borderBottom: `1px solid ${C.line}`,
+              marginBottom: "1.6rem",
+            }}
+          >
+            <div>
+              <span
                 style={{
-                  paddingBottom: m ? "3.2rem" : "4.5rem",
-                  marginBottom: m ? "3.2rem" : "4.5rem",
-                  borderBottom: i < stages.length - 1 ? `1px solid ${C.line}` : "none",
+                  display: "block",
+                  fontFamily: SANS,
+                  fontSize: "11px",
+                  fontWeight: 600,
+                  letterSpacing: "0.3em",
+                  textTransform: "uppercase",
+                  color: C.accent,
+                  marginBottom: "4px",
                 }}
               >
-                <div style={{ display: "flex", alignItems: "flex-end", gap: m ? "16px" : "24px", marginBottom: m ? "1.2rem" : "1.6rem" }}>
-                  <span
-                    style={{
-                      fontFamily: SERIF,
-                      fontStyle: "italic",
-                      fontSize: m ? "3.4rem" : "4.6rem",
-                      lineHeight: 0.8,
-                      color: C.accent,
-                      minWidth: m ? "64px" : "92px",
-                    }}
-                  >
-                    {st.numeral}
-                  </span>
-                  <div style={{ flex: 1, paddingBottom: "4px" }}>
-                    <span
-                      style={{
-                        display: "block",
-                        fontFamily: SANS,
-                        fontSize: "11.5px",
-                        fontWeight: 500,
-                        letterSpacing: "0.26em",
-                        textTransform: "uppercase",
-                        color: C.muted,
-                        marginBottom: "8px",
-                      }}
-                    >
-                      {st.location}
-                    </span>
-                    <h3
-                      style={{
-                        fontFamily: SERIF,
-                        fontWeight: 400,
-                        fontSize: m ? "2.2rem" : "clamp(2.6rem, 3.6vw, 3.6rem)",
-                        lineHeight: 1,
-                        letterSpacing: "-0.025em",
-                        color: C.ink,
-                        margin: 0,
-                      }}
-                    >
-                      {st.title}
-                    </h3>
-                  </div>
-                </div>
+                O Eixo Xeográfico
+              </span>
+              <h3
+                style={{
+                  fontFamily: SERIF,
+                  fontWeight: 400,
+                  fontSize: m ? "1.6rem" : "2rem",
+                  color: C.ink,
+                  margin: 0,
+                }}
+              >
+                Aldea ↔ Barcelona <span style={{ fontStyle: "italic", fontSize: "1.1rem", color: C.muted }}>· 1.050 km</span>
+              </h3>
+            </div>
 
-                {st.img && (
-                  <div style={{ width: "100%", aspectRatio: m ? "4 / 3" : "16 / 9", overflow: "hidden", background: "#26221E", marginBottom: m ? "1.4rem" : "1.8rem" }}>
-                    <img
-                      src={st.img}
-                      alt={st.title}
-                      loading="lazy"
-                      style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-                    />
-                  </div>
-                )}
+            <div style={{ display: "flex", gap: "10px" }}>
+              <button
+                onClick={() => setCity("aldea")}
+                style={{
+                  background: city === "aldea" ? "rgba(229, 195, 148, 0.15)" : "transparent",
+                  border: `1px solid ${city === "aldea" ? C.accent : C.borderDark}`,
+                  borderRadius: "8px",
+                  padding: "8px 18px",
+                  fontFamily: SANS,
+                  fontSize: "12px",
+                  fontWeight: 600,
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  color: city === "aldea" ? C.accent : C.muted,
+                  cursor: "pointer",
+                  transition: "all 0.25s ease",
+                }}
+              >
+                Aldea
+              </button>
+              <button
+                onClick={() => setCity("barcelona")}
+                style={{
+                  background: city === "barcelona" ? "rgba(229, 195, 148, 0.15)" : "transparent",
+                  border: `1px solid ${city === "barcelona" ? C.accent : C.borderDark}`,
+                  borderRadius: "8px",
+                  padding: "8px 18px",
+                  fontFamily: SANS,
+                  fontSize: "12px",
+                  fontWeight: 600,
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  color: city === "barcelona" ? C.accent : C.muted,
+                  cursor: "pointer",
+                  transition: "all 0.25s ease",
+                }}
+              >
+                Barcelona
+              </button>
+            </div>
+          </div>
 
-                <p
+          <div
+            style={{
+              height: m ? "270px" : "380px",
+              borderRadius: "12px",
+              overflow: "hidden",
+              border: `1px solid ${C.borderDark}`,
+              position: "relative",
+            }}
+          >
+            {mounted && (
+              <MapContainer
+                center={[42.2, -3.2]}
+                zoom={m ? 4.7 : 5.4}
+                scrollWheelZoom={false}
+                attributionControl={false}
+                zoomControl={false}
+                style={{ height: "100%", width: "100%", background: "#13232B" }}
+              >
+                <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}" />
+                <Polyline
+                  positions={curve(aldeaPos, barcelonaPos)}
+                  pathOptions={{ color: C.accent, weight: 1.6, dashArray: "3, 7", opacity: 0.95 }}
+                />
+                <Marker
+                  position={aldeaPos}
+                  icon={pin(city === "aldea", "ALDEA")}
+                  eventHandlers={{ click: () => setCity("aldea") }}
+                />
+                <Marker
+                  position={barcelonaPos}
+                  icon={pin(city === "barcelona", "BARCELONA")}
+                  eventHandlers={{ click: () => setCity("barcelona") }}
+                />
+              </MapContainer>
+            )}
+          </div>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: m ? "1fr" : "1fr 1fr",
+              gap: "1.2rem",
+              marginTop: "1.6rem",
+            }}
+          >
+            <div
+              onClick={() => setCity("aldea")}
+              style={{
+                padding: "1.2rem 1.4rem",
+                borderRadius: "10px",
+                background: city === "aldea" ? "rgba(229, 195, 148, 0.1)" : "rgba(255, 255, 255, 0.02)",
+                border: `1px solid ${city === "aldea" ? C.accent : C.borderDark}`,
+                cursor: "pointer",
+                transition: "all 0.25s ease",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "baseline", gap: "10px", marginBottom: "6px" }}>
+                <span style={{ fontFamily: SERIF, fontSize: "1.4rem", color: city === "aldea" ? C.accent : C.ink }}>
+                  Aldea
+                </span>
+                <span style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "0.95rem", color: C.muted }}>
+                  Galicia
+                </span>
+              </div>
+              <p style={{ fontFamily: SANS, fontSize: "13.5px", lineHeight: 1.65, color: C.body, margin: 0 }}>
+                {cityText.aldea.text}
+              </p>
+            </div>
+
+            <div
+              onClick={() => setCity("barcelona")}
+              style={{
+                padding: "1.2rem 1.4rem",
+                borderRadius: "10px",
+                background: city === "barcelona" ? "rgba(229, 195, 148, 0.1)" : "rgba(255, 255, 255, 0.02)",
+                border: `1px solid ${city === "barcelona" ? C.accent : C.borderDark}`,
+                cursor: "pointer",
+                transition: "all 0.25s ease",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "baseline", gap: "10px", marginBottom: "6px" }}>
+                <span style={{ fontFamily: SERIF, fontSize: "1.4rem", color: city === "barcelona" ? C.accent : C.ink }}>
+                  Barcelona
+                </span>
+                <span style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "0.95rem", color: C.muted }}>
+                  Cataluña
+                </span>
+              </div>
+              <p style={{ fontFamily: SANS, fontSize: "13.5px", lineHeight: 1.65, color: C.body, margin: 0 }}>
+                {cityText.barcelona.text}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <article
+          data-id={stage1.id}
+          ref={(el) => {
+            refs.current[stage1.id] = el;
+          }}
+          style={{
+            paddingBottom: m ? "3.5rem" : "5.5rem",
+            marginBottom: m ? "3.5rem" : "5.5rem",
+            borderBottom: `1px solid ${C.line}`,
+          }}
+        >
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: m ? "1fr" : "1.1fr 1fr",
+              gap: m ? "1.8rem" : "4.5rem",
+              alignItems: "center",
+            }}
+          >
+            <div>
+              <div style={{ display: "flex", alignItems: "baseline", gap: "14px", marginBottom: "1rem" }}>
+                <span
                   style={{
                     fontFamily: SERIF,
                     fontStyle: "italic",
-                    fontSize: m ? "1.3rem" : "1.5rem",
-                    lineHeight: 1.35,
+                    fontSize: m ? "3.6rem" : "5rem",
+                    lineHeight: 0.85,
                     color: C.accent,
-                    margin: "0 0 0.9rem",
                   }}
                 >
-                  {st.subtitle}
-                </p>
-                <p
-                  style={{
-                    fontFamily: SANS,
-                    fontWeight: 400,
-                    fontSize: m ? "1.02rem" : "1.08rem",
-                    lineHeight: 1.85,
-                    color: C.body,
-                    margin: 0,
-                    maxWidth: "640px",
-                  }}
-                >
-                  {st.desc}
-                </p>
-                <button
-                  onClick={() => {
-                    setCity(st.city);
-                    setActiveId(st.id);
-                    if (m) document.getElementById("timeline-map")?.scrollIntoView({ behavior: "smooth", block: "center" });
-                  }}
-                  style={{ ...textLink(false), marginTop: "1.3rem", color: C.accent, borderBottom: `1px solid ${C.accent}` }}
-                >
-                  {cityText[st.city].name} — ver no mapa
-                </button>
-              </article>
-            ))}
+                  {stage1.numeral}
+                </span>
+                <div>
+                  <span
+                    style={{
+                      display: "block",
+                      fontFamily: SANS,
+                      fontSize: "11px",
+                      fontWeight: 600,
+                      letterSpacing: "0.3em",
+                      textTransform: "uppercase",
+                      color: C.muted,
+                      marginBottom: "4px",
+                    }}
+                  >
+                    {stage1.location}
+                  </span>
+                  <h3
+                    style={{
+                      fontFamily: SERIF,
+                      fontWeight: 400,
+                      fontSize: m ? "2.4rem" : "clamp(2.8rem, 3.8vw, 4rem)",
+                      lineHeight: 1,
+                      letterSpacing: "-0.025em",
+                      color: C.ink,
+                      margin: 0,
+                    }}
+                  >
+                    {stage1.title}
+                  </h3>
+                </div>
+              </div>
+
+              <p
+                style={{
+                  fontFamily: SERIF,
+                  fontStyle: "italic",
+                  fontSize: m ? "1.3rem" : "1.55rem",
+                  lineHeight: 1.35,
+                  color: C.accent,
+                  margin: "0 0 1.2rem",
+                }}
+              >
+                {stage1.subtitle}
+              </p>
+
+              <p
+                style={{
+                  fontFamily: SANS,
+                  fontWeight: 400,
+                  fontSize: m ? "1.02rem" : "1.1rem",
+                  lineHeight: 1.85,
+                  color: C.body,
+                  margin: "0 0 1.6rem",
+                }}
+              >
+                {stage1.desc}
+              </p>
+
+              <button
+                onClick={() => scrollToMap(stage1.city)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  padding: "0 0 4px",
+                  cursor: "pointer",
+                  fontFamily: SANS,
+                  fontSize: "11px",
+                  fontWeight: 600,
+                  letterSpacing: "0.24em",
+                  textTransform: "uppercase",
+                  color: C.accent,
+                  borderBottom: `1px solid ${C.accent}`,
+                  transition: "opacity 0.25s",
+                }}
+              >
+                {cityText[stage1.city].name} — ver no mapa
+              </button>
+            </div>
+
+            <div
+              style={{
+                width: "100%",
+                aspectRatio: m ? "4 / 3" : "16 / 10",
+                borderRadius: "14px",
+                overflow: "hidden",
+                border: `1px solid ${C.borderDark}`,
+                boxShadow: "0 22px 45px -15px rgba(0, 0, 0, 0.5)",
+                background: "#162728",
+              }}
+            >
+              <img
+                src={stage1.img}
+                alt={stage1.title}
+                loading="lazy"
+                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              />
+            </div>
           </div>
+        </article>
+
+        <div>
+          {remainingStages.map((st, i) => (
+            <article
+              key={st.id}
+              data-id={st.id}
+              ref={(el) => {
+                refs.current[st.id] = el;
+              }}
+              style={{
+                paddingBottom: m ? "3.5rem" : "5.5rem",
+                marginBottom: m ? "3.5rem" : "5.5rem",
+                borderBottom: i < remainingStages.length - 1 ? `1px solid ${C.line}` : "none",
+              }}
+            >
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: m ? "1fr" : "1.2fr 1fr",
+                  gap: m ? "1.8rem" : "4.5rem",
+                  alignItems: "center",
+                }}
+              >
+                <div
+                  style={{
+                    width: "100%",
+                    aspectRatio: m ? "4 / 3" : "16 / 10",
+                    borderRadius: "14px",
+                    overflow: "hidden",
+                    border: `1px solid ${C.borderDark}`,
+                    boxShadow: "0 22px 45px -15px rgba(0, 0, 0, 0.5)",
+                    background: "#162728",
+                  }}
+                >
+                  <img
+                    src={st.img}
+                    alt={st.title}
+                    loading="lazy"
+                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                  />
+                </div>
+
+                <div>
+                  <div style={{ display: "flex", alignItems: "baseline", gap: "14px", marginBottom: "1rem" }}>
+                    <span
+                      style={{
+                        fontFamily: SERIF,
+                        fontStyle: "italic",
+                        fontSize: m ? "3.6rem" : "5rem",
+                        lineHeight: 0.85,
+                        color: C.accent,
+                      }}
+                    >
+                      {st.numeral}
+                    </span>
+                    <div>
+                      <span
+                        style={{
+                          display: "block",
+                          fontFamily: SANS,
+                          fontSize: "11px",
+                          fontWeight: 600,
+                          letterSpacing: "0.3em",
+                          textTransform: "uppercase",
+                          color: C.muted,
+                          marginBottom: "4px",
+                        }}
+                      >
+                        {st.location}
+                      </span>
+                      <h3
+                        style={{
+                          fontFamily: SERIF,
+                          fontWeight: 400,
+                          fontSize: m ? "2.4rem" : "clamp(2.8rem, 3.8vw, 4rem)",
+                          lineHeight: 1,
+                          letterSpacing: "-0.025em",
+                          color: C.ink,
+                          margin: 0,
+                        }}
+                      >
+                        {st.title}
+                      </h3>
+                    </div>
+                  </div>
+
+                  <p
+                    style={{
+                      fontFamily: SERIF,
+                      fontStyle: "italic",
+                      fontSize: m ? "1.3rem" : "1.55rem",
+                      lineHeight: 1.35,
+                      color: C.accent,
+                      margin: "0 0 1.2rem",
+                    }}
+                  >
+                    {st.subtitle}
+                  </p>
+
+                  <p
+                    style={{
+                      fontFamily: SANS,
+                      fontWeight: 400,
+                      fontSize: m ? "1.02rem" : "1.1rem",
+                      lineHeight: 1.85,
+                      color: C.body,
+                      margin: "0 0 1.6rem",
+                    }}
+                  >
+                    {st.desc}
+                  </p>
+
+                  <button
+                    onClick={() => scrollToMap(st.city)}
+                    style={{
+                      background: "none",
+                      border: "none",
+                      padding: "0 0 4px",
+                      cursor: "pointer",
+                      fontFamily: SANS,
+                      fontSize: "11px",
+                      fontWeight: 600,
+                      letterSpacing: "0.24em",
+                      textTransform: "uppercase",
+                      color: C.accent,
+                      borderBottom: `1px solid ${C.accent}`,
+                      transition: "opacity 0.25s",
+                    }}
+                  >
+                    {cityText[st.city].name} — ver no mapa
+                  </button>
+                </div>
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </section>
