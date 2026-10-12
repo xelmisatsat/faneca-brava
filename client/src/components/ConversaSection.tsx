@@ -1234,7 +1234,7 @@ export default function ConversaSection() {
                 }}
               >
                 <span>Preme Enter para enviar · Conversa literaria co personaxe</span>
-                <span style={{ opacity: 0.7 }}>v49.1.0</span>
+                <span style={{ opacity: 0.7 }}>v50.1.0</span>
               </div>
             </div>
           </div>

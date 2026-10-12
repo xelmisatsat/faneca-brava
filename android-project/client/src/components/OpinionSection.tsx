@@ -1,140 +1,519 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useIsMobile } from "@/hooks/useIsMobile";
+import { Star, Quote, Sparkles, BookOpen } from "lucide-react";
 
 const opinions = [
   {
+    id: "jun",
     name: "Jun Sieira Gerpe",
     role: "Alumno de 4º ESO · IES Arcebispo Xelmírez I",
+    badge: "Crítica Estrutural & Personaxes",
     img: "/manus-storage/opinion-jun.jpg",
-    color: "#C8A96E",
-    quote: "O libro gustoume máis do que esperaba. Cando o comecei pensaba que ía ser outra historia máis da posguerra, pero o tema da familia Pereira engancha bastante. O que máis me chamou a atención é o mala e hipócrita que chega a ser a avoa Carme só para salvar as aparencias. O personaxe de Concha está moi ben construído: no canto de afundirse cando a botan da casa, marcha a Barcelona e búscase a vida usando os segredos dos ricos ao seu favor. Tamén me pareceu clave o contraste coa súa irmá Encarna, que queda na vila aguantando todo en silencio. En xeral, é unha novela que che fai ver como antes as familias tapaban calquera cousa polo que dirán.",
+    blockColor: "#064E3B", // Verde Bosque Atlántico sólido
+    frameColor: "#022C22", // Bloque monocromático escuro para a foto
+    accentColor: "#6EE7B7", // Menta luminosa
+    tagColor: "#34D399",
     rating: 5,
+    quote:
+      "O libro gustoume máis do que esperaba. Cando o comecei pensaba que ía ser outra historia máis da posguerra, pero o tema da familia Pereira engancha bastante. O que máis me chamou a atención é o mala e hipócrita que chega a ser a avoa Carme só para salvar as aparencias. O personaxe de Concha está moi ben construído: no canto de afundirse cando a botan da casa, marcha a Barcelona e búscase a vida usando os segredos dos ricos ao seu favor. Tamén me pareceu clave o contraste coa súa irmá Encarna, que queda na vila aguantando todo en silencio. En xeral, é unha novela que che fai ver como antes as familias tapaban calquera cousa polo que dirán.",
   },
   {
+    id: "alvaro",
     name: "Álvaro Villar Gómez",
     role: "Alumno de 4º ESO · IES Arcebispo Xelmírez I",
+    badge: "Ritmo Narrativo & Intriga",
     img: "/manus-storage/opinion-alvaro.jpg",
-    color: "#8B9BB4",
-    quote: "A min o que máis me gustou do libro foi o fácil que se le. A historia empeza co problema do médico que non dá durmido, e ao principio non sabes moi ben por que, pero en canto empezan a investigar o pasado, a trama avanza soa. Dá moita rabia ler o que pasaba na escola con dona Remedios e o inxustos que foron con Concha na súa propia casa. Pero por iso mesmo o final é tan bo, cando descobres que a nena á que botaron da vila rematou convertida nunha fotógrafa de éxito en Barcelona. É un libro moi entretido e a intriga manténse ata a última páxina.",
+    blockColor: "#B45309", // Ámbar Terracota Cálido sólido
+    frameColor: "#451A03", // Bloque monocromático café/tellado
+    accentColor: "#FDE68A", // Amarelo solpor luminoso
+    tagColor: "#F59E0B",
     rating: 5,
+    quote:
+      "A min o que máis me gustou do libro foi o fácil que se le. A historia empeza co problema do médico que non dá durmido, e ao principio non sabes moi ben por que, pero en canto empezan a investigar o pasado, a trama avanza soa. Dá moita rabia ler o que pasaba na escola con dona Remedios e o inxustos que foron con Concha na súa propia casa. Pero por iso mesmo o final é tan bo, cando descobres que a nena á que botaron da vila rematou convertida nunha fotógrafa de éxito en Barcelona. É un libro moi entretido e a intriga manténse ata a última páxina.",
   },
 ];
-
-const G = {
-  background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%)',
-  backdropFilter: 'blur(48px)',
-  border: '1px solid rgba(255,255,255,0.10)',
-  borderTop: '1px solid rgba(255,255,255,0.22)',
-  borderRadius: '24px',
-  boxShadow: '0 8px 40px rgba(0,0,0,0.45)',
-};
 
 export default function OpinionSection() {
   const [v, setV] = useState(false);
   const m = useIsMobile();
-  useEffect(() => { const t = setTimeout(() => setV(true), 80); return () => clearTimeout(t); }, []);
+
+  useEffect(() => {
+    const t = setTimeout(() => setV(true), 80);
+    return () => clearTimeout(t);
+  }, []);
 
   return (
-    <section id="opinion" style={{ position: 'relative', padding: m ? '4rem 0 3rem' : '8rem 0 6rem', overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 50% 0%, rgba(200,169,110,0.06) 0%, transparent 60%)' }} />
-      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 20% 80%, rgba(26,39,68,0.2) 0%, transparent 50%)' }} />
+    <section
+      id="opinion"
+      style={{
+        position: "relative",
+        padding: m ? "4.5rem 1rem 3.5rem" : "6.5rem 2rem 5.5rem",
+        scrollMarginTop: "95px",
+        backgroundColor: "#070A12", // Base arquitectónica sólida
+        overflow: "hidden",
+      }}
+    >
+      <div style={{ maxWidth: "1180px", margin: "0 auto", position: "relative", zIndex: 10, width: "100%" }}>
 
-      <div style={{ maxWidth: '1440px', margin: '0 auto', padding: m ? '0 1.25rem' : '0 5rem', position: 'relative', zIndex: 10 }}>
-
-        {/* Cabeceira */}
+        {/* =========================================================================
+            1. BLOQUE HERO DE COR SÓLIDA (CABECEIRA: AZUL MARIÑO PROFUNDO)
+            ========================================================================= */}
         <motion.div
-          initial={{ opacity: 0, y: 50, filter: 'blur(4px)' }}
-          animate={v ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          style={{ marginBottom: m ? '2.5rem' : '5rem', textAlign: 'center' }}
+          initial={{ opacity: 0, y: 30 }}
+          animate={v ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          style={{
+            backgroundColor: "#0F1E36", // Azul sólido de alto contraste
+            borderRadius: "22px",
+            padding: m ? "2rem 1.4rem" : "3rem 3.5rem",
+            marginBottom: m ? "1.5rem" : "2.5rem",
+            display: "flex",
+            flexDirection: m ? "column" : "row",
+            alignItems: m ? "flex-start" : "center",
+            justifyContent: "space-between",
+            gap: "1.5rem",
+            boxShadow: "0 18px 45px -10px rgba(0,0,0,0.6)",
+          }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', marginBottom: '1.5rem' }}>
-            <motion.div initial={{ scaleX: 0 }} animate={v ? { scaleX: 1 } : {}} transition={{ duration: 0.8 }}
-              style={{ width: '48px', height: '1px', background: 'linear-gradient(90deg, transparent, #C8A96E)', transformOrigin: 'right' }} />
-            <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', letterSpacing: '0.35em', textTransform: 'uppercase', color: '#C8A96E' }}>Lecturas</span>
-            <motion.div initial={{ scaleX: 0 }} animate={v ? { scaleX: 1 } : {}} transition={{ duration: 0.8 }}
-              style={{ width: '48px', height: '1px', background: 'linear-gradient(90deg, #C8A96E, transparent)', transformOrigin: 'left' }} />
-          </div>
-          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontSize: 'clamp(2.2rem, 7vw, 6.5rem)', lineHeight: 0.88, letterSpacing: '-0.025em', color: '#EAE2D2' }}>
-            O Noso <span style={{ color: '#C8A96E' }}>Veredicto</span>
-          </h2>
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, fontSize: m ? '0.9rem' : '1.05rem', lineHeight: 1.8, color: '#8B9BB4', maxWidth: '520px', margin: '1.5rem auto 0' }}>
-            Dúas perspectivas, unha mesma certeza. A faneca brava deixa marca.
-          </p>
-        </motion.div>
-
-        {/* Cards */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: m ? '2rem' : '3rem' }}>
-          {opinions.map((op, i) => (
-            <motion.div
-              key={op.name}
-              initial={{ opacity: 0, y: 60, filter: 'blur(4px)' }}
-              animate={v ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
-              transition={{ duration: 0.9, delay: 0.15 + i * 0.2, ease: [0.16, 1, 0.3, 1] }}
+          <div style={{ maxWidth: "680px" }}>
+            {/* Badge de contraste funcional */}
+            <div
               style={{
-                ...G,
-                display: m ? 'flex' : 'grid',
-                flexDirection: m ? 'column' : undefined,
-                gridTemplateColumns: m ? '1fr' : (i % 2 === 0 ? '280px 1fr' : '1fr 280px'),
-                overflow: 'hidden',
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                backgroundColor: "#D97706", // Ámbar intenso sólido
+                color: "#080E1A",
+                padding: "5px 14px",
+                borderRadius: "8px",
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: "11px",
+                fontWeight: 800,
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                marginBottom: "1rem",
               }}
             >
-              {/* Imaxe arriba en móbil, esquerda/dereita en desktop */}
-              {(m || i % 2 === 0) && (
-                <motion.div
-                  whileHover={m ? {} : { scale: 1.04, filter: 'brightness(1.1)' }}
-                  transition={{ duration: 0.5 }}
-                  style={{
-                    aspectRatio: m ? '16/9' : '2/3',
-                    overflow: 'hidden',
-                    borderRadius: m ? '20px 20px 0 0' : '20px 0 0 20px',
-                    position: 'relative',
-                    minHeight: m ? '200px' : '420px',
-                  }}
-                >
-                  <img src={op.img} alt={op.name}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.8) saturate(0.75)', display: 'block' }} />
-                  <div style={{ position: 'absolute', inset: 0, background: m ? 'linear-gradient(to bottom, transparent 50%, rgba(8,8,13,0.7) 100%)' : 'linear-gradient(to right, transparent 60%, rgba(8,8,13,0.6) 100%)' }} />
-                </motion.div>
-              )}
+              <Sparkles size={13} color="#080E1A" />
+              <span>Lecturas Literarias · 4º ESO</span>
+            </div>
 
-              {/* Texto */}
-              <div style={{ padding: m ? '1.5rem' : '3.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: m ? '1rem' : '1.5rem' }}>
-                <div style={{ display: 'flex', gap: '6px' }}>
-                  {Array.from({ length: op.rating }).map((_, j) => (
-                    <motion.span key={j} initial={{ opacity: 0, scale: 0 }} animate={v ? { opacity: 1, scale: 1 } : {}}
-                      transition={{ delay: 0.4 + i * 0.2 + j * 0.07, type: 'spring', stiffness: 400 }}
-                      style={{ color: op.color, fontSize: '1rem' }}>★</motion.span>
-                  ))}
+            <h2
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: m ? "2.2rem" : "3.4rem",
+                fontWeight: 800,
+                lineHeight: 1.05,
+                letterSpacing: "-0.03em",
+                color: "#FFFFFF",
+                margin: "0 0 1rem",
+              }}
+            >
+              O NOSO VEREDICTO
+            </h2>
+
+            <p
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: m ? "0.95rem" : "1.08rem",
+                lineHeight: 1.6,
+                color: "#CBD5E1",
+                margin: 0,
+                fontWeight: 400,
+              }}
+            >
+              Dúas perspectivas críticas, un debate xeracional e unha mesma conclusión compartida. A historia da familia
+              Pereira e a memoria de Concha deixan pegada.
+            </p>
+          </div>
+
+          {/* Bloque complementario de valoración */}
+          <div
+            style={{
+              backgroundColor: "#081324",
+              borderRadius: "16px",
+              padding: "16px 24px",
+              display: "flex",
+              alignItems: "center",
+              gap: "16px",
+              flexShrink: 0,
+            }}
+          >
+            <div
+              style={{
+                width: "48px",
+                height: "48px",
+                borderRadius: "12px",
+                backgroundColor: "#F59E0B",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <BookOpen size={24} color="#0A0E1A" />
+            </div>
+            <div>
+              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.45rem", fontWeight: 800, color: "#FFFFFF" }}>
+                100%
+              </div>
+              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "11px", color: "#94A3B8", textTransform: "uppercase", letterSpacing: "0.1em" }}>
+                Recomendada
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* =========================================================================
+            2. BLOQUES DE COLOR BLOCKING MODULAR: JUN & ÁLVARO (CONTRASTE FUNCIONAL)
+            ========================================================================= */}
+        <div style={{ display: "flex", flexDirection: "column", gap: m ? "1.5rem" : "2.25rem" }}>
+
+          {/* ───────────────────────────────────────────────────────────────────────
+              BLOQUE 1: JUN SIEIRA GERPE (VERDE BOSQUE SÓLIDO #064E3B)
+              ─────────────────────────────────────────────────────────────────────── */}
+          <motion.div
+            initial={{ opacity: 0, y: 35 }}
+            animate={v ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.85, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            style={{
+              display: "grid",
+              gridTemplateColumns: m ? "1fr" : "320px 1fr",
+              borderRadius: "22px",
+              overflow: "hidden",
+              boxShadow: "0 18px 45px -8px rgba(0,0,0,0.55)",
+            }}
+          >
+            {/* Módulo A (Foto sobre fondo monocromático esmeralda profundo) */}
+            <div
+              style={{
+                backgroundColor: opinions[0].frameColor, // #022C22
+                padding: m ? "1.5rem" : "2rem",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                textAlign: "center",
+              }}
+            >
+              <div
+                style={{
+                  width: m ? "120px" : "150px",
+                  height: m ? "120px" : "150px",
+                  borderRadius: "20px",
+                  overflow: "hidden",
+                  border: `3px solid ${opinions[0].tagColor}`,
+                  marginBottom: "1rem",
+                  boxShadow: "0 12px 28px rgba(0,0,0,0.5)",
+                }}
+              >
+                <img
+                  src={opinions[0].img}
+                  alt={opinions[0].name}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    display: "block",
+                  }}
+                />
+              </div>
+
+              <div
+                style={{
+                  backgroundColor: "#064E3B",
+                  color: opinions[0].accentColor,
+                  padding: "4px 12px",
+                  borderRadius: "6px",
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "10.5px",
+                  fontWeight: 700,
+                  letterSpacing: "0.15em",
+                  textTransform: "uppercase",
+                  marginBottom: "8px",
+                }}
+              >
+                {opinions[0].badge}
+              </div>
+
+              <h3
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "1.25rem",
+                  fontWeight: 800,
+                  color: "#FFFFFF",
+                  margin: "0 0 4px",
+                }}
+              >
+                {opinions[0].name}
+              </h3>
+
+              <p
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "11px",
+                  color: "#A7F3D0",
+                  margin: 0,
+                  lineHeight: 1.4,
+                }}
+              >
+                {opinions[0].role}
+              </p>
+            </div>
+
+            {/* Módulo B (Contido de Valoración en Verde Bosque sólido) */}
+            <div
+              style={{
+                backgroundColor: opinions[0].blockColor, // #064E3B
+                padding: m ? "1.75rem 1.4rem" : "2.75rem 3rem",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                gap: "1.5rem",
+              }}
+            >
+              <div>
+                {/* Estrelas e Cabeceira da crítica */}
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.25rem" }}>
+                  <div style={{ display: "flex", gap: "4px" }}>
+                    {[...Array(opinions[0].rating)].map((_, i) => (
+                      <Star key={i} size={18} color="#FBBF24" fill="#FBBF24" />
+                    ))}
+                  </div>
+                  <span
+                    style={{
+                      fontFamily: "'DM Sans', sans-serif",
+                      fontSize: "12px",
+                      fontWeight: 700,
+                      color: opinions[0].accentColor,
+                      letterSpacing: "0.1em",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    Valoración: 5.0 / 5.0
+                  </span>
                 </div>
-                <div style={{ position: 'relative' }}>
-                  <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: m ? '3rem' : '5rem', fontWeight: 300, color: `${op.color}20`, position: 'absolute', top: '-1rem', left: '-0.5rem', lineHeight: 1, userSelect: 'none' }}>"</span>
-                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, fontSize: m ? '0.88rem' : '0.97rem', lineHeight: 1.9, color: 'rgba(234,226,210,0.82)', position: 'relative', zIndex: 1, paddingLeft: '0.5rem' }}>
-                    {op.quote}
+
+                {/* Texto da crítica en Bloque */}
+                <div style={{ position: "relative" }}>
+                  <Quote
+                    size={36}
+                    color="#34D399"
+                    style={{ opacity: 0.35, position: "absolute", top: "-10px", left: "-8px" }}
+                  />
+                  <p
+                    style={{
+                      fontFamily: "'DM Sans', sans-serif",
+                      fontSize: m ? "0.93rem" : "1.05rem",
+                      lineHeight: 1.75,
+                      color: "#ECFDF5",
+                      margin: 0,
+                      paddingLeft: "1.5rem",
+                      fontWeight: 400,
+                    }}
+                  >
+                    "{opinions[0].quote}"
                   </p>
-                </div>
-                <div style={{ height: '1px', background: `linear-gradient(90deg, ${op.color}40, transparent)` }} />
-                <div>
-                  <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: m ? '1.2rem' : '1.4rem', fontWeight: 300, color: '#EAE2D2' }}>{op.name}</div>
-                  <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', letterSpacing: '0.15em', textTransform: 'uppercase', color: op.color, marginTop: '4px' }}>{op.role}</div>
                 </div>
               </div>
 
-              {/* Imaxe dereita desktop só para i impar en modo desktop */}
-              {!m && i % 2 !== 0 && (
-                <motion.div
-                  whileHover={{ scale: 1.04, filter: 'brightness(1.1)' }}
-                  transition={{ duration: 0.5 }}
-                  style={{ aspectRatio: '2/3', overflow: 'hidden', borderRadius: '0 20px 20px 0', position: 'relative', minHeight: '420px' }}
-                >
-                  <img src={op.img} alt={op.name}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.8) saturate(0.75)', display: 'block' }} />
-                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to left, transparent 60%, rgba(8,8,13,0.6) 100%)' }} />
-                </motion.div>
-              )}
-            </motion.div>
-          ))}
+              {/* Pé do Bloque con síntese clave */}
+              <div
+                style={{
+                  backgroundColor: "#022C22",
+                  borderRadius: "12px",
+                  padding: "10px 16px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  flexWrap: "wrap",
+                  gap: "8px",
+                }}
+              >
+                <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "11.5px", color: "#A7F3D0", fontWeight: 600 }}>
+                  Clave crítica: Hipocrisía familiar e personaxe de Concha
+                </span>
+                <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "11px", color: "#6EE7B7", textTransform: "uppercase", letterSpacing: "0.12em" }}>
+                  Lectura Finalizada
+                </span>
+              </div>
+            </div>
+          </motion.div>
+
+
+          {/* ───────────────────────────────────────────────────────────────────────
+              BLOQUE 2: ÁLVARO VILLAR GÓMEZ (ÁMBAR TERRAS DO SOLPOR SÓLIDO #B45309)
+              ─────────────────────────────────────────────────────────────────────── */}
+          <motion.div
+            initial={{ opacity: 0, y: 35 }}
+            animate={v ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.85, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            style={{
+              display: "grid",
+              gridTemplateColumns: m ? "1fr" : "1fr 320px", // Alternancia xeométrica
+              borderRadius: "22px",
+              overflow: "hidden",
+              boxShadow: "0 18px 45px -8px rgba(0,0,0,0.55)",
+            }}
+          >
+            {/* Módulo B (Contido de Valoración en Ámbar Terracota sólido) */}
+            <div
+              style={{
+                backgroundColor: opinions[1].blockColor, // #B45309
+                padding: m ? "1.75rem 1.4rem" : "2.75rem 3rem",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                gap: "1.5rem",
+                order: m ? 2 : 1, // En desktop vai á esquerda
+              }}
+            >
+              <div>
+                {/* Estrelas e Cabeceira da crítica */}
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.25rem" }}>
+                  <div style={{ display: "flex", gap: "4px" }}>
+                    {[...Array(opinions[1].rating)].map((_, i) => (
+                      <Star key={i} size={18} color="#FEF08A" fill="#FEF08A" />
+                    ))}
+                  </div>
+                  <span
+                    style={{
+                      fontFamily: "'DM Sans', sans-serif",
+                      fontSize: "12px",
+                      fontWeight: 700,
+                      color: opinions[1].accentColor,
+                      letterSpacing: "0.1em",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    Valoración: 5.0 / 5.0
+                  </span>
+                </div>
+
+                {/* Texto da crítica en Bloque */}
+                <div style={{ position: "relative" }}>
+                  <Quote
+                    size={36}
+                    color="#FDE68A"
+                    style={{ opacity: 0.4, position: "absolute", top: "-10px", left: "-8px" }}
+                  />
+                  <p
+                    style={{
+                      fontFamily: "'DM Sans', sans-serif",
+                      fontSize: m ? "0.93rem" : "1.05rem",
+                      lineHeight: 1.75,
+                      color: "#FFFBEB",
+                      margin: 0,
+                      paddingLeft: "1.5rem",
+                      fontWeight: 400,
+                    }}
+                  >
+                    "{opinions[1].quote}"
+                  </p>
+                </div>
+              </div>
+
+              {/* Pé do Bloque con síntese clave */}
+              <div
+                style={{
+                  backgroundColor: "#451A03",
+                  borderRadius: "12px",
+                  padding: "10px 16px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  flexWrap: "wrap",
+                  gap: "8px",
+                }}
+              >
+                <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "11.5px", color: "#FEF3C7", fontWeight: 600 }}>
+                  Clave crítica: Intriga progresiva, inxustiza escolar e final audaz
+                </span>
+                <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "11px", color: "#FDE68A", textTransform: "uppercase", letterSpacing: "0.12em" }}>
+                  Lectura Finalizada
+                </span>
+              </div>
+            </div>
+
+            {/* Módulo A (Foto sobre fondo monocromático café/tellado) */}
+            <div
+              style={{
+                backgroundColor: opinions[1].frameColor, // #451A03
+                padding: m ? "1.5rem" : "2rem",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                textAlign: "center",
+                order: m ? 1 : 2, // En desktop vai á dereita
+              }}
+            >
+              <div
+                style={{
+                  width: m ? "120px" : "150px",
+                  height: m ? "120px" : "150px",
+                  borderRadius: "20px",
+                  overflow: "hidden",
+                  border: `3px solid ${opinions[1].tagColor}`,
+                  marginBottom: "1rem",
+                  boxShadow: "0 12px 28px rgba(0,0,0,0.5)",
+                }}
+              >
+                <img
+                  src={opinions[1].img}
+                  alt={opinions[1].name}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    display: "block",
+                  }}
+                />
+              </div>
+
+              <div
+                style={{
+                  backgroundColor: "#B45309",
+                  color: opinions[1].accentColor,
+                  padding: "4px 12px",
+                  borderRadius: "6px",
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "10.5px",
+                  fontWeight: 700,
+                  letterSpacing: "0.15em",
+                  textTransform: "uppercase",
+                  marginBottom: "8px",
+                }}
+              >
+                {opinions[1].badge}
+              </div>
+
+              <h3
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "1.25rem",
+                  fontWeight: 800,
+                  color: "#FFFFFF",
+                  margin: "0 0 4px",
+                }}
+              >
+                {opinions[1].name}
+              </h3>
+
+              <p
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "11px",
+                  color: "#FEF3C7",
+                  margin: 0,
+                  lineHeight: 1.4,
+                }}
+              >
+                {opinions[1].role}
+              </p>
+            </div>
+          </motion.div>
+
         </div>
       </div>
     </section>
