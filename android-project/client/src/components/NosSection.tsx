@@ -23,13 +23,13 @@ const PHOTOS = [
     id: "martina",
     title: "Martina Gontá Martínez",
     subtitle: "Colaboradora e Promotora (Videocrítica)",
-    img: "/manus-storage/collaborator-martina.png",
+    img: "/manus-storage/collaborator-martina.png?v=2",
   },
   {
     id: "emma",
     title: "Emma Tabuyo Rodríguez",
     subtitle: "Colaboradora e Promotora (Documental)",
-    img: "/manus-storage/collaborator-emma.png",
+    img: "/manus-storage/collaborator-emma.png?v=2",
   },
   {
     id: "olga",
