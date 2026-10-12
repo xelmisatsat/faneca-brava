@@ -46,8 +46,8 @@ function Screw({ style }: { style?: React.CSSProperties }) {
         width: "9px",
         height: "9px",
         borderRadius: "50%",
-        background: "radial-gradient(circle at 35% 35%, #8E9299 0%, #3B3F47 65%, #181A20 100%)",
-        boxShadow: "inset 0 1px 1px rgba(255,255,255,0.45), 0 1px 3px rgba(0,0,0,0.9)",
+        background: "radial-gradient(circle at 35% 35%, #FFFFFF 0%, #D4D8E0 45%, #7D8494 100%)",
+        boxShadow: "inset 0 1px 1px #FFF, 0 1px 2px rgba(0,0,0,0.22)",
         position: "relative",
         flexShrink: 0,
         ...style,
@@ -60,9 +60,9 @@ function Screw({ style }: { style?: React.CSSProperties }) {
           left: "15%",
           right: "15%",
           height: "1px",
-          background: "#101216",
+          background: "#4A505C",
           transform: "translateY(-50%) rotate(42deg)",
-          boxShadow: "0 1px 0 rgba(255,255,255,0.2)",
+          boxShadow: "0 1px 0 rgba(255,255,255,0.7)",
         }}
       />
     </div>
@@ -76,8 +76,8 @@ function SprocketHole() {
         width: "11px",
         height: "8px",
         borderRadius: "1.5px",
-        background: "#030406",
-        boxShadow: "inset 0 2px 3px rgba(0,0,0,0.98), 0 1px 0 rgba(255,255,255,0.18)",
+        background: "#080706",
+        boxShadow: "inset 0 1.5px 2px rgba(0,0,0,0.9), 0 1px 0 rgba(255,255,255,0.12)",
         borderTop: "1px solid rgba(0,0,0,0.9)",
         flexShrink: 0,
       }}
@@ -134,12 +134,12 @@ function VideoPlayer({
     <div
       style={{
         position: "relative",
-        background: "linear-gradient(180deg, #1C2028 0%, #12151D 50%, #0A0C11 100%)",
+        background: "linear-gradient(180deg, #FFFFFF 0%, #F7F3EB 40%, #EDE5D8 100%)",
         borderRadius: isMobile ? "18px" : "22px",
-        padding: isMobile ? "8px" : "12px",
-        boxShadow: "0 25px 60px -12px rgba(0,0,0,0.95), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 -2px 0 rgba(0,0,0,0.8)",
-        border: "1px solid #090B0F",
-        borderTop: "1px solid rgba(255,255,255,0.22)",
+        padding: isMobile ? "9px" : "14px",
+        boxShadow: "0 20px 48px -10px rgba(60,45,25,0.16), 0 6px 16px rgba(0,0,0,0.06), inset 0 1px 0 #FFFFFF",
+        border: "1px solid #D8CFC0",
+        borderTop: "1px solid #FFFFFF",
       }}
     >
       <Screw style={{ position: "absolute", top: "7px", left: "7px", zIndex: 10 }} />
@@ -151,9 +151,9 @@ function VideoPlayer({
         style={{
           borderRadius: "14px",
           overflow: "hidden",
-          border: "2px solid #050609",
+          border: "2px solid #23201C",
           background: "#000000",
-          boxShadow: "inset 0 0 20px rgba(0,0,0,0.9), 0 1px 0 rgba(255,255,255,0.12)",
+          boxShadow: "inset 0 0 25px rgba(0,0,0,0.9), 0 1px 0 rgba(255,255,255,0.4)",
         }}
       >
         <div style={{ position: "relative", width: "100%", aspectRatio: "16/9", background: "#000" }}>
@@ -177,7 +177,7 @@ function VideoPlayer({
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                background: "rgba(0,0,0,0.42)",
+                background: "rgba(0,0,0,0.38)",
                 cursor: "pointer",
               }}
             >
@@ -188,16 +188,16 @@ function VideoPlayer({
                   width: isMobile ? "54px" : "64px",
                   height: isMobile ? "54px" : "64px",
                   borderRadius: "50%",
-                  background: "radial-gradient(circle at 35% 35%, #F0D59E 0%, #C8A96E 50%, #7A5F30 100%)",
-                  boxShadow: "0 10px 25px rgba(0,0,0,0.8), inset 0 2px 2px rgba(255,255,255,0.6), inset 0 -2px 3px rgba(0,0,0,0.6)",
+                  background: "radial-gradient(circle at 35% 35%, #FDE68A 0%, #D97706 55%, #92400E 100%)",
+                  boxShadow: "0 10px 25px rgba(0,0,0,0.7), inset 0 2px 2px rgba(255,255,255,0.7), inset 0 -2px 3px rgba(0,0,0,0.5)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   paddingLeft: "3px",
-                  border: "1px solid #3F2F14",
+                  border: "1px solid #78350F",
                 }}
               >
-                <Play size={isMobile ? 22 : 26} color="#0D0904" fill="#0D0904" />
+                <Play size={isMobile ? 22 : 26} color="#FFFFFF" fill="#FFFFFF" />
               </motion.div>
             </div>
           )}
@@ -208,7 +208,7 @@ function VideoPlayer({
               bottom: 0,
               left: 0,
               right: 0,
-              background: "linear-gradient(to top, rgba(8,9,13,0.96) 0%, rgba(8,9,13,0.7) 65%, transparent 100%)",
+              background: "linear-gradient(to top, rgba(8,9,13,0.96) 0%, rgba(8,9,13,0.72) 65%, transparent 100%)",
               padding: "10px 14px",
               display: "flex",
               flexDirection: "column",
@@ -224,12 +224,12 @@ function VideoPlayer({
               onChange={onSeek}
               style={{
                 width: "100%",
-                accentColor: "#C8A96E",
+                accentColor: "#F59E0B",
                 height: "4px",
                 borderRadius: "2px",
                 cursor: "pointer",
                 outline: "none",
-                background: "#1E222B",
+                background: "#2A2E38",
                 boxShadow: "inset 0 1px 2px rgba(0,0,0,0.8)",
               }}
             />
@@ -239,36 +239,34 @@ function VideoPlayer({
                 <button
                   onClick={toggle}
                   style={{
-                    background: "linear-gradient(180deg, #2A2F3B 0%, #161820 100%)",
-                    border: "1px solid #090B0F",
-                    borderTop: "1px solid rgba(255,255,255,0.22)",
+                    background: "linear-gradient(180deg, #FFFFFF 0%, #E6E1D8 100%)",
+                    border: "1px solid #B8B0A2",
                     borderRadius: "6px",
-                    color: "#EAE2D2",
+                    color: "#181A20",
                     cursor: "pointer",
                     padding: "4px 8px",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    boxShadow: "0 2px 4px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.15)",
+                    boxShadow: "0 2px 4px rgba(0,0,0,0.3), inset 0 1px 0 #FFF",
                   }}
                 >
-                  {playing ? <Pause size={14} /> : <Play size={14} fill="#EAE2D2" />}
+                  {playing ? <Pause size={14} /> : <Play size={14} fill="#181A20" />}
                 </button>
 
                 <button
                   onClick={toggleMute}
                   style={{
-                    background: "linear-gradient(180deg, #2A2F3B 0%, #161820 100%)",
-                    border: "1px solid #090B0F",
-                    borderTop: "1px solid rgba(255,255,255,0.22)",
+                    background: "linear-gradient(180deg, #FFFFFF 0%, #E6E1D8 100%)",
+                    border: "1px solid #B8B0A2",
                     borderRadius: "6px",
-                    color: "#EAE2D2",
+                    color: "#181A20",
                     cursor: "pointer",
                     padding: "4px 8px",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    boxShadow: "0 2px 4px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.15)",
+                    boxShadow: "0 2px 4px rgba(0,0,0,0.3), inset 0 1px 0 #FFF",
                   }}
                 >
                   {muted ? <VolumeX size={14} /> : <Volume2 size={14} />}
@@ -280,11 +278,11 @@ function VideoPlayer({
                       width: "7px",
                       height: "7px",
                       borderRadius: "50%",
-                      background: playing ? "#22C55E" : "#52525B",
-                      boxShadow: playing ? "0 0 8px #22C55E" : "none",
+                      background: playing ? "#22C55E" : "#F59E0B",
+                      boxShadow: playing ? "0 0 8px #22C55E" : "0 0 6px #F59E0B",
                     }}
                   />
-                  <span style={{ fontFamily: "monospace", fontSize: "9px", color: playing ? "#22C55E" : "#71717A", letterSpacing: "0.08em" }}>
+                  <span style={{ fontFamily: "monospace", fontSize: "9px", color: playing ? "#22C55E" : "#F59E0B", letterSpacing: "0.08em" }}>
                     {playing ? "REC" : "PAUSE"}
                   </span>
                 </div>
@@ -293,17 +291,16 @@ function VideoPlayer({
               <button
                 onClick={() => ref.current?.requestFullscreen?.()}
                 style={{
-                  background: "linear-gradient(180deg, #2A2F3B 0%, #161820 100%)",
-                  border: "1px solid #090B0F",
-                  borderTop: "1px solid rgba(255,255,255,0.22)",
+                  background: "linear-gradient(180deg, #FFFFFF 0%, #E6E1D8 100%)",
+                  border: "1px solid #B8B0A2",
                   borderRadius: "6px",
-                  color: "#EAE2D2",
+                  color: "#181A20",
                   cursor: "pointer",
                   padding: "4px 8px",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  boxShadow: "0 2px 4px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.15)",
+                  boxShadow: "0 2px 4px rgba(0,0,0,0.3), inset 0 1px 0 #FFF",
                 }}
               >
                 <Maximize2 size={14} />
@@ -317,21 +314,21 @@ function VideoPlayer({
         style={{
           marginTop: "10px",
           padding: "10px 14px",
-          background: "linear-gradient(180deg, #12141A 0%, #0B0D12 100%)",
+          background: "linear-gradient(180deg, #FBF9F5 0%, #EFE9DE 100%)",
           borderRadius: "10px",
-          border: "1px solid #06080B",
-          borderTop: "1px solid rgba(255,255,255,0.1)",
-          boxShadow: "inset 0 1px 3px rgba(0,0,0,0.8)",
+          border: "1px solid #D5CBB9",
+          borderTop: "1px solid #FFFFFF",
+          boxShadow: "inset 0 1px 2px rgba(255,255,255,0.8), 0 1px 3px rgba(60,45,25,0.08)",
         }}
       >
         <h3
           style={{
             fontFamily: "'Cormorant Garamond', Georgia, serif",
-            fontSize: isMobile ? "1.2rem" : "1.4rem",
-            fontWeight: 600,
-            color: "#E2BA70",
-            marginBottom: "4px",
-            textShadow: "0 1px 0 rgba(255,255,255,0.1), 0 -1px 0 rgba(0,0,0,0.9)",
+            fontSize: isMobile ? "1.22rem" : "1.45rem",
+            fontWeight: 700,
+            color: "#181A20",
+            marginBottom: "3px",
+            textShadow: "0 1px 0 rgba(255,255,255,0.8)",
           }}
         >
           {title}
@@ -339,11 +336,10 @@ function VideoPlayer({
         <p
           style={{
             fontFamily: "'DM Sans', sans-serif",
-            fontSize: "0.82rem",
+            fontSize: "0.84rem",
             lineHeight: 1.5,
-            color: "#94A3B8",
+            color: "#475569",
             margin: 0,
-            textShadow: "0 -1px 0 rgba(0,0,0,0.8)",
           }}
         >
           {subtitle}
@@ -393,9 +389,10 @@ export default function NosSection() {
     if (isTakingPhoto) return;
     setIsTakingPhoto(true);
     try {
-      // @ts-ignore
-      const { Haptics, ImpactStyle } = await import("@capacitor/haptics");
-      await Haptics.impact({ style: ImpactStyle.Heavy });
+      const cap = typeof window !== "undefined" ? (window as any).Capacitor : null;
+      if (cap?.Plugins?.Haptics) {
+        await cap.Plugins.Haptics.impact({ style: "HEAVY" });
+      }
     } catch (_) {}
     setTimeout(() => {
       setIsTakingPhoto(false);
@@ -404,8 +401,8 @@ export default function NosSection() {
   };
 
   const handleDragEnd = (_: any, info: any) => {
-    if (info.offset.x > 40) setCurrentIndex((prev) => Math.max(0, prev - 1));
-    else if (info.offset.x < -40) setCurrentIndex((prev) => Math.min(PHOTOS.length - 1, prev + 1));
+    if (info.offset.x > 35) setCurrentIndex((prev) => Math.max(0, prev - 1));
+    else if (info.offset.x < -35) setCurrentIndex((prev) => Math.min(PHOTOS.length - 1, prev + 1));
   };
 
   const video1Src = isCapacitor() ? "assets/images/nos-video.mp4" : "/manus-storage/nos-video.mp4";
@@ -430,7 +427,7 @@ export default function NosSection() {
                   left: 0,
                   width: "100vw",
                   height: "100vh",
-                  background: "radial-gradient(circle at 50% 50%, rgba(18,20,26,0.98) 0%, rgba(7,8,11,0.99) 100%)",
+                  background: "radial-gradient(circle at 50% 50%, rgba(24,20,16,0.95) 0%, rgba(10,8,6,0.98) 100%)",
                   zIndex: 999999,
                   display: "flex",
                   flexDirection: "column",
@@ -450,11 +447,11 @@ export default function NosSection() {
                     position: "relative",
                     maxWidth: m ? "92vw" : "620px",
                     width: "100%",
-                    background: "linear-gradient(180deg, #1C2028 0%, #12141A 100%)",
-                    border: "1px solid #2A2E38",
+                    background: "linear-gradient(180deg, #FFFFFF 0%, #FAF7F0 100%)",
+                    border: "1px solid #D6CEBE",
                     borderRadius: "16px",
                     padding: m ? "14px" : "20px",
-                    boxShadow: "0 30px 80px rgba(0,0,0,0.95), inset 0 1px 0 rgba(255,255,255,0.18)",
+                    boxShadow: "0 30px 80px rgba(0,0,0,0.85), inset 0 1px 0 #FFFFFF",
                   }}
                 >
                   <button
@@ -463,9 +460,9 @@ export default function NosSection() {
                       position: "absolute",
                       top: "12px",
                       right: "12px",
-                      background: "linear-gradient(180deg, #2D323E 0%, #171A21 100%)",
-                      border: "1px solid #3A3F4E",
-                      color: "#E2BA70",
+                      background: "linear-gradient(180deg, #FFFFFF 0%, #EDE6DC 100%)",
+                      border: "1px solid #C8BCAC",
+                      color: "#78350F",
                       borderRadius: "50%",
                       width: "34px",
                       height: "34px",
@@ -474,7 +471,7 @@ export default function NosSection() {
                       justifyContent: "center",
                       cursor: "pointer",
                       zIndex: 30,
-                      boxShadow: "0 4px 10px rgba(0,0,0,0.7)",
+                      boxShadow: "0 4px 10px rgba(0,0,0,0.15)",
                     }}
                   >
                     <X size={18} />
@@ -485,7 +482,7 @@ export default function NosSection() {
                       background: "#F6F3EC",
                       padding: "8px 8px 12px 8px",
                       borderRadius: "6px",
-                      boxShadow: "0 10px 30px rgba(0,0,0,0.85), inset 0 0 1px rgba(0,0,0,0.4)",
+                      boxShadow: "0 10px 30px rgba(0,0,0,0.25), inset 0 0 1px rgba(0,0,0,0.2)",
                     }}
                   >
                     <img
@@ -506,11 +503,10 @@ export default function NosSection() {
                     <h4
                       style={{
                         fontFamily: "'Cormorant Garamond', Georgia, serif",
-                        fontSize: m ? "1.35rem" : "1.75rem",
-                        fontWeight: 600,
-                        color: "#E2BA70",
+                        fontSize: m ? "1.45rem" : "1.85rem",
+                        fontWeight: 700,
+                        color: "#181A20",
                         margin: 0,
-                        textShadow: "0 -1px 0 rgba(0,0,0,0.9)",
                       }}
                     >
                       {selectedPhoto.title}
@@ -518,8 +514,8 @@ export default function NosSection() {
                     <p
                       style={{
                         fontFamily: "'DM Sans', sans-serif",
-                        fontSize: m ? "0.8rem" : "0.9rem",
-                        color: "#94A3B8",
+                        fontSize: m ? "0.85rem" : "0.95rem",
+                        color: "#475569",
                         marginTop: "6px",
                         lineHeight: 1.4,
                       }}
@@ -544,9 +540,23 @@ export default function NosSection() {
           display: "flex",
           alignItems: "center",
           scrollMarginTop: "95px",
-          background: "radial-gradient(ellipse at 50% 12%, rgba(200, 169, 110, 0.09) 0%, transparent 65%), #090B10",
+          background: "radial-gradient(circle at 50% 25%, #FFFDF8 0%, #F5EFEB 45%, #EBE1D1 100%)",
+          borderTop: "1px solid rgba(255,255,255,0.5)",
+          borderBottom: "1px solid rgba(0,0,0,0.12)",
+          boxShadow: "inset 0 20px 40px rgba(60,45,25,0.05), inset 0 -20px 40px rgba(60,45,25,0.05)",
         }}
       >
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            pointerEvents: "none",
+            backgroundImage: "radial-gradient(#CBBDA8 1px, transparent 1px)",
+            backgroundSize: m ? "20px 20px" : "28px 28px",
+            opacity: 0.35,
+          }}
+        />
+
         <div
           style={{
             maxWidth: "1360px",
@@ -558,69 +568,67 @@ export default function NosSection() {
           }}
         >
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 35 }}
             animate={mounted ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
             style={{ marginBottom: m ? "2.25rem" : "3.5rem", textAlign: "center" }}
           >
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "14px", marginBottom: "1.25rem" }}>
-              <div style={{ width: "36px", height: "1px", background: "linear-gradient(90deg, transparent, #C8A96E)", opacity: 0.7 }} />
+              <div style={{ width: "40px", height: "1px", background: "linear-gradient(90deg, transparent, #D97706)", opacity: 0.7 }} />
               <div
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
                   gap: "6px",
-                  background: "linear-gradient(180deg, #1C2028 0%, #0E1015 100%)",
-                  padding: "4px 14px",
-                  borderRadius: "6px",
-                  border: "1px solid #06080B",
-                  borderTop: "1px solid rgba(255,255,255,0.2)",
-                  boxShadow: "0 2px 5px rgba(0,0,0,0.6)",
+                  background: "linear-gradient(180deg, #FFFFFF 0%, #EDE7DC 100%)",
+                  padding: "5px 16px",
+                  borderRadius: "8px",
+                  border: "1px solid #D5C9B5",
+                  borderTop: "1px solid #FFFFFF",
+                  boxShadow: "0 2px 6px rgba(60,45,25,0.08), inset 0 1px 0 #FFFFFF",
                 }}
               >
-                <Aperture size={12} color="#C8A96E" />
+                <Aperture size={13} color="#B45309" />
                 <span
                   style={{
                     fontFamily: "'DM Sans', sans-serif",
-                    fontSize: "10.5px",
-                    fontWeight: 700,
-                    letterSpacing: "0.28em",
+                    fontSize: "11px",
+                    fontWeight: 800,
+                    letterSpacing: "0.26em",
                     textTransform: "uppercase",
-                    color: "#C8A96E",
-                    textShadow: "0 1px 0 rgba(0,0,0,0.8)",
+                    color: "#92400E",
                   }}
                 >
                   O Proxecto
                 </span>
               </div>
-              <div style={{ width: "36px", height: "1px", background: "linear-gradient(90deg, #C8A96E, transparent)", opacity: 0.7 }} />
+              <div style={{ width: "40px", height: "1px", background: "linear-gradient(90deg, #D97706, transparent)", opacity: 0.7 }} />
             </div>
 
             <h2
               style={{
                 fontFamily: "'Cormorant Garamond', Georgia, serif",
-                fontWeight: 500,
-                fontSize: "clamp(2.5rem, 5.5vw, 5.5rem)",
+                fontWeight: 600,
+                fontSize: "clamp(2.6rem, 5.5vw, 5.6rem)",
                 lineHeight: 0.95,
                 letterSpacing: "-0.02em",
-                color: "#F4F0E8",
-                textShadow: "0 2px 4px rgba(0,0,0,0.8), 0 0 30px rgba(200,169,110,0.15)",
+                color: "#181A20",
+                textShadow: "0 1px 0 rgba(255,255,255,0.9)",
                 margin: "0 0 0.8rem",
               }}
             >
-              Nós, o <span style={{ color: "#E2BA70", fontStyle: "italic" }}>Equipo</span>
+              Nós, o <span style={{ color: "#B45309", fontStyle: "italic" }}>Equipo</span>
             </h2>
 
             <p
               style={{
                 fontFamily: "'DM Sans', sans-serif",
-                fontWeight: 300,
-                fontSize: m ? "0.92rem" : "1.05rem",
+                fontWeight: 400,
+                fontSize: m ? "0.95rem" : "1.08rem",
                 lineHeight: 1.7,
-                color: "#94A3B8",
+                color: "#475569",
                 maxWidth: "600px",
                 margin: "0 auto",
-                textShadow: "0 -1px 0 rgba(0,0,0,0.9)",
               }}
             >
               O equipo de traballo e colaboradores detrás da análise literaria de Faneca Brava.
@@ -631,7 +639,7 @@ export default function NosSection() {
             initial={{ opacity: 0, y: 35 }}
             animate={mounted ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.85, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
-            style={{ maxWidth: m ? "100%" : "880px", margin: "0 auto", marginBottom: m ? "1.5rem" : "2.25rem" }}
+            style={{ maxWidth: m ? "100%" : "880px", margin: "0 auto", marginBottom: m ? "1.75rem" : "2.5rem" }}
           >
             <VideoPlayer
               src={video2Src}
@@ -645,7 +653,7 @@ export default function NosSection() {
             initial={{ opacity: 0, y: 35 }}
             animate={mounted ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.85, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            style={{ maxWidth: m ? "100%" : "640px", margin: "0 auto", marginBottom: m ? "2rem" : "2.75rem" }}
+            style={{ maxWidth: m ? "100%" : "640px", margin: "0 auto", marginBottom: m ? "2.25rem" : "3rem" }}
           >
             <VideoPlayer
               src={video1Src}
@@ -661,11 +669,11 @@ export default function NosSection() {
             transition={{ duration: 0.85, delay: 0.42, ease: [0.16, 1, 0.3, 1] }}
             style={{
               position: "relative",
-              background: "linear-gradient(180deg, #1A1E26 0%, #11141B 50%, #0A0C11 100%)",
-              border: "1px solid #080A0E",
-              borderTop: "1px solid rgba(255,255,255,0.22)",
+              background: "linear-gradient(180deg, #FFFFFF 0%, #F5EFEB 50%, #ECE4D6 100%)",
+              border: "1px solid #D8CFC0",
+              borderTop: "1px solid #FFFFFF",
               borderRadius: "20px",
-              boxShadow: "0 25px 60px -10px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.15), inset 0 -2px 0 rgba(0,0,0,0.7)",
+              boxShadow: "0 22px 55px -10px rgba(60,45,25,0.18), 0 6px 18px rgba(0,0,0,0.06), inset 0 1px 0 #FFFFFF",
               padding: m ? "2rem 1.25rem" : "2.5rem 2rem",
               display: "flex",
               flexDirection: "column",
@@ -674,7 +682,7 @@ export default function NosSection() {
               textAlign: "center",
               maxWidth: m ? "100%" : "480px",
               margin: "0 auto",
-              marginBottom: reelVisible ? (m ? "2rem" : "3rem") : 0,
+              marginBottom: reelVisible ? (m ? "2.25rem" : "3.25rem") : 0,
             }}
           >
             <Screw style={{ position: "absolute", top: "8px", left: "8px" }} />
@@ -699,9 +707,9 @@ export default function NosSection() {
                   width: m ? "130px" : "150px",
                   height: m ? "130px" : "150px",
                   borderRadius: "50%",
-                  background: "radial-gradient(circle, #0F1217 0%, #050608 100%)",
-                  boxShadow: "inset 0 4px 8px rgba(0,0,0,0.95), 0 1px 0 rgba(255,255,255,0.12)",
-                  border: "1px solid #1C202A",
+                  background: "radial-gradient(circle, #F8F5EE 0%, #E8DFC8 70%, #D1C5B0 100%)",
+                  border: "2px solid #C8BC9E",
+                  boxShadow: "inset 0 3px 6px rgba(0,0,0,0.15), 0 1px 0 #FFF",
                 }}
               />
 
@@ -718,7 +726,7 @@ export default function NosSection() {
                     width: "100%",
                     height: "100%",
                     objectFit: "contain",
-                    filter: "drop-shadow(0 12px 25px rgba(0,0,0,0.85))",
+                    filter: "drop-shadow(0 10px 20px rgba(60,45,25,0.35))",
                     transform: isTakingPhoto ? "scale(0.92) rotate(-3deg)" : "scale(1) rotate(0deg)",
                     transition: "transform 0.15s ease-out",
                   }}
@@ -729,11 +737,11 @@ export default function NosSection() {
             <h3
               style={{
                 fontFamily: "'Cormorant Garamond', Georgia, serif",
-                fontSize: "1.5rem",
-                fontWeight: 600,
-                color: "#E2BA70",
+                fontSize: "1.55rem",
+                fontWeight: 700,
+                color: "#181A20",
                 marginBottom: "6px",
-                textShadow: "0 1px 0 rgba(255,255,255,0.1), 0 -1px 0 rgba(0,0,0,0.9)",
+                textShadow: "0 1px 0 rgba(255,255,255,0.8)",
               }}
             >
               {reelVisible ? "Equipo e Colaboradores" : "Colaboradores do Proxecto"}
@@ -742,12 +750,11 @@ export default function NosSection() {
             <p
               style={{
                 fontFamily: "'DM Sans', sans-serif",
-                fontSize: "0.85rem",
+                fontSize: "0.88rem",
                 lineHeight: 1.6,
-                color: "#CBD5E1",
-                maxWidth: "290px",
+                color: "#475569",
+                maxWidth: "300px",
                 margin: "0 0 1.25rem",
-                textShadow: "0 -1px 0 rgba(0,0,0,0.9)",
               }}
             >
               {reelVisible
@@ -763,21 +770,21 @@ export default function NosSection() {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "8px",
-                background: "linear-gradient(180deg, #E6C887 0%, #C8A96E 50%, #8E6F33 100%)",
-                border: "1px solid #483718",
+                background: "linear-gradient(180deg, #FDE68A 0%, #D97706 60%, #92400E 100%)",
+                border: "1px solid #78350F",
                 borderRadius: "8px",
-                padding: "8px 18px",
-                color: "#120E06",
+                padding: "9px 20px",
+                color: "#FFFFFF",
                 fontFamily: "'DM Sans', sans-serif",
                 fontSize: "12px",
-                fontWeight: 700,
+                fontWeight: 800,
                 letterSpacing: "0.08em",
                 textTransform: "uppercase",
                 cursor: "pointer",
-                boxShadow: "0 6px 14px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -1px 2px rgba(0,0,0,0.4)",
+                boxShadow: "0 6px 16px rgba(180,83,9,0.35), inset 0 1px 0 rgba(255,255,255,0.7), inset 0 -1px 2px rgba(0,0,0,0.3)",
               }}
             >
-              <Film size={14} color="#120E06" />
+              <Film size={14} color="#FFFFFF" />
               <span>{reelVisible ? "Bobina Revelada" : "Revelar Bobina"}</span>
             </motion.button>
           </motion.div>
@@ -794,19 +801,19 @@ export default function NosSection() {
                 <div
                   style={{
                     width: "100%",
-                    background: "linear-gradient(180deg, #18191D 0%, #0B0C0E 100%)",
-                    height: "24px",
+                    background: "linear-gradient(180deg, #26221F 0%, #171412 100%)",
+                    height: "26px",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "space-between",
                     padding: "0 12px",
                     borderRadius: "8px 8px 0 0",
-                    border: "1px solid #060709",
-                    borderTop: "1px solid rgba(255,255,255,0.18)",
-                    boxShadow: "0 4px 10px rgba(0,0,0,0.8)",
+                    border: "1px solid #3D3732",
+                    borderTop: "1px solid rgba(255,255,255,0.2)",
+                    boxShadow: "0 4px 12px rgba(60,45,25,0.15)",
                   }}
                 >
-                  <span style={{ fontFamily: "monospace", fontSize: "7.5px", color: "#F59E0B", opacity: 0.65, letterSpacing: "0.15em", textTransform: "uppercase" }}>
+                  <span style={{ fontFamily: "monospace", fontSize: "7.5px", color: "#F59E0B", opacity: 0.85, letterSpacing: "0.15em", textTransform: "uppercase" }}>
                     KODAK SAFETY FILM 5063
                   </span>
                   <div style={{ display: "flex", gap: m ? "8px" : "16px", alignItems: "center" }}>
@@ -814,7 +821,7 @@ export default function NosSection() {
                       <SprocketHole key={i} />
                     ))}
                   </div>
-                  <span style={{ fontFamily: "monospace", fontSize: "7.5px", color: "#F59E0B", opacity: 0.65, letterSpacing: "0.15em" }}>
+                  <span style={{ fontFamily: "monospace", fontSize: "7.5px", color: "#F59E0B", opacity: 0.85, letterSpacing: "0.15em" }}>
                     ISO 400
                   </span>
                 </div>
@@ -822,16 +829,16 @@ export default function NosSection() {
                 <div
                   style={{
                     width: "100%",
-                    height: m ? "320px" : "415px",
+                    height: m ? "350px" : "440px",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                     position: "relative",
                     overflow: "visible",
-                    background: "radial-gradient(ellipse at 50% 50%, #101217 0%, #07080B 100%)",
-                    borderLeft: "1px solid #14161B",
-                    borderRight: "1px solid #14161B",
-                    boxShadow: "inset 0 0 40px rgba(0,0,0,0.9)",
+                    background: "radial-gradient(ellipse at 50% 50%, rgba(255,255,255,0.98) 0%, rgba(248,244,236,0.92) 55%, rgba(235,226,212,0.85) 100%)",
+                    borderLeft: "1px solid #D5CBB9",
+                    borderRight: "1px solid #D5CBB9",
+                    boxShadow: "inset 0 0 35px rgba(160,135,100,0.18)",
                   }}
                 >
                   <motion.div
@@ -853,16 +860,16 @@ export default function NosSection() {
                       const diff = index - currentIndex;
                       const isActive = index === currentIndex;
                       const offsetMult = m ? 130 : 210;
-                      const curveFactor = m ? 7 : 12;
-                      const rotateFactor = m ? 5 : 8;
+                      const curveFactor = m ? 6 : 10;
+                      const rotateFactor = m ? 5 : 6;
                       const tx = diff * offsetMult;
                       const ty = Math.abs(diff) * Math.abs(diff) * curveFactor;
                       const rot = diff * rotateFactor;
                       const sc = 1 - Math.abs(diff) * 0.08;
-                      const opacity = Math.abs(diff) > 3 ? 0 : 1 - Math.abs(diff) * 0.26;
+                      const opacity = Math.abs(diff) > 3 ? 0 : 1 - Math.abs(diff) * 0.24;
                       const z = 100 - Math.abs(diff);
-                      const cardW = m ? 142 : 200;
-                      const cardH = m ? 190 : 270;
+                      const cardW = m ? 165 : 220;
+                      const cardH = m ? 260 : 330;
 
                       return (
                         <motion.div
@@ -875,31 +882,30 @@ export default function NosSection() {
                             position: "absolute",
                             width: `${cardW}px`,
                             height: `${cardH}px`,
-                            background: "#08090C",
-                            border: "3px solid #14161D",
-                            outline: isActive ? "1px solid #C8A96E" : "1px solid #222630",
+                            background: "#FFFFFF",
+                            border: "1px solid #D6CEBE",
+                            outline: isActive ? "2px solid #D97706" : "1px solid rgba(0,0,0,0.08)",
                             boxShadow: isActive
-                              ? "0 25px 60px rgba(0,0,0,0.95), 0 0 25px rgba(200,169,110,0.3)"
-                              : "0 10px 25px rgba(0,0,0,0.8)",
+                              ? "0 25px 50px -10px rgba(70,50,30,0.28), 0 10px 20px rgba(0,0,0,0.1)"
+                              : "0 14px 28px rgba(70,50,30,0.12), 0 2px 6px rgba(0,0,0,0.06)",
                             cursor: "pointer",
                             transformOrigin: "center bottom",
                             display: "flex",
                             flexDirection: "column",
                             overflow: "hidden",
-                            borderRadius: "6px",
+                            borderRadius: "10px",
                           }}
                           whileHover={isActive ? { y: ty - 8 } : {}}
                         >
                           <div
                             style={{
                               height: "15px",
-                              background: "linear-gradient(180deg, #15171C 0%, #0A0B0E 100%)",
+                              background: "linear-gradient(180deg, #26221F 0%, #171412 100%)",
                               display: "flex",
                               alignItems: "center",
                               justifyContent: "space-around",
                               padding: "0 4px",
                               flexShrink: 0,
-                              borderBottom: "1px solid #1C2028",
                             }}
                           >
                             {Array.from({ length: 5 }).map((_, i) => (
@@ -910,11 +916,10 @@ export default function NosSection() {
                           <div
                             style={{
                               flex: 1,
+                              minHeight: 0,
                               overflow: "hidden",
                               position: "relative",
-                              background: "#040507",
-                              borderTop: "2px solid #000",
-                              borderBottom: "2px solid #000",
+                              background: "#0A0B0E",
                             }}
                           >
                             <img
@@ -924,8 +929,8 @@ export default function NosSection() {
                                 width: "100%",
                                 height: "100%",
                                 objectFit: "cover",
-                                objectPosition: "center 18%",
-                                filter: "contrast(1.05) brightness(0.95)",
+                                objectPosition: photo.id === "jun" ? "center 15%" : "center 20%",
+                                filter: "contrast(1.05) brightness(0.96)",
                                 display: "block",
                               }}
                             />
@@ -933,12 +938,12 @@ export default function NosSection() {
                             <span
                               style={{
                                 position: "absolute",
-                                top: "4px",
-                                left: "5px",
+                                top: "5px",
+                                left: "6px",
                                 fontFamily: "monospace",
                                 fontSize: "9px",
                                 color: "#F59E0B",
-                                opacity: 0.85,
+                                opacity: 0.9,
                                 pointerEvents: "none",
                                 letterSpacing: "0.08em",
                                 textShadow: "0 1px 2px rgba(0,0,0,0.9)",
@@ -952,7 +957,7 @@ export default function NosSection() {
                                 style={{
                                   position: "absolute",
                                   inset: 0,
-                                  background: "linear-gradient(135deg, rgba(200,169,110,0.1) 0%, transparent 60%)",
+                                  background: "linear-gradient(135deg, rgba(217,119,6,0.12) 0%, transparent 60%)",
                                   pointerEvents: "none",
                                 }}
                               />
@@ -966,19 +971,19 @@ export default function NosSection() {
                                 }}
                                 style={{
                                   position: "absolute",
-                                  bottom: "8px",
-                                  right: "8px",
-                                  background: "linear-gradient(180deg, #2A2E38 0%, #12141A 100%)",
-                                  border: "1px solid #C8A96E",
+                                  bottom: "7px",
+                                  right: "7px",
+                                  background: "linear-gradient(180deg, #FFFFFF 0%, #EDE7DC 100%)",
+                                  border: "1px solid #D97706",
                                   borderRadius: "50%",
-                                  width: "32px",
-                                  height: "32px",
+                                  width: "30px",
+                                  height: "30px",
                                   display: "flex",
                                   alignItems: "center",
                                   justifyContent: "center",
-                                  color: "#E2BA70",
+                                  color: "#92400E",
                                   cursor: "pointer",
-                                  boxShadow: "0 4px 12px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.3)",
+                                  boxShadow: "0 4px 10px rgba(0,0,0,0.3), inset 0 1px 0 #FFF",
                                   zIndex: 20,
                                   padding: 0,
                                 }}
@@ -991,13 +996,12 @@ export default function NosSection() {
                           <div
                             style={{
                               height: "15px",
-                              background: "linear-gradient(180deg, #0A0B0E 0%, #15171C 100%)",
+                              background: "linear-gradient(180deg, #171412 0%, #26221F 100%)",
                               display: "flex",
                               alignItems: "center",
                               justifyContent: "space-around",
                               padding: "0 4px",
                               flexShrink: 0,
-                              borderTop: "1px solid #1C2028",
                             }}
                           >
                             {Array.from({ length: 5 }).map((_, i) => (
@@ -1007,40 +1011,40 @@ export default function NosSection() {
 
                           <div
                             style={{
-                              height: m ? "40px" : "48px",
-                              background: "#08090C",
+                              minHeight: m ? "54px" : "66px",
+                              background: "linear-gradient(180deg, #FFFFFF 0%, #FAF8F4 100%)",
                               display: "flex",
                               flexDirection: "column",
                               justifyContent: "center",
                               alignItems: "center",
-                              padding: "4px 8px",
+                              padding: m ? "6px 8px 8px" : "8px 10px 10px",
                               flexShrink: 0,
-                              borderTop: "1px solid rgba(255,255,255,0.06)",
+                              borderTop: "1px solid #E5DED1",
                             }}
                           >
                             <div
                               style={{
                                 fontFamily: "'Cormorant Garamond', Georgia, serif",
-                                fontSize: m ? "0.82rem" : "0.98rem",
-                                fontWeight: 600,
-                                color: "#EAE2D2",
-                                whiteSpace: "nowrap",
-                                overflow: "hidden",
-                                textOverflow: "ellipsis",
-                                width: "100%",
+                                fontSize: m ? "0.95rem" : "1.18rem",
+                                fontWeight: 700,
+                                color: "#181A20",
+                                lineHeight: 1.15,
                                 textAlign: "center",
+                                width: "100%",
+                                marginBottom: "2px",
                               }}
                             >
                               {photo.title}
                             </div>
                             <div
                               style={{
-                                fontFamily: "monospace",
-                                fontSize: m ? "5.5px" : "7px",
-                                letterSpacing: "0.06em",
-                                textTransform: "uppercase",
-                                color: "#71717A",
-                                marginTop: "2px",
+                                fontFamily: "'DM Sans', sans-serif",
+                                fontSize: m ? "7.5px" : "9px",
+                                fontWeight: 500,
+                                lineHeight: 1.25,
+                                color: "#4B5563",
+                                textAlign: "center",
+                                width: "100%",
                               }}
                             >
                               {photo.subtitle}
@@ -1057,10 +1061,10 @@ export default function NosSection() {
                     style={{
                       position: "absolute",
                       left: m ? "6px" : "18px",
-                      background: "linear-gradient(180deg, #272B35 0%, #12141A 100%)",
-                      border: "1px solid #090B0F",
-                      borderTop: "1px solid rgba(255,255,255,0.25)",
-                      color: "#E2BA70",
+                      background: "linear-gradient(180deg, #FFFFFF 0%, #EDE7DC 100%)",
+                      border: "1px solid #D5C9B5",
+                      borderTop: "1px solid #FFFFFF",
+                      color: "#92400E",
                       borderRadius: "50%",
                       width: "40px",
                       height: "40px",
@@ -1068,9 +1072,9 @@ export default function NosSection() {
                       alignItems: "center",
                       justifyContent: "center",
                       cursor: "pointer",
-                      opacity: currentIndex === 0 ? 0.25 : 0.95,
+                      opacity: currentIndex === 0 ? 0.3 : 0.95,
                       zIndex: 110,
-                      boxShadow: "0 6px 16px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.2)",
+                      boxShadow: "0 6px 16px rgba(60,45,25,0.18), inset 0 1px 0 #FFF",
                     }}
                   >
                     <ChevronLeft size={19} />
@@ -1082,10 +1086,10 @@ export default function NosSection() {
                     style={{
                       position: "absolute",
                       right: m ? "6px" : "18px",
-                      background: "linear-gradient(180deg, #272B35 0%, #12141A 100%)",
-                      border: "1px solid #090B0F",
-                      borderTop: "1px solid rgba(255,255,255,0.25)",
-                      color: "#E2BA70",
+                      background: "linear-gradient(180deg, #FFFFFF 0%, #EDE7DC 100%)",
+                      border: "1px solid #D5C9B5",
+                      borderTop: "1px solid #FFFFFF",
+                      color: "#92400E",
                       borderRadius: "50%",
                       width: "40px",
                       height: "40px",
@@ -1093,9 +1097,9 @@ export default function NosSection() {
                       alignItems: "center",
                       justifyContent: "center",
                       cursor: "pointer",
-                      opacity: currentIndex === PHOTOS.length - 1 ? 0.25 : 0.95,
+                      opacity: currentIndex === PHOTOS.length - 1 ? 0.3 : 0.95,
                       zIndex: 110,
-                      boxShadow: "0 6px 16px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.2)",
+                      boxShadow: "0 6px 16px rgba(60,45,25,0.18), inset 0 1px 0 #FFF",
                     }}
                   >
                     <ChevronRight size={19} />
@@ -1105,19 +1109,19 @@ export default function NosSection() {
                 <div
                   style={{
                     width: "100%",
-                    background: "linear-gradient(180deg, #0B0C0E 0%, #18191D 100%)",
-                    height: "24px",
+                    background: "linear-gradient(180deg, #171412 0%, #26221F 100%)",
+                    height: "26px",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "space-between",
                     padding: "0 12px",
                     borderRadius: "0 0 8px 8px",
-                    border: "1px solid #060709",
-                    borderBottom: "1px solid rgba(255,255,255,0.12)",
-                    boxShadow: "0 6px 16px rgba(0,0,0,0.8)",
+                    border: "1px solid #3D3732",
+                    borderBottom: "1px solid rgba(255,255,255,0.15)",
+                    boxShadow: "0 8px 22px rgba(60,45,25,0.18)",
                   }}
                 >
-                  <span style={{ fontFamily: "monospace", fontSize: "7.5px", color: "#F59E0B", opacity: 0.65, letterSpacing: "0.15em" }}>
+                  <span style={{ fontFamily: "monospace", fontSize: "7.5px", color: "#F59E0B", opacity: 0.85, letterSpacing: "0.15em" }}>
                     FRAME 01-05
                   </span>
                   <div style={{ display: "flex", gap: m ? "8px" : "16px", alignItems: "center" }}>
@@ -1125,7 +1129,7 @@ export default function NosSection() {
                       <SprocketHole key={i} />
                     ))}
                   </div>
-                  <span style={{ fontFamily: "monospace", fontSize: "7.5px", color: "#F59E0B", opacity: 0.65, letterSpacing: "0.15em" }}>
+                  <span style={{ fontFamily: "monospace", fontSize: "7.5px", color: "#F59E0B", opacity: 0.85, letterSpacing: "0.15em" }}>
                     MADE IN SPAIN
                   </span>
                 </div>
@@ -1134,8 +1138,8 @@ export default function NosSection() {
                   style={{
                     textAlign: "center",
                     fontFamily: "'DM Sans', sans-serif",
-                    fontSize: "0.78rem",
-                    color: "#71717A",
+                    fontSize: "0.82rem",
+                    color: "#475569",
                     marginTop: "14px",
                     letterSpacing: "0.02em",
                   }}
