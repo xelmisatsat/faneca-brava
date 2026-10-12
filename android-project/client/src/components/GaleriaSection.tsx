@@ -13,6 +13,7 @@ interface GalleryItem {
   clay: {
     bg: string;
     accent: string;
+    border: string;
     badgeBg: string;
     shadow: string;
   };
@@ -26,10 +27,11 @@ const items: GalleryItem[] = [
     year: "1950s",
     desc: "Rúas de pedra, néboa e silencio. O microcosmos onde todo comezou.",
     clay: {
-      bg: "linear-gradient(145deg, #354B52 0%, #2A3C42 100%)",
-      accent: "#76C4D0",
-      badgeBg: "linear-gradient(145deg, #3E5A62 0%, #2F464D 100%)",
-      shadow: "rgba(18, 38, 44, 0.5)",
+      bg: "linear-gradient(145deg, #2A5663 0%, #1D434E 100%)",
+      accent: "#3FE0F2",
+      border: "rgba(63, 224, 242, 0.45)",
+      badgeBg: "linear-gradient(145deg, #346876 0%, #234D58 100%)",
+      shadow: "rgba(15, 45, 54, 0.65)",
     },
   },
   {
@@ -39,10 +41,11 @@ const items: GalleryItem[] = [
     year: "1952",
     desc: "Crucifixo, retrato de Franco e a regra de Dona Remedios. O terror cotián.",
     clay: {
-      bg: "linear-gradient(145deg, #44453C 0%, #35362F 100%)",
-      accent: "#E2CF88",
-      badgeBg: "linear-gradient(145deg, #525348 0%, #3D3F36 100%)",
-      shadow: "rgba(35, 36, 28, 0.5)",
+      bg: "linear-gradient(145deg, #5B573C 0%, #46422C 100%)",
+      accent: "#FCE066",
+      border: "rgba(252, 224, 102, 0.45)",
+      badgeBg: "linear-gradient(145deg, #6C6647 0%, #4E4A31 100%)",
+      shadow: "rgba(45, 42, 22, 0.65)",
     },
   },
   {
@@ -53,10 +56,11 @@ const items: GalleryItem[] = [
     desc: "A matriarca que preferiu ocultar monstros antes que perder a reputación.",
     objectPosition: "top center",
     clay: {
-      bg: "linear-gradient(145deg, #4B3C3C 0%, #3A2E2E 100%)",
-      accent: "#EFA18D",
-      badgeBg: "linear-gradient(145deg, #5B4848 0%, #443535 100%)",
-      shadow: "rgba(42, 26, 26, 0.5)",
+      bg: "linear-gradient(145deg, #6B4040 0%, #522E2E 100%)",
+      accent: "#FF9982",
+      border: "rgba(255, 153, 130, 0.45)",
+      badgeBg: "linear-gradient(145deg, #7F4D4D 0%, #5C3434 100%)",
+      shadow: "rgba(54, 25, 25, 0.65)",
     },
   },
   {
@@ -66,10 +70,11 @@ const items: GalleryItem[] = [
     year: "1965",
     desc: "A cidade que lle deu anonimato, liberdade e unha cámara como arma.",
     clay: {
-      bg: "linear-gradient(145deg, #374457 0%, #2A3545 100%)",
-      accent: "#95C2F2",
-      badgeBg: "linear-gradient(145deg, #44546B 0%, #313F53 100%)",
-      shadow: "rgba(22, 34, 48, 0.5)",
+      bg: "linear-gradient(145deg, #395275 0%, #2A3E5C 100%)",
+      accent: "#7EBCFF",
+      border: "rgba(126, 188, 255, 0.45)",
+      badgeBg: "linear-gradient(145deg, #46638C 0%, #31496D 100%)",
+      shadow: "rgba(24, 38, 62, 0.65)",
     },
   },
   {
@@ -80,10 +85,11 @@ const items: GalleryItem[] = [
     desc: "Detrás da lente, a nena maltratada converteuse na cazadora dos poderosos.",
     objectPosition: "top center",
     clay: {
-      bg: "linear-gradient(145deg, #493A47 0%, #3A2D38 100%)",
-      accent: "#EAA7C5",
-      badgeBg: "linear-gradient(145deg, #594657 0%, #433341 100%)",
-      shadow: "rgba(38, 24, 36, 0.5)",
+      bg: "linear-gradient(145deg, #66415B 0%, #4E2E44 100%)",
+      accent: "#F793C2",
+      border: "rgba(247, 147, 194, 0.45)",
+      badgeBg: "linear-gradient(145deg, #7A4E6C 0%, #56334C 100%)",
+      shadow: "rgba(52, 22, 45, 0.65)",
     },
   },
   {
@@ -93,22 +99,23 @@ const items: GalleryItem[] = [
     year: "Sempre",
     desc: "Cartas, fotografías, cintas. Os fragmentos dunha memoria que non arde.",
     clay: {
-      bg: "linear-gradient(145deg, #384A42 0%, #2A3832 100%)",
-      accent: "#8EE0B3",
-      badgeBg: "linear-gradient(145deg, #455C52 0%, #32443C 100%)",
-      shadow: "rgba(22, 38, 32, 0.5)",
+      bg: "linear-gradient(145deg, #355C4A 0%, #254637 100%)",
+      accent: "#5FE6A3",
+      border: "rgba(95, 230, 163, 0.45)",
+      badgeBg: "linear-gradient(145deg, #416F59 0%, #2B4E3E 100%)",
+      shadow: "rgba(22, 50, 38, 0.65)",
     },
   },
 ];
 
 const clayShadow = {
-  card: "18px 24px 44px -8px rgba(12, 22, 28, 0.55), -8px -8px 24px rgba(255, 255, 255, 0.08), inset 4px 4px 10px rgba(255, 255, 255, 0.38), inset -5px -6px 14px rgba(0, 0, 0, 0.38)",
-  cardHover: "24px 34px 58px -10px rgba(12, 22, 28, 0.65), -10px -10px 28px rgba(255, 255, 255, 0.12), inset 5px 5px 12px rgba(255, 255, 255, 0.48), inset -6px -7px 16px rgba(0, 0, 0, 0.42)",
-  pill: "6px 8px 18px rgba(10, 18, 24, 0.4), inset 2px 2px 5px rgba(255, 255, 255, 0.55), inset -3px -3px 6px rgba(0, 0, 0, 0.35)",
-  pillActive: "4px 6px 14px rgba(10, 18, 24, 0.5), inset 3px 3px 6px rgba(0, 0, 0, 0.35), inset -2px -2px 5px rgba(255, 255, 255, 0.4)",
-  button: "8px 12px 24px rgba(10, 20, 26, 0.45), inset 3px 3px 6px rgba(255, 255, 255, 0.5), inset -4px -4px 8px rgba(0, 0, 0, 0.35)",
-  imageWell: "inset 3px 3px 8px rgba(0, 0, 0, 0.55), inset -3px -3px 8px rgba(255, 255, 255, 0.12)",
-  modal: "26px 40px 70px rgba(8, 14, 18, 0.75), inset 6px 6px 16px rgba(255, 255, 255, 0.4), inset -7px -8px 20px rgba(0, 0, 0, 0.45)",
+  card: "18px 26px 44px -6px rgba(8, 16, 22, 0.65), 0 8px 18px rgba(0, 0, 0, 0.35), inset 5px 5px 12px rgba(255, 255, 255, 0.52), inset -6px -7px 15px rgba(0, 0, 0, 0.48)",
+  cardHover: "24px 36px 58px -8px rgba(8, 16, 22, 0.75), 0 12px 24px rgba(0, 0, 0, 0.4), inset 6px 6px 14px rgba(255, 255, 255, 0.65), inset -7px -8px 18px rgba(0, 0, 0, 0.55)",
+  pill: "5px 8px 16px rgba(0, 0, 0, 0.45), inset 2.5px 2.5px 6px rgba(255, 255, 255, 0.65), inset -3px -3px 6px rgba(0, 0, 0, 0.4)",
+  pillActive: "4px 6px 14px rgba(0, 0, 0, 0.55), inset 3px 3px 7px rgba(0, 0, 0, 0.45), inset -2px -2px 5px rgba(255, 255, 255, 0.45)",
+  button: "8px 14px 26px rgba(8, 16, 22, 0.55), inset 3px 3px 7px rgba(255, 255, 255, 0.6), inset -4px -4px 9px rgba(0, 0, 0, 0.45)",
+  imageWell: "inset 4px 4px 10px rgba(0, 0, 0, 0.65), inset -3px -3px 8px rgba(255, 255, 255, 0.22)",
+  modal: "28px 44px 75px rgba(6, 12, 16, 0.85), inset 7px 7px 18px rgba(255, 255, 255, 0.5), inset -8px -9px 22px rgba(0, 0, 0, 0.55)",
 };
 
 export default function GaleriaSection() {
@@ -210,18 +217,18 @@ export default function GaleriaSection() {
                   borderRadius: "9999px",
                   background: "linear-gradient(145deg, #3B4E56 0%, #2C3C43 100%)",
                   boxShadow: clayShadow.pill,
-                  border: "1px solid rgba(255, 255, 255, 0.22)",
+                  border: "1.5px solid rgba(255, 255, 255, 0.3)",
                 }}
               >
-                <Camera size={14} color="#76C4D0" />
+                <Camera size={14} color="#3FE0F2" />
                 <span
                   style={{
                     fontFamily: "'DM Sans', sans-serif",
                     fontSize: "11px",
-                    fontWeight: 700,
+                    fontWeight: 800,
                     letterSpacing: "0.24em",
                     textTransform: "uppercase",
-                    color: "#FAF6EE",
+                    color: "#FFFFFF",
                   }}
                 >
                   Galería Corsaria
@@ -246,11 +253,11 @@ export default function GaleriaSection() {
                     fontSize: m ? "2.6rem" : "clamp(3.2rem, 5.5vw, 5.2rem)",
                     lineHeight: 1.05,
                     letterSpacing: "-0.03em",
-                    color: "#FAF6EE",
+                    color: "#FFFFFF",
                     margin: 0,
                   }}
                 >
-                  As <span style={{ color: "#EFA18D" }}>fotografías</span>
+                  As <span style={{ color: "#FF9982" }}>fotografías</span>
                   <br />
                   prohibidas
                 </h2>
@@ -260,7 +267,7 @@ export default function GaleriaSection() {
                     fontWeight: 500,
                     fontSize: m ? "1.02rem" : "1.12rem",
                     lineHeight: 1.75,
-                    color: "#D8E3E7",
+                    color: "#E2EDF2",
                     maxWidth: "580px",
                     marginTop: "1.2rem",
                     marginBottom: 0,
@@ -279,7 +286,7 @@ export default function GaleriaSection() {
                       borderRadius: "9999px",
                       background: "linear-gradient(145deg, #32454C 0%, #26353B 100%)",
                       boxShadow: clayShadow.pill,
-                      border: "1px solid rgba(255, 255, 255, 0.18)",
+                      border: "1.5px solid rgba(255, 255, 255, 0.25)",
                     }}
                   >
                     <button
@@ -296,10 +303,10 @@ export default function GaleriaSection() {
                             ? "linear-gradient(145deg, #445D66 0%, #33484F 100%)"
                             : "transparent",
                         boxShadow: layoutMode === "carousel" ? clayShadow.pillActive : "none",
-                        color: layoutMode === "carousel" ? "#FAF6EE" : "#A6B7BD",
+                        color: layoutMode === "carousel" ? "#FFFFFF" : "#B0C4CC",
                         fontFamily: "'DM Sans', sans-serif",
                         fontSize: "12px",
-                        fontWeight: 700,
+                        fontWeight: 800,
                         cursor: "pointer",
                         transition: "all 0.25s ease",
                       }}
@@ -321,10 +328,10 @@ export default function GaleriaSection() {
                             ? "linear-gradient(145deg, #445D66 0%, #33484F 100%)"
                             : "transparent",
                         boxShadow: layoutMode === "grid" ? clayShadow.pillActive : "none",
-                        color: layoutMode === "grid" ? "#FAF6EE" : "#A6B7BD",
+                        color: layoutMode === "grid" ? "#FFFFFF" : "#B0C4CC",
                         fontFamily: "'DM Sans', sans-serif",
                         fontSize: "12px",
-                        fontWeight: 700,
+                        fontWeight: 800,
                         cursor: "pointer",
                         transition: "all 0.25s ease",
                       }}
@@ -347,7 +354,7 @@ export default function GaleriaSection() {
                         border: "none",
                         background: "linear-gradient(145deg, #3A4F58 0%, #2A3940 100%)",
                         boxShadow: clayShadow.button,
-                        color: "#FAF6EE",
+                        color: "#FFFFFF",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -367,7 +374,7 @@ export default function GaleriaSection() {
                         border: "none",
                         background: "linear-gradient(145deg, #3A4F58 0%, #2A3940 100%)",
                         boxShadow: clayShadow.button,
-                        color: "#FAF6EE",
+                        color: "#FFFFFF",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -432,7 +439,7 @@ export default function GaleriaSection() {
                   maxWidth: "360px",
                   background: item.clay.bg,
                   borderRadius: "32px",
-                  border: "1.5px solid rgba(255, 255, 255, 0.22)",
+                  border: `2.5px solid ${item.clay.border}`,
                   boxShadow: hovered === i ? clayShadow.cardHover : clayShadow.card,
                   transform: hovered === i ? "translateY(-8px)" : "translateY(0)",
                   transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
@@ -450,8 +457,9 @@ export default function GaleriaSection() {
                     borderRadius: "22px",
                     overflow: "hidden",
                     height: "260px",
+                    border: "2px solid rgba(255, 255, 255, 0.18)",
                     boxShadow: clayShadow.imageWell,
-                    background: "#1A252B",
+                    background: "#162329",
                     marginBottom: "18px",
                   }}
                 >
@@ -467,7 +475,7 @@ export default function GaleriaSection() {
                       objectFit: "cover",
                       objectPosition: item.objectPosition || "center",
                       display: "block",
-                      filter: hovered === i ? "brightness(0.92) contrast(1.05)" : "brightness(0.82) contrast(1.02)",
+                      filter: hovered === i ? "brightness(1) contrast(1.06)" : "brightness(0.92) contrast(1.04)",
                       transition: "filter 0.4s ease",
                     }}
                   />
@@ -476,7 +484,7 @@ export default function GaleriaSection() {
                     style={{
                       position: "absolute",
                       inset: 0,
-                      background: "linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.55) 100%)",
+                      background: "linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.5) 100%)",
                       pointerEvents: "none",
                     }}
                   />
@@ -489,17 +497,18 @@ export default function GaleriaSection() {
                       padding: "6px 14px",
                       borderRadius: "9999px",
                       background: item.clay.badgeBg,
-                      border: "1px solid rgba(255, 255, 255, 0.28)",
+                      border: `1.5px solid ${item.clay.border}`,
                       boxShadow: clayShadow.pill,
                     }}
                   >
                     <span
                       style={{
                         fontFamily: "'DM Sans', sans-serif",
-                        fontSize: "11.5px",
+                        fontSize: "12px",
                         fontWeight: 800,
                         color: item.clay.accent,
                         letterSpacing: "0.08em",
+                        textShadow: "0 1px 3px rgba(0,0,0,0.4)",
                       }}
                     >
                       {item.year}
@@ -513,12 +522,12 @@ export default function GaleriaSection() {
                       position: "absolute",
                       bottom: "12px",
                       right: "12px",
-                      width: "36px",
-                      height: "36px",
+                      width: "38px",
+                      height: "38px",
                       borderRadius: "50%",
-                      background: "rgba(18, 30, 36, 0.85)",
+                      background: "rgba(18, 30, 36, 0.9)",
                       backdropFilter: "blur(8px)",
-                      border: `1px solid ${item.clay.accent}66`,
+                      border: `1.5px solid ${item.clay.accent}`,
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -533,12 +542,13 @@ export default function GaleriaSection() {
                   <h3
                     style={{
                       fontFamily: "'DM Sans', system-ui, sans-serif",
-                      fontSize: "1.32rem",
+                      fontSize: "1.35rem",
                       fontWeight: 800,
-                      color: "#FAF6EE",
+                      color: "#FFFFFF",
                       letterSpacing: "-0.02em",
                       marginBottom: "8px",
                       marginTop: 0,
+                      textShadow: "0 2px 4px rgba(0,0,0,0.3)",
                     }}
                   >
                     {item.title}
@@ -548,7 +558,7 @@ export default function GaleriaSection() {
                       fontFamily: "'DM Sans', sans-serif",
                       fontSize: "13.5px",
                       fontWeight: 500,
-                      color: "#D0DCE0",
+                      color: "#EAF1F5",
                       lineHeight: 1.6,
                       margin: 0,
                     }}
@@ -561,7 +571,7 @@ export default function GaleriaSection() {
                   style={{
                     marginTop: "16px",
                     paddingTop: "14px",
-                    borderTop: "1px solid rgba(255, 255, 255, 0.12)",
+                    borderTop: "1px solid rgba(255, 255, 255, 0.18)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "space-between",
@@ -573,8 +583,8 @@ export default function GaleriaSection() {
                     style={{
                       fontFamily: "'DM Sans', sans-serif",
                       fontSize: "11px",
-                      fontWeight: 700,
-                      letterSpacing: "0.18em",
+                      fontWeight: 800,
+                      letterSpacing: "0.2em",
                       textTransform: "uppercase",
                       color: item.clay.accent,
                     }}
@@ -586,8 +596,8 @@ export default function GaleriaSection() {
                       fontFamily: "'DM Sans', sans-serif",
                       fontSize: "11.5px",
                       fontWeight: 700,
-                      color: "#FAF6EE",
-                      opacity: 0.8,
+                      color: "#FFFFFF",
+                      opacity: 0.95,
                     }}
                   >
                     Toca para ampliar →
@@ -618,7 +628,7 @@ export default function GaleriaSection() {
                 style={{
                   background: item.clay.bg,
                   borderRadius: "32px",
-                  border: "1.5px solid rgba(255, 255, 255, 0.22)",
+                  border: `2.5px solid ${item.clay.border}`,
                   boxShadow: hovered === i ? clayShadow.cardHover : clayShadow.card,
                   transform: hovered === i ? "translateY(-6px)" : "translateY(0)",
                   transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
@@ -632,8 +642,9 @@ export default function GaleriaSection() {
                     borderRadius: "22px",
                     overflow: "hidden",
                     height: "240px",
+                    border: "2px solid rgba(255, 255, 255, 0.18)",
                     boxShadow: clayShadow.imageWell,
-                    background: "#1A252B",
+                    background: "#162329",
                     marginBottom: "16px",
                   }}
                 >
@@ -647,6 +658,7 @@ export default function GaleriaSection() {
                       objectFit: "cover",
                       objectPosition: item.objectPosition || "center",
                       display: "block",
+                      filter: "brightness(0.92) contrast(1.04)",
                     }}
                   />
                   <div
@@ -657,17 +669,18 @@ export default function GaleriaSection() {
                       padding: "6px 14px",
                       borderRadius: "9999px",
                       background: item.clay.badgeBg,
-                      border: "1px solid rgba(255, 255, 255, 0.28)",
+                      border: `1.5px solid ${item.clay.border}`,
                       boxShadow: clayShadow.pill,
                     }}
                   >
                     <span
                       style={{
                         fontFamily: "'DM Sans', sans-serif",
-                        fontSize: "11.5px",
+                        fontSize: "12px",
                         fontWeight: 800,
                         color: item.clay.accent,
                         letterSpacing: "0.08em",
+                        textShadow: "0 1px 3px rgba(0,0,0,0.4)",
                       }}
                     >
                       {item.year}
@@ -679,9 +692,9 @@ export default function GaleriaSection() {
                   <h3
                     style={{
                       fontFamily: "'DM Sans', system-ui, sans-serif",
-                      fontSize: "1.3rem",
+                      fontSize: "1.32rem",
                       fontWeight: 800,
-                      color: "#FAF6EE",
+                      color: "#FFFFFF",
                       letterSpacing: "-0.02em",
                       marginBottom: "6px",
                       marginTop: 0,
@@ -694,7 +707,7 @@ export default function GaleriaSection() {
                       fontFamily: "'DM Sans', sans-serif",
                       fontSize: "13.5px",
                       fontWeight: 500,
-                      color: "#D0DCE0",
+                      color: "#EAF1F5",
                       lineHeight: 1.6,
                       margin: 0,
                     }}
@@ -723,21 +736,21 @@ export default function GaleriaSection() {
               display: "inline-flex",
               alignItems: "center",
               gap: "8px",
-              padding: "6px 16px",
+              padding: "7px 18px",
               borderRadius: "9999px",
-              background: "rgba(36, 53, 62, 0.6)",
+              background: "rgba(36, 53, 62, 0.75)",
               boxShadow: clayShadow.pill,
-              border: "1px solid rgba(255, 255, 255, 0.15)",
+              border: "1.5px solid rgba(255, 255, 255, 0.22)",
             }}
           >
             <span
               style={{
                 fontFamily: "'DM Sans', sans-serif",
                 fontSize: "11px",
-                fontWeight: 700,
-                letterSpacing: "0.16em",
+                fontWeight: 800,
+                letterSpacing: "0.18em",
                 textTransform: "uppercase",
-                color: "#76C4D0",
+                color: "#3FE0F2",
               }}
             >
               Leica IIIc · 6 capturas históricas
@@ -748,10 +761,10 @@ export default function GaleriaSection() {
             style={{
               fontFamily: "'DM Sans', sans-serif",
               fontSize: "11px",
-              fontWeight: 600,
+              fontWeight: 700,
               letterSpacing: "0.14em",
               textTransform: "uppercase",
-              color: "#A2BAC3",
+              color: "#C2D7E0",
             }}
           >
             {m ? "Arrastra cara os lados para explorar" : "Despraza ou preme nas fotos para ampliar"}
@@ -769,7 +782,7 @@ export default function GaleriaSection() {
             style={{
               position: "fixed",
               inset: 0,
-              background: "rgba(14, 22, 28, 0.82)",
+              background: "rgba(14, 22, 28, 0.85)",
               backdropFilter: "blur(14px)",
               WebkitBackdropFilter: "blur(14px)",
               zIndex: 9999,
@@ -790,7 +803,7 @@ export default function GaleriaSection() {
                 maxWidth: "680px",
                 background: selectedItem.clay.bg,
                 borderRadius: "36px",
-                border: "2px solid rgba(255, 255, 255, 0.28)",
+                border: `3px solid ${selectedItem.clay.border}`,
                 boxShadow: clayShadow.modal,
                 padding: m ? "18px" : "26px",
                 position: "relative",
@@ -809,7 +822,7 @@ export default function GaleriaSection() {
                   border: "none",
                   background: "linear-gradient(145deg, #445660 0%, #303F47 100%)",
                   boxShadow: clayShadow.button,
-                  color: "#FAF6EE",
+                  color: "#FFFFFF",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -825,6 +838,7 @@ export default function GaleriaSection() {
                   borderRadius: "24px",
                   overflow: "hidden",
                   maxHeight: m ? "320px" : "440px",
+                  border: "2px solid rgba(255, 255, 255, 0.2)",
                   boxShadow: clayShadow.imageWell,
                   background: "#162329",
                   marginBottom: "20px",
@@ -848,13 +862,13 @@ export default function GaleriaSection() {
                 <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
                   <span
                     style={{
-                      padding: "4px 12px",
+                      padding: "5px 14px",
                       borderRadius: "9999px",
                       background: selectedItem.clay.badgeBg,
-                      border: "1px solid rgba(255, 255, 255, 0.25)",
+                      border: `1.5px solid ${selectedItem.clay.border}`,
                       boxShadow: clayShadow.pill,
                       fontFamily: "'DM Sans', sans-serif",
-                      fontSize: "11px",
+                      fontSize: "12px",
                       fontWeight: 800,
                       color: selectedItem.clay.accent,
                     }}
@@ -865,10 +879,10 @@ export default function GaleriaSection() {
                     style={{
                       fontFamily: "'DM Sans', sans-serif",
                       fontSize: "11px",
-                      fontWeight: 700,
+                      fontWeight: 800,
                       letterSpacing: "0.2em",
                       textTransform: "uppercase",
-                      color: "#A2BAC3",
+                      color: "#C2D7E0",
                     }}
                   >
                     Arquivo de Concha
@@ -880,7 +894,7 @@ export default function GaleriaSection() {
                     fontFamily: "'DM Sans', system-ui, sans-serif",
                     fontSize: m ? "1.6rem" : "2rem",
                     fontWeight: 800,
-                    color: "#FAF6EE",
+                    color: "#FFFFFF",
                     letterSpacing: "-0.02em",
                     margin: "0 0 8px",
                   }}
@@ -893,7 +907,7 @@ export default function GaleriaSection() {
                     fontFamily: "'DM Sans', sans-serif",
                     fontSize: "14.5px",
                     fontWeight: 500,
-                    color: "#D8E3E7",
+                    color: "#EAF1F5",
                     lineHeight: 1.7,
                     margin: 0,
                   }}
