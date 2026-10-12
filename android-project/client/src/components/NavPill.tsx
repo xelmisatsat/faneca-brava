@@ -7,7 +7,9 @@ interface NavPillProps { sections: Section[]; activeIdx: number; onSelect: (idx:
 
 export default function NavPill({ sections, activeIdx, onSelect }: NavPillProps) {
   const [open, setOpen] = useState(false);
-  const isMercar = sections[activeIdx]?.id === 'mercar';
+  const currentSectionId = sections[activeIdx]?.id;
+  const isMercar = currentSectionId === 'mercar';
+  const isNos = currentSectionId === 'nos';
 
   return (
     <>
@@ -20,18 +22,30 @@ export default function NavPill({ sections, activeIdx, onSelect }: NavPillProps)
             padding: '8px 16px',
             background: isMercar
               ? '#0D141F'
-              : 'linear-gradient(135deg, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0.10) 100%)',
-            backdropFilter: isMercar ? 'none' : 'blur(60px) saturate(200%) brightness(1.1)',
-            WebkitBackdropFilter: isMercar ? 'none' : 'blur(60px) saturate(200%) brightness(1.1)',
-            border: isMercar ? '1.5px solid rgba(200,169,110,0.4)' : '1px solid rgba(255,255,255,0.18)',
-            borderTop: isMercar ? '1.5px solid #C8A96E' : '1px solid rgba(255,255,255,0.30)',
+              : (isNos
+                ? 'linear-gradient(135deg, rgba(255,255,255,0.96) 0%, rgba(246,241,232,0.94) 100%)'
+                : 'linear-gradient(135deg, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0.10) 100%)'),
+            backdropFilter: (isMercar || isNos) ? 'none' : 'blur(60px) saturate(200%) brightness(1.1)',
+            WebkitBackdropFilter: (isMercar || isNos) ? 'none' : 'blur(60px) saturate(200%) brightness(1.1)',
+            border: isMercar
+              ? '1.5px solid rgba(200,169,110,0.4)'
+              : (isNos
+                ? '1.5px solid rgba(20,20,22,0.18)'
+                : '1px solid rgba(255,255,255,0.18)'),
+            borderTop: isMercar
+              ? '1.5px solid #C8A96E'
+              : (isNos
+                ? '1.5px solid rgba(255,255,255,0.9)'
+                : '1px solid rgba(255,255,255,0.30)'),
             borderRadius: '9999px',
             boxShadow: isMercar
               ? '0 16px 40px rgba(0,0,0,0.7), 0 2px 8px rgba(0,0,0,0.5)'
-              : '0 4px 24px rgba(0,0,0,0.5), 0 1px 4px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.20)',
+              : (isNos
+                ? '0 10px 32px rgba(20,15,10,0.22), 0 2px 8px rgba(0,0,0,0.08)'
+                : '0 4px 24px rgba(0,0,0,0.5), 0 1px 4px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.20)'),
             position: 'relative',
             overflow: 'visible',
-            transition: 'background 0.3s ease, border 0.3s ease, box-shadow 0.3s ease',
+            transition: 'all 0.3s ease',
           }}
           initial={{ y: -80, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -40,7 +54,9 @@ export default function NavPill({ sections, activeIdx, onSelect }: NavPillProps)
           {/* Brillo superior */}
           <div style={{
             position: 'absolute', top: 0, left: '15%', right: '15%', height: '1px',
-            background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.5), rgba(200,169,110,0.4), rgba(255,255,255,0.5), transparent)',
+            background: isNos
+              ? 'linear-gradient(90deg, transparent, rgba(255,255,255,0.9), transparent)'
+              : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.5), rgba(200,169,110,0.4), rgba(255,255,255,0.5), transparent)',
             borderRadius: '9999px',
             pointerEvents: 'none',
           }} />
@@ -77,24 +93,50 @@ export default function NavPill({ sections, activeIdx, onSelect }: NavPillProps)
             <div style={{
               width: '38px', height: '38px', borderRadius: '50%',
               overflow: 'hidden',
-              border: '1.5px solid rgba(200,169,110,0.55)',
-              boxShadow: '0 0 10px rgba(200,169,110,0.25)',
+              border: isNos ? '1.5px solid rgba(160,110,25,0.7)' : '1.5px solid rgba(200,169,110,0.55)',
+              boxShadow: isNos ? '0 0 10px rgba(160,110,25,0.3)' : '0 0 10px rgba(200,169,110,0.25)',
               transition: 'transform 0.3s, box-shadow 0.3s',
             }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1.09)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 0 18px rgba(200,169,110,0.5)'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 0 10px rgba(200,169,110,0.25)'; }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1.09)'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1)'; }}
             >
               <img src="/manus-storage/logo-fb.webp" alt="Faneca Brava Logo" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
             </div>
           </button>
 
           {/* Separador */}
-          <div style={{ width: '1px', height: '18px', background: isMercar ? 'rgba(200,169,110,0.35)' : 'rgba(255,255,255,0.15)', flexShrink: 0 }} />
+          <div style={{
+            width: '1px',
+            height: '18px',
+            background: isMercar ? 'rgba(200,169,110,0.35)' : (isNos ? 'rgba(20,20,22,0.22)' : 'rgba(255,255,255,0.15)'),
+            flexShrink: 0
+          }} />
 
           {/* Links desktop */}
           <div className="hidden md:flex" style={{ alignItems: 'center', gap: '2px' }}>
-            {sections.filter(s => s.id !== 'mercar').map((s, i) => {
+            {sections.filter(s => s.id !== 'mercar').map((s) => {
               const realIdx = sections.findIndex(sec => sec.id === s.id);
+              const isSelected = activeIdx === realIdx;
+
+              let textColor = 'rgba(234,226,210,0.75)';
+              if (isSelected) {
+                textColor = isNos ? '#8A5D10' : '#C8A96E';
+              } else if (isNos) {
+                textColor = '#141416';
+              } else if (isMercar) {
+                textColor = 'rgba(234,226,210,0.95)';
+              }
+
+              let bg = 'transparent';
+              if (isSelected) {
+                bg = isNos ? 'rgba(154,106,24,0.14)' : (isMercar ? 'rgba(200,169,110,0.22)' : 'rgba(200,169,110,0.14)');
+              }
+
+              let border = '1px solid transparent';
+              if (isSelected) {
+                border = isNos ? '1px solid rgba(154,106,24,0.35)' : '1px solid rgba(200,169,110,0.35)';
+              }
+
               return (
               <button
                 key={s.id}
@@ -105,16 +147,12 @@ export default function NavPill({ sections, activeIdx, onSelect }: NavPillProps)
                   borderRadius: '9999px',
                   fontFamily: "'DM Sans', system-ui, sans-serif",
                   fontSize: '11.5px',
-                  fontWeight: activeIdx === realIdx ? 500 : 400,
+                  fontWeight: isSelected ? 700 : (isNos ? 600 : 400),
                   letterSpacing: '0.08em',
-                  color: activeIdx === realIdx
-                    ? '#C8A96E'
-                    : (isMercar ? 'rgba(234,226,210,0.88)' : 'rgba(234,226,210,0.5)'),
-                  background: activeIdx === realIdx
-                    ? (isMercar ? 'rgba(200,169,110,0.22)' : 'rgba(200,169,110,0.14)')
-                    : 'transparent',
-                  border: activeIdx === realIdx ? '1px solid rgba(200,169,110,0.35)' : '1px solid transparent',
-                  cursor: 'none',
+                  color: textColor,
+                  background: bg,
+                  border: border,
+                  cursor: 'pointer',
                   whiteSpace: 'nowrap',
                   transition: 'all 0.25s ease',
                 }}
@@ -126,7 +164,12 @@ export default function NavPill({ sections, activeIdx, onSelect }: NavPillProps)
           </div>
 
           {/* Separador */}
-          <div className="hidden md:block" style={{ width: '1px', height: '18px', background: isMercar ? 'rgba(200,169,110,0.35)' : 'rgba(255,255,255,0.15)', flexShrink: 0 }} />
+          <div className="hidden md:block" style={{
+            width: '1px',
+            height: '18px',
+            background: isMercar ? 'rgba(200,169,110,0.35)' : (isNos ? 'rgba(20,20,22,0.22)' : 'rgba(255,255,255,0.15)'),
+            flexShrink: 0
+          }} />
 
           {/* Botón Música */}
           <AudioPlayer sectionId={sections[activeIdx]?.id || 'hero'} inline />
@@ -144,13 +187,13 @@ export default function NavPill({ sections, activeIdx, onSelect }: NavPillProps)
               borderRadius: '9999px',
               fontFamily: "'DM Sans', system-ui, sans-serif",
               fontSize: '11.5px',
-              fontWeight: isMercar ? 600 : 400,
+              fontWeight: 700,
               letterSpacing: '0.1em',
-              color: isMercar ? '#0D141F' : '#C8A96E',
-              background: isMercar ? '#C8A96E' : 'rgba(200,169,110,0.12)',
-              border: isMercar ? '1px solid #C8A96E' : '1px solid rgba(200,169,110,0.28)',
+              color: isNos ? '#FFFFFF' : (isMercar ? '#0D141F' : '#C8A96E'),
+              background: isNos ? '#141416' : (isMercar ? '#C8A96E' : 'rgba(200,169,110,0.12)'),
+              border: isNos ? '1px solid #141416' : (isMercar ? '1px solid #C8A96E' : '1px solid rgba(200,169,110,0.28)'),
               boxShadow: isMercar ? '0 2px 12px rgba(200,169,110,0.4)' : 'none',
-              cursor: 'none',
+              cursor: 'pointer',
               whiteSpace: 'nowrap',
               transition: 'all 0.3s ease',
               flexShrink: 0,
@@ -163,13 +206,13 @@ export default function NavPill({ sections, activeIdx, onSelect }: NavPillProps)
           <button
             className="md:hidden"
             onClick={() => setOpen(!open)}
-            style={{ cursor: 'none', padding: '6px 8px', background: 'none', border: 'none', display: 'flex', flexDirection: 'column', gap: '5px' }}
+            style={{ cursor: 'pointer', padding: '6px 8px', background: 'none', border: 'none', display: 'flex', flexDirection: 'column', gap: '5px' }}
           >
-            <motion.span style={{ display: 'block', width: '20px', height: '1px', backgroundColor: '#C8A96E' }}
+            <motion.span style={{ display: 'block', width: '20px', height: '1.5px', backgroundColor: isNos ? '#141416' : '#C8A96E' }}
               animate={{ rotate: open ? 45 : 0, y: open ? 6 : 0 }} />
-            <motion.span style={{ display: 'block', width: '13px', height: '1px', backgroundColor: '#C8A96E' }}
+            <motion.span style={{ display: 'block', width: '13px', height: '1.5px', backgroundColor: isNos ? '#141416' : '#C8A96E' }}
               animate={{ opacity: open ? 0 : 1 }} />
-            <motion.span style={{ display: 'block', width: '20px', height: '1px', backgroundColor: '#C8A96E' }}
+            <motion.span style={{ display: 'block', width: '20px', height: '1.5px', backgroundColor: isNos ? '#141416' : '#C8A96E' }}
               animate={{ rotate: open ? -45 : 0, y: open ? -6 : 0 }} />
           </button>
         </motion.div>
@@ -186,7 +229,7 @@ export default function NavPill({ sections, activeIdx, onSelect }: NavPillProps)
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0', width: '100%', maxHeight: '100%' }}>
             {sections.map((s, i) => (
               <motion.button key={s.id} onClick={() => { onSelect(i); setOpen(false); }}
-                style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(1.2rem, 4vh, 1.8rem)', fontWeight: 300, padding: 'clamp(4px, 1vh, 10px) 0', color: activeIdx === i ? '#C8A96E' : '#EAE2D2', cursor: 'none', background: 'none', border: 'none', width: '100%', textAlign: 'center' }}
+                style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(1.2rem, 4vh, 1.8rem)', fontWeight: 300, padding: 'clamp(4px, 1vh, 10px) 0', color: activeIdx === i ? '#C8A96E' : '#EAE2D2', cursor: 'pointer', background: 'none', border: 'none', width: '100%', textAlign: 'center' }}
                 initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.02 }}>
                 {s.label}
               </motion.button>

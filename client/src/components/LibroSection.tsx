@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useIsMobile } from "@/hooks/useIsMobile";
-import { BookOpen, Bookmark, ArrowUpRight } from "lucide-react";
+import { BookOpen, Bookmark, ArrowUpRight, Sparkles } from "lucide-react";
 
 const fichaItems = [
   { label: "Título", value: "Faneca Brava" },
@@ -32,29 +32,33 @@ const partes = [
     roman: "I",
     title: "Estirpe",
     desc: "A familia Pereira, os seus segredos e o pasado silenciado. A infancia de Concha na vila mariñeira galega.",
+    focus: "As orixes silenciadas",
   },
   {
     num: "Parte II",
     roman: "II",
     title: "A obsesión",
     desc: "Fernando investiga. A verdade sobre Concha emerxe fragmento a fragmento a través de Andreu Picart e a tía Lela.",
+    focus: "O rastro de Barcelona",
   },
   {
     num: "Parte III",
     roman: "III",
     title: "A xustiza pola man",
     desc: "A revelación final. A faneca brava sempre crava as súas espiñas. A memoria devolve a dignidade.",
+    focus: "O desquite da lente",
   },
   {
     num: "Coda",
     roman: "IV",
     title: "Epílogo",
     desc: "As últimas 10 páxinas. O remate emocional da historia. A resolución do destino de Concha.",
+    focus: "O peche da ferida",
   },
 ];
 
-const SERIF = "'Bodoni Moda', 'Playfair Display', Georgia, serif";
-const SANS = "'DM Sans', 'Jost', system-ui, sans-serif";
+const SERIF = "'Playfair Display', 'Cinzel', Georgia, serif";
+const SANS = "'DM Sans', -apple-system, system-ui, sans-serif";
 
 export default function LibroSection() {
   const [v, setV] = useState(false);
@@ -70,8 +74,8 @@ export default function LibroSection() {
       id="libro"
       style={{
         position: "relative",
-        background: "linear-gradient(180deg, #F8F5EE 0%, #F3ECE1 50%, #ECE4D6 100%)",
-        color: "#141416",
+        background: "linear-gradient(165deg, #070D18 0%, #0D1626 35%, #151828 70%, #090E1A 100%)",
+        color: "#FAF7F2",
         padding: m ? "4.5rem 0 4rem" : "8rem 0 7.5rem",
         overflow: "hidden",
       }}
@@ -79,55 +83,74 @@ export default function LibroSection() {
       <div
         style={{
           position: "absolute",
-          top: "6%",
-          right: "-5%",
-          width: "550px",
-          height: "550px",
+          top: "4%",
+          right: "-6%",
+          width: "600px",
+          height: "600px",
           borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(200, 169, 110, 0.14) 0%, transparent 70%)",
-          filter: "blur(40px)",
+          background: "radial-gradient(circle, rgba(200, 169, 110, 0.12) 0%, transparent 65%)",
+          filter: "blur(60px)",
           pointerEvents: "none",
         }}
       />
       <div
         style={{
           position: "absolute",
-          bottom: "10%",
-          left: "-6%",
-          width: "600px",
-          height: "600px",
+          bottom: "6%",
+          left: "-5%",
+          width: "650px",
+          height: "650px",
           borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(107, 45, 56, 0.08) 0%, transparent 70%)",
-          filter: "blur(50px)",
+          background: "radial-gradient(circle, rgba(120, 32, 54, 0.14) 0%, transparent 70%)",
+          filter: "blur(70px)",
+          pointerEvents: "none",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          top: "40%",
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: "100%",
+          height: "1px",
+          background: "linear-gradient(90deg, transparent, rgba(200, 169, 110, 0.15), transparent)",
           pointerEvents: "none",
         }}
       />
 
       <div style={{ maxWidth: "1360px", margin: "0 auto", padding: m ? "0 1.25rem" : "0 4rem", position: "relative", zIndex: 10 }}>
+        
         <div
           style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            borderBottom: "1px solid rgba(20, 20, 22, 0.15)",
+            borderBottom: "1px solid rgba(200, 169, 110, 0.22)",
             paddingBottom: "14px",
-            marginBottom: m ? "2rem" : "3.5rem",
+            marginBottom: m ? "2.2rem" : "3.5rem",
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <span style={{ fontFamily: SANS, fontSize: "10.5px", fontWeight: 700, letterSpacing: "0.32em", textTransform: "uppercase", color: "#141416" }}>
-              DISEÑO EDITORIAL
+            <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#C8A96E" }} />
+            <span style={{ fontFamily: SANS, fontSize: "11px", fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: "#E5B869" }}>
+              CADERNO LITERARIO
             </span>
           </div>
 
-          <span style={{ fontFamily: SERIF, fontSize: "1.4rem", color: "#9B783E" }}>✻</span>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <Sparkles size={14} color="#C8A96E" />
+            <span style={{ fontFamily: SANS, fontSize: "11px", fontWeight: 600, letterSpacing: "0.24em", textTransform: "uppercase", color: "rgba(250, 247, 242, 0.6)" }}>
+              ALTA COSTURA EDITORIAL
+            </span>
+          </div>
 
-          <span style={{ fontFamily: SANS, fontSize: "10.5px", fontWeight: 700, letterSpacing: "0.32em", textTransform: "uppercase", color: "#6A6864" }}>
-            ALTA COSTURA IMPRESA
+          <span style={{ fontFamily: SANS, fontSize: "11px", fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "#C8A96E" }}>
+            Nº 01 · 2024
           </span>
         </div>
 
-        <div style={{ textAlign: "center", marginBottom: m ? "1.8rem" : "2.8rem" }}>
+        <div style={{ textAlign: "center", marginBottom: m ? "2.2rem" : "3.6rem" }}>
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={v ? { opacity: 1, y: 0 } : {}}
@@ -135,58 +158,60 @@ export default function LibroSection() {
             style={{
               display: "inline-flex",
               alignItems: "center",
-              gap: "8px",
-              fontFamily: SERIF,
-              fontStyle: "italic",
-              fontSize: m ? "1.15rem" : "1.4rem",
-              color: "#9B783E",
-              marginBottom: "8px",
+              gap: "10px",
+              fontFamily: SANS,
+              fontSize: m ? "12px" : "13.5px",
+              fontWeight: 600,
+              letterSpacing: "0.22em",
+              textTransform: "uppercase",
+              color: "#C8A96E",
+              marginBottom: "12px",
             }}
           >
-            <span>Edición Literaria</span>
-            <span style={{ fontStyle: "normal", fontSize: "0.9rem" }}>·</span>
+            <span>Edición Especial</span>
+            <span style={{ opacity: 0.5 }}>—</span>
             <span>Editorial Galaxia</span>
           </motion.div>
 
           <h2
             style={{
               fontFamily: SERIF,
-              fontWeight: 400,
-              fontSize: m ? "clamp(3.2rem, 13vw, 5.2rem)" : "clamp(5.2rem, 10.5vw, 10.5rem)",
-              lineHeight: 0.88,
-              letterSpacing: m ? "-0.03em" : "-0.045em",
+              fontWeight: 700,
+              fontSize: m ? "clamp(3.4rem, 14vw, 5.4rem)" : "clamp(5.4rem, 11vw, 10.5rem)",
+              lineHeight: 0.9,
+              letterSpacing: m ? "-0.02em" : "-0.035em",
               textTransform: "uppercase",
-              color: "#141416",
+              color: "#FAF7F2",
               margin: "0 auto",
-              maxWidth: "1280px",
+              maxWidth: "1300px",
+              textShadow: "0 10px 40px rgba(0,0,0,0.6)",
             }}
           >
-            FANECA <span style={{ fontStyle: "italic", fontWeight: 300, color: "#9B783E" }}>BRAVA</span>
+            FANECA <span style={{ fontStyle: "italic", fontWeight: 400, color: "#E5B869" }}>BRAVA</span>
           </h2>
 
           <p
             style={{
               fontFamily: SANS,
-              fontSize: m ? "11px" : "12.5px",
-              fontWeight: 500,
-              letterSpacing: "0.22em",
-              textTransform: "uppercase",
-              color: "#5C5953",
-              marginTop: m ? "14px" : "20px",
+              fontSize: m ? "13px" : "15px",
+              fontWeight: 400,
+              letterSpacing: "0.08em",
+              color: "rgba(250, 247, 242, 0.75)",
+              marginTop: m ? "14px" : "22px",
               marginBottom: 0,
             }}
           >
-            Grandes titulares decorativos combinados con texto de corpo miúdo e lexible
+            A novela de Manuel Portas que rescata a memoria roubada e o desquite da lente
           </p>
         </div>
 
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: m ? "1fr" : "320px 1fr",
+            gridTemplateColumns: m ? "1fr" : "360px 1fr",
             gap: m ? "2.5rem" : "4.5rem",
             alignItems: "start",
-            borderTop: "1px solid rgba(20, 20, 22, 0.15)",
+            borderTop: "1px solid rgba(200, 169, 110, 0.22)",
             paddingTop: m ? "2.5rem" : "4rem",
             marginBottom: m ? "3.5rem" : "5rem",
           }}
@@ -195,19 +220,27 @@ export default function LibroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={v ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.1 }}
-            style={{ display: "flex", flexDirection: "column", gap: "20px" }}
+            style={{ display: "flex", flexDirection: "column", gap: "22px" }}
           >
             <div
               style={{
                 position: "relative",
-                background: "#FFFFFF",
-                padding: "14px",
-                border: "1px solid rgba(20, 20, 22, 0.14)",
-                boxShadow: "0 24px 50px -15px rgba(20, 20, 22, 0.22), 0 4px 12px rgba(0,0,0,0.06)",
-                borderRadius: "2px",
+                background: "linear-gradient(145deg, #162032 0%, #0E1624 100%)",
+                padding: "16px",
+                border: "1px solid rgba(200, 169, 110, 0.35)",
+                boxShadow: "0 30px 60px -15px rgba(0, 0, 0, 0.8), 0 0 35px rgba(200, 169, 110, 0.12)",
+                borderRadius: "16px",
               }}
             >
-              <div style={{ position: "relative", overflow: "hidden", aspectRatio: "2 / 3", background: "#1B1918" }}>
+              <div
+                style={{
+                  position: "relative",
+                  overflow: "hidden",
+                  aspectRatio: "2 / 3",
+                  background: "#080C14",
+                  borderRadius: "10px",
+                }}
+              >
                 <img
                   src="/manus-storage/NEjJma6w5Oln_b68f9430.jpg"
                   alt="Faneca Brava — Cuberta do libro"
@@ -216,14 +249,14 @@ export default function LibroSection() {
                     height: "100%",
                     objectFit: "cover",
                     display: "block",
-                    filter: "contrast(1.04) brightness(0.98)",
+                    filter: "contrast(1.05) brightness(1.02)",
                   }}
                 />
                 <div
                   style={{
                     position: "absolute",
                     inset: 0,
-                    boxShadow: "inset 0 0 30px rgba(0,0,0,0.4)",
+                    boxShadow: "inset 0 0 35px rgba(0,0,0,0.55)",
                     pointerEvents: "none",
                   }}
                 />
@@ -234,15 +267,15 @@ export default function LibroSection() {
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "baseline",
-                  paddingTop: "10px",
-                  borderTop: "1px solid rgba(20, 20, 22, 0.1)",
-                  marginTop: "10px",
+                  paddingTop: "12px",
+                  borderTop: "1px solid rgba(200, 169, 110, 0.2)",
+                  marginTop: "12px",
                 }}
               >
-                <span style={{ fontFamily: SANS, fontSize: "9.5px", fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "#6A6864" }}>
+                <span style={{ fontFamily: SANS, fontSize: "10px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: "#C8A96E" }}>
                   PLATE 01 · CUBERTA
                 </span>
-                <span style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "11px", color: "#9B783E" }}>
+                <span style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "12.5px", color: "#FAF7F2" }}>
                   Galaxia · 2024
                 </span>
               </div>
@@ -250,10 +283,12 @@ export default function LibroSection() {
 
             <div
               style={{
-                background: "rgba(255, 255, 255, 0.65)",
-                backdropFilter: "blur(10px)",
-                border: "1px solid rgba(20, 20, 22, 0.12)",
-                padding: "18px 20px",
+                background: "linear-gradient(145deg, rgba(20, 28, 44, 0.85) 0%, rgba(13, 19, 32, 0.95) 100%)",
+                backdropFilter: "blur(14px)",
+                border: "1px solid rgba(200, 169, 110, 0.25)",
+                borderRadius: "16px",
+                padding: "22px 24px",
+                boxShadow: "0 18px 36px rgba(0,0,0,0.45)",
               }}
             >
               <div
@@ -261,18 +296,18 @@ export default function LibroSection() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  marginBottom: "12px",
-                  paddingBottom: "8px",
-                  borderBottom: "1px solid rgba(20, 20, 22, 0.1)",
+                  marginBottom: "16px",
+                  paddingBottom: "10px",
+                  borderBottom: "1px solid rgba(200, 169, 110, 0.2)",
                 }}
               >
-                <span style={{ fontFamily: SANS, fontSize: "10px", fontWeight: 800, letterSpacing: "0.22em", textTransform: "uppercase", color: "#141416" }}>
+                <span style={{ fontFamily: SANS, fontSize: "11px", fontWeight: 800, letterSpacing: "0.24em", textTransform: "uppercase", color: "#E5B869" }}>
                   COLOFÓN TÉCNICO
                 </span>
-                <Bookmark size={13} color="#9B783E" />
+                <Bookmark size={15} color="#C8A96E" />
               </div>
 
-              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                 {fichaItems.map((item, i) => (
                   <div
                     key={i}
@@ -280,14 +315,14 @@ export default function LibroSection() {
                       display: "flex",
                       justifyContent: "space-between",
                       alignItems: "baseline",
-                      paddingBottom: "6px",
-                      borderBottom: i < fichaItems.length - 1 ? "1px dotted rgba(20, 20, 22, 0.14)" : "none",
+                      paddingBottom: "8px",
+                      borderBottom: i < fichaItems.length - 1 ? "1px dotted rgba(200, 169, 110, 0.18)" : "none",
                     }}
                   >
-                    <span style={{ fontFamily: SANS, fontSize: "11px", fontWeight: 600, color: "#6A6864", letterSpacing: "0.04em" }}>
+                    <span style={{ fontFamily: SANS, fontSize: "12px", fontWeight: 600, color: "rgba(250, 247, 242, 0.65)", letterSpacing: "0.04em" }}>
                       {item.label}
                     </span>
-                    <span style={{ fontFamily: SERIF, fontSize: "1.05rem", fontWeight: 500, color: "#141416", textAlign: "right" }}>
+                    <span style={{ fontFamily: SERIF, fontSize: "1.1rem", fontWeight: 600, color: "#FAF7F2", textAlign: "right" }}>
                       {item.value}
                     </span>
                   </div>
@@ -300,12 +335,12 @@ export default function LibroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={v ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
-            style={{ display: "flex", flexDirection: "column", gap: "2.4rem" }}
+            style={{ display: "flex", flexDirection: "column", gap: "2.5rem" }}
           >
             <div>
-              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "14px" }}>
-                <span style={{ width: "24px", height: "1px", background: "#9B783E" }} />
-                <span style={{ fontFamily: SANS, fontSize: "11px", fontWeight: 700, letterSpacing: "0.26em", textTransform: "uppercase", color: "#9B783E" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "16px" }}>
+                <span style={{ width: "32px", height: "2px", background: "#C8A96E" }} />
+                <span style={{ fontFamily: SANS, fontSize: "12px", fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: "#E5B869" }}>
                   Sinopse da Novela
                 </span>
               </div>
@@ -313,38 +348,42 @@ export default function LibroSection() {
               <div
                 style={{
                   fontFamily: SERIF,
-                  fontSize: m ? "1.45rem" : "1.85rem",
+                  fontSize: m ? "1.5rem" : "1.95rem",
                   fontStyle: "italic",
-                  lineHeight: 1.35,
-                  color: "#141416",
-                  marginBottom: "1.4rem",
-                  paddingLeft: "1.2rem",
-                  borderLeft: "2px solid #9B783E",
+                  lineHeight: 1.4,
+                  color: "#FAF7F2",
+                  marginBottom: "1.8rem",
+                  paddingLeft: "1.4rem",
+                  borderLeft: "3px solid #C8A96E",
+                  background: "linear-gradient(90deg, rgba(200, 169, 110, 0.08) 0%, transparent 100%)",
+                  padding: "16px 18px",
+                  borderRadius: "0 12px 12px 0",
                 }}
               >
                 «Todas as familias agochan cadáveres na memoria. Concha transformou o trauma en poder a través da lente.»
               </div>
 
-              <div style={{ display: "grid", gridTemplateColumns: m ? "1fr" : "1fr 1fr", gap: "1.8rem" }}>
+              <div style={{ display: "grid", gridTemplateColumns: m ? "1fr" : "1fr 1fr", gap: "2rem" }}>
                 <p
                   style={{
                     fontFamily: SANS,
                     fontWeight: 400,
-                    fontSize: m ? "14.5px" : "15.5px",
+                    fontSize: m ? "15.5px" : "16.5px",
                     lineHeight: 1.85,
-                    color: "#2C2A26",
+                    color: "rgba(250, 247, 242, 0.88)",
                     margin: 0,
                   }}
                 >
                   <span
                     style={{
                       fontFamily: SERIF,
-                      fontSize: "3.2rem",
+                      fontSize: "3.4rem",
                       lineHeight: 0.85,
                       float: "left",
-                      marginRight: "10px",
+                      marginRight: "12px",
                       marginTop: "4px",
-                      color: "#9B783E",
+                      color: "#E5B869",
+                      fontWeight: 700,
                     }}
                   >
                     F
@@ -356,9 +395,9 @@ export default function LibroSection() {
                   style={{
                     fontFamily: SANS,
                     fontWeight: 400,
-                    fontSize: m ? "14.5px" : "15.5px",
+                    fontSize: m ? "15.5px" : "16.5px",
                     lineHeight: 1.85,
-                    color: "#2C2A26",
+                    color: "rgba(250, 247, 242, 0.88)",
                     margin: 0,
                   }}
                 >
@@ -369,9 +408,9 @@ export default function LibroSection() {
 
             <div
               style={{
-                borderTop: "1px solid rgba(20, 20, 22, 0.12)",
-                borderBottom: "1px solid rgba(20, 20, 22, 0.12)",
-                padding: "20px 0",
+                borderTop: "1px solid rgba(200, 169, 110, 0.2)",
+                borderBottom: "1px solid rgba(200, 169, 110, 0.2)",
+                padding: "24px 0",
               }}
             >
               <div
@@ -379,34 +418,35 @@ export default function LibroSection() {
                   display: "flex",
                   alignItems: "baseline",
                   justifyContent: "space-between",
-                  marginBottom: "14px",
+                  marginBottom: "16px",
                   flexWrap: "wrap",
                   gap: "10px",
                 }}
               >
-                <span style={{ fontFamily: SANS, fontSize: "10.5px", fontWeight: 800, letterSpacing: "0.24em", textTransform: "uppercase", color: "#141416" }}>
+                <span style={{ fontFamily: SANS, fontSize: "11.5px", fontWeight: 800, letterSpacing: "0.24em", textTransform: "uppercase", color: "#E5B869" }}>
                   TEMAS CENTRAIS · LÉXICO DA OBRA
                 </span>
-                <span style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "12px", color: "#6A6864" }}>
+                <span style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "13px", color: "rgba(250, 247, 242, 0.6)" }}>
                   10 conceptos clave
                 </span>
               </div>
 
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
                 {temas.map((t, i) => (
                   <span
                     key={i}
                     style={{
                       fontFamily: SANS,
-                      fontSize: "11px",
+                      fontSize: "12px",
                       fontWeight: 600,
-                      letterSpacing: "0.06em",
-                      padding: "6px 14px",
-                      background: "#FFFFFF",
-                      border: "1px solid rgba(20, 20, 22, 0.15)",
-                      color: "#141416",
-                      borderRadius: "2px",
-                      boxShadow: "0 2px 6px rgba(0,0,0,0.03)",
+                      letterSpacing: "0.05em",
+                      padding: "8px 16px",
+                      background: "rgba(200, 169, 110, 0.12)",
+                      border: "1px solid rgba(200, 169, 110, 0.28)",
+                      color: "#FAF7F2",
+                      borderRadius: "8px",
+                      boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
+                      transition: "all 0.25s ease",
                     }}
                   >
                     {t}
@@ -420,14 +460,18 @@ export default function LibroSection() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
-                padding: "14px 18px",
-                background: "#FFFFFF",
-                border: "1px solid rgba(20, 20, 22, 0.14)",
+                padding: "18px 24px",
+                background: "linear-gradient(135deg, rgba(200, 169, 110, 0.15) 0%, rgba(13, 20, 34, 0.9) 100%)",
+                border: "1.5px solid rgba(200, 169, 110, 0.35)",
+                borderRadius: "14px",
+                boxShadow: "0 10px 30px rgba(0,0,0,0.4)",
+                flexWrap: m ? "wrap" : "nowrap",
+                gap: "14px",
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                <BookOpen size={16} color="#9B783E" />
-                <span style={{ fontFamily: SANS, fontSize: "12px", fontWeight: 700, color: "#141416" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                <BookOpen size={18} color="#E5B869" />
+                <span style={{ fontFamily: SANS, fontSize: "13.5px", fontWeight: 700, color: "#FAF7F2" }}>
                   Dispoñible nas librarías de Galicia e na rede
                 </span>
               </div>
@@ -436,18 +480,23 @@ export default function LibroSection() {
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
-                  gap: "4px",
+                  gap: "6px",
                   fontFamily: SANS,
-                  fontSize: "11px",
+                  fontSize: "12px",
                   fontWeight: 700,
                   letterSpacing: "0.15em",
                   textTransform: "uppercase",
-                  color: "#9B783E",
+                  color: "#0B111C",
+                  background: "linear-gradient(135deg, #E5B869 0%, #C8A96E 100%)",
+                  padding: "10px 20px",
+                  borderRadius: "9999px",
                   textDecoration: "none",
+                  boxShadow: "0 4px 16px rgba(200, 169, 110, 0.35)",
+                  transition: "all 0.25s ease",
                 }}
               >
                 <span>Adquirir exemplar</span>
-                <ArrowUpRight size={13} />
+                <ArrowUpRight size={14} />
               </a>
             </div>
           </motion.div>
@@ -459,20 +508,20 @@ export default function LibroSection() {
               display: "flex",
               alignItems: "baseline",
               justifyContent: "space-between",
-              borderBottom: "1px solid rgba(20, 20, 22, 0.15)",
-              paddingBottom: "12px",
-              marginBottom: "2rem",
+              borderBottom: "1px solid rgba(200, 169, 110, 0.22)",
+              paddingBottom: "14px",
+              marginBottom: "2.2rem",
             }}
           >
-            <div style={{ display: "flex", alignItems: "baseline", gap: "12px" }}>
-              <span style={{ fontFamily: SANS, fontSize: "11px", fontWeight: 800, letterSpacing: "0.24em", textTransform: "uppercase", color: "#141416" }}>
+            <div style={{ display: "flex", alignItems: "baseline", gap: "14px" }}>
+              <span style={{ fontFamily: SANS, fontSize: "12px", fontWeight: 800, letterSpacing: "0.26em", textTransform: "uppercase", color: "#E5B869" }}>
                 ESTRUTURA DA NOVELA
               </span>
-              <span style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "1.1rem", color: "#9B783E" }}>
+              <span style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "1.2rem", color: "rgba(250, 247, 242, 0.75)" }}>
                 Caderno de catro movementos
               </span>
             </div>
-            <span style={{ fontFamily: SANS, fontSize: "10px", fontWeight: 600, letterSpacing: "0.2em", textTransform: "uppercase", color: "#6A6864" }}>
+            <span style={{ fontFamily: SANS, fontSize: "11px", fontWeight: 600, letterSpacing: "0.2em", textTransform: "uppercase", color: "#C8A96E" }}>
               III PARTES + CODA
             </span>
           </div>
@@ -481,40 +530,55 @@ export default function LibroSection() {
             style={{
               display: "grid",
               gridTemplateColumns: m ? "1fr" : "repeat(4, 1fr)",
-              gap: m ? "1.2rem" : "1.5rem",
+              gap: m ? "1.4rem" : "1.6rem",
             }}
           >
             {partes.map((p, i) => (
               <motion.article
                 key={i}
-                whileHover={{ y: -4 }}
+                whileHover={{ y: -6 }}
                 transition={{ duration: 0.3 }}
                 style={{
-                  background: "#FFFFFF",
-                  border: "1px solid rgba(20, 20, 22, 0.14)",
-                  padding: m ? "1.5rem" : "2rem 1.8rem",
-                  boxShadow: "0 10px 25px -10px rgba(0, 0, 0, 0.08)",
+                  background: "linear-gradient(155deg, #131B2B 0%, #0D1422 100%)",
+                  border: "1px solid rgba(200, 169, 110, 0.22)",
+                  borderRadius: "16px",
+                  padding: m ? "1.6rem" : "2.2rem 1.8rem",
+                  boxShadow: "0 16px 36px -10px rgba(0, 0, 0, 0.6)",
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "space-between",
-                  minHeight: m ? "auto" : "260px",
+                  minHeight: m ? "auto" : "280px",
+                  position: "relative",
+                  overflow: "hidden",
                 }}
               >
+                <div
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    right: 0,
+                    width: "100px",
+                    height: "100px",
+                    background: "radial-gradient(circle, rgba(200, 169, 110, 0.08) 0%, transparent 70%)",
+                    pointerEvents: "none",
+                  }}
+                />
+
                 <div>
                   <div
                     style={{
                       display: "flex",
                       justifyContent: "space-between",
                       alignItems: "baseline",
-                      marginBottom: "14px",
-                      paddingBottom: "10px",
-                      borderBottom: "1px solid rgba(20, 20, 22, 0.08)",
+                      marginBottom: "16px",
+                      paddingBottom: "12px",
+                      borderBottom: "1px solid rgba(200, 169, 110, 0.15)",
                     }}
                   >
-                    <span style={{ fontFamily: SANS, fontSize: "10px", fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "#9B783E" }}>
+                    <span style={{ fontFamily: SANS, fontSize: "11px", fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "#E5B869" }}>
                       {p.num}
                     </span>
-                    <span style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "1.3rem", color: "rgba(20, 20, 22, 0.35)" }}>
+                    <span style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "1.4rem", color: "rgba(200, 169, 110, 0.5)" }}>
                       {p.roman}
                     </span>
                   </div>
@@ -522,9 +586,9 @@ export default function LibroSection() {
                   <h3
                     style={{
                       fontFamily: SERIF,
-                      fontSize: "1.65rem",
-                      fontWeight: 400,
-                      color: "#141416",
+                      fontSize: "1.75rem",
+                      fontWeight: 600,
+                      color: "#FAF7F2",
                       letterSpacing: "-0.015em",
                       margin: "0 0 10px",
                     }}
@@ -536,9 +600,9 @@ export default function LibroSection() {
                     style={{
                       fontFamily: SANS,
                       fontWeight: 400,
-                      fontSize: "13.5px",
-                      lineHeight: 1.75,
-                      color: "#4A4742",
+                      fontSize: "14.5px",
+                      lineHeight: 1.8,
+                      color: "rgba(250, 247, 242, 0.78)",
                       margin: 0,
                     }}
                   >
@@ -548,18 +612,36 @@ export default function LibroSection() {
 
                 <div
                   style={{
-                    marginTop: "20px",
-                    paddingTop: "12px",
-                    borderTop: "1px dotted rgba(20, 20, 22, 0.12)",
-                    fontFamily: SANS,
-                    fontSize: "9.5px",
-                    fontWeight: 700,
-                    letterSpacing: "0.18em",
-                    textTransform: "uppercase",
-                    color: "#7A7770",
+                    marginTop: "22px",
+                    paddingTop: "14px",
+                    borderTop: "1px dotted rgba(200, 169, 110, 0.2)",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
                   }}
                 >
-                  Capítulo {i + 1} de 4
+                  <span
+                    style={{
+                      fontFamily: SANS,
+                      fontSize: "10px",
+                      fontWeight: 700,
+                      letterSpacing: "0.18em",
+                      textTransform: "uppercase",
+                      color: "#C8A96E",
+                    }}
+                  >
+                    Capítulo {i + 1} de 4
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: SANS,
+                      fontSize: "10px",
+                      fontWeight: 500,
+                      color: "rgba(250, 247, 242, 0.5)",
+                    }}
+                  >
+                    {p.focus}
+                  </span>
                 </div>
               </motion.article>
             ))}
