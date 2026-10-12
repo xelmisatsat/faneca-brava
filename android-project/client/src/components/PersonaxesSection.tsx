@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useIsMobile } from "@/hooks/useIsMobile";
-import { Volume2, ArrowUpRight, Sparkles } from "lucide-react";
+import { Volume2, ArrowUpRight } from "lucide-react";
 
 const chars = [
   {
@@ -11,6 +11,7 @@ const chars = [
     alias: "A Faneca Brava",
     role: "Protagonista",
     img: "/manus-storage/faneca-concha-portrait.jpg",
+    imgPosition: "center 12%",
     audio: "/audios/concha.mp3",
     color: "#C8A96E",
     cardBg: "#2A1520",
@@ -26,6 +27,7 @@ const chars = [
     alias: "O médico atormentado",
     role: "Narrador",
     img: "/manus-storage/faneca-fernando-portrait.jpg",
+    imgPosition: "center 10%",
     audio: "/audios/fernando.mp3",
     color: "#6B8CAE",
     cardBg: "#152535",
@@ -41,6 +43,7 @@ const chars = [
     alias: "A matriarca",
     role: "Antagonista",
     img: "/manus-storage/faneca-mama-carme.jpg",
+    imgPosition: "center 12%",
     audio: "/audios/carme.mp3",
     color: "#9A8A7A",
     cardBg: "#251E16",
@@ -56,6 +59,7 @@ const chars = [
     alias: "O fotógrafo catalán",
     role: "Confidente",
     img: "/manus-storage/faneca-andreu-portrait.png",
+    imgPosition: "center 10%",
     audio: "/audios/andreu.mp3",
     color: "#8B7355",
     cardBg: "#1A2520",
@@ -71,6 +75,7 @@ const chars = [
     alias: "A supervivente",
     role: "O contrapunto",
     img: "/manus-storage/encarna-portrait.jpg",
+    imgPosition: "center 18%",
     audio: "/audios/encarna.mp3",
     color: "#7A6F8A",
     cardBg: "#1E1A28",
@@ -264,27 +269,27 @@ export default function PersonaxesSection() {
         }}
       />
 
-      <div style={{ maxWidth: '1440px', margin: '0 auto', padding: m ? '0 1.25rem' : '0 4rem', position: 'relative', zIndex: 10 }}>
+      <div style={{ maxWidth: '1440px', margin: '0 auto', padding: m ? '0 1rem' : '0 4rem', position: 'relative', zIndex: 10 }}>
 
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={v ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          style={{ marginBottom: m ? '2.5rem' : '3.8rem' }}
+          style={{ marginBottom: m ? '2rem' : '3.8rem' }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '1.2rem' }}>
             <span style={{ width: '36px', height: '2px', background: '#C8A96E' }} />
             <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', letterSpacing: '0.35em', textTransform: 'uppercase', color: '#E5B869', fontWeight: 700 }}>
-              BENTO GRID · O ELENCO
+              {m ? 'O ELENCO' : 'BENTO GRID · O ELENCO'}
             </span>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: m ? 'column' : 'row', justifyContent: 'space-between', alignItems: m ? 'flex-start' : 'flex-end', gap: '1.5rem' }}>
+          <div style={{ display: 'flex', flexDirection: m ? 'column' : 'row', justifyContent: 'space-between', alignItems: m ? 'flex-start' : 'flex-end', gap: '1.2rem' }}>
             <h2
               style={{
                 fontFamily: "'Playfair Display', Georgia, serif",
                 fontWeight: 600,
-                fontSize: m ? 'clamp(2.6rem, 9vw, 3.8rem)' : 'clamp(3.8rem, 6.5vw, 5.8rem)',
+                fontSize: m ? 'clamp(2.4rem, 8.5vw, 3.2rem)' : 'clamp(3.8rem, 6.5vw, 5.8rem)',
                 lineHeight: 0.95,
                 letterSpacing: '-0.025em',
                 color: '#FAF7F2',
@@ -298,8 +303,8 @@ export default function PersonaxesSection() {
               style={{
                 fontFamily: "'DM Sans', sans-serif",
                 fontWeight: 400,
-                fontSize: m ? '14px' : '15.5px',
-                lineHeight: 1.75,
+                fontSize: m ? '13.5px' : '15.5px',
+                lineHeight: 1.7,
                 color: 'rgba(250, 247, 242, 0.72)',
                 maxWidth: '560px',
                 margin: 0,
@@ -310,172 +315,354 @@ export default function PersonaxesSection() {
           </div>
         </motion.div>
 
-        {/* Bento Grid Container */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: m ? '1fr' : 'repeat(12, 1fr)',
-            gap: m ? '16px' : '22px',
-          }}
-        >
-          {/* TILE 1: CONCHA PEREIRA (Bento Anchor - 7 cols) */}
-          <motion.div
-            layoutId="char-modal-concha"
-            initial={{ opacity: 0, y: 40 }}
-            animate={v ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            whileHover={m ? {} : { y: -6, scale: 1.01 }}
-            onClick={() => setSel("concha")}
+        {/* ============================================================== */}
+        {/* DISPOSICIÓN MÓBIL: Cuadrícula compacta de 2 columnas estilo tarxeta vertical */}
+        {/* ============================================================== */}
+        {m ? (
+          <div
             style={{
-              gridColumn: m ? 'span 1' : 'span 7',
-              minHeight: m ? 'auto' : '440px',
-              background: 'linear-gradient(135deg, #2D1420 0%, #170A12 100%)',
-              borderRadius: '24px',
-              border: '1.5px solid rgba(200, 169, 110, 0.35)',
-              boxShadow: '0 20px 45px -10px rgba(0,0,0,0.7), 0 0 30px rgba(200, 169, 110, 0.1)',
-              overflow: 'hidden',
-              cursor: 'pointer',
-              position: 'relative',
-              display: 'flex',
-              flexDirection: m ? 'column' : 'row',
+              display: 'grid',
+              gridTemplateColumns: 'repeat(2, 1fr)',
+              gap: '12px',
             }}
           >
-            <div style={{ position: 'relative', width: m ? '100%' : '44%', height: m ? '260px' : '100%', overflow: 'hidden', flexShrink: 0 }}>
+            {chars.map((c, i) => {
+              const isLastOdd = i === chars.length - 1 && chars.length % 2 !== 0;
+
+              return (
+                <motion.div
+                  key={c.id}
+                  layoutId={`char-modal-${c.id}`}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={v ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.6, delay: 0.08 * i }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => setSel(c.id)}
+                  style={{
+                    gridColumn: isLastOdd ? 'span 2' : undefined,
+                    maxWidth: isLastOdd ? 'calc(50% - 6px)' : '100%',
+                    justifySelf: isLastOdd ? 'center' : undefined,
+                    width: '100%',
+                    aspectRatio: '3 / 4.1',
+                    borderRadius: '18px',
+                    overflow: 'hidden',
+                    cursor: 'pointer',
+                    position: 'relative',
+                    background: c.cardBg,
+                    border: `1.5px solid ${c.color}35`,
+                    boxShadow: '0 10px 28px -6px rgba(0,0,0,0.65)',
+                  }}
+                >
+                  <img
+                    src={c.img}
+                    alt={c.name}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      objectPosition: c.imgPosition,
+                      display: 'block',
+                      filter: 'brightness(0.88) contrast(1.05)',
+                    }}
+                  />
+
+                  <div
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      background: 'linear-gradient(to top, rgba(7,10,18,0.96) 0%, rgba(7,10,18,0.55) 45%, rgba(7,10,18,0.08) 75%, transparent 100%)',
+                      pointerEvents: 'none',
+                    }}
+                  />
+
+                  {/* Badge de Rol superior */}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: '10px',
+                      left: '10px',
+                      background: 'rgba(5,7,12,0.75)',
+                      backdropFilter: 'blur(8px)',
+                      borderRadius: '9999px',
+                      padding: '3px 8px',
+                      border: `1px solid ${c.color}45`,
+                      zIndex: 2,
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: "'DM Sans', sans-serif",
+                        fontSize: '8.5px',
+                        letterSpacing: '0.14em',
+                        textTransform: 'uppercase',
+                        color: c.color,
+                        fontWeight: 700,
+                      }}
+                    >
+                      {c.role}
+                    </span>
+                  </div>
+
+                  {/* Botón de son superior dereito */}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: '10px',
+                      right: '10px',
+                      width: '26px',
+                      height: '26px',
+                      borderRadius: '50%',
+                      background: 'rgba(5,7,12,0.75)',
+                      border: `1px solid ${c.color}45`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      zIndex: 2,
+                    }}
+                  >
+                    <Volume2 size={13} color={c.color} />
+                  </div>
+
+                  {/* Información inferior */}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      padding: '12px 12px 14px',
+                      zIndex: 2,
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontFamily: "'DM Sans', sans-serif",
+                        fontSize: '9px',
+                        letterSpacing: '0.16em',
+                        textTransform: 'uppercase',
+                        color: `${c.color}CC`,
+                        fontWeight: 600,
+                        marginBottom: '2px',
+                      }}
+                    >
+                      Voz · {c.voiceActor.split(' ')[0]}
+                    </div>
+                    <h3
+                      style={{
+                        fontFamily: "'Playfair Display', Georgia, serif",
+                        fontSize: '1.05rem',
+                        fontWeight: 600,
+                        color: '#FAF7F2',
+                        lineHeight: 1.15,
+                        margin: '0 0 2px',
+                      }}
+                    >
+                      {c.name}
+                    </h3>
+                    <p
+                      style={{
+                        fontFamily: "'Playfair Display', serif",
+                        fontStyle: 'italic',
+                        fontSize: '0.8rem',
+                        color: c.color,
+                        margin: 0,
+                        lineHeight: 1.2,
+                      }}
+                    >
+                      {c.alias}
+                    </p>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        ) : (
+          /* ============================================================== */
+          /* DISPOSICIÓN DESKTOP (PC): Bento Grid de 12 columnas con fotos completas e nítidas */
+          /* ============================================================== */
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(12, 1fr)',
+              gap: '22px',
+            }}
+          >
+            {/* TILE 1: CONCHA PEREIRA (Bento Anchor - 7 cols) */}
+            <motion.div
+              layoutId="char-modal-concha"
+              initial={{ opacity: 0, y: 40 }}
+              animate={v ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.1 }}
+              whileHover={{ y: -6, scale: 1.01 }}
+              onClick={() => setSel("concha")}
+              style={{
+                gridColumn: 'span 7',
+                height: '460px',
+                background: 'linear-gradient(135deg, #2D1420 0%, #170A12 100%)',
+                borderRadius: '24px',
+                border: '1.5px solid rgba(200, 169, 110, 0.35)',
+                boxShadow: '0 20px 45px -10px rgba(0,0,0,0.7), 0 0 30px rgba(200, 169, 110, 0.1)',
+                overflow: 'hidden',
+                cursor: 'pointer',
+                position: 'relative',
+                display: 'flex',
+                flexDirection: 'row',
+              }}
+            >
+              <div style={{ position: 'relative', width: '46%', height: '100%', overflow: 'hidden', flexShrink: 0 }}>
+                <img
+                  src="/manus-storage/faneca-concha-portrait.jpg"
+                  alt="Concha Pereira"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    objectPosition: 'center 12%',
+                    display: 'block',
+                    filter: 'brightness(0.92) contrast(1.05)',
+                  }}
+                />
+                <div
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'linear-gradient(to right, transparent 55%, rgba(23,10,18,0.98) 100%)',
+                  }}
+                />
+                <div style={{ position: 'absolute', top: '14px', left: '14px', background: 'rgba(10,5,8,0.8)', backdropFilter: 'blur(8px)', borderRadius: '9999px', padding: '4px 12px', border: '1px solid rgba(200,169,110,0.4)' }}>
+                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#E5B869', fontWeight: 700 }}>
+                    Protagonista · A Faneca Brava
+                  </span>
+                </div>
+              </div>
+
+              <div style={{ flex: 1, padding: '2.4rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', zIndex: 2 }}>
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                    <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C8A96E', fontWeight: 600 }}>
+                      Voz · Sabela Hermida
+                    </span>
+                    <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'rgba(200,169,110,0.18)', border: '1px solid rgba(200,169,110,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <Volume2 size={15} color="#E5B869" />
+                    </div>
+                  </div>
+
+                  <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: '2.3rem', fontWeight: 600, color: '#FAF7F2', margin: '0 0 4px', letterSpacing: '-0.02em' }}>
+                    Concha Pereira
+                  </h3>
+                  <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: '1.05rem', color: '#E5B869', margin: '0 0 16px' }}>
+                    A fotógrafa indómita
+                  </p>
+
+                  <div style={{ padding: '12px 14px', borderRadius: '12px', background: 'rgba(200, 169, 110, 0.08)', borderLeft: '3px solid #C8A96E', marginBottom: '16px' }}>
+                    <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: '14.5px', color: 'rgba(250, 247, 242, 0.92)', margin: 0, lineHeight: 1.6 }}>
+                      «Cando miro pola lente, deixo de ser a nena que collían. Por fin, son eu a que observa.»
+                    </p>
+                  </div>
+                </div>
+
+                <div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '16px' }}>
+                    {chars[0].traits.map((t, idx) => (
+                      <span key={idx} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10.5px', fontWeight: 600, padding: '3px 10px', borderRadius: '9999px', background: 'rgba(200,169,110,0.14)', color: '#FAF7F2', border: '1px solid rgba(200,169,110,0.25)' }}>
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '12px', borderTop: '1px solid rgba(200,169,110,0.18)' }}>
+                    <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', color: 'rgba(250,247,242,0.6)' }}>
+                      Da infancia oprimida ao desquite silencioso
+                    </span>
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 700, color: '#E5B869' }}>
+                      Ver perfil <ArrowUpRight size={13} />
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* TILE 2: FERNANDO PEREIRA (Bento Anchor - 5 cols) */}
+            <motion.div
+              layoutId="char-modal-fernando"
+              initial={{ opacity: 0, y: 40 }}
+              animate={v ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              whileHover={{ y: -6, scale: 1.01 }}
+              onClick={() => setSel("fernando")}
+              style={{
+                gridColumn: 'span 5',
+                height: '460px',
+                background: 'linear-gradient(135deg, #172638 0%, #0A131E 100%)',
+                borderRadius: '24px',
+                border: '1.5px solid rgba(107, 140, 174, 0.35)',
+                boxShadow: '0 20px 45px -10px rgba(0,0,0,0.7), 0 0 30px rgba(107, 140, 174, 0.1)',
+                overflow: 'hidden',
+                cursor: 'pointer',
+                position: 'relative',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+              }}
+            >
               <img
-                src="/manus-storage/faneca-concha-portrait.jpg"
-                alt="Concha Pereira"
-                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', filter: 'brightness(0.9) contrast(1.05)' }}
+                src="/manus-storage/faneca-fernando-portrait.jpg"
+                alt="Fernando Pereira"
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: 'center 10%',
+                  display: 'block',
+                  filter: 'brightness(0.9) contrast(1.05)',
+                }}
               />
               <div
                 style={{
                   position: 'absolute',
                   inset: 0,
-                  background: m
-                    ? 'linear-gradient(to bottom, transparent 40%, rgba(23,10,18,0.95) 100%)'
-                    : 'linear-gradient(to right, transparent 50%, rgba(23,10,18,0.98) 100%)',
+                  background: 'linear-gradient(to top, rgba(9,17,27,0.98) 0%, rgba(9,17,27,0.85) 45%, rgba(9,17,27,0.18) 75%, transparent 100%)',
                 }}
               />
-              <div style={{ position: 'absolute', top: '14px', left: '14px', background: 'rgba(10,5,8,0.75)', backdropFilter: 'blur(8px)', borderRadius: '9999px', padding: '4px 12px', border: '1px solid rgba(200,169,110,0.4)' }}>
-                <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#E5B869', fontWeight: 700 }}>
-                  Protagonista · A Faneca Brava
-                </span>
-              </div>
-            </div>
 
-            <div style={{ flex: 1, padding: m ? '1.5rem' : '2.4rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', zIndex: 2 }}>
-              <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C8A96E', fontWeight: 600 }}>
-                    Voz · Sabela Hermida
-                  </span>
-                  <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'rgba(200,169,110,0.18)', border: '1px solid rgba(200,169,110,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Volume2 size={15} color="#E5B869" />
-                  </div>
-                </div>
-
-                <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: m ? '1.8rem' : '2.3rem', fontWeight: 600, color: '#FAF7F2', margin: '0 0 4px', letterSpacing: '-0.02em' }}>
-                  Concha Pereira
-                </h3>
-                <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: '1.05rem', color: '#E5B869', margin: '0 0 16px' }}>
-                  A fotógrafa indómita
-                </p>
-
-                <div style={{ padding: '12px 14px', borderRadius: '12px', background: 'rgba(200, 169, 110, 0.08)', borderLeft: '3px solid #C8A96E', marginBottom: '16px' }}>
-                  <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: m ? '13.5px' : '14.5px', color: 'rgba(250, 247, 242, 0.92)', margin: 0, lineHeight: 1.6 }}>
-                    «Cando miro pola lente, deixo de ser a nena que collían. Por fin, son eu a que observa.»
-                  </p>
-                </div>
-              </div>
-
-              <div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '16px' }}>
-                  {chars[0].traits.map((t, idx) => (
-                    <span key={idx} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10.5px', fontWeight: 600, padding: '3px 10px', borderRadius: '9999px', background: 'rgba(200,169,110,0.14)', color: '#FAF7F2', border: '1px solid rgba(200,169,110,0.25)' }}>
-                      {t}
-                    </span>
-                  ))}
-                </div>
-
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '12px', borderTop: '1px solid rgba(200,169,110,0.18)' }}>
-                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', color: 'rgba(250,247,242,0.6)' }}>
-                    Da infancia oprimida ao desquite silencioso
-                  </span>
-                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 700, color: '#E5B869' }}>
-                    Ver perfil <ArrowUpRight size={13} />
+              <div style={{ position: 'relative', zIndex: 2, padding: '18px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ background: 'rgba(9,17,27,0.82)', backdropFilter: 'blur(8px)', borderRadius: '9999px', padding: '4px 12px', border: '1px solid rgba(107,140,174,0.4)' }}>
+                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#90B4D8', fontWeight: 700 }}>
+                    Narrador · Curmán
                   </span>
                 </div>
+                <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'rgba(9,17,27,0.82)', border: '1px solid rgba(107,140,174,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Volume2 size={15} color="#90B4D8" />
+                </div>
               </div>
-            </div>
-          </motion.div>
 
-          {/* TILE 2: FERNANDO PEREIRA (Bento Anchor - 5 cols) */}
-          <motion.div
-            layoutId="char-modal-fernando"
-            initial={{ opacity: 0, y: 40 }}
-            animate={v ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            whileHover={m ? {} : { y: -6, scale: 1.01 }}
-            onClick={() => setSel("fernando")}
-            style={{
-              gridColumn: m ? 'span 1' : 'span 5',
-              minHeight: m ? 'auto' : '440px',
-              background: 'linear-gradient(135deg, #172638 0%, #0A131E 100%)',
-              borderRadius: '24px',
-              border: '1.5px solid rgba(107, 140, 174, 0.35)',
-              boxShadow: '0 20px 45px -10px rgba(0,0,0,0.7), 0 0 30px rgba(107, 140, 174, 0.1)',
-              overflow: 'hidden',
-              cursor: 'pointer',
-              position: 'relative',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-            }}
-          >
-            <div style={{ position: 'relative', height: m ? '220px' : '230px', overflow: 'hidden' }}>
-              <img
-                src="/manus-storage/faneca-fernando-portrait.jpg"
-                alt="Fernando Pereira"
-                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', filter: 'brightness(0.85) contrast(1.05)' }}
-              />
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(10,19,30,0.98) 0%, transparent 60%)' }} />
-              <div style={{ position: 'absolute', top: '14px', left: '14px', background: 'rgba(10,19,30,0.8)', backdropFilter: 'blur(8px)', borderRadius: '9999px', padding: '4px 12px', border: '1px solid rgba(107,140,174,0.4)' }}>
-                <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#90B4D8', fontWeight: 700 }}>
-                  Narrador · Curmán
-                </span>
-              </div>
-              <div style={{ position: 'absolute', top: '14px', right: '14px', width: '32px', height: '32px', borderRadius: '50%', background: 'rgba(10,19,30,0.8)', border: '1px solid rgba(107,140,174,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Volume2 size={15} color="#90B4D8" />
-              </div>
-            </div>
-
-            <div style={{ padding: m ? '1.5rem' : '1.8rem 2rem 2rem', display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'space-between' }}>
-              <div>
+              <div style={{ position: 'relative', zIndex: 2, padding: '1.8rem 2rem 2rem' }}>
                 <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#6B8CAE', fontWeight: 600, marginBottom: '4px' }}>
                   Voz · Xaime López
                 </div>
-                <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: m ? '1.7rem' : '2rem', fontWeight: 600, color: '#FAF7F2', margin: '0 0 2px' }}>
+                <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: '2rem', fontWeight: 600, color: '#FAF7F2', margin: '0 0 2px' }}>
                   Fernando Pereira
                 </h3>
-                <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: '0.98rem', color: '#90B4D8', margin: '0 0 12px' }}>
+                <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: '0.98rem', color: '#90B4D8', margin: '0 0 10px' }}>
                   O médico atormentado
                 </p>
 
-                <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: '13.5px', color: 'rgba(250, 247, 242, 0.85)', margin: '0 0 14px', lineHeight: 1.6 }}>
+                <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: '13.5px', color: 'rgba(250, 247, 242, 0.88)', margin: '0 0 14px', lineHeight: 1.6 }}>
                   «Non podo durmir porque os ollos de Concha perséguenme cando pecho os meus.»
                 </p>
-              </div>
 
-              <div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '14px' }}>
                   {chars[1].traits.map((t, idx) => (
-                    <span key={idx} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', fontWeight: 600, padding: '3px 9px', borderRadius: '9999px', background: 'rgba(107,140,174,0.15)', color: '#FAF7F2', border: '1px solid rgba(107,140,174,0.28)' }}>
+                    <span key={idx} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', fontWeight: 600, padding: '3px 9px', borderRadius: '9999px', background: 'rgba(107,140,174,0.18)', color: '#FAF7F2', border: '1px solid rgba(107,140,174,0.35)' }}>
                       {t}
                     </span>
                   ))}
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '10px', borderTop: '1px solid rgba(107,140,174,0.2)' }}>
-                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', color: 'rgba(250,247,242,0.55)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '10px', borderTop: '1px solid rgba(107,140,174,0.25)' }}>
+                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', color: 'rgba(250,247,242,0.6)' }}>
                     Da culpa herdada á redención
                   </span>
                   <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 700, color: '#90B4D8' }}>
@@ -483,77 +670,89 @@ export default function PersonaxesSection() {
                   </span>
                 </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
 
-          {/* TILE 3: MAMÁ CARME (Bento Bottom - 4 cols) */}
-          <motion.div
-            layoutId="char-modal-mama"
-            initial={{ opacity: 0, y: 40 }}
-            animate={v ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            whileHover={m ? {} : { y: -6, scale: 1.015 }}
-            onClick={() => setSel("mama")}
-            style={{
-              gridColumn: m ? 'span 1' : 'span 4',
-              minHeight: m ? 'auto' : '380px',
-              background: 'linear-gradient(135deg, #251E17 0%, #120D09 100%)',
-              borderRadius: '24px',
-              border: '1.5px solid rgba(154, 138, 122, 0.3)',
-              boxShadow: '0 16px 36px -10px rgba(0,0,0,0.7)',
-              overflow: 'hidden',
-              cursor: 'pointer',
-              position: 'relative',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-            }}
-          >
-            <div style={{ position: 'relative', height: '190px', overflow: 'hidden' }}>
+            {/* TILE 3: MAMÁ CARME (Bento Bottom - 4 cols) */}
+            <motion.div
+              layoutId="char-modal-mama"
+              initial={{ opacity: 0, y: 40 }}
+              animate={v ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              whileHover={{ y: -6, scale: 1.015 }}
+              onClick={() => setSel("mama")}
+              style={{
+                gridColumn: 'span 4',
+                height: '440px',
+                background: 'linear-gradient(135deg, #251E17 0%, #120D09 100%)',
+                borderRadius: '24px',
+                border: '1.5px solid rgba(154, 138, 122, 0.35)',
+                boxShadow: '0 16px 36px -10px rgba(0,0,0,0.7)',
+                overflow: 'hidden',
+                cursor: 'pointer',
+                position: 'relative',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+              }}
+            >
               <img
                 src="/manus-storage/faneca-mama-carme.jpg"
                 alt="Mamá Carme"
-                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', filter: 'brightness(0.8) sepia(0.2)' }}
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: 'center 12%',
+                  display: 'block',
+                  filter: 'brightness(0.9) sepia(0.12)',
+                }}
               />
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(18,13,9,0.98) 0%, transparent 60%)' }} />
-              <div style={{ position: 'absolute', top: '12px', left: '12px', background: 'rgba(18,13,9,0.85)', backdropFilter: 'blur(8px)', borderRadius: '9999px', padding: '3px 10px', border: '1px solid rgba(154,138,122,0.4)' }}>
-                <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '9.5px', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#D4C4B5', fontWeight: 700 }}>
-                  Antagonista · A Matriarca
-                </span>
-              </div>
-              <div style={{ position: 'absolute', top: '12px', right: '12px', width: '28px', height: '28px', borderRadius: '50%', background: 'rgba(18,13,9,0.85)', border: '1px solid rgba(154,138,122,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Volume2 size={13} color="#D4C4B5" />
-              </div>
-            </div>
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'linear-gradient(to top, rgba(16,11,8,0.98) 0%, rgba(16,11,8,0.85) 46%, rgba(16,11,8,0.18) 75%, transparent 100%)',
+                }}
+              />
 
-            <div style={{ padding: '1.4rem 1.6rem 1.6rem', display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'space-between' }}>
-              <div>
+              <div style={{ position: 'relative', zIndex: 2, padding: '16px 18px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ background: 'rgba(16,11,8,0.85)', backdropFilter: 'blur(8px)', borderRadius: '9999px', padding: '3px 10px', border: '1px solid rgba(154,138,122,0.45)' }}>
+                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '9.5px', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#D4C4B5', fontWeight: 700 }}>
+                    Antagonista · A Matriarca
+                  </span>
+                </div>
+                <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'rgba(16,11,8,0.85)', border: '1px solid rgba(154,138,122,0.45)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Volume2 size={13} color="#D4C4B5" />
+                </div>
+              </div>
+
+              <div style={{ position: 'relative', zIndex: 2, padding: '1.6rem 1.8rem 1.8rem' }}>
                 <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10.5px', letterSpacing: '0.16em', textTransform: 'uppercase', color: '#9A8A7A', fontWeight: 600, marginBottom: '2px' }}>
                   Voz · Alexandra Pacheco
                 </div>
-                <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: '1.55rem', fontWeight: 600, color: '#FAF7F2', margin: '0 0 2px' }}>
+                <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: '1.65rem', fontWeight: 600, color: '#FAF7F2', margin: '0 0 2px' }}>
                   Mamá Carme
                 </h3>
-                <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: '0.9rem', color: '#D4C4B5', margin: '0 0 10px' }}>
+                <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: '0.92rem', color: '#D4C4B5', margin: '0 0 8px' }}>
                   A matriarca despótica
                 </p>
 
-                <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: '13px', color: 'rgba(250, 247, 242, 0.8)', margin: '0 0 12px', lineHeight: 1.55 }}>
+                <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: '13px', color: 'rgba(250, 247, 242, 0.85)', margin: '0 0 12px', lineHeight: 1.55 }}>
                   «O apelido é o que nos sustenta. Un nome limpo vale máis ca todo o ouro.»
                 </p>
-              </div>
 
-              <div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px', marginBottom: '12px' }}>
                   {chars[2].traits.slice(0, 3).map((t, idx) => (
-                    <span key={idx} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '9.5px', fontWeight: 600, padding: '2px 8px', borderRadius: '9999px', background: 'rgba(154,138,122,0.15)', color: '#FAF7F2', border: '1px solid rgba(154,138,122,0.25)' }}>
+                    <span key={idx} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '9.5px', fontWeight: 600, padding: '2px 8px', borderRadius: '9999px', background: 'rgba(154,138,122,0.2)', color: '#FAF7F2', border: '1px solid rgba(154,138,122,0.3)' }}>
                       {t}
                     </span>
                   ))}
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '8px', borderTop: '1px solid rgba(154,138,122,0.2)' }}>
-                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10.5px', color: 'rgba(250,247,242,0.5)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '8px', borderTop: '1px solid rgba(154,138,122,0.25)' }}>
+                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10.5px', color: 'rgba(250,247,242,0.55)' }}>
                     Hipocrisía familiar
                   </span>
                   <span style={{ display: 'inline-flex', alignItems: 'center', gap: '3px', fontFamily: "'DM Sans', sans-serif", fontSize: '10.5px', fontWeight: 700, color: '#D4C4B5' }}>
@@ -561,77 +760,89 @@ export default function PersonaxesSection() {
                   </span>
                 </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
 
-          {/* TILE 4: ANDREU PICART (Bento Bottom - 4 cols) */}
-          <motion.div
-            layoutId="char-modal-andreu"
-            initial={{ opacity: 0, y: 40 }}
-            animate={v ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            whileHover={m ? {} : { y: -6, scale: 1.015 }}
-            onClick={() => setSel("andreu")}
-            style={{
-              gridColumn: m ? 'span 1' : 'span 4',
-              minHeight: m ? 'auto' : '380px',
-              background: 'linear-gradient(135deg, #1C2720 0%, #0C1510 100%)',
-              borderRadius: '24px',
-              border: '1.5px solid rgba(139, 115, 85, 0.35)',
-              boxShadow: '0 16px 36px -10px rgba(0,0,0,0.7)',
-              overflow: 'hidden',
-              cursor: 'pointer',
-              position: 'relative',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-            }}
-          >
-            <div style={{ position: 'relative', height: '190px', overflow: 'hidden' }}>
+            {/* TILE 4: ANDREU PICART (Bento Bottom - 4 cols) */}
+            <motion.div
+              layoutId="char-modal-andreu"
+              initial={{ opacity: 0, y: 40 }}
+              animate={v ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              whileHover={{ y: -6, scale: 1.015 }}
+              onClick={() => setSel("andreu")}
+              style={{
+                gridColumn: 'span 4',
+                height: '440px',
+                background: 'linear-gradient(135deg, #1C2720 0%, #0C1510 100%)',
+                borderRadius: '24px',
+                border: '1.5px solid rgba(139, 115, 85, 0.35)',
+                boxShadow: '0 16px 36px -10px rgba(0,0,0,0.7)',
+                overflow: 'hidden',
+                cursor: 'pointer',
+                position: 'relative',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+              }}
+            >
               <img
                 src="/manus-storage/faneca-andreu-portrait.png"
                 alt="Andreu Picart"
-                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', filter: 'brightness(0.85)' }}
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: 'center 10%',
+                  display: 'block',
+                  filter: 'brightness(0.9)',
+                }}
               />
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(12,21,16,0.98) 0%, transparent 60%)' }} />
-              <div style={{ position: 'absolute', top: '12px', left: '12px', background: 'rgba(12,21,16,0.85)', backdropFilter: 'blur(8px)', borderRadius: '9999px', padding: '3px 10px', border: '1px solid rgba(139,115,85,0.4)' }}>
-                <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '9.5px', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#D2BA99', fontWeight: 700 }}>
-                  Confidente · Barcelona
-                </span>
-              </div>
-              <div style={{ position: 'absolute', top: '12px', right: '12px', width: '28px', height: '28px', borderRadius: '50%', background: 'rgba(12,21,16,0.85)', border: '1px solid rgba(139,115,85,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Volume2 size={13} color="#D2BA99" />
-              </div>
-            </div>
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'linear-gradient(to top, rgba(10,18,14,0.98) 0%, rgba(10,18,14,0.85) 46%, rgba(10,18,14,0.18) 75%, transparent 100%)',
+                }}
+              />
 
-            <div style={{ padding: '1.4rem 1.6rem 1.6rem', display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'space-between' }}>
-              <div>
+              <div style={{ position: 'relative', zIndex: 2, padding: '16px 18px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ background: 'rgba(10,18,14,0.85)', backdropFilter: 'blur(8px)', borderRadius: '9999px', padding: '3px 10px', border: '1px solid rgba(139,115,85,0.45)' }}>
+                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '9.5px', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#D2BA99', fontWeight: 700 }}>
+                    Confidente · Barcelona
+                  </span>
+                </div>
+                <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'rgba(10,18,14,0.85)', border: '1px solid rgba(139,115,85,0.45)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Volume2 size={13} color="#D2BA99" />
+                </div>
+              </div>
+
+              <div style={{ position: 'relative', zIndex: 2, padding: '1.6rem 1.8rem 1.8rem' }}>
                 <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10.5px', letterSpacing: '0.16em', textTransform: 'uppercase', color: '#8B7355', fontWeight: 600, marginBottom: '2px' }}>
                   Voz · Jordi Pujol
                 </div>
-                <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: '1.55rem', fontWeight: 600, color: '#FAF7F2', margin: '0 0 2px' }}>
+                <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: '1.65rem', fontWeight: 600, color: '#FAF7F2', margin: '0 0 2px' }}>
                   Andreu Picart
                 </h3>
-                <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: '0.9rem', color: '#D2BA99', margin: '0 0 10px' }}>
+                <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: '0.92rem', color: '#D2BA99', margin: '0 0 8px' }}>
                   O fotógrafo catalán
                 </p>
 
-                <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: '13px', color: 'rgba(250, 247, 242, 0.8)', margin: '0 0 12px', lineHeight: 1.55 }}>
+                <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: '13px', color: 'rgba(250, 247, 242, 0.85)', margin: '0 0 12px', lineHeight: 1.55 }}>
                   «Concha non fotografaba para vivir. Fotografaba para desquitarse.»
                 </p>
-              </div>
 
-              <div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px', marginBottom: '12px' }}>
                   {chars[3].traits.slice(0, 3).map((t, idx) => (
-                    <span key={idx} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '9.5px', fontWeight: 600, padding: '2px 8px', borderRadius: '9999px', background: 'rgba(139,115,85,0.15)', color: '#FAF7F2', border: '1px solid rgba(139,115,85,0.25)' }}>
+                    <span key={idx} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '9.5px', fontWeight: 600, padding: '2px 8px', borderRadius: '9999px', background: 'rgba(139,115,85,0.2)', color: '#FAF7F2', border: '1px solid rgba(139,115,85,0.3)' }}>
                       {t}
                     </span>
                   ))}
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '8px', borderTop: '1px solid rgba(139,115,85,0.2)' }}>
-                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10.5px', color: 'rgba(250,247,242,0.5)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '8px', borderTop: '1px solid rgba(139,115,85,0.25)' }}>
+                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10.5px', color: 'rgba(250,247,242,0.55)' }}>
                     Ponte co pasado
                   </span>
                   <span style={{ display: 'inline-flex', alignItems: 'center', gap: '3px', fontFamily: "'DM Sans', sans-serif", fontSize: '10.5px', fontWeight: 700, color: '#D2BA99' }}>
@@ -639,77 +850,89 @@ export default function PersonaxesSection() {
                   </span>
                 </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
 
-          {/* TILE 5: ENCARNA PEREIRA (Bento Bottom - 4 cols) */}
-          <motion.div
-            layoutId="char-modal-encarna"
-            initial={{ opacity: 0, y: 40 }}
-            animate={v ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            whileHover={m ? {} : { y: -6, scale: 1.015 }}
-            onClick={() => setSel("encarna")}
-            style={{
-              gridColumn: m ? 'span 1' : 'span 4',
-              minHeight: m ? 'auto' : '380px',
-              background: 'linear-gradient(135deg, #221B2B 0%, #100C16 100%)',
-              borderRadius: '24px',
-              border: '1.5px solid rgba(122, 111, 138, 0.35)',
-              boxShadow: '0 16px 36px -10px rgba(0,0,0,0.7)',
-              overflow: 'hidden',
-              cursor: 'pointer',
-              position: 'relative',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-            }}
-          >
-            <div style={{ position: 'relative', height: '190px', overflow: 'hidden' }}>
+            {/* TILE 5: ENCARNA PEREIRA (Bento Bottom - 4 cols) */}
+            <motion.div
+              layoutId="char-modal-encarna"
+              initial={{ opacity: 0, y: 40 }}
+              animate={v ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              whileHover={{ y: -6, scale: 1.015 }}
+              onClick={() => setSel("encarna")}
+              style={{
+                gridColumn: 'span 4',
+                height: '440px',
+                background: 'linear-gradient(135deg, #221B2B 0%, #100C16 100%)',
+                borderRadius: '24px',
+                border: '1.5px solid rgba(122, 111, 138, 0.35)',
+                boxShadow: '0 16px 36px -10px rgba(0,0,0,0.7)',
+                overflow: 'hidden',
+                cursor: 'pointer',
+                position: 'relative',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+              }}
+            >
               <img
                 src="/manus-storage/encarna-portrait.jpg"
                 alt="Encarna Pereira"
-                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', filter: 'brightness(0.85)' }}
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: 'center 18%',
+                  display: 'block',
+                  filter: 'brightness(0.9)',
+                }}
               />
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(16,12,22,0.98) 0%, transparent 60%)' }} />
-              <div style={{ position: 'absolute', top: '12px', left: '12px', background: 'rgba(16,12,22,0.85)', backdropFilter: 'blur(8px)', borderRadius: '9999px', padding: '3px 10px', border: '1px solid rgba(122,111,138,0.4)' }}>
-                <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '9.5px', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#BDB3D1', fontWeight: 700 }}>
-                  Contrapunto · Irmá
-                </span>
-              </div>
-              <div style={{ position: 'absolute', top: '12px', right: '12px', width: '28px', height: '28px', borderRadius: '50%', background: 'rgba(16,12,22,0.85)', border: '1px solid rgba(122,111,138,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Volume2 size={13} color="#BDB3D1" />
-              </div>
-            </div>
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'linear-gradient(to top, rgba(14,10,20,0.98) 0%, rgba(14,10,20,0.85) 46%, rgba(14,10,20,0.18) 75%, transparent 100%)',
+                }}
+              />
 
-            <div style={{ padding: '1.4rem 1.6rem 1.6rem', display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'space-between' }}>
-              <div>
+              <div style={{ position: 'relative', zIndex: 2, padding: '16px 18px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ background: 'rgba(14,10,20,0.85)', backdropFilter: 'blur(8px)', borderRadius: '9999px', padding: '3px 10px', border: '1px solid rgba(122,111,138,0.45)' }}>
+                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '9.5px', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#BDB3D1', fontWeight: 700 }}>
+                    Contrapunto · Irmá
+                  </span>
+                </div>
+                <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'rgba(14,10,20,0.85)', border: '1px solid rgba(122,111,138,0.45)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Volume2 size={13} color="#BDB3D1" />
+                </div>
+              </div>
+
+              <div style={{ position: 'relative', zIndex: 2, padding: '1.6rem 1.8rem 1.8rem' }}>
                 <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10.5px', letterSpacing: '0.16em', textTransform: 'uppercase', color: '#7A6F8A', fontWeight: 600, marginBottom: '2px' }}>
                   Voz · Anna Pujol
                 </div>
-                <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: '1.55rem', fontWeight: 600, color: '#FAF7F2', margin: '0 0 2px' }}>
+                <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: '1.65rem', fontWeight: 600, color: '#FAF7F2', margin: '0 0 2px' }}>
                   Encarna Pereira
                 </h3>
-                <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: '0.9rem', color: '#BDB3D1', margin: '0 0 10px' }}>
+                <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: '0.92rem', color: '#BDB3D1', margin: '0 0 8px' }}>
                   A supervivente silenciosa
                 </p>
 
-                <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: '13px', color: 'rgba(250, 247, 242, 0.8)', margin: '0 0 12px', lineHeight: 1.55 }}>
+                <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: '13px', color: 'rgba(250, 247, 242, 0.85)', margin: '0 0 12px', lineHeight: 1.55 }}>
                   «Eu quedei. Alguén tiña que quedar para que a casa non se derrubara.»
                 </p>
-              </div>
 
-              <div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px', marginBottom: '12px' }}>
                   {chars[4].traits.slice(0, 3).map((t, idx) => (
-                    <span key={idx} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '9.5px', fontWeight: 600, padding: '2px 8px', borderRadius: '9999px', background: 'rgba(122,111,138,0.15)', color: '#FAF7F2', border: '1px solid rgba(122,111,138,0.25)' }}>
+                    <span key={idx} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '9.5px', fontWeight: 600, padding: '2px 8px', borderRadius: '9999px', background: 'rgba(122,111,138,0.2)', color: '#FAF7F2', border: '1px solid rgba(122,111,138,0.3)' }}>
                       {t}
                     </span>
                   ))}
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '8px', borderTop: '1px solid rgba(122,111,138,0.2)' }}>
-                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10.5px', color: 'rgba(250,247,242,0.5)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '8px', borderTop: '1px solid rgba(122,111,138,0.25)' }}>
+                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10.5px', color: 'rgba(250,247,242,0.55)' }}>
                     Resistencia dende dentro
                   </span>
                   <span style={{ display: 'inline-flex', alignItems: 'center', gap: '3px', fontFamily: "'DM Sans', sans-serif", fontSize: '10.5px', fontWeight: 700, color: '#BDB3D1' }}>
@@ -717,9 +940,9 @@ export default function PersonaxesSection() {
                   </span>
                 </div>
               </div>
-            </div>
-          </motion.div>
-        </div>
+            </motion.div>
+          </div>
+        )}
       </div>
 
       {/* Modal Interactivo Completo */}
@@ -784,12 +1007,21 @@ export default function PersonaxesSection() {
                       onDragEnd={(e, info) => {
                         if (info.offset.y > 60) setSel(null);
                       }}
-                      style={{ position: 'relative', minHeight: m ? '50vh' : '520px', overflow: 'hidden', flexShrink: 0, borderRadius: m ? '32px 32px 0 0' : undefined, cursor: m ? 'grab' : 'default' }}
+                      style={{ position: 'relative', minHeight: m ? '48vh' : '520px', overflow: 'hidden', flexShrink: 0, borderRadius: m ? '32px 32px 0 0' : undefined, cursor: m ? 'grab' : 'default' }}
                     >
                       <img
                         src={selChar.img}
                         alt={selChar.name}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.85) contrast(1.05)', display: 'block', minHeight: m ? '50vh' : '520px', pointerEvents: 'none' }}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          objectPosition: selChar.imgPosition,
+                          filter: 'brightness(0.9) contrast(1.05)',
+                          display: 'block',
+                          minHeight: m ? '48vh' : '520px',
+                          pointerEvents: 'none',
+                        }}
                       />
                       <div
                         style={{

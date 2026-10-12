@@ -31,7 +31,7 @@ const LIBRARIAS: Libraria[] = [
     price: "22,10 €",
     tag: "SANTIAGO",
     tagBg: "#A7F3D0",
-    url: "https://www.librariacouceiro.com/",
+    url: "https://librariacouceiro.gal/",
   },
   {
     name: "Clarión Libraría",
@@ -40,7 +40,7 @@ const LIBRARIAS: Libraria[] = [
     price: "22,10 €",
     tag: "ONLINE",
     tagBg: "#BAE6FD",
-    url: "https://www.clarionlibraria.com/",
+    url: "https://www.clarionlibraria.gal/ga/index.php",
   },
   {
     name: "Libraría Pedreira",
@@ -67,7 +67,7 @@ const LIBRARIAS: Libraria[] = [
     price: "22,10 €",
     tag: "INDEPENDENTE",
     tagBg: "#FBCFE8",
-    url: "https://www.liladelilith.com/",
+    url: "https://maps.app.goo.gl/6XiU7PgiJ3J7Y8oi8?g_st=ai",
   },
   {
     name: "Númax",
