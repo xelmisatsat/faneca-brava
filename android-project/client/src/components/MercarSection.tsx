@@ -67,7 +67,7 @@ const LIBRARIAS: Libraria[] = [
     price: "22,10 €",
     tag: "INDEPENDENTE",
     tagBg: "#FBCFE8",
-    url: "https://maps.app.goo.gl/6XiU7PgiJ3J7Y8oi8?g_st=ai",
+    url: "https://maps.app.goo.gl/3cGGCxkLJ8kETVqM6?g_st=ai",
   },
   {
     name: "Númax",
