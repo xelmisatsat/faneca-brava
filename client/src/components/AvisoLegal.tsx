@@ -551,7 +551,8 @@ export default function AvisoLegal() {
                     style={{
                       display: "grid",
                       gridTemplateColumns: m ? "repeat(2, 1fr)" : "repeat(12, 1fr)",
-                      gap: m ? 8 : 10,
+                      rowGap: m ? 18 : 22,
+                      columnGap: m ? 10 : 12,
                     }}
                   >
                     {/* Header Bento Tile */}

@@ -66,13 +66,13 @@ const VELOCITY_FRAGMENT_SHADER = /* glsl */ `
     // 5. Interactive pointer petting, parting, and combing
     if (uPointerActive > 0.5) {
       float dist = distance(surfNormal, normalize(uPointerLocalPos + vec3(0.0, 0.0, 1e-5)));
-      if (dist < 0.55) {
-        float falloff = pow(1.0 - dist / 0.55, 2.0);
+      if (dist < 0.68) {
+        float falloff = pow(1.0 - dist / 0.68, 1.8);
         vec3 partDir = normalize(surfNormal - normalize(uPointerLocalPos) + vec3(0.0, 1e-4, 0.0));
         // Project parting & cursor velocity onto tangent plane
-        vec3 strokeImpulse = uPointerVelocity * 2.8 + partDir * 3.4;
+        vec3 strokeImpulse = uPointerVelocity * 3.4 + partDir * 4.0;
         strokeImpulse -= surfNormal * dot(strokeImpulse, surfNormal);
-        force += strokeImpulse * falloff * 18.0;
+        force += strokeImpulse * falloff * 24.0;
       }
     }
 

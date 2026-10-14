@@ -168,8 +168,8 @@ export const SHELL_VERTEX_SHADER = /* glsl */ `
       }
       if (uPointerActive > 0.5) {
         float pDist = distance(position, uPointerLocalPos);
-        if (pDist < 0.45) {
-          vCombMemory = (1.0 - pDist / 0.45) * 0.65;
+        if (pDist < 0.65) {
+          vCombMemory = (1.0 - pDist / 0.65) * 0.85;
         }
       }
     }
@@ -186,10 +186,10 @@ export const SHELL_VERTEX_SHADER = /* glsl */ `
     vec3 pointerPush = vec3(0.0);
     if (uPointerActive > 0.5) {
       float pDist = distance(position, uPointerLocalPos);
-      if (pDist < 0.55) {
+      if (pDist < 0.68) {
         vec3 away = normalize(position - uPointerLocalPos + vec3(0.0, 1e-4, 0.0));
         away -= localNormal * dot(away, localNormal);
-        pointerPush = away * pow(1.0 - pDist / 0.55, 1.8) * 0.35;
+        pointerPush = away * pow(1.0 - pDist / 0.68, 1.6) * 0.52;
       }
     }
 
@@ -386,8 +386,8 @@ export const STRAND_VERTEX_SHADER = /* glsl */ `
       }
       if (uPointerActive > 0.5) {
         float pDist = distance(aRootPos, uPointerLocalPos);
-        if (pDist < 0.45) {
-          vCombMemory = (1.0 - pDist / 0.45) * 0.65;
+        if (pDist < 0.65) {
+          vCombMemory = (1.0 - pDist / 0.65) * 0.85;
         }
       }
     }
@@ -408,10 +408,10 @@ export const STRAND_VERTEX_SHADER = /* glsl */ `
     vec3 pointerPush = vec3(0.0);
     if (uPointerActive > 0.5) {
       float pDist = distance(aRootPos, uPointerLocalPos);
-      if (pDist < 0.58) {
+      if (pDist < 0.70) {
         vec3 away = normalize(aRootPos - uPointerLocalPos + vec3(0.0, 1e-4, 0.0));
         away -= N * dot(away, N);
-        pointerPush = away * pow(1.0 - pDist / 0.58, 1.8) * 0.42;
+        pointerPush = away * pow(1.0 - pDist / 0.70, 1.6) * 0.58;
       }
     }
 

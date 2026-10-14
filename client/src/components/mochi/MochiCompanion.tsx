@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { createBlobCreature } from "./blobCreature";
 import { createGPUFurPhysics } from "./gpuPhysics";
 import { createGPUFurSystem } from "./furSystem";
-import { Heart, Sparkles } from "lucide-react";
+import { Heart } from "lucide-react";
 
 interface MochiCompanionProps {
   isMobile?: boolean;
@@ -25,7 +25,8 @@ export default function MochiCompanion({
   const [showHeartToast, setShowHeartToast] = useState(false);
   const toastTimeoutRef = useRef<number | null>(null);
 
-  const size = isMobile ? 134 : 176;
+  // Tamaño ampliado do lenzo para garantir marxe ampla e evitar que se corte o pelo nos extremos
+  const size = isMobile ? 172 : 216;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -44,10 +45,10 @@ export default function MochiCompanion({
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.08;
 
-    // 2. Escena e cámara
+    // 2. Escena e cámara con campo de visión máis amplo para que non recorte as puntas do peluxe
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(38, 1.0, 0.1, 40);
-    camera.position.set(0.0, 0.28, isMobile ? 4.6 : 4.3);
+    const camera = new THREE.PerspectiveCamera(36, 1.0, 0.1, 40);
+    camera.position.set(0.0, 0.20, isMobile ? 5.3 : 4.9);
 
     // 3. Luces de estudio suaves (Sakura Mochi)
     const keyLight = new THREE.DirectionalLight("#fff7ed", 1.45);
@@ -89,7 +90,8 @@ export default function MochiCompanion({
     creature.root.add(furSystem.shellMesh);
     creature.root.add(furSystem.strandMesh);
 
-    const baseScale = isMobile ? 0.96 : 1.05;
+    // Escala equilibrada con marxe de seguridade anti-recorte
+    const baseScale = isMobile ? 0.90 : 0.98;
     creature.setEnvironmentScale(baseScale, 0.0, 0.0);
 
     furSystem.sharedUniforms.uKeyLightDir.value.copy(keyLight.position).normalize();
@@ -110,11 +112,9 @@ export default function MochiCompanion({
     let pointerDownTime = 0;
     let boopShockwave = 0.0;
 
-    // Coordenadas suavizadas da posición do personaxe na pantalla
-    let currentX = window.innerWidth - (isMobile ? 140 : 190);
+    let currentX = window.innerWidth * 0.5 - size * 0.5;
     let currentY = window.innerHeight * 0.25;
 
-    // Posición global do rato / dedo
     const handlePointerMove = (e: PointerEvent) => {
       const rect = canvas.getBoundingClientRect();
       const x = e.clientX - rect.left;
@@ -134,13 +134,13 @@ export default function MochiCompanion({
         if (isPointerOver) {
           pointerVelocity
             .subVectors(pointerLocalPos, prevPointerLocalPos)
-            .multiplyScalar(28.0);
+            .multiplyScalar(36.0); // Sensibilidade de peiteado incrementada
         }
         isPointerOver = true;
         canvas.style.cursor = "pointer";
       } else {
         isPointerOver = false;
-        pointerVelocity.multiplyScalar(0.4);
+        pointerVelocity.multiplyScalar(0.45);
         canvas.style.cursor = "grab";
       }
     };
@@ -182,8 +182,8 @@ export default function MochiCompanion({
     const handleWindowMouseMove = (e: MouseEvent) => {
       if (isPointerOver) return;
       const rect = canvas.getBoundingClientRect();
-      const midX = rect.left + rect.width / 2;
-      const midY = rect.top + rect.height / 2;
+      const midX = rect.left + rect.width * 2;
+      const midY = rect.top + rect.height * 2;
       const dx = (e.clientX - midX) / (window.innerWidth * 0.45);
       const dy = -(e.clientY - midY) / (window.innerHeight * 0.45);
       pointerNDC.set(
@@ -210,47 +210,58 @@ export default function MochiCompanion({
       lastTime = now;
       totalTime += dt;
 
-      // 7. Desprazamento autónomo libre e acompañamento sincronizado co scroll
+      // 7. Percorrido en hélice continua e acompañamento sincronizado co scroll
       const modal = scrollContainerRef?.current;
       if (modal && floatingRef.current) {
         const rect = modal.getBoundingClientRect();
         const maxScroll = Math.max(1, modal.scrollHeight - modal.clientHeight);
         const scrollFraction = Math.min(1, Math.max(0, modal.scrollTop / maxScroll));
 
-        // Rango vertical dentro da vista do modal para que non se saia nin tape os botóns finais
-        const minY = rect.top + (isMobile ? 26 : 40);
-        const maxY = rect.bottom - (isMobile ? 145 : 190);
-        const baseTargetY = minY + (maxY - minY) * scrollFraction;
+        // Centro horizontal da pantalla e amplitude da hélice
+        const centerX = rect.left + rect.width * 0.5;
+        // Posición vertical base que viaxa acompasada co scroll
+        const minY = rect.top + (isMobile ? 36 : 52);
+        const maxY = rect.bottom - (isMobile ? 165 : 210);
+        const scrollBaseY = minY + (maxY - minY) * scrollFraction;
 
-        // Rango horizontal: situado cara ao bordo dereito para non tapar a lectura dos textos
-        const baseTargetX = isMobile
-          ? Math.max(rect.left + 14, rect.right - 138)
-          : rect.right - 165;
+        // Cadencia e fase do ciclo en hélice
+        const helixSpeed = 0.68;
+        const phase = totalTime * helixSpeed;
 
-        // Percorrido orgánico e autónomo («como se tivese un percorrido pero sen telo»)
-        const wanderX = Math.sin(totalTime * 0.52) * (isMobile ? 14 : 22) +
-                        Math.cos(totalTime * 1.15) * (isMobile ? 8 : 14);
-        const wanderY = Math.cos(totalTime * 0.68) * (isMobile ? 12 : 18) +
-                        Math.sin(totalTime * 1.42) * (isMobile ? 6 : 10);
-        const bob = Math.sin(totalTime * 2.5) * 4.2;
-        const wanderRot = Math.sin(totalTime * 0.6) * 5.5;
+        // Amplitude lateral (vai alternando de lado: dereita <-> esquerda)
+        const spanX = rect.width * (isMobile ? 0.38 : 0.44);
+        // Amplitude vertical do lazo (subir por arriba e saír por abaixo)
+        const amplitudeY = isMobile ? 36 : 52;
 
-        const targetX = baseTargetX + wanderX;
-        const targetY = baseTargetY + wanderY + bob;
+        // Traxectoria en hélice / figura-8:
+        // Cando sin(phase) > 0: lado dereito. Cando sin(phase) < 0: lado esquerdo (alterna lados).
+        // Cando cos(2*phase) == 1: pasa por arriba. Cando cos(2*phase) == -1: sae por abaixo.
+        const helixX = centerX + Math.sin(phase) * spanX - size * 0.5;
+        const helixY = scrollBaseY - Math.cos(phase * 2.0) * amplitudeY - size * 0.5;
 
-        const lerpX = Math.min(1.0, dt * 5.2);
-        const lerpY = Math.min(1.0, dt * 4.4);
+        // Interpolares amortiguados con inercia suave (lerp)
+        const lerpX = Math.min(1.0, dt * 5.4);
+        const lerpY = Math.min(1.0, dt * 4.6);
+        const prevX = currentX;
         const prevY = currentY;
-        currentX += (targetX - currentX) * lerpX;
-        currentY += (targetY - currentY) * lerpY;
+        currentX += (helixX - currentX) * lerpX;
+        currentY += (helixY - currentY) * lerpY;
 
-        const speedY = (currentY - prevY) / Math.max(dt, 0.001);
-        const pitch = Math.max(-13, Math.min(13, speedY * 0.022));
+        // Velocidade vectorial para inclinación e alabeo dinámico
+        const velX = (currentX - prevX) / Math.max(dt, 0.001);
+        const velY = (currentY - prevY) / Math.max(dt, 0.001);
 
-        floatingRef.current.style.transform = `translate3d(${currentX.toFixed(2)}px, ${currentY.toFixed(2)}px, 0) rotate(${wanderRot.toFixed(2)}deg) rotateX(${pitch.toFixed(2)}deg)`;
+        const bankZ = Math.max(-18, Math.min(18, (velX / Math.max(1, spanX)) * 26.0));
+        const pitchX = Math.max(-14, Math.min(14, (velY / Math.max(1, amplitudeY)) * 14.0));
+
+        // Profundidade 3D (lixeiramente máis preto ao pasar por diante)
+        const depth = Math.sin(phase * 2.0 + 1.2);
+        const depthScale = 1.0 + depth * 0.07;
+
+        floatingRef.current.style.transform = `translate3d(${currentX.toFixed(2)}px, ${currentY.toFixed(2)}px, 0) scale(${depthScale.toFixed(3)}) rotate(${bankZ.toFixed(2)}deg) rotateX(${pitchX.toFixed(2)}deg)`;
       }
 
-      // Olhar curioso cando non hai rato (ex: en móbiles)
+      // Olhar curioso cando non hai rato activo (ex: en móbiles)
       if (isMobile && !isPointerOver) {
         pointerNDC.x = Math.sin(totalTime * 0.75) * 0.6;
         pointerNDC.y = Math.cos(totalTime * 0.55) * 0.35;
@@ -346,7 +357,7 @@ export default function MochiCompanion({
             height: "100%",
             display: "block",
             outline: "none",
-            filter: "drop-shadow(0 14px 24px rgba(0,0,0,0.42))",
+            filter: "drop-shadow(0 14px 26px rgba(0,0,0,0.40))",
           }}
         />
 
