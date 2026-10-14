@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import * as THREE from "three";
+import { motion, AnimatePresence } from "framer-motion";
 import { createBlobCreature } from "./blobCreature";
 import { createGPUFurPhysics } from "./gpuPhysics";
 import { createGPUFurSystem } from "./furSystem";
-import { Sparkles, Heart, Hand } from "lucide-react";
+import { Heart, Sparkles } from "lucide-react";
 
 interface MochiCompanionProps {
   isMobile?: boolean;
@@ -18,20 +19,19 @@ export default function MochiCompanion({
   className = "",
   style = {},
 }: MochiCompanionProps) {
-  const containerRef = useRef<HTMLDivElement | null>(null);
+  const floatingRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [boopCount, setBoopCount] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
+  const [showHeartToast, setShowHeartToast] = useState(false);
+  const toastTimeoutRef = useRef<number | null>(null);
+
+  const size = isMobile ? 134 : 176;
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    const container = containerRef.current;
-    if (!canvas || !container) return;
+    if (!canvas) return;
 
-    let width = container.clientWidth || 320;
-    let height = container.clientHeight || 260;
-
-    // 1. WebGL Renderer con fondo transparente para fundirse co deseño
+    // 1. WebGL Renderer con fondo transparente
     const renderer = new THREE.WebGLRenderer({
       canvas,
       antialias: true,
@@ -40,21 +40,21 @@ export default function MochiCompanion({
     });
     const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.4 : 1.8);
     renderer.setPixelRatio(dpr);
-    renderer.setSize(width, height);
+    renderer.setSize(size, size);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.08;
 
     // 2. Escena e cámara
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 40);
-    camera.position.set(0.0, 0.35, isMobile ? 4.8 : 4.4);
+    const camera = new THREE.PerspectiveCamera(38, 1.0, 0.1, 40);
+    camera.position.set(0.0, 0.28, isMobile ? 4.6 : 4.3);
 
     // 3. Luces de estudio suaves (Sakura Mochi)
-    const keyLight = new THREE.DirectionalLight("#fff7ed", 1.4);
+    const keyLight = new THREE.DirectionalLight("#fff7ed", 1.45);
     keyLight.position.set(1.8, 2.2, 2.2);
     scene.add(keyLight);
 
-    const rimLight = new THREE.DirectionalLight("#c4b5fd", 1.25);
+    const rimLight = new THREE.DirectionalLight("#c4b5fd", 1.3);
     rimLight.position.set(-2.0, 1.6, -2.8);
     scene.add(rimLight);
 
@@ -69,7 +69,7 @@ export default function MochiCompanion({
       baseColor: "#5e2bff",
       tipColor: "#ff9ec7",
       furLength: 0.30,
-      furDensity: isMobile ? 0.42 : 0.68,
+      furDensity: isMobile ? 0.40 : 0.68,
       clumping: 0.35,
       curliness: 0.23,
       roughness: 0.77,
@@ -77,7 +77,7 @@ export default function MochiCompanion({
       lightIntensity: 1.35,
       rimIntensity: 1.35,
       windStrength: 0.85,
-      gpuFurEnabled: !isMobile, // En móbiles usamos o modo optimizado analítico para manter 60 FPS estables
+      gpuFurEnabled: !isMobile, // En móbiles usamos o modo analítico optimizado a 60 FPS
     };
 
     const gpuPhysics = createGPUFurPhysics(renderer);
@@ -89,11 +89,9 @@ export default function MochiCompanion({
     creature.root.add(furSystem.shellMesh);
     creature.root.add(furSystem.strandMesh);
 
-    // Axustar escala e altura inicial
-    const baseScale = isMobile ? 0.95 : 1.05;
+    const baseScale = isMobile ? 0.96 : 1.05;
     creature.setEnvironmentScale(baseScale, 0.0, 0.0);
 
-    // Sincronizar uniforms de iluminación
     furSystem.sharedUniforms.uKeyLightDir.value.copy(keyLight.position).normalize();
     furSystem.sharedUniforms.uKeyLightColor.value.set("#fff7ed");
     furSystem.sharedUniforms.uKeyLightIntensity.value = 1.35;
@@ -109,22 +107,12 @@ export default function MochiCompanion({
     const pointerVelocity = new THREE.Vector3(0, 0, 0);
     let isPointerOver = false;
     let pointerDownPos = { x: 0, y: 0 };
+    let pointerDownTime = 0;
     let boopShockwave = 0.0;
-    let targetScrollY = 0;
-    let currentScrollY = 0;
 
-    // Seguimento do scroll do panel para que o muñeco baixe e reaccione ao desprazamento
-    const scrollContainer = scrollContainerRef?.current;
-    const handleScroll = () => {
-      if (!scrollContainer) return;
-      const st = scrollContainer.scrollTop;
-      const maxScroll = Math.max(1, scrollContainer.scrollHeight - scrollContainer.clientHeight);
-      targetScrollY = (st / maxScroll) * -0.45; // O muñeco descende suavemente conforme se avanza no panel
-    };
-
-    if (scrollContainer) {
-      scrollContainer.addEventListener("scroll", handleScroll, { passive: true });
-    }
+    // Coordenadas suavizadas da posición do personaxe na pantalla
+    let currentX = window.innerWidth - (isMobile ? 140 : 190);
+    let currentY = window.innerHeight * 0.25;
 
     // Posición global do rato / dedo
     const handlePointerMove = (e: PointerEvent) => {
@@ -149,7 +137,6 @@ export default function MochiCompanion({
             .multiplyScalar(28.0);
         }
         isPointerOver = true;
-        setIsHovered(true);
         canvas.style.cursor = "pointer";
       } else {
         isPointerOver = false;
@@ -160,37 +147,49 @@ export default function MochiCompanion({
 
     const handlePointerDown = (e: PointerEvent) => {
       pointerDownPos = { x: e.clientX, y: e.clientY };
+      pointerDownTime = performance.now();
     };
 
     const handlePointerUp = (e: PointerEvent) => {
       const dist = Math.hypot(e.clientX - pointerDownPos.x, e.clientY - pointerDownPos.y);
-      if (dist < 10) {
-        // Clic ou toque directo: boop!
+      const duration = performance.now() - pointerDownTime;
+
+      if (dist < 14 && duration < 400) {
         creature.triggerBoop();
         boopShockwave = 1.0;
         setBoopCount((c) => c + 1);
+
+        setShowHeartToast(true);
+        if (toastTimeoutRef.current) window.clearTimeout(toastTimeoutRef.current);
+        toastTimeoutRef.current = window.setTimeout(() => {
+          setShowHeartToast(false);
+        }, 1800);
+
+        try {
+          if (typeof window !== "undefined" && window.navigator?.vibrate) {
+            window.navigator.vibrate(15);
+          }
+        } catch {}
       }
     };
 
     const handlePointerLeave = () => {
       isPointerOver = false;
-      setIsHovered(false);
       pointerNDC.set(0, 0);
     };
 
-    // Seguimento global da fiestra para que a mirada siga o cursor mesmo fóra do canvas
+    // Seguimento global da fiestra: a mirada segue o cursor en calquera lugar da pantalla
     const handleWindowMouseMove = (e: MouseEvent) => {
+      if (isPointerOver) return;
       const rect = canvas.getBoundingClientRect();
       const midX = rect.left + rect.width / 2;
       const midY = rect.top + rect.height / 2;
-      const dx = (e.clientX - midX) / (window.innerWidth * 0.5);
-      const dy = -(e.clientY - midY) / (window.innerHeight * 0.5);
-      if (!isPointerOver) {
-        pointerNDC.set(
-          Math.max(-1.5, Math.min(1.5, dx * 0.9)),
-          Math.max(-1.5, Math.min(1.5, dy * 0.9))
-        );
-      }
+      const dx = (e.clientX - midX) / (window.innerWidth * 0.45);
+      const dy = -(e.clientY - midY) / (window.innerHeight * 0.45);
+      pointerNDC.set(
+        Math.max(-1.5, Math.min(1.5, dx * 0.95)),
+        Math.max(-1.5, Math.min(1.5, dy * 0.95))
+      );
     };
 
     canvas.addEventListener("pointermove", handlePointerMove);
@@ -198,22 +197,6 @@ export default function MochiCompanion({
     canvas.addEventListener("pointerup", handlePointerUp);
     canvas.addEventListener("pointerleave", handlePointerLeave);
     window.addEventListener("mousemove", handleWindowMouseMove, { passive: true });
-
-    // Observador de redimensionamento
-    const ro = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        const w = entry.contentRect.width;
-        const h = entry.contentRect.height;
-        if (w > 0 && h > 0) {
-          width = w;
-          height = h;
-          camera.aspect = w / h;
-          camera.updateProjectionMatrix();
-          renderer.setSize(w, h);
-        }
-      }
-    });
-    ro.observe(container);
 
     // 6. Ciclo de animación a 60 FPS
     let animId: number;
@@ -227,11 +210,53 @@ export default function MochiCompanion({
       lastTime = now;
       totalTime += dt;
 
-      // Suavizado do movemento vertical co scroll
-      currentScrollY += (targetScrollY - currentScrollY) * Math.min(1.0, dt * 5.0);
-      creature.root.position.y += currentScrollY * 0.15;
+      // 7. Desprazamento autónomo libre e acompañamento sincronizado co scroll
+      const modal = scrollContainerRef?.current;
+      if (modal && floatingRef.current) {
+        const rect = modal.getBoundingClientRect();
+        const maxScroll = Math.max(1, modal.scrollHeight - modal.clientHeight);
+        const scrollFraction = Math.min(1, Math.max(0, modal.scrollTop / maxScroll));
 
-      // Actualizar criatura (ollos, meixelas, chimpo boop e balanceo)
+        // Rango vertical dentro da vista do modal para que non se saia nin tape os botóns finais
+        const minY = rect.top + (isMobile ? 26 : 40);
+        const maxY = rect.bottom - (isMobile ? 145 : 190);
+        const baseTargetY = minY + (maxY - minY) * scrollFraction;
+
+        // Rango horizontal: situado cara ao bordo dereito para non tapar a lectura dos textos
+        const baseTargetX = isMobile
+          ? Math.max(rect.left + 14, rect.right - 138)
+          : rect.right - 165;
+
+        // Percorrido orgánico e autónomo («como se tivese un percorrido pero sen telo»)
+        const wanderX = Math.sin(totalTime * 0.52) * (isMobile ? 14 : 22) +
+                        Math.cos(totalTime * 1.15) * (isMobile ? 8 : 14);
+        const wanderY = Math.cos(totalTime * 0.68) * (isMobile ? 12 : 18) +
+                        Math.sin(totalTime * 1.42) * (isMobile ? 6 : 10);
+        const bob = Math.sin(totalTime * 2.5) * 4.2;
+        const wanderRot = Math.sin(totalTime * 0.6) * 5.5;
+
+        const targetX = baseTargetX + wanderX;
+        const targetY = baseTargetY + wanderY + bob;
+
+        const lerpX = Math.min(1.0, dt * 5.2);
+        const lerpY = Math.min(1.0, dt * 4.4);
+        const prevY = currentY;
+        currentX += (targetX - currentX) * lerpX;
+        currentY += (targetY - currentY) * lerpY;
+
+        const speedY = (currentY - prevY) / Math.max(dt, 0.001);
+        const pitch = Math.max(-13, Math.min(13, speedY * 0.022));
+
+        floatingRef.current.style.transform = `translate3d(${currentX.toFixed(2)}px, ${currentY.toFixed(2)}px, 0) rotate(${wanderRot.toFixed(2)}deg) rotateX(${pitch.toFixed(2)}deg)`;
+      }
+
+      // Olhar curioso cando non hai rato (ex: en móbiles)
+      if (isMobile && !isPointerOver) {
+        pointerNDC.x = Math.sin(totalTime * 0.75) * 0.6;
+        pointerNDC.y = Math.cos(totalTime * 0.55) * 0.35;
+      }
+
+      // Actualizar criatura (ollos, pestanexo, brinco e respiración)
       creature.update(dt, pointerNDC, camera.position);
 
       // Decaemento da onda de choque no pelame
@@ -241,7 +266,7 @@ export default function MochiCompanion({
         boopShockwave = 0.0;
       }
 
-      // Física na gráfica ou analítica
+      // Física na GPU ou analítica optimizada
       if (gpuPhysics.isGPGPUActive && simState.gpuFurEnabled) {
         const physTex = gpuPhysics.step({
           time: totalTime,
@@ -259,7 +284,6 @@ export default function MochiCompanion({
         }
       }
 
-      // Actualizar uniforms de tempo e peiteado
       furSystem.sharedUniforms.uTime.value = totalTime;
       furSystem.sharedUniforms.uPointerLocalPos.value.copy(pointerLocalPos);
       furSystem.sharedUniforms.uPointerActive.value = isPointerOver ? 1.0 : 0.0;
@@ -275,105 +299,93 @@ export default function MochiCompanion({
 
     return () => {
       cancelAnimationFrame(animId);
-      ro.disconnect();
       canvas.removeEventListener("pointermove", handlePointerMove);
       canvas.removeEventListener("pointerdown", handlePointerDown);
       canvas.removeEventListener("pointerup", handlePointerUp);
       canvas.removeEventListener("pointerleave", handlePointerLeave);
       window.removeEventListener("mousemove", handleWindowMouseMove);
-      if (scrollContainer) {
-        scrollContainer.removeEventListener("scroll", handleScroll);
-      }
+      if (toastTimeoutRef.current) window.clearTimeout(toastTimeoutRef.current);
       renderer.dispose();
       creature.bodyGeometry.dispose();
       creature.skinMaterial.dispose();
     };
-  }, [isMobile, scrollContainerRef]);
+  }, [isMobile, scrollContainerRef, size]);
 
   return (
     <div
-      ref={containerRef}
-      className={`relative select-none overflow-hidden ${className}`}
+      className={`fixed inset-0 select-none ${className}`}
       style={{
-        width: "100%",
-        height: "100%",
-        minHeight: isMobile ? 220 : 260,
-        position: "relative",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        touchAction: "none",
+        position: "fixed",
+        inset: 0,
+        pointerEvents: "none",
+        zIndex: 100050,
         ...style,
       }}
     >
-      <canvas
-        ref={canvasRef}
-        style={{
-          width: "100%",
-          height: "100%",
-          display: "block",
-          outline: "none",
-        }}
-      />
-
-      {/* Indicador interactivo e contador de apertas */}
-      <div
+      <motion.div
+        ref={floatingRef}
+        initial={{ opacity: 0, scale: 0.4 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.4 }}
+        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
         style={{
           position: "absolute",
-          bottom: 12,
-          right: 14,
-          display: "inline-flex",
-          alignItems: "center",
-          gap: 6,
-          padding: "5px 12px",
-          borderRadius: 9999,
-          background: "rgba(20, 20, 24, 0.65)",
-          backdropFilter: "blur(8px)",
-          WebkitBackdropFilter: "blur(8px)",
-          border: "1px solid rgba(255, 255, 255, 0.12)",
-          color: "#FFFFFF",
-          fontSize: 11,
-          fontWeight: 600,
-          pointerEvents: "none",
-          transition: "opacity 0.2s ease",
-          opacity: isHovered ? 1 : 0.8,
+          top: 0,
+          left: 0,
+          width: size,
+          height: size,
+          pointerEvents: "auto",
+          touchAction: "pan-y",
+          willChange: "transform",
         }}
       >
-        {boopCount > 0 ? (
-          <>
-            <Heart size={13} color="#FF6584" fill="#FF6584" />
-            <span>{boopCount} {boopCount === 1 ? "aperta" : "apertas"}</span>
-          </>
-        ) : (
-          <>
-            <Hand size={13} color="#D6F36A" />
-            <span>Tócame ou acaríñame!</span>
-          </>
-        )}
-      </div>
+        <canvas
+          ref={canvasRef}
+          style={{
+            width: "100%",
+            height: "100%",
+            display: "block",
+            outline: "none",
+            filter: "drop-shadow(0 14px 24px rgba(0,0,0,0.42))",
+          }}
+        />
 
-      <div
-        style={{
-          position: "absolute",
-          top: 12,
-          left: 14,
-          display: "inline-flex",
-          alignItems: "center",
-          gap: 6,
-          padding: "4px 10px",
-          borderRadius: 9999,
-          background: "rgba(255, 101, 132, 0.15)",
-          border: "1px solid rgba(255, 101, 132, 0.35)",
-          color: "#FF9EC7",
-          fontSize: 10.5,
-          fontWeight: 700,
-          letterSpacing: "0.02em",
-          pointerEvents: "none",
-        }}
-      >
-        <Sparkles size={11} />
-        Mochi-Puff 3D
-      </div>
+        {/* Notificación suave de caricia ou toque (sen recadros pesados nin interferencias) */}
+        <AnimatePresence>
+          {showHeartToast && (
+            <motion.div
+              initial={{ opacity: 0, y: 10, scale: 0.8 }}
+              animate={{ opacity: 1, y: -8, scale: 1 }}
+              exit={{ opacity: 0, y: -16, scale: 0.85 }}
+              transition={{ duration: 0.28, ease: "easeOut" }}
+              style={{
+                position: "absolute",
+                top: -24,
+                left: "50%",
+                transform: "translateX(-50%)",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 5,
+                padding: "4px 10px",
+                borderRadius: 9999,
+                background: "rgba(22, 22, 28, 0.85)",
+                backdropFilter: "blur(8px)",
+                WebkitBackdropFilter: "blur(8px)",
+                border: "1px solid rgba(255, 158, 199, 0.4)",
+                color: "#FFFFFF",
+                fontSize: 11,
+                fontWeight: 700,
+                whiteSpace: "nowrap",
+                pointerEvents: "none",
+                boxShadow: "0 6px 16px rgba(0,0,0,0.35)",
+              }}
+            >
+              <Heart size={12} color="#FF6584" fill="#FF6584" />
+              <span>{boopCount > 1 ? `${boopCount} apertas!` : "Boop! ✨"}</span>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
     </div>
   );
 }

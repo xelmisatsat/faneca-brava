@@ -706,33 +706,12 @@ export default function AvisoLegal() {
                       </div>
                     </Tile>
 
-                    {/* Mascota 3D interactiva: Mochi-Puff */}
-                    <Tile
-                      fromRight
-                      bg="#181820"
-                      span={sp(12, 2)}
-                      delay={0.14}
-                      style={{
-                        padding: 0,
-                        overflow: "hidden",
-                        minHeight: m ? 240 : 285,
-                        position: "relative",
-                        display: "flex",
-                        flexDirection: "column",
-                        background: "linear-gradient(135deg, #181822 0%, #251B33 100%)",
-                        border: "1px solid rgba(255, 158, 199, 0.2)",
-                        boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.08)",
-                      }}
-                    >
-                      <MochiCompanion isMobile={m} scrollContainerRef={scrollContainerRef} />
-                    </Tile>
-
                     {/* Ámbito escolar e paixón tecnolóxica */}
                     <Tile
                       fromRight
                       bg={C.lavender}
                       span={sp(5, 2)}
-                      delay={0.17}
+                      delay={0.15}
                       style={{
                         padding: m ? "16px 18px" : "20px 22px",
                         display: "flex",
@@ -899,6 +878,16 @@ export default function AvisoLegal() {
                 )}
               </AnimatePresence>
             </div>
+
+            {/* Mascota 3D flotante e interactiva: viaxa libremente acompañando o usuario sen estar pechada nun recadro */}
+            <AnimatePresence>
+              {view === "sobre" && (
+                <MochiCompanion
+                  isMobile={m}
+                  scrollContainerRef={scrollContainerRef}
+                />
+              )}
+            </AnimatePresence>
           </motion.div>
         </>
       )}
