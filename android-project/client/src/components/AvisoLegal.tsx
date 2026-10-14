@@ -1,4 +1,4 @@
-import { useState, useEffect, type CSSProperties, type ReactNode } from "react";
+import { useState, useEffect, useRef, type CSSProperties, type ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   GraduationCap,
@@ -14,6 +14,7 @@ import {
   Info,
 } from "lucide-react";
 import { useIsMobile } from "@/hooks/useIsMobile";
+import MochiCompanion from "./mochi/MochiCompanion";
 
 const C = {
   tray:     "#141418",
@@ -128,14 +129,10 @@ function IconDot({
 }
 
 export default function AvisoLegal() {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
   const [view, setView] = useState<"aviso" | "sobre">("aviso");
   const m = useIsMobile();
-
-  useEffect(() => {
-    const t = setTimeout(() => setVisible(true), 350);
-    return () => clearTimeout(t);
-  }, []);
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     document.body.style.overflow = visible ? "hidden" : "";
@@ -196,6 +193,7 @@ export default function AvisoLegal() {
             }}
           >
             <div
+              ref={scrollContainerRef}
               style={{
                 pointerEvents: "auto",
                 width: "100%",
@@ -708,12 +706,33 @@ export default function AvisoLegal() {
                       </div>
                     </Tile>
 
+                    {/* Mascota 3D interactiva: Mochi-Puff */}
+                    <Tile
+                      fromRight
+                      bg="#181820"
+                      span={sp(12, 2)}
+                      delay={0.14}
+                      style={{
+                        padding: 0,
+                        overflow: "hidden",
+                        minHeight: m ? 240 : 285,
+                        position: "relative",
+                        display: "flex",
+                        flexDirection: "column",
+                        background: "linear-gradient(135deg, #181822 0%, #251B33 100%)",
+                        border: "1px solid rgba(255, 158, 199, 0.2)",
+                        boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.08)",
+                      }}
+                    >
+                      <MochiCompanion isMobile={m} scrollContainerRef={scrollContainerRef} />
+                    </Tile>
+
                     {/* Ámbito escolar e paixón tecnolóxica */}
                     <Tile
                       fromRight
                       bg={C.lavender}
                       span={sp(5, 2)}
-                      delay={0.15}
+                      delay={0.17}
                       style={{
                         padding: m ? "16px 18px" : "20px 22px",
                         display: "flex",

@@ -1,4 +1,4 @@
-﻿# Dependencies
+# Dependencies
 **/node_modules
 .pnpm-store/
 
@@ -20,6 +20,7 @@ build/
 *.swp
 *.swo
 *~
+scratch/
 
 # OS generated files
 .DS_Store
