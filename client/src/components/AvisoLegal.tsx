@@ -38,19 +38,29 @@ function Tile({
   children,
   style,
   delay = 0,
+  fromRight = false,
 }: {
   bg: string;
   span: string;
   children: ReactNode;
   style?: CSSProperties;
   delay?: number;
+  fromRight?: boolean;
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 16, scale: 0.98 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: -10, scale: 0.98 }}
-      transition={{ duration: 0.45, delay, ease: [0.2, 0.9, 0.3, 1] }}
+      initial={
+        fromRight
+          ? { opacity: 0, x: 80, scale: 0.95 }
+          : { opacity: 0, y: 16, scale: 0.98 }
+      }
+      animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+      exit={
+        fromRight
+          ? { opacity: 0, x: 50, scale: 0.95 }
+          : { opacity: 0, y: -10, scale: 0.98 }
+      }
+      transition={{ duration: 0.52, delay, ease: [0.16, 1, 0.3, 1] }}
       style={{
         gridColumn: span,
         background: bg,
@@ -536,10 +546,10 @@ export default function AvisoLegal() {
                      ========================================================= */
                   <motion.div
                     key="panel-sobre"
-                    initial={{ opacity: 0, x: 16 }}
+                    initial={{ opacity: 0, x: 90 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 16 }}
-                    transition={{ duration: 0.3 }}
+                    exit={{ opacity: 0, x: 70 }}
+                    transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
                     style={{
                       display: "grid",
                       gridTemplateColumns: m ? "repeat(2, 1fr)" : "repeat(12, 1fr)",
@@ -548,6 +558,7 @@ export default function AvisoLegal() {
                   >
                     {/* Header Bento Tile */}
                     <Tile
+                      fromRight
                       bg={C.blueSoft}
                       span={sp(12, 2)}
                       delay={0.03}
@@ -588,6 +599,7 @@ export default function AvisoLegal() {
 
                     {/* Jun Sieira Gerpe — Perfil Técnico */}
                     <Tile
+                      fromRight
                       bg={C.white}
                       span={sp(7, 2)}
                       delay={0.07}
@@ -645,6 +657,7 @@ export default function AvisoLegal() {
 
                     {/* Álvaro Villar Gómez — Colaboración */}
                     <Tile
+                      fromRight
                       bg={C.pink}
                       span={sp(5, 2)}
                       delay={0.11}
@@ -697,6 +710,7 @@ export default function AvisoLegal() {
 
                     {/* Ámbito escolar e paixón tecnolóxica */}
                     <Tile
+                      fromRight
                       bg={C.lavender}
                       span={sp(5, 2)}
                       delay={0.15}
@@ -728,6 +742,7 @@ export default function AvisoLegal() {
 
                     {/* Marco Legal, Fins Educativos e Dereitos */}
                     <Tile
+                      fromRight
                       bg={C.cream}
                       span={sp(7, 2)}
                       delay={0.19}
@@ -761,9 +776,9 @@ export default function AvisoLegal() {
 
                     {/* Botóns de navegación e acción no panel Sobre nós */}
                     <motion.div
-                      initial={{ opacity: 0, y: 16 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.45, delay: 0.24, ease: [0.2, 0.9, 0.3, 1] }}
+                      initial={{ opacity: 0, x: 75 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5, delay: 0.23, ease: [0.16, 1, 0.3, 1] }}
                       style={{
                         gridColumn: m ? "span 2" : "span 12",
                         display: "flex",
