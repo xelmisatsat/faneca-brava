@@ -167,7 +167,7 @@ export default function HeroSection() {
       >
         <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(234,226,210,0.65)', marginBottom: '3px' }}>Jun Sieira Gerpe</div>
         <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(234,226,210,0.65)', marginBottom: '8px' }}>Álvaro Villar Gómez</div>
-        <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(200,169,110,0.65)' }}>IES Arcebispo Xelmírez I · 4º ESO</div>
+        <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(200,169,110,0.65)' }}>IES Arcebispo Xelmírez I · 1º Bacharelato</div>
       </motion.div>
 
       {/* Info lateral dereita */}

@@ -670,7 +670,7 @@ export default function AvisoLegal() {
                       <div>
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
                           <Pill dark>
-                            <Mic size={12} /> Produción e Deseño
+                            <Code2 size={12} /> Código & Produción
                           </Pill>
                           <IconDot bg="rgba(0,0,0,0.06)" color="#9D174D">
                             <Users size={16} />
@@ -694,16 +694,21 @@ export default function AvisoLegal() {
                             marginBottom: 10,
                           }}
                         >
-                          Colaboración audiovisual, voces e imaxes
+                          Colaboración no código base, produción audiovisual e voces
                         </div>
                         <p style={{ ...p, fontSize: m ? 12 : 12.5, lineHeight: 1.55 }}>
-                          Colaborador indispensable no apartado sonoro e gráfico do proxecto. Participou na gravación e produción das voces que dan vida aos personaxes da novela e na selección e curación visual das ilustracións para enriquecer a ambientación da obra.
+                          Colaborador activo no desenvolvemento do código base da plataforma web, participando na posta a punto da estrutura inicial e na integración técnica dos compoñentes interactivos.
+                        </p>
+                        <p style={{ ...p, fontSize: m ? 12 : 12.5, lineHeight: 1.55, marginTop: 8 }}>
+                          Ademais, achegou criterios fundamentais de deseño e foi a peza indispensable no apartado sonoro e gráfico: gravou e produciu as voces que dan vida aos personaxes da novela e coordinou a curación visual das ilustracións de época para enriquecer a ambientación da obra.
                         </p>
                       </div>
 
                       <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 14 }}>
+                        <Pill dark>Código base web</Pill>
                         <Pill dark>Produción sonora</Pill>
                         <Pill dark>Curación visual</Pill>
+                        <Pill dark>Estrutura dixital</Pill>
                       </div>
                     </Tile>
 

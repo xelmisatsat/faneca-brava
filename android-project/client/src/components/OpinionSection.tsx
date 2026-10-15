@@ -7,7 +7,7 @@ const opinions = [
   {
     id: "jun",
     name: "Jun Sieira Gerpe",
-    role: "Alumno de 4º ESO · IES Arcebispo Xelmírez I",
+    role: "Alumno de 1º Bacharelato · IES Arcebispo Xelmírez I",
     badge: "Crítica Estrutural & Personaxes",
     img: "/manus-storage/opinion-jun.jpg",
     blockColor: "#064E3B",
@@ -21,7 +21,7 @@ const opinions = [
   {
     id: "alvaro",
     name: "Álvaro Villar Gómez",
-    role: "Alumno de 4º ESO · IES Arcebispo Xelmírez I",
+    role: "Alumno de 1º Bacharelato · IES Arcebispo Xelmírez I",
     badge: "Ritmo Narrativo & Intriga",
     img: "/manus-storage/opinion-alvaro.jpg",
     blockColor: "#B45309",
@@ -30,7 +30,7 @@ const opinions = [
     tagColor: "#F59E0B",
     rating: 5,
     quote:
-      "A min o que máis me gustou do libro foi o fácil que se le. A historia empeza co problema do médico que non dá durmido, e ao principio non sabes moi ben por que, pero en canto empezan a investigar o pasado, a trama avanza soa. Dá moita rabia ler o que pasaba na escola con dona Remedios e o inxustos que foron con Concha na súa propia casa. Pero por iso mesmo o final é tan bo, cando descobres que a nena á que botaron da vila rematou convertida nunha fotógrafa de éxito en Barcelona. É un libro moi entretido e a intriga manténse ata a última páxina.",
+      "O que máis me atrapou dende o primeiro intre foi esa química incrible que teñen os personaxes dende o inicio. A conexión e a forza coa que arrinca a historia fan que te metas de cheo na trama dende a primeira páxina: o misterio do médico que non dá durmido xunto cos segredos do pasado crean unha intriga que avanza soa. Dá moita rabia ler o que pasaba na escola con dona Remedios e o inxustos que foron con Concha na súa propia casa, pero por iso mesmo o final é tan bo, cando descobres que a nena á que botaron da vila rematou convertida nunha fotógrafa de éxito en Barcelona. É un libro con moitísima forza e a intriga manténse ata a última liña.",
   },
 ];
 
